@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<% include template/css %>
+		<% include template/scripts %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		<section id="slider">
+			<div class="fullwidthbanner-container">
+				<div class="fullwidthbanner">
+					<ul>
+						<li data-transition="fade" data-slotamount="10" data-masterspeed="300" data-thumb="images/thumbs/thumb1.html">
+							<img src="images/slide1.jpg" alt="">
+							<div class="caption lfr"
+								 data-x="655"
+								 data-y="164"
+								 data-speed="800"
+								 data-start="1100"
+								 data-easing="easeOutExpo">
+								<img src="images/slide1b.png" alt="">
+							</div>
+							<div class="caption sft"
+								 data-x="655"
+								 data-y="130"
+								 data-speed="300"
+								 data-start="1000"
+								 data-easing="easeOutExpo">
+								<img src="images/slide1a.png" alt="">
+							</div>
+							<div class="caption fade"
+								 data-x="690"
+								 data-y="230"
+								 data-speed="1000"
+								 data-start="2500"
+								 data-easing="easeOutExpo">
+								<img src="images/slide1c.png" alt="">
+							</div>						
+						</li>
+
+						<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="9400" data-thumb="images/thumbs/thumb2.html">
+							<img src="images/slide2.jpg" alt="">
+							<div class="caption lfl"
+								 data-x="685"
+								 data-y="40"
+								 data-speed="600"
+								 data-start="1200"
+								 data-easing="easeOutExpo">
+								<img src="images/slide2a.png" alt="">
+							</div>
+							<div class="caption lfr"
+								 data-x="685"
+								 data-y="80"
+								 data-speed="600"
+								 data-start="1200"
+								 data-easing="easeOutExpo">
+								<img src="images/slide2b.png" alt="">
+							</div>
+							<div class="caption lfb ltt"
+								 data-x="685"
+								 data-y="150"
+								 data-speed="600"
+								 data-start="2000"
+								 data-easing="easeOutExpo"
+								 data-end="4300" 
+								 data-endspeed="300" 
+								 data-endeasing="easeInSine">
+								<img src="images/slide2c.png" alt="">
+							</div>
+							<div class="caption lfb ltt"
+								 data-x="685"
+								 data-y="150"
+								 data-speed="600"
+								 data-start="4400"
+								 data-easing="easeOutExpo"
+								 data-end="6700" 
+								 data-endspeed="300" 
+								 data-endeasing="easeInSine">
+								<img src="images/slide2d.png" alt="">
+							</div>
+							<div class="caption lfb ltt"
+								 data-x="685"
+								 data-y="150"
+								 data-speed="600"
+								 data-start="6800"
+								 data-easing="easeOutExpo"
+								 data-end="9200" 
+								 data-endspeed="300" 
+								 data-endeasing="easeInSine">
+								<img src="images/slide2e.png" alt="">
+							</div>
+						</li>
+
+						<li data-transition="fade" data-slotamount="1" data-masterspeed="300" data-thumb="images/thumbs/thumb3.html">
+							<img src="images/slide3.jpg" alt="">
+							<div class="caption lfb"
+								 data-x="460"
+								 data-y="17"
+								 data-speed="400"
+								 data-start="200"
+								 data-easing="easeOutExpo">
+								<img src="images/slide3a.png" alt="">
+							</div>
+							<div class="caption randomrotate"
+								 data-x="30"
+								 data-y="90"
+								 data-speed="600"
+								 data-start="2500"
+								 data-easing="easeOutExpo">
+								<img src="images/slide3b.png" alt="">
+							</div>
+							<div class="caption randomrotate"
+								 data-x="180"
+								 data-y="120"
+								 data-speed="600"
+								 data-start="2900"
+								 data-easing="easeOutExpo">
+								<img src="images/slide3c.png" alt="">
+							</div>
+							<div class="caption randomrotate"
+								 data-x="30"
+								 data-y="170"
+								 data-speed="600"
+								 data-start="2500"
+								 data-easing="easeOutExpo">
+								<img src="images/slide3d.png" alt="">
+							</div>
+							<div class="caption button green sfb"
+								 data-x="30"
+								 data-y="260"
+								 data-speed="600"
+								 data-start="2900"
+								 data-easing="easeOutExpo">
+								Saiba Mais
+							</div>
+						</li>
+
+					</ul>
+					<div class="tp-bannertimer"></div>
+				</div>
+			</div>
+		</section>
+
+		<section id="search">
+			<div class="container">
+				<div class="tabbable tabbable_red">
+					<ul class="nav-tabs">
+						<li class="active with_icon">
+							<a href="#tab1" data-toggle="tab"><i class="icomoon-search"></i>Pesquisa</a>
+						</li>
+						<!--<li class="with_icon">
+							<a href="#tab2" data-toggle="tab"><i class="icomoon-plus"></i>Add listing</a>
+						</li>-->
+					</ul>
+					
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab1">
+							<form id="homepage_search" action="#/anuncio/list">
+								<div class="row">
+									<div class="span4">
+										<label for="type" class="dropdown_label">Marcas</label>
+										<select name="type" id="type" class="custom_select">
+											<option value="">Cars</option>
+											<option value="">Motorcycles</option>
+											<option value="">Trucks</option>
+										</select>
+									</div>
+
+									<div class="span4">
+										<label for="category" class="dropdown_label">Modelos</label>
+										<select name="category" id="category" class="custom_select">
+											<option value="">Sedan</option>
+											<option value="">Hedgeback</option>
+											<option value="">Pick-up</option>
+										</select>
+									</div>
+
+									<div class="span4">
+										<label for="location" class="dropdown_label">Localização</label>
+										<select name="location" id="location" class="custom_select">
+											<option value="">New York</option>
+											<option value="">Chicago</option>
+											<option value="">Washington</option>
+											<option value="">Boston</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="row second-row">
+									<div class="span4">
+										<label for="condition_new" class="custom_radio custom_radio_light">
+											<input type="radio" name="condition" id="condition_new" value="used">Apenas Peças 
+										</label>
+										<label for="condition_used" class="custom_radio custom_radio_light">
+											<input type="radio" name="condition" id="condition_used" value="new">Carros e Peças
+										</label>
+									</div>
+
+									<div class="span4 darker">
+										<label for="with_photos" class="custom_checkbox custom_checkbox_light">
+											<input type="checkbox" name="with_photos" id="with_photos">Com Fotos
+										</label>
+										<label for="with_videos" class="custom_checkbox custom_checkbox_light">
+											<input type="checkbox" name="with_videos" id="with_videos">Com Videos
+										</label>
+									</div>
+
+									<div class="span4">
+										<a href="#" class="clear_filters"><i class="icon-remove"></i>Limpar Filtros</a>
+										<a href="#/anuncio/list" class="button submit yellow right">Pesquisar</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--
+						<div class="tab-pane" id="tab2">
+							 Aenean pellentesque sollicitudin mi eu ultricies. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus nec elit nisl, quis gravida augue. Duis gravida purus sed nibh molestie eu congue elit pretium. In tellus risus, elementum quis consectetur in, mattis eget eros. Nullam et diam est, eget tempus quam. Donec vestibulum congue massa in feugiat. In hac habitasse platea dictumst. Nunc est dolor, dapibus ut ultricies nec, fringilla vitae metus. Curabitur ullamcorper, velit vitae aliquet consectetur, felis nibh ultrices nibh, sit amet consequat purus elit eget massa. Nunc adipiscing leo eget eros varius iaculis.
+						</div>-->
+					</div>
+				</div>
+				<div class="label_under">
+					<p><a href="#">Pesquisa Avançada</a></p>
+				</div>
+			</div>
+		</section>
+
+		<section id="content" class="clearfix">
+			<div class="container_12">
+				<hr>
+				<div class="grid_4">
+					<h4><i class="icomoon-bubbles-2"></i>Anuncie Aqui</h4>
+					<p>
+						O seu clássico merece um lugar de destaque. A Junk Station chegou para ser a vitrine de seu veículo clássico.
+					</p>
+				</div>
+
+				<div class="grid_4">
+					<h4><i class="icomoon-cog-2"></i>Anúncio grátis por 30 dias</h4>
+					<p>Nosso plano 4cil. oferece a você 30 dias de anúncio gratuitamente. Aproveite e anuncie seu clássico.</p>
+				</div>
+
+				<div class="grid_4">
+					<h4><i class="icomoon-cloud-upload"></i>Serviços</h4>
+					<p>Conheça nossos serviços, aqui temos tudo para o seu clássico</p>
+				</div>
+				
+				<hr>
+				
+				<div class="grid_12 download_callout_box">
+					<h3>Parcerias</h3>
+					<p>
+						Tem interesse em se tornar nosso parceiro? Anunciar sua empresa? Classificados de seu estoque? Entre em contato conosco. Aqui seu Clássico não é um carro velho!
+					</p>
+					<!--<a href="#" class="button blue big right"><i class="icomoon-arrow-down"></i>Download</a>-->
+				</div>
+			</div>
+		</section>
+
+
+		<% include template/footer %>
+	</body>
+</html>

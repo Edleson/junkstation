@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<% include template/css %>
+		<% include template/scripts %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.7447357675264!2d-46.588224399999994!3d-23.5416818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5ece1dbb15c3%3A0x9e580556762a796c!2sR.+Toledo+Barbosa%2C+311+-+Belenzinho%2C+S%C3%A3o+Paulo+-+SP!5e0!3m2!1spt-BR!2sbr!4v1437797297641" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+
+		<br/>
+		<br/>
+		<br/>
+
+		<section class="container_12 clearfix">
+			<div class="grid_8 contact_form clearfix">
+				<h4>VEJA COMO CHEGAR, SUA VISITA É MAIS QUE BEM-VINDA!</h4>
+				<p>Deixe-nos a sua mensagem, seu contato é muito importante para nós!</p>
+				
+				<form name="form" id="form" action="" method="post">
+					<input id="contact-name" class="input" type="text" placeholder="Seu Nome" name="contact-name" value="">
+					<input id="contact-email" class="input" type="text" placeholder="Seu E-mail" name="contact-email" value="">
+					<textarea id="contact-message" class="textarea" rows="8" placeholder="Mensagem" name="contact-message"></textarea>
+					
+					<script type="text/javascript">
+						var RecaptchaOptions = {
+							theme : 'custom',
+							custom_theme_widget: 'recaptcha_widget'
+						};
+					</script>
+					
+					<div id="recaptcha_widget" style="display:none">
+						<div class="captcha">
+							<div id="recaptcha_image"></div>
+							<div class="recaptcha_reload">
+								<a href="javascript:Recaptcha.reload()">
+									<img src="/images/reCaptcha_reload.png" alt="Reload">
+								</a>
+							</div>
+							
+							<div class="recaptcha_only_if_image">
+								<a href="javascript:Recaptcha.switch_type('audio')">
+									<img src="/images/reCaptcha_audio.png" alt="Audio code">
+								</a>
+							</div>
+							
+							<div class="recaptcha_only_if_audio">
+								<a href="javascript:Recaptcha.switch_type('image')">
+									<img src="/images/reCaptcha_image.png" alt="Image code">
+								</a>
+							</div>
+
+							<div class="recaptcha_help">
+								<a href="javascript:Recaptcha.showhelp()">
+									<img src="/images/reCaptcha_help.png" alt="Show help">
+								</a>
+							</div>
+						</div>
+						<input id="recaptcha_response_field" class="input" type="text" placeholder="" name="recaptcha_response_field" value="">
+					</div>
+
+					<script type="text/javascript"
+					src="http://www.google.com/recaptcha/api/challenge?k=6Lcrl-ESAAAAADkvAs6ZQ6NCYqMXpp-ucPexvRgl">
+					</script>
+
+					<noscript>
+						<iframe src="http://www.google.com/recaptcha/api/noscript?k=6Lcrl-ESAAAAADkvAs6ZQ6NCYqMXpp-ucPexvRgl"
+						height="300" width="500" frameborder="0"></iframe><br>
+						<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+						<input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+					</noscript>
+
+					<button id="contact-submit" class="button red right" type="submit">Enviar</button>
+				</form>
+				<div class="submit_note"></div>
+			</div>
+			
+			<div class="grid_4 sidebar">
+				<div class="box">
+					<h3>Suporte On-line</h3>
+					<div class="box-content widget_online_support">
+						<div class="row">
+							<img src="/images/johnsdoe.jpg" alt="" class="span6">
+							<div class="span6">
+								<span class="online_support_title">Equipe JunkStation</span>
+								<p>Onde o seu clássico não é carro velho!</p>
+							</div>
+						</div>
+						<a href="#" class="button blue big wide">
+							<i class="icomoon-volume-medium"></i>(11) 2292-5082
+						</a>
+						<a href="#">Suporte JunkStation</a><br>
+						<a href="#" class="link_light_gray">Aprenda mais sobre o <strong>Motor</strong></a>
+					</div>
+				</div>
+			</div>
+
+		</section>
+		
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+	</body>
+</html>

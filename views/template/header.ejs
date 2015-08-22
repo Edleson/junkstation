@@ -1,0 +1,72 @@
+<!-- INICIO DO HEADER-->
+<header>
+	<!-- INICIO DO TOOLBAR-->
+	<div id="top_toolbar" class="clearfix">
+		<div class="container">
+			<!-- LINKS DO TOPO DA PÁGINA-->
+			<ul class="top_toolbar_menu">
+				<li><a href="/"         >Home	 </a></li>
+				<li><a href="/sobre"    >Sobre	 </a></li>
+				<li><a href="/servico"  >Ajuda	 </a></li>
+				<li><a href="/contato"  >Contato</a></li>
+			</ul>
+			
+			<!-- LINKS PARA MUDANÇA DE IDIOMAS-->
+			<div id="top_toolbar_user_lng">
+				<!-- BOTAO PARA LOGIN DA PAGINA-->
+				<% if(session.user){ %>
+					<a id="user" class="user show_login_form"><%- session.user.email %> </a>
+					<a id="user" href="/anuncio/meusanuncios" class="user">Minha Conta</a>
+					<a href="/logout" class="user">Sair</a>
+				<% } else { %>	
+					<a href="#login_form" class="user show_login_form">entrar</a>
+				<% } %>
+			</div>
+			
+			<!-- MODAL PARA LOGIN-->
+			<div class="login_form_modal_container">
+				<div id="login_form" class="box">
+					<h3>Login</h3>
+					<div class="box-content clearfix">
+						<form action="/login" method="post">
+							<input type="text"     placeholder="Digite o seu email" name="email" >
+							<input type="password" placeholder="Digite a sua senha" name="password"  >
+							<label for="remember" class="custom_checkbox remember_me">
+								<input type="checkbox" name="remember" id="remember">Lembrar Senha
+							</label>
+							<a class="button submit red right">Entrar</a>
+							<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- FIM DO TOOLBAR-->
+	
+	<!-- INICIO DO HEADER PRINCIPAL-->
+	<div id="header_main" class="clearfix">
+		<div class="container_12">
+			<!-- LOGO DO TOPO DA PAGINA-->
+			<div id="logo" class="grid_3">
+				<img src="/images/logo.png" alt="Motor Logo">
+			</div>
+
+			<!-- MENU PRINCIPAL -->
+			<nav class="grid_6">
+				<ul id="main_menu" class="clearfix">
+					<li class="current_menu_ancestor"><a href="/">Home</a></li>
+					<li><a href="/anuncio/list">Anúncios</a></li>
+					<li><a href="/servico">Serviços</a></li>
+					<!--<li><a href="/contato">Localização</a></li>-->
+					<li><a href="/planos">Planos</a></li>
+				</ul>
+			</nav>
+
+			<!-- BOTAO DO TOPO -->
+			<div id="add_listing" class="grid_3">
+				<a href="add_item.html" class="button green big wide">Anuncie Grátis</a>
+			</div>
+		</div>
+	</div>
+</header><!-- FIM DO HEADER-->
+

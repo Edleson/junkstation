@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<% include template/css %>
+		<% include template/scripts %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		
+		<div class="container_12 clearfix">
+			<div class="grid_8 content">
+				<h2 class="page_title with_filter">Resultado da Busca</h2>
+				<div class="results_filter">
+					<label for="sort" class="dropdown_label">ordenar por :</label>
+					<select name="sort" id="sort" class="custom_select">
+						<option value="">Preço</option>
+						<option value="">Ano</option>
+						<option value="">Kilometragem</option>
+					</select>
+					<a class="sort_list current"></a>
+					<a href="/anuncio/grid" class="sort_grid"></a>
+				</div>
+
+				<ul class='pagination'>
+					<li><a class="button pagination-previous" href="#">Previous</a></li>
+					<li><a class='button pagination-number' href='#'>1</a></li>
+					<li><a class='button pagination-number' href='#'>2</a></li>
+					<li><a class='button pagination-number' href='#'>3</a></li>
+					<li><a class='button pagination-number current'>4</a></li>
+					<li><a class='button pagination-number' href='#'>5</a></li>
+					<li><a class='button pagination-number' href='#'>6</a></li>
+					<!--<li><a class='pagination-dots'> ... </a></li>-->
+					<li><a class='button pagination-number' href='#'>7</a></li>
+					<li><a class="button pagination-next" href="#">Next</a></li>
+				</ul>
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/smart.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left">
+									<a href="/anuncio/detail"><i class="icomoon-link"></i></a>
+								</span>
+								<span class="overlay-icon-right">
+									<a href="/images/smart.jpg" class="fancybox" data-fancybox-group="group1">
+										<i class="icomoon-expand-2"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Smart <a href="/anuncio/detail">Fortwo</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Harry Roberts</span>
+							</p>
+						</div>
+						
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2006</span>
+								<span class="item_type">Sedan</span>
+								<span class="item_drive">RWD</span>
+								<span class="item_engine">0.9</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatico</span>
+								<span class="item_fuel">Gasolina</span>
+								<span class="item_mileage">16.000 KM</span>
+							</p>
+						</div>
+
+						<div class="item_footer">
+							<span class="item_price">R$ 35.000,00</span>
+							<span class="item_date">25 Março, 2013</span>
+							<span class="item_rating">4.3</span>
+						</div>
+					</div>
+				</article>
+
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/sls.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/sls.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Mercedes <a href="/anuncio/detail">SLS AMG</a></h4>
+							<p class="location">
+								San Francisco, <strong>CA</strong>
+								<span class="vendor">Tom Harris</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2012</span>
+								<span class="item_type">Grand Tourer</span>
+								<span class="item_drive">RWD</span>
+								<span class="item_engine">6.2</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatic</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">1,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$215,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.9</span>
+						</div>
+					</div>
+				</article>
+
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/granturismo.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/granturismo.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Maserati <a href="/anuncio/detail">Granturismo</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Harry Roberts</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2008</span>
+								<span class="item_type">Grand Tourer</span>
+								<span class="item_drive">RWD</span>
+								<span class="item_engine">4.2</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatic</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">46,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$58,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.0</span>
+						</div>
+					</div>
+				</article>
+
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/a1.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/a1.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Audi <a href="/anuncio/detail">A1</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Phil Davis</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2013</span>
+								<span class="item_type">Super-mini</span>
+								<span class="item_drive">FWD</span>
+								<span class="item_engine">1.4</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Manual</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">100 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$24,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">5.0</span>
+						</div>
+					</div>
+				</article>
+
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/911.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/911.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Porsche <a href="/anuncio/detail">911 GT2</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Tom Harris</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">1996</span>
+								<span class="item_type">Sports car</span>
+								<span class="item_drive">RWD</span>
+								<span class="item_engine">3.6</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Manual</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">79,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$104,200</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.5</span>
+						</div>
+					</div>
+				</article>
+
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/prius.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/prius.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Toyota <a href="/anuncio/detail">Prius</a></h4>
+							<p class="location">
+								San Diego, <strong>CA</strong>
+								<span class="vendor">Harry Roberts</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2012</span>
+								<span class="item_type">Hybrid</span>
+								<span class="item_drive">FWD</span>
+								<span class="item_engine">1.8</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatic</span>
+								<span class="item_fuel">Petrol - Electric</span>
+								<span class="item_mileage">38,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$22,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.7</span>
+						</div>
+					</div>
+				</article>
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/corvette.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/corvette.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Chevrolet <a href="/anuncio/detail">Corvette</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Harry Roberts</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">1969</span>
+								<span class="item_type">Sports car</span>
+								<span class="item_drive">RWD</span>
+								<span class="item_engine">5.7</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatic</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">84,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$45,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.4</span>
+						</div>
+					</div>
+				</article>
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/fiat.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+								<span class="overlay-icon-right"><a href="/images/fiat.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Fiat <a href="/anuncio/detail">500</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Harry Roberts</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2010</span>
+								<span class="item_type">City car</span>
+								<span class="item_drive">FWD</span>
+								<span class="item_engine">1.2</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Manual</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">14,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$16,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.8</span>
+						</div>
+					</div>
+				</article>
+
+				<article class="box clearfix list_item">
+					<div class="half left">
+						<div class="overlayed">
+							<img src="/images/gtr.jpg" alt="">
+							<div class="overlay">
+								<span class="overlay-icon-single"><a href="/images/gtr.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="half right">
+						<div class="item_heading">
+							<h4>Nissan <a href="/anuncio/detail">GTR</a></h4>
+							<p class="location">
+								New York, <strong>NY</strong>
+								<span class="vendor">Phil Davis</span>
+							</p>
+						</div>
+						<div class="item_info clearfix">
+							<p class="half left">
+								<span class="item_year">2011</span>
+								<span class="item_type">Sports car</span>
+								<span class="item_drive">AWD</span>
+								<span class="item_engine">3.8</span>
+							</p>
+							<p class="half right">
+								<span class="item_transimition">Automatic</span>
+								<span class="item_fuel">Petrol</span>
+								<span class="item_mileage">42,000 miles</span>
+							</p>
+						</div>
+						<div class="item_footer">
+							<span class="item_price">$65,000</span>
+							<span class="item_date">25 March, 2013</span>
+							<span class="item_rating">4.9</span>
+						</div>
+					</div>
+				</article>
+
+				<ul class='pagination'>
+					<li><a class="button pagination-previous" href="#">Previous</a></li>
+					<li><a class='button pagination-number' href='#'>1</a></li>
+					<li><a class='button pagination-number' href='#'>2</a></li>
+					<li><a class='button pagination-number' href='#'>3</a></li>
+					<li><a class='button pagination-number current'>4</a></li>
+					<li><a class='button pagination-number' href='#'>5</a></li>
+					<li><a class='button pagination-number' href='#'>6</a></li>
+					<!--<li><a class='pagination-dots'> ... </a></li>-->
+					<li><a class='button pagination-number' href='#'>7</a></li>
+					<li><a class="button pagination-next" href="#">Next</a></li>
+				</ul>
+			</div>
+			
+			<div class="grid_4 sidebar">
+				<div class="box widget_search_filter">
+					<h3>Filtro de Pesquisas</h3>
+					<form action="#">
+						
+						<div class="box-content">
+							<p>
+								<label for="type" class="dropdown_label">Marcas </label>
+								<select name="type" id="type" class="custom_select">
+									<option value="">Cars</option>
+									<option value="">Motorcycles</option>
+									<option value="">Trucks</option>
+								</select>
+							</p>
+							
+							<p>
+								<label for="condition_new" class="custom_radio">
+									<input type="radio" name="condition" id="condition_new">Apenas Peças
+								</label>
+								<label for="condition_used" class="custom_radio">
+									<input type="radio" name="condition" id="condition_used">Carros e Peças
+								</label>
+							</p>
+
+							<p>
+								<label for="category" class="dropdown_label">Modelos</label>
+								<select name="category" id="category" class="custom_select">
+									<option value="">Sedan</option>
+									<option value="">Hedgeback</option>
+									<option value="">Pick-up</option>
+								</select>
+							</p>
+							
+							<p>
+								<label for="with_photos" class="custom_checkbox">
+									<input type="checkbox" name="with_photos" id="with_photos">Com Fotos
+								</label>
+								<label for="with_video" class="custom_checkbox">
+									<input type="checkbox" name="with_video " id="with_video">Com Videos
+								</label>
+							</p>
+						</div>
+
+						<div class="box-content">
+							<p>
+								<label for="location" class="dropdown_label">Localização</label>
+								<select name="location" id="location" class="custom_select">
+									<option value="">New York</option>
+									<option value="">Chicago</option>
+									<option value="">Washington</option>
+									<option value="">Boston</option>
+								</select>
+							</p>
+							<!--
+							<p>
+								<label for="brand" class="dropdown_label">Brand</label>
+								<select name="brand" id="brand" class="custom_select">
+									<option value="">All</option>
+									<option value="">BMW</option>
+									<option value="">Mercedes</option>
+									<option value="">Audi</option>
+									<option value="">Ferrari</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="model" class="dropdown_label">Model</label>
+								<select name="model" id="model" class="custom_select">
+									<option value="">All</option>
+									<option value="">C</option>
+									<option value="">E</option>
+									<option value="">S</option>
+									<option value="">CLK</option>
+									<option value="">SLK</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="price_from" class="dropdown_label">Price range</label>
+								<select name="price_from" id="price_from" class="custom_select range">
+									<option value="">$5.000</option>
+									<option value="">$10.000</option>
+									<option value="">$15.000</option>
+									<option value="">$20.000</option>
+								</select>
+								<span class="range_delimiter">-</span> 
+								<select name="price_to" id="price_to" class="custom_select range">
+									<option value="">$5.000</option>
+									<option value="">$10.000</option>
+									<option value="">$15.000</option>
+									<option value="">$20.000</option>
+								</select>
+							</p>-->
+						</div>
+						<!--
+						<div class="box-content">
+							<p>
+								<label for="transmision" class="dropdown_label">Transmision</label>
+								<select name="transmision" id="transmision" class="custom_select">
+									<option value="">Manual</option>
+									<option value="">Semi-automatic</option>
+									<option value="">Automatic</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="engine_from" class="dropdown_label">Engine range</label>
+								<select name="engine_from" id="engine_from" class="custom_select range">
+									<option value="">0,8</option>
+									<option value="">1,2</option>
+									<option value="">1,6</option>
+									<option value="">1,9</option>
+									<option value="">2,0</option>
+									<option value="">2,5</option>
+									<option value="">3,0</option>
+									<option value="">4,0</option>
+									<option value="">5,0</option>
+									<option value="">6,0</option>
+								</select>
+								<span class="range_delimiter">-</span>
+								<select name="engine_to" id="engine_to" class="custom_select range">
+									<option value="">0,8</option>
+									<option value="">1,2</option>
+									<option value="">1,6</option>
+									<option value="">1,9</option>
+									<option value="">2,0</option>
+									<option value="">2,5</option>
+									<option value="">3,0</option>
+									<option value="">4,0</option>
+									<option value="">5,0</option>
+									<option value="">6,0</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="fuel" class="dropdown_label">Fuel</label>
+								<select name="fuel" id="fuel" class="custom_select">
+									<option value="">Gasoline</option>
+									<option value="">Diesel</option>
+									<option value="">LPG</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="drive" class="dropdown_label">Drive</label>
+								<select name="drive" id="drive" class="custom_select">
+									<option value="">Front-wheel</option>
+									<option value="">Rear-wheel</option>
+									<option value="">4x4</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="milage_from" class="dropdown_label">Milage</label>
+								<select name="milage_from" id="milage_from" class="custom_select range">
+									<option value="">5.000</option>
+									<option value="">10.000</option>
+									<option value="">15.000</option>
+									<option value="">20.000</option>
+									<option value="">40.000</option>
+									<option value="">60.000</option>
+								</select>
+								<span class="range_delimiter">-</span>
+								<select name="milage_to" id="milage_to" class="custom_select range">
+									<option value="">5.000</option>
+									<option value="">10.000</option>
+									<option value="">15.000</option>
+									<option value="">20.000</option>
+									<option value="">40.000</option>
+									<option value="">60.000</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="exterior_color" class="dropdown_label">Exterior color</label>
+								<select name="exterior_color" id="exterior_color" class="custom_select">
+									<option value="">Black</option>
+									<option value="">White</option>
+									<option value="">Silver</option>
+									<option value="">Red</option>
+									<option value="">Blue</option>
+								</select>
+							</p>
+
+							<p>
+								<label for="interior_color" class="dropdown_label">Interior color</label>
+								<select name="interior_color" id="interior_color" class="custom_select">
+									<option value="">Dark grey</option>
+									<option value="">Dark brown</option>
+									<option value="">Light gray</option>
+								</select>
+							</p>
+						</div>-->
+					</form>
+				</div>
+				
+				<!--
+				<div class="box">
+					<h3>Online Support</h3>
+					<div class="box-content widget_online_support">
+						<div class="row">
+							<img src="/images/johnsdoe.jpg" alt="" class="span6">
+							<div class="span6">
+								<span class="online_support_title">John S. Doe</span>
+								<p>Integer nisl nunc, porta id sodales et, pulvinar et risus.</p>
+						</div></div>
+						<a href="#" class="button blue big wide"><i class="icomoon-volume-medium"></i>+1 (555) 555 - 35 - 55</a>
+						<a href="#">Contact Support Team</a><br>
+						<a href="#" class="link_light_gray">Learn more about <strong>Motor</strong></a>
+					</div>
+				</div>-->
+
+				<div class="box">
+					<h3>Assine nossa newsletter</h3>
+					<div class="box-content widget_newsletter">
+						<p>Fique por dentro das novidades que rolam na JunkStation</p>
+						<form action="#">
+							<input type="text" name="name" placeholder="Name">
+							<input type="text" name="email" placeholder="Email">
+							<p class="newsletter_checkbox">
+								<label for="special_offers" class="custom_checkbox">
+									<input type="checkbox" name="special_offers" id="special_offers">
+									Receber ofertas especiais
+								</label>
+							</p>
+							<p class="newsletter_button"><a class="button submit red wider">Assinar</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+	</body>
+</html>

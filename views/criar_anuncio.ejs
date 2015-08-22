@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<% include template/css %>
+		<% include template/scripts %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		
+		<div class="container_12 clearfix" id="add_new_item_info">
+			<form action="#">
+				<div class="grid_8 bigger_margin">
+					<div class="box clearfix">
+						<h3>Informações do Veículo</h3>
+						<div class="box-content clearfix bordered_under">
+							<div class="half left">
+								<p>
+									<label for="type" class="dropdown_label">Tipo de Veículo</label>
+									<select name="type" id="type" class="custom_select">
+										<option value="">Carros</option>
+										<option value="">Motos</option>
+										<option value="">Caminhões</option>
+									</select>
+								</p>
+								<p class="smaller_margin">
+									<label for="condition_new" class="custom_radio">
+										<input type="radio" name="condition" id="condition_new" value="new">Ativo
+									</label>
+									<label for="condition_used" class="custom_radio">
+										<input type="radio" name="condition" id="condition_used" value="used">Inativo
+									</label>
+								</p>
+							</div>
+
+							<div class="half right">
+								<p>
+									<label for="category" class="dropdown_label">Categoria</label>
+									<select name="category" id="category" class="custom_select">
+										<option value="">Sedan</option>
+										<option value="">Pick-up</option>
+									</select>
+								</p>
+							</div>
+						</div>
+
+						<div class="box-content clearfix">
+							<div class="half left">
+								<p>
+									<label for="location" class="dropdown_label">Localização</label>
+									<select name="location" id="location" class="custom_select">
+										<option value="">São Paulo</option>
+										<option value="">Rio de Janeiro</option>
+										<option value="">Minas Gerais</option>
+									</select>
+								</p>
+								<p>
+									<label for="brand" class="dropdown_label">Marca</label>
+									<select name="brand" id="brand" class="custom_select">
+										<option value="">Chevrolet</option>
+										<option value="">BMW</option>
+										<option value="">Mercedes</option>
+										<option value="">Audi</option>
+									</select>
+								</p>
+								<p>
+									<label for="model" class="dropdown_label">Modelo</label>
+									<select name="model" id="model" class="custom_select">
+										<option value="">Camaro</option>
+									</select>
+								</p>
+
+								<p>
+									<label for="price_from" class="dropdown_label">Ano</label>
+									<select name="price_from" id="price_from" class="custom_select range">
+										<option value="">1981</option>
+										<option value="">1982</option>
+										<option value="">1983</option>
+										<option value="">1984</option>
+									</select>
+									<span class="range_delimiter">-</span> 
+									<select name="price_to" id="price_to" class="custom_select range">
+										<option value="">1981</option>
+										<option value="">1982</option>
+										<option value="">1983</option>
+										<option value="">1984</option>
+									</select>
+								</p>
+								<p>
+									<label for="exterior_color" class="dropdown_label">Cor Externa</label>
+									<select name="exterior_color" id="exterior_color" class="custom_select">
+										<option value="">Branco</option>
+										<option value="">Amarelo</option>
+										<option value="">Prata</option>
+										<option value="">Vermelho</option>
+										<option value="">Azul</option>
+									</select>
+								</p>
+								
+							</div>
+
+							<div class="half right">
+								<p>
+									<label for="transmision" class="dropdown_label">Direção</label>
+									<select name="transmision" id="transmision" class="custom_select">
+										<option value="">Manual</option>
+										<option value="">Semi-automatica</option>
+										<option value="">Automatica</option>
+									</select>
+								</p>
+								<p>
+									<label for="engine_from" class="dropdown_label">Combustivel</label>
+									<select name="engine_from" id="engine_from" class="custom_select">
+										<option value="">Gasoline</option>
+										<option value="">Diesel</option>
+										<option value="">Alcool</option>
+									</select>
+								</p>
+								<p>
+									<label for="fuel" class="dropdown_label">Fuel</label>
+									<select name="fuel" id="fuel" class="custom_select">
+										<option value="">Gasoline</option>
+										<option value="">Diesel</option>
+										<option value="">LPG</option>
+									</select>
+								</p>
+								<p>
+									<label for="drive" class="dropdown_label">Tração</label>
+									<select name="drive" id="drive" class="custom_select">
+										<option value="">Front-wheel</option>
+										<option value="">Rear-wheel</option>
+										<option value="">4x4</option>
+									</select>
+								</p>
+								<p>
+									<label for="interior_color" class="dropdown_label">Cor Interna</label>
+									<select name="interior_color" id="interior_color" class="custom_select">
+										<option value="">Cinza</option>
+										<option value="">Marrom</option>
+										<option value="">Cinza</option>
+									</select>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="box">
+						<h3>Descrição do Veículo</h3>
+						<div class="box-content">
+							<textarea name="description" id="description" placeholder="Enter your description"></textarea>
+						</div>
+					</div>
+					<a class="button submit green">Publicar Anúncio</a>
+				</div>
+				
+				<div class="grid_4">
+					<div class="box">
+						<h3>Add Fotos</h3>
+						<div class="box-content">
+							<p class="centered_content">
+								<a href="#fotos_form" class="button red modal">Upload photos</a>
+							</p>
+						</div>
+					</div>
+					
+					<div class="box">
+						<h3>Add Videos</h3>
+						<div class="box-content">
+							<p class="centered_content">
+								<a href="#video_form" class="button red modal">Upload video</a>
+							</p>
+						</div>
+					</div>
+
+					<!--<div class="box">
+						<h3>Sell options</h3>
+						<div class="box-content">
+							<p><label for="negotiable" class="custom_checkbox"><input type="checkbox" name="negotiable" id="negotiable">Price is negotiable</label></p>
+							<p><label for="exchange" class="custom_checkbox"><input type="checkbox" name="exchange" id="exchange">Possible exchange</label></p>
+							<a href="#">Learn more about rating system</a>
+						</div>
+					</div>-->
+				</div>
+			</form>
+			<!-- MODAL PARA UPLOAD DE FOTOS-->
+			<div class="login_form_modal_container">
+				<div id="fotos_form" class="box">
+					<h3>Upload Fotos</h3>
+					<div class="box-content clearfix">
+						<form action="/login" method="post">
+							<input type="file" name="foto1" >
+							<a class="button submit red right">Enviar</a>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- MODAL PARA UPLOAD DE VIDEOS-->
+			<div class="login_form_modal_container">
+				<div id="video_form" class="box">
+					<h3>Upload Video</h3>
+					<div class="box-content clearfix">
+						<form action="/login" method="post">
+							<input type="file" name="foto1" >
+							<a class="button submit red right">Enviar</a>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+	</body>
+</html>
+

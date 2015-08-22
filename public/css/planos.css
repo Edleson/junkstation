@@ -1,0 +1,279 @@
+.pricing-columns #pricing-chart,
+.pricing-columns-both #pricing-chart {
+    margin-top: 100px;
+    float: left;
+    position: relative
+}
+.pricing-columns #pricing-chart p#smaller-plan,
+.pricing-columns #pricing-chart p#smaller-plan.hide,
+.pricing-columns #pricing-chart p#larger-plan.hide,
+.pricing-columns-both #pricing-chart p#smaller-plan,
+.pricing-columns-both #pricing-chart p#smaller-plan.hide,
+.pricing-columns-both #pricing-chart p#larger-plan.hide {
+    display: none
+}
+.pricing-columns #pricing-chart p#smaller-plan.show,
+.pricing-columns #pricing-chart p#larger-plan.show,
+.pricing-columns-both #pricing-chart p#smaller-plan.show,
+.pricing-columns-both #pricing-chart p#larger-plan.show {
+    display: block
+}
+.pricing-columns #pricing-chart p#larger-plan,
+.pricing-columns #pricing-chart p#smaller-plan,
+.pricing-columns-both #pricing-chart p#larger-plan,
+.pricing-columns-both #pricing-chart p#smaller-plan {
+    color: #9e9e9e;
+    font-size: 16px;
+    position: absolute;
+    top: -40px;
+    right: 0
+}
+.pricing-columns #pricing-chart p#larger-plan a,
+.pricing-columns #pricing-chart p#smaller-plan a,
+.pricing-columns-both #pricing-chart p#larger-plan a,
+.pricing-columns-both #pricing-chart p#smaller-plan a {
+    text-decoration: none;
+    color: #3686BE;
+    border-bottom: 1px dotted #3686BE;
+    font-weight: 600
+}
+.pricing-columns #pricing-chart p#bandwidth,
+.pricing-columns-both #pricing-chart p#bandwidth {
+    color: #9e9e9e;
+    font-size: 16px;
+    position: absolute;
+    bottom: 43px;
+    right: 0
+}
+.pricing-columns #pricing-chart #larger-plans,
+.pricing-columns-both #pricing-chart #larger-plans {
+    display: block;
+    clear: left
+}
+.pricing-columns #pricing-chart #larger-plans:after,
+.pricing-columns-both #pricing-chart #larger-plans:after {
+    content: ' ';
+    display: table;
+    clear: both
+}
+.pricing-columns #pricing-chart #larger-plans .plan,
+.pricing-columns-both #pricing-chart #larger-plans .plan {
+    width: 275px
+}
+.pricing-columns #pricing-chart #larger-plans .plan:before,
+.pricing-columns-both #pricing-chart #larger-plans .plan:before {
+    width: 275px
+}
+.pricing-columns #pricing-chart #smaller-plans,
+.pricing-columns-both #pricing-chart #smaller-plans {
+    display: block
+}
+.pricing-columns #pricing-chart #smaller-plans:after,
+.pricing-columns-both #pricing-chart #smaller-plans:after {
+    content: ' ';
+    display: table;
+    clear: both
+}
+.pricing-columns #pricing-chart .plan.hourly .price,
+.pricing-columns-both #pricing-chart .plan.hourly .price {
+    margin-top: 25px;
+    margin-bottom: 39px
+}
+.pricing-columns #pricing-chart .plan.hourly .price .amount,
+.pricing-columns-both #pricing-chart .plan.hourly .price .amount {
+    font-size: 30px
+}
+.pricing-columns #pricing-chart .plan.hourly .price .dollar,
+.pricing-columns-both #pricing-chart .plan.hourly .price .dollar {
+    font-size: 20px
+}
+.pricing-columns #pricing-chart .popular.hourly .price,
+.pricing-columns-both #pricing-chart .popular.hourly .price {
+    margin-bottom: 10px
+}
+.pricing-columns #pricing-chart .popular.hourly .price .amount,
+.pricing-columns-both #pricing-chart .popular.hourly .price .amount {
+    font-size: 45px
+}
+.pricing-columns #pricing-chart .popular.hourly .price .dollar,
+.pricing-columns-both #pricing-chart .popular.hourly .price .dollar {
+    font-size: 25px;
+    top: -14px
+}
+.pricing-columns #pricing-chart .popular.hourly p.pop-plan,
+.pricing-columns-both #pricing-chart .popular.hourly p.pop-plan {
+    margin-bottom: 57px
+}
+.pricing-columns #pricing-chart .plan,
+.pricing-columns-both #pricing-chart .plan {
+    float: left;
+    background-color: #fafafa;
+    position: relative;
+    color: #454545;
+    padding: 14px;
+    border-right: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    width: 215px;
+    text-align: center;
+}
+.pricing-columns #pricing-chart .plan:before,
+.pricing-columns-both #pricing-chart .plan:before {
+    content: "";
+    position: absolute;
+    height: 5px;
+    left: -1px;
+    top: 0;
+    background-color: #D84949;
+    width: 215px
+}
+.pricing-columns #pricing-chart .plan:first-child,
+.pricing-columns-both #pricing-chart .plan:first-child {
+    border-left: 1px solid #e1e1e1
+}
+.pricing-columns #pricing-chart .plan .price,
+.pricing-columns-both #pricing-chart .plan .price {
+    font-size: 26px;
+    float: left;
+    width: 100%;
+    margin-bottom: 35px;
+    margin-top: 17px
+}
+.pricing-columns #pricing-chart .plan .price span,
+.pricing-columns-both #pricing-chart .plan .price span {
+    display: inline-block;
+    position: relative
+}
+.pricing-columns #pricing-chart .plan .price .dollar,
+.pricing-columns-both #pricing-chart .plan .price .dollar {
+    top: -10px;
+    letter-spacing: -1px;
+    left: 3px
+}
+.pricing-columns #pricing-chart .plan .price .amount,
+.pricing-columns-both #pricing-chart .plan .price .amount {
+    font-size: 40px;
+    font-weight: 600
+}
+.pricing-columns #pricing-chart .plan .price .slash,
+.pricing-columns-both #pricing-chart .plan .price .slash {
+    font-weight: 600;
+    left: -2px
+}
+.pricing-columns #pricing-chart .plan .price .month,
+.pricing-columns-both #pricing-chart .plan .price .month {
+    font-weight: 600;
+    left: -7px
+}
+.pricing-columns #pricing-chart .plan ul,
+.pricing-columns-both #pricing-chart .plan ul {
+    padding: 0 18px;
+    margin-bottom: 40px
+}
+.pricing-columns #pricing-chart .plan ul li,
+.pricing-columns-both #pricing-chart .plan ul li {
+    font-weight: 600;
+    font-size: 18px;
+    text-align: left;
+    margin-bottom: 20px
+}
+.pricing-columns #pricing-chart .plan ul li span,
+.pricing-columns-both #pricing-chart .plan ul li span {
+    color: #9e9e9e;
+    display: inline-block;
+    margin-left: 7px;
+    font-weight: 400;
+    font-size: 14px
+}
+.pricing-columns #pricing-chart .plan a.sign-up,
+.pricing-columns-both #pricing-chart .plan a.sign-up {
+    width: 100%;
+    padding: 13px;
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #9e9e9e;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    clear: left;
+    letter-spacing: 1.5px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out
+}
+.pricing-columns #pricing-chart .plan a.sign-up:hover,
+.pricing-columns-both #pricing-chart .plan a.sign-up:hover {
+    border: 1px solid #9e9e9e;
+    color: #454545
+}
+.pricing-columns #pricing-chart .popular,
+.pricing-columns-both #pricing-chart .popular {
+    width: 274px;
+    position: relative;
+    top: -30px;
+    background-color: white;
+    margin-left: -2px;
+    right: 0;
+    border-left: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1
+}
+.pricing-columns #pricing-chart .popular:before,
+.pricing-columns-both #pricing-chart .popular:before {
+    width: 274px;
+    background-color: #93cc76;
+    height: 7px
+}
+.pricing-columns #pricing-chart .popular .price,
+.pricing-columns-both #pricing-chart .popular .price {
+    margin-bottom: 0px
+}
+.pricing-columns #pricing-chart .popular .price .dollar,
+.pricing-columns-both #pricing-chart .popular .price .dollar {
+    top: -28px
+}
+.pricing-columns #pricing-chart .popular .price .amount,
+.pricing-columns-both #pricing-chart .popular .price .amount {
+    font-size: 70px
+}
+.pricing-columns #pricing-chart .popular p.pop-plan,
+.pricing-columns-both #pricing-chart .popular p.pop-plan {
+    color: #454545;
+    font-size: 16px;
+    margin-bottom: 45px;
+    text-align:center;
+}
+.pricing-columns #pricing-chart .popular ul,
+.pricing-columns-both #pricing-chart .popular ul {
+    margin-bottom: 40px
+}
+.pricing-columns #pricing-chart .popular ul li,
+.pricing-columns-both #pricing-chart .popular ul li {
+    font-size: 22px
+}
+.pricing-columns #pricing-chart .popular ul li span,
+.pricing-columns-both #pricing-chart .popular ul li span {
+    color: #454545;
+    display: inline-block;
+    font-size: 16px
+}
+.pricing-columns #pricing-chart .popular a.sign-up,
+.pricing-columns-both #pricing-chart .popular a.sign-up {
+    background-color: #93cc76;
+    border: none;
+    color: #ffffff
+}
+.pricing-columns #pricing-chart .popular a.sign-up:hover,
+.pricing-columns-both #pricing-chart .popular a.sign-up:hover {
+    border: none;
+    color: white;
+    background-color: #73bd4d
+}
