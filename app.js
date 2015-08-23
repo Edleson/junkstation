@@ -17,7 +17,6 @@ var logout        = require('./routes/logout');
 var planos        = require('./routes/planos');
 
 
-
 var app           = express();
 
 // view engine setup
