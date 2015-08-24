@@ -1,14 +1,4 @@
-/*!
- * jquery.customSelect() - v0.4.1
- * http://adam.co/lab/jquery/customselect/
- * 2013-05-13
- *
- * Copyright 2013 Adam Coulombe
- * @license http://www.opensource.org/licenses/mit-license.html MIT License
- * @license http://www.gnu.org/licenses/gpl.html GPL2 License 
- */
-
-(function ($) {
+;(function ($) {
     'use strict';
     $.fn.extend({
         customSelect: function (options) {

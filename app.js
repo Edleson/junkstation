@@ -8,7 +8,8 @@ var logger        = require('morgan');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var session       = require('express-session');
-var Imagemin       = require('imagemin');
+var Imagemin      = require('imagemin');
+var compressor    = require('node-minify');
 
 /***********************************************************
  * Importa todas as rotas da aplicação                     *
@@ -109,7 +110,7 @@ app.use(function(err, req, res, next) {
  ***********************************************************/
 var imagezip = new Imagemin();
 imagezip.src('public/real_images/*.{gif,jpg,png,svg}')
-    .dest('public/images')
+    .dest('public/dist/images')
     .use(Imagemin.jpegtran({progressive: true}))
     .use(Imagemin.gifsicle({interlaced: true}))
     .use(Imagemin.optipng({optimizationLevel: 3}))
@@ -122,7 +123,7 @@ imagezip.src('public/real_images/*.{gif,jpg,png,svg}')
 
 var imagezip2 = new Imagemin();
 imagezip2.src('public/real_images/fancybox/*.{gif,jpg,png,svg}')
-    .dest('public/images/fancybox')
+    .dest('public/dist/images/fancybox')
     .use(Imagemin.jpegtran({progressive: true}))
     .use(Imagemin.gifsicle({interlaced: true}))
     .use(Imagemin.optipng({optimizationLevel: 3}))
@@ -135,7 +136,7 @@ imagezip2.src('public/real_images/fancybox/*.{gif,jpg,png,svg}')
 
 var imagezip3 = new Imagemin();
 imagezip3.src('public/real_images/junkcars/*.{gif,jpg,png,svg}')
-    .dest('public/images/junkcars')
+    .dest('public/dist/images/junkcars')
     .use(Imagemin.jpegtran({progressive: true}))
     .use(Imagemin.gifsicle({interlaced: true}))
     .use(Imagemin.optipng({optimizationLevel: 3}))
@@ -148,7 +149,7 @@ imagezip3.src('public/real_images/junkcars/*.{gif,jpg,png,svg}')
 
 var imagezip4 = new Imagemin();
 imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
-    .dest('public/images/revslider')
+    .dest('public/dist/images/revslider')
     .use(Imagemin.jpegtran({progressive: true}))
     .use(Imagemin.gifsicle({interlaced: true}))
     .use(Imagemin.optipng({optimizationLevel: 3}))
@@ -158,5 +159,37 @@ imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
         //  console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
     });
+
+/***********************************************************
+ * Faz a mimificação de todos os arquivos css do projeto   * 
+ ***********************************************************/
+new compressor.minify({
+    type: 'yui-css',
+    fileIn: 'public/css/*.css',
+    fileOut: 'public/dist/css/base-min.css',
+    callback: function(err, min){
+        //console.log(err);
+    }
+});
+
+new compressor.minify({
+    type: 'yui-js',
+    fileIn: [
+              'public/js/lib/jquery-1.9.1.min.js',
+              'public/js/lib/superfish.js',
+              'public/js/lib/jquery.themepunch.plugins.min.js',
+              'public/js/lib/jquery.themepunch.revolution.min.js',
+              'public/js/lib/form_style.js',
+              'public/js/lib/bootstrap.min.js',
+              'public/js/lib/jquery.placeholder.min.js',
+              'public/js/lib/jquery.fancybox-1.3.4.js',
+              'public/js/lib/jquery.gmap.min.js',
+              'public/js/lib/custom.js'
+            ],
+    fileOut: 'public/dist/js/core-min.js',
+    callback: function(err, min){
+      console.log(err);
+    }
+});
 
 module.exports = app;

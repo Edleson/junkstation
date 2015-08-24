@@ -18,6 +18,7 @@
     "imagemin": "^3.2.0",
     "morgan": "~1.5.3",
     "multer": "^1.0.3",
+    "node-minify": "^1.2.0",
     "serve-favicon": "~2.2.1"
   }
 }
