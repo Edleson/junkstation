@@ -116,7 +116,7 @@ imagezip.src('public/real_images/*.{gif,jpg,png,svg}')
     .use(Imagemin.svgo())
     .run(function (err, files) {
         if(err){
-          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+          //console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
     });
 
@@ -129,7 +129,7 @@ imagezip2.src('public/real_images/fancybox/*.{gif,jpg,png,svg}')
     .use(Imagemin.svgo())
     .run(function (err, files) {
         if(err){
-          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+         // console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
     });
 
@@ -142,7 +142,7 @@ imagezip3.src('public/real_images/junkcars/*.{gif,jpg,png,svg}')
     .use(Imagemin.svgo())
     .run(function (err, files) {
         if(err){
-          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        //  console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
     });
 
@@ -155,7 +155,7 @@ imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
     .use(Imagemin.svgo())
     .run(function (err, files) {
         if(err){
-          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        //  console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
     });
 
