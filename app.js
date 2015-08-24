@@ -8,6 +8,7 @@ var logger        = require('morgan');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var session       = require('express-session');
+var Imagemin       = require('imagemin');
 
 /***********************************************************
  * Importa todas as rotas da aplicação                     *
@@ -100,5 +101,62 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+/************************************************************
+ * Essa módulo é responsável por tratas as imagens que estão *
+ *localizadas na pasta public/images e geram novas imagens   *
+ *otimizadas para web                                        *
+ ***********************************************************/
+var imagezip = new Imagemin();
+imagezip.src('public/real_images/*.{gif,jpg,png,svg}')
+    .dest('public/images')
+    .use(Imagemin.jpegtran({progressive: true}))
+    .use(Imagemin.gifsicle({interlaced: true}))
+    .use(Imagemin.optipng({optimizationLevel: 3}))
+    .use(Imagemin.svgo())
+    .run(function (err, files) {
+        if(err){
+          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        }
+    });
+
+var imagezip2 = new Imagemin();
+imagezip2.src('public/real_images/fancybox/*.{gif,jpg,png,svg}')
+    .dest('public/images/fancybox')
+    .use(Imagemin.jpegtran({progressive: true}))
+    .use(Imagemin.gifsicle({interlaced: true}))
+    .use(Imagemin.optipng({optimizationLevel: 3}))
+    .use(Imagemin.svgo())
+    .run(function (err, files) {
+        if(err){
+          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        }
+    });
+
+var imagezip3 = new Imagemin();
+imagezip3.src('public/real_images/junkcars/*.{gif,jpg,png,svg}')
+    .dest('public/images/junkcars')
+    .use(Imagemin.jpegtran({progressive: true}))
+    .use(Imagemin.gifsicle({interlaced: true}))
+    .use(Imagemin.optipng({optimizationLevel: 3}))
+    .use(Imagemin.svgo())
+    .run(function (err, files) {
+        if(err){
+          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        }
+    });
+
+var imagezip4 = new Imagemin();
+imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
+    .dest('public/images/revslider')
+    .use(Imagemin.jpegtran({progressive: true}))
+    .use(Imagemin.gifsicle({interlaced: true}))
+    .use(Imagemin.optipng({optimizationLevel: 3}))
+    .use(Imagemin.svgo())
+    .run(function (err, files) {
+        if(err){
+          console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
+        }
+    });
 
 module.exports = app;
