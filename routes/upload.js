@@ -16,13 +16,13 @@ var s3 = new AWS.S3();
 var storage = multer.memoryStorage()
 var upload  = multer({ storage: storage });
 
-console.log(upload);
+//console.log(upload);
 
 router.post('/add', upload.single('imagem') ,  function(req, res, next) {
 	var file 	=  req.file;
 	var data 	=  file.buffer;
 
-	console.log(file);
+	//console.log(file);
 
 	var params = {
 		ACL    : 'public-read'		,
@@ -31,7 +31,7 @@ router.post('/add', upload.single('imagem') ,  function(req, res, next) {
         Body   : data
     };
 
-    console.log(params);
+    //console.log(params);
 
     s3.getSignedUrl('putObject', params, function (error, url) {
     	if (error) {
