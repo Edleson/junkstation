@@ -10,6 +10,7 @@ var bodyParser    = require('body-parser');
 var session       = require('express-session');
 var Imagemin      = require('imagemin');
 var compressor    = require('node-minify');
+var compression   = require('compression');
 
 /***********************************************************
  * Importa todas as rotas da aplicação                     *
@@ -38,13 +39,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 86400000 }));
 app.use(session({ 
     secret : 'AKIAJSYCYDPOCPUJOYQA',
     resave : true,
     saveUninitialized: true
   }
 ));
+
+/***********************************************************
+ * Faz a compressão do HTML                                *
+ ***********************************************************/
+app.use(compression());
 
 /***********************************************************
  * Essa função disponibiliza nas Views algumas variáveis   *
@@ -69,6 +75,10 @@ app.use('/upload'   , upload);
 app.use('/login'    , login);
 app.use('/logout'   , logout);
 app.use('/planos'   , planos);
+
+
+
+
 
 /***********************************************************
  * Manipula os erro 404 (Page Not Found)                   *
