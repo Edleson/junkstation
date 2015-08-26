@@ -4,10 +4,12 @@ var multer   = require('multer')  	;
 var AWS      = require('aws-sdk') 	;
 
 
+var awskeyid = process.env.AWS_ID             | "";
+var awssecretkey = process.env.AWS_SECRET_KEY | "";
 
 AWS.config.update({
-    accessKeyId   	: ''   	,
-    secretAccessKey : ''
+    accessKeyId   	: awskeyid   	,
+    secretAccessKey : awssecretkey
 });
 
 var s3 = new AWS.S3();
