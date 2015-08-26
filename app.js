@@ -31,6 +31,10 @@ var planos        = require('./routes/planos');
 var app           = express();
 
 /***********************************************************
+ * Faz a compressão do HTML                                *
+ ***********************************************************/
+app.use(compression());
+/***********************************************************
  * Midlewares de configuração do Express                   *
  **********************************************************/
 app.set('views', path.join(__dirname, 'views'));
@@ -47,10 +51,7 @@ app.use(session({
   }
 ));
 
-/***********************************************************
- * Faz a compressão do HTML                                *
- ***********************************************************/
-app.use(compression());
+
 
 /***********************************************************
  * Essa função disponibiliza nas Views algumas variáveis   *

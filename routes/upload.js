@@ -3,8 +3,7 @@ var router 	 = express.Router()		;
 var multer   = require('multer')  	;
 var AWS      = require('aws-sdk') 	;
 
-var accessKeyId   	= 'AKIAJSYCYDPOCPUJOYQA'         			;
-var secretAccessKey = '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';
+
 
 AWS.config.update({
     accessKeyId   	: accessKeyId   	,
