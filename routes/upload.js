@@ -6,8 +6,8 @@ var AWS      = require('aws-sdk') 	;
 
 
 AWS.config.update({
-    accessKeyId   	: accessKeyId   	,
-    secretAccessKey : secretAccessKey
+    accessKeyId   	: ''   	,
+    secretAccessKey : ''
 });
 
 var s3 = new AWS.S3();
