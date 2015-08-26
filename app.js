@@ -76,10 +76,6 @@ app.use('/login'    , login);
 app.use('/logout'   , logout);
 app.use('/planos'   , planos);
 
-
-
-
-
 /***********************************************************
  * Manipula os erro 404 (Page Not Found)                   *
  ***********************************************************/
@@ -185,6 +181,8 @@ new compressor.minify({
 new compressor.minify({
     type: 'yui-js',
     fileIn: [
+              'public/js/lib/angular.min.js',
+              'public/js/lib/angular-resource.min.js',
               'public/js/lib/jquery-1.9.1.min.js',
               'public/js/lib/superfish.js',
               'public/js/lib/jquery.themepunch.plugins.min.js',
@@ -197,6 +195,17 @@ new compressor.minify({
               'public/js/lib/custom.js'
             ],
     fileOut: 'public/dist/js/core-min.js',
+    callback: function(err, min){
+      console.log(err);
+    }
+});
+
+new compressor.minify({
+    type: 'yui-js',
+    fileIn: [
+              'public/js/app/app.js'
+            ],
+    fileOut: 'public/dist/js/app-min.js',
     callback: function(err, min){
       console.log(err);
     }
