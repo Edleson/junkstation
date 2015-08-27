@@ -8,7 +8,7 @@ var accessKeyId     = process.env.AWSAccessKeyId   | null;
 var secretAccessKey = process.env.AWSSecretKey     | null;
 
 if(accessKeyId === null || secretAccessKey === null){
-    console.error("Variáveis de Ambiente AWSAccessKeyId ou AWSSecretKey não foram encontradas");
+    console.log("Variáveis de Ambiente AWSAccessKeyId ou AWSSecretKey não foram encontradas");
 }else{
     console.log("Configuração AWS realizada com sucesso!");
 }
@@ -38,9 +38,8 @@ router.post('/add', upload.single('imagem') ,  function(req, res, next) {
         Body   : data
     };
 
-    //console.log(params);
 
-    s3.getSignedUrl('putObject', params, function (error, url) {
+    /*s3.getSignedUrl('putObject', params, function (error, url) {
     	if (error) {
         	console.log("Error uploading data: ", error);
         	res.redirect("/upload/form?error=" + error);
@@ -49,16 +48,16 @@ router.post('/add', upload.single('imagem') ,  function(req, res, next) {
         	res.redirect("/upload/form?url=" + url);
         }
   		
-	});
+	});*/
 
-    /*s3.putObject(params, function (error, response) {
+    s3.putObject(params, function (error, response) {
     	if (error) {
         	console.log("Error uploading data: ", error);
         } else {
         	console.log(response);
-        	console.log("Successfully uploaded data to" +  params.Bucket);
+        	console.log("Upload do arquivo realizado com sucesso " +  params.Bucket);
         }
-    });*/
+    });
 
 	
 });
