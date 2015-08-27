@@ -4,12 +4,18 @@ var multer   = require('multer')  	;
 var AWS      = require('aws-sdk') 	;
 
 
-var awskeyid = process.env.AWS_ID             | "";
-var awssecretkey = process.env.AWS_SECRET_KEY | "";
+var accessKeyId     = process.env.AWSAccessKeyId   | null;
+var secretAccessKey = process.env.AWSSecretKey     | null;
+
+if(accessKeyId === null || secretAccessKey === null){
+    console.error("Variáveis de Ambiente AWSAccessKeyId ou AWSSecretKey não foram encontradas");
+}else{
+    console.log("Configuração AWS realizada com sucesso!");
+}
 
 AWS.config.update({
-    accessKeyId   	: awskeyid   	,
-    secretAccessKey : awssecretkey
+    accessKeyId   	: accessKeyId   	,
+    secretAccessKey : secretAccessKey
 });
 
 var s3 = new AWS.S3();
