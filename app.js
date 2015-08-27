@@ -182,8 +182,7 @@ new compressor.minify({
 new compressor.minify({
     type: 'yui-js',
     fileIn: [
-              'public/js/lib/angular.min.js',
-              'public/js/lib/angular-resource.min.js',
+              
               'public/js/lib/jquery-1.9.1.min.js',
               'public/js/lib/superfish.js',
               'public/js/lib/jquery.themepunch.plugins.min.js',
@@ -204,6 +203,8 @@ new compressor.minify({
 new compressor.minify({
     type: 'yui-js',
     fileIn: [
+              'public/js/lib/angular.min.js',
+              'public/js/lib/angular-resource.min.js',
               'public/js/app/app.js'
             ],
     fileOut: 'public/dist/js/app-min.js',
