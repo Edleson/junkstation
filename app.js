@@ -180,34 +180,33 @@ new compressor.minify({
 });
 
 new compressor.minify({
-    type: 'yui-js',
+    type: 'yui-js'                                                ,
     fileIn: [
-              
-              'public/js/lib/jquery-1.9.1.min.js',
-              'public/js/lib/superfish.js',
-              'public/js/lib/jquery.themepunch.plugins.min.js',
-              'public/js/lib/jquery.themepunch.revolution.min.js',
-              'public/js/lib/form_style.js',
-              'public/js/lib/bootstrap.min.js',
-              'public/js/lib/jquery.placeholder.min.js',
-              'public/js/lib/jquery.fancybox-1.3.4.js',
-              'public/js/lib/jquery.gmap.min.js',
+              'public/js/lib/jquery-1.9.1.min.js'                 ,
+              'public/js/lib/superfish.js'                        ,
+              'public/js/lib/jquery.themepunch.plugins.min.js'    ,
+              'public/js/lib/jquery.themepunch.revolution.min.js' ,
+              'public/js/lib/form_style.js'                       ,
+              'public/js/lib/bootstrap.min.js'                    ,
+              'public/js/lib/jquery.placeholder.min.js'           ,
+              'public/js/lib/jquery.fancybox-1.3.4.js'            ,
+              'public/js/lib/jquery.gmap.min.js'                  ,
               'public/js/lib/custom.js'
             ],
-    fileOut: 'public/dist/js/core-min.js',
+    fileOut: 'public/dist/js/core-min.js'                         ,
     callback: function(err, min){
       console.log(err);
     }
 });
 
 new compressor.minify({
-    type: 'yui-js',
+    type: 'yui-js'                                      ,
     fileIn: [
-              'public/js/lib/angular.min.js',
-              'public/js/lib/angular-resource.min.js',
+              'public/js/lib/angular.min.js'            ,
+              'public/js/lib/angular-resource.min.js'   ,
               'public/js/app/app.js'
             ],
-    fileOut: 'public/dist/js/app-min.js',
+    fileOut: 'public/dist/js/app-min.js'                ,
     callback: function(err, min){
       console.log(err);
     }
