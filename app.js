@@ -162,6 +162,9 @@ imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
     .use(Imagemin.optipng({optimizationLevel: 3}))
     .use(Imagemin.svgo())
     .run(function (err, files) {
+        /*for(prop in files[0]){
+          console.log("file." + prop + " = " + files[0][prop]);
+        }*/
         if(err){
         //  console.log("Ocorreu um erro durante a geração das imagens otimizadas." , err);
         }
@@ -172,7 +175,16 @@ imagezip4.src('public/real_images/revslider/*.{gif,jpg,png,svg}')
  ***********************************************************/
 new compressor.minify({
     type: 'yui-css',
-    fileIn: 'public/css/*.css',
+    fileIn: [
+              'public/css/font-awesome.css',
+              'public/css/icomoon.css',
+              'public/css/font-awesome.css',
+              'public/css/jquery.fancybox-1.3.4.css',
+              'public/css/revslider.css',
+              'public/css/style.css',
+              'public/css/planos.css',
+              'public/css/responsive.css'
+            ],
     fileOut: 'public/dist/css/base-min.css',
     callback: function(err, min){
         //console.log(err);

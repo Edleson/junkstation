@@ -1,4 +1,4 @@
-.visible-desktop {display: inherit !important;}
+ .visible-desktop {display: inherit !important;}
 .visible-tablet {display: none !important;}
 .visible-phablet {display: none !important;}
 .visible-phone {display: none !important;}
