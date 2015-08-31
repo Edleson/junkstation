@@ -13,6 +13,31 @@ var compressor    = require('node-minify');
 var compression   = require('compression');
 
 /***********************************************************
+ *  Inicia as configurações do banco de dados              *
+ **********************************************************/
+var database      = require('./config/database')();
+
+/***********************************************************
+ * Importa todos os Models da aplicação                    *
+ **********************************************************/
+var Marca         = require('./models/Marca')();
+var Categoria     = require('./models/categoria')();
+
+
+//console.log(Categoria);
+
+/*var teste = {nome : "TESTE", marcas : []}
+Categoria.create(teste).then(
+  function(marca){
+    console.log(marca);
+  },
+
+  function(err){
+    console.log(err);
+  }
+);*/
+
+/***********************************************************
  * Importa todas as rotas da aplicação                     *
  **********************************************************/
 var routes        = require('./routes/index');
@@ -24,6 +49,8 @@ var upload        = require('./routes/upload');
 var login         = require('./routes/login');
 var logout        = require('./routes/logout');
 var planos        = require('./routes/planos');
+
+var admin         = require('./routes/admin');
 
 /***********************************************************
  * Instancia o módulo do Express                           *
@@ -76,6 +103,7 @@ app.use('/upload'   , upload);
 app.use('/login'    , login);
 app.use('/logout'   , logout);
 app.use('/planos'   , planos);
+app.use('/admin'    , admin);
 
 /***********************************************************
  * Manipula os erro 404 (Page Not Found)                   *
@@ -194,6 +222,9 @@ new compressor.minify({
 new compressor.minify({
     type: 'yui-js'                                                ,
     fileIn: [
+              'public/js/lib/angular.min.js'                      ,
+              'public/js/lib/angular-resource.min.js'             ,
+              'public/js/lib/angular-route.min.js'                ,
               'public/js/lib/jquery-1.9.1.min.js'                 ,
               'public/js/lib/superfish.js'                        ,
               'public/js/lib/jquery.themepunch.plugins.min.js'    ,
@@ -212,13 +243,18 @@ new compressor.minify({
 });
 
 new compressor.minify({
-    type: 'yui-js'                                      ,
+    type: 'yui-js'                                                ,
     fileIn: [
-              'public/js/lib/angular.min.js'            ,
-              'public/js/lib/angular-resource.min.js'   ,
-              'public/js/app/app.js'
+              'public/js/app/app.js'                                        ,
+              'public/js/app/controllers/adminController.js'                ,
+              'public/js/app/controllers/admin/categoriaController.js'      ,
+              'public/js/app/controllers/admin/ui/uiController.js'          ,
+              'public/js/app/routes/adminRoutes.js'               
+                  
+              
+
             ],
-    fileOut: 'public/dist/js/app-min.js'                ,
+    fileOut: 'public/dist/js/app-min.js'                          ,
     callback: function(err, min){
       console.log(err);
     }

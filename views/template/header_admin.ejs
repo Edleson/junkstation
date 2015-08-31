@@ -5,10 +5,10 @@
 		<div class="container">
 			<!-- LINKS DO TOPO DA PÁGINA-->
 			<ul class="top_toolbar_menu">
-				<li><a href="/"         >Home	 </a></li>
-				<li><a href="/sobre"    >Sobre	 </a></li>
-				<li><a href="/servico"  >Ajuda	 </a></li>
-				<li><a href="/contato"  >Contato</a></li>
+				<li><a href="#/admin"   >Home	 </a></li>
+				<li><a href="/sobre"    >Controle usuário	 </a></li>
+				<li><a href="/servico"  >Alterar Senha	 </a></li>
+				<li><a href="/contato"  >Usuários Online </a></li>
 			</ul>
 			
 			<!-- LINKS PARA MUDANÇA DE IDIOMAS-->
@@ -47,26 +47,66 @@
 	<div id="header_main" class="clearfix">
 		<div class="container_12">
 			<!-- LOGO DO TOPO DA PAGINA-->
-			<div id="logo" class="grid_3">
+			<!--<div id="logo" class="grid_3">
 				<a href="/">
 					<img src="/dist/images/logo.png" alt="Junkstation a vitrine do seu classico">	
 				</a>
-			</div>
+			</div>-->
 			
 			<!-- MENU PRINCIPAL -->
-			<nav class="grid_6">
+			<nav class="grid_12">
 				<ul id="main_menu" class="clearfix">
 					<li <%= request.baseUrl == "/" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/">Home</a>
+						<a href="/">Administração</a>
+						<ul>
+							<li><a href="#">Marca</a></li>
+							<li><a href="#">Categoria</a></li>
+							<li><a href="#">Modelo</a></li>
+							<li><a href="#">Combustível</a></li>
+							<li><a href="#">Cor</a></li>
+							<li><a href="#">Câmbio</a></li>
+							<li><a href="#">Ano Fabricação</a></li>
+							<li><a href="#">Serviço</a></li>
+							<li><a href="#">Newsletter</a></li>
+							<li><a href="#">Estilo</a></li>
+							<li><a href="#">UF</a></li>
+						</ul>
 					</li>
 					<li <%= request.baseUrl.match(/anuncio/ig) ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/anuncio/list">Anúncios</a>
+						<a href="/anuncio/list">Notificação</a>
+						<ul>
+							<li><a href="#">Lista Anunciantes</a></li>
+							<li><a href="#">Lista Anúncios</a></li>
+						</ul>
 					</li>
 					<li <%= request.baseUrl == "/servico" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/servico">Serviços</a>
+						<a href="/servico">Relatório</a>
+						<ul>
+							<li><a href="#">Anúncio</a></li>
+							<li><a href="#">Anunciantes</a></li>
+							<li><a href="#">Financeiro</a></li>
+							<li><a href="#">Acesso</a></li>
+							<li><a href="#">Vendas</a></li>
+							
+						</ul>
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/planos">Planos</a>
+						<a href="/planos">Anúncio</a>
+					</li>
+					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+						<a href="/planos">Plano</a>
+					</li>
+					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+						<a href="/planos">Pagamento</a>
+					</li>
+					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+						<a href="/planos">Segurança</a>
+					</li>
+					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+						<a href="/planos">Integração</a>
+					</li>
+					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+						<a href="/planos">Vendas</a>
 					</li>
 				</ul>
 				<div id="responsive_navigation">
@@ -78,11 +118,6 @@
 					</select>
 				</div>
 			</nav>
-
-			<!-- BOTAO DO TOPO -->
-			<div id="add_listing" class="grid_3">
-				<a href="/anuncio/meusanuncios" class="button green big wide">Anuncie Grátis</a>
-			</div> 
 		</div>
 	</div>
 </header><!-- FIM DO HEADER-->

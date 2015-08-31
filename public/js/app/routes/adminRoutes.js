@@ -2,15 +2,16 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
     //$httpProvider.interceptors.push('meuInterceptor');
     console.log("initialazer angular webapp");
     $routeProvider.when('/', {
-      templateUrl: 'views/home.html', 
-      controller: 'homeController'
+      templateUrl: 'partials/homeAdmin.html', 
+      controller: 'adminController'
     });
 
-    $routeProvider.when('/anuncio/list', {
-      templateUrl: 'views/lista_anuncios.html', 
-      controller: 'homeController'
+   $routeProvider.when('/categoria', {
+      templateUrl: 'partials/categoria.html', 
+      controller: 'categoriaController'
     });
 
+    /* 
     $routeProvider.when('/contato', {
       templateUrl: 'views/contato.html', 
       controller: 'homeController'
@@ -34,7 +35,7 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
     $routeProvider.when('/anuncio/detail', {
       templateUrl: 'views/detalhe_anuncio.html', 
       controller: 'homeController'
-    });
+    });*/
 
     
     $routeProvider.otherwise({redirectTo: '/'});

@@ -1,0 +1,35 @@
+<html ng-app="junkstation" >
+	<head>
+		<% include ../template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<% include ../template/css %>
+	</head>
+
+	<body >
+		<% include ../template/header_admin %>
+		
+		<div class="container_12 clearfix content" >
+
+			<div class="grid_8 bigger_margin" ng-view></div>
+			
+			<div class="grid_4 sidebar" ng-controller="uiAdminController">
+				<div class="box" ng-repeat="panel in panels">
+					<h3 style="cursor : pointer;text-align:center;" ng-click="togglePanel(panel);">
+						{{panel.title}}&nbsp;&nbsp;
+						<span  ng-class="{'glyphicon glyphicon-plus' : panel.opened, 'glyphicon glyphicon-minus' : !panel.opened}" aria-hidden="true"></span>
+					</h3>
+
+					<div class="box-content" ng-show="panel.contentPanel">
+						<li ng-repeat="link in panel.links"><a href="{{link.href}}">{{link.desc}}</a></li>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- INICIO DO FOOTER-->
+		<% include ../template/footer %>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!-- FIM DO FOOTER-->
+	</body>
+</html>

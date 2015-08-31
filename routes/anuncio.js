@@ -19,7 +19,11 @@ router.get('/creat', function(req, res, next) {
 });
 
 router.get('/meusanuncios', function(req, res, next) {
-  res.render('meus_anuncios');
+  if(req.session.user){
+  	res.render('meus_anuncios');
+  }else{
+  	res.render('login');
+  }
 });
 
 module.exports = router;

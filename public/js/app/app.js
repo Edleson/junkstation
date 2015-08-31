@@ -1,1 +1,1 @@
-;var app = angular.module('junkstation', ['ngResource']);
+;var app = angular.module('junkstation', ['ngRoute','ngResource']);

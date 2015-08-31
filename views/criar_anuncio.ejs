@@ -187,11 +187,10 @@
 				<div id="fotos_form" class="box">
 					<h3>Upload Fotos</h3>
 					<div class="box-content clearfix">
-						<form action="/login" method="post">
-							<input type="file" name="foto1" >
-							<a class="button submit red right">Enviar</a>
-							
-						</form>
+						<form name="formFoto" action='/upload/add' method='post' enctype='multipart/form-data' >
+		                 	<input type='file'   name='imagem' />
+		                 	<a class="button submit red right">Enviar</a>
+            			</form>
 					</div>
 				</div>
 			</div>
