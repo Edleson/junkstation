@@ -20,7 +20,7 @@ var database      = require('./config/database')();
 /***********************************************************
  * Importa todos os Models da aplicação                    *
  **********************************************************/
-var Marca         = require('./models/Marca')();
+var Marca         = require('./models/marca')();
 var Categoria     = require('./models/categoria')();
 
 
