@@ -1,17 +1,16 @@
-var express 	= require('express');
-var router 		= express.Router();
+module.exports = function(app) {
+	var autenticar = require('./../middlewares/loginHandler');
+  	
+	app.get('/login', function(req, res, next){
+		res.render('login');
+	});
 
-router.get('/', function(req, res, next) {
-  res.render('login');
-});
+	app.post('/login', function(req, res, next){
+		var user          = {};
+ 	  	user.email        = req.body.email;
+  		user.password     = req.body.password;
+  		req.session.user  = user;
+  		res.redirect("/");
+	});
+};
 
-router.post('/', function(req, res, next) {
-	//req.session.clear();
-  	var user = {};
- 	user.email    = req.body.email;
-  	user.password = req.body.password;
-  	req.session.user = user;
-  	res.redirect("/");
-});
-
-module.exports = router;

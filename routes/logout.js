@@ -1,9 +1,8 @@
-var express 	= require('express');
-var router 		= express.Router();
-
-router.get('/', function(req, res, next) {
-  req.session.destroy();
-  res.redirect("/");
-});
-
-module.exports = router;
+module.exports = function(app) {
+	var autenticar = require('./../middlewares/loginHandler');
+  	
+  	app.get('/logout', function(req, res, next){
+  		req.session.destroy();
+  		res.redirect("/");
+  	});
+};

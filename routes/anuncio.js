@@ -1,29 +1,27 @@
-var express 	= require('express');
-var router 		= express.Router();
+module.exports = function(app) {
+  var autenticar = require('./../middlewares/loginHandler');
+  	
+	app.get('/anuncio/list', function(req, res, next){
+		res.render('anuncio_lista');
+	});
 
+	app.get('/anuncio/grid', function(req, res, next){
+		res.render('anuncio_grid');
+	});
 
-router.get('/list', function(req, res, next) {
-  res.render('anuncio_lista');
-});
+	app.get('/anuncio/detail', function(req, res, next){
+		res.render('anuncio_detalhe');
+	});
 
-router.get('/grid', function(req, res, next) {
-  res.render('anuncio_grid');
-});
+	app.get('/anuncio/creat', function(req, res, next){
+		res.render('criar_anuncio');
+	});
 
-router.get('/detail', function(req, res, next) {
-  res.render('anuncio_detalhe');
-});
-
-router.get('/creat', function(req, res, next) {
-  res.render('criar_anuncio');
-});
-
-router.get('/meusanuncios', function(req, res, next) {
-  if(req.session.user){
-  	res.render('meus_anuncios');
-  }else{
-  	res.render('login');
-  }
-});
-
-module.exports = router;
+	app.get('/anuncio/meusanuncios', function(req, res, next){
+		if(req.session.user){
+		   res.render('meus_anuncios');
+	  }else{
+	  	res.render('login');
+	  }
+	});
+};

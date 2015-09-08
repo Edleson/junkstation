@@ -1,15 +1,63 @@
 app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
-    //$httpProvider.interceptors.push('meuInterceptor');
-    console.log("initialazer angular webapp");
-    $routeProvider.when('/', {
-      templateUrl: 'partials/homeAdmin.html', 
-      controller: 'adminController'
-    });
+  //$httpProvider.interceptors.push('meuInterceptor');
+  $routeProvider.when('/', {
+      templateUrl : 'partials/homeAdmin.html', 
+      controller  : 'adminController'
+    }
+  );
 
-   $routeProvider.when('/categoria', {
-      templateUrl: 'partials/categoria.html', 
-      controller: 'categoriaController'
-    });
+  $routeProvider.when('/anoFabricacao', {
+      templateUrl : 'partials/anoFabricacao.html', 
+      controller  : 'anoFabricacaoController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
+  $routeProvider.when('/cambio', {
+      templateUrl : 'partials/cambio.html', 
+      controller  : 'cambioController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
+  $routeProvider.when('/categoria', {
+      templateUrl : 'partials/categoria.html', 
+      controller  : 'categoriaController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
+  $routeProvider.when('/combustivel', {
+      templateUrl : 'partials/combustivel.html', 
+      controller  : 'combustivelController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
+  $routeProvider.when('/cor', {
+      templateUrl : 'partials/cor.html', 
+      controller  : 'corController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
+  
+
 
     /* 
     $routeProvider.when('/contato', {

@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
-
 mongoose.set('debug', false);
-
-module.exports = function(){
+/*************************************************************************
+ * Essa função é responsável por toda a configuração com Banco de dados, *
+ *registrando alguns evento para a conexão com MONGODB.   
+ ************************************************************************/
+module.exports = function(app){
     var uri = 'mongodb://localhost/junkstation';
     mongoose.connect(uri);
     

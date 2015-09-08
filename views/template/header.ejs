@@ -29,6 +29,7 @@
 					<h3>Login</h3>
 					<div class="box-content clearfix">
 						<form action="/login" method="post">
+							<input type="hidden" name="_method" value="post">
 							<input type="text"     placeholder="Digite o seu email" name="email" >
 							<input type="password" placeholder="Digite a sua senha" name="password"  >
 							<label for="remember" class="custom_checkbox remember_me">
@@ -56,25 +57,25 @@
 			<!-- MENU PRINCIPAL -->
 			<nav class="grid_6">
 				<ul id="main_menu" class="clearfix">
-					<li <%= request.baseUrl == "/" ?  'class=current_menu_ancestor' : '' %> >
+					<li <%= request.url == "/" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/">Home</a>
 					</li>
-					<li <%= request.baseUrl.match(/anuncio/ig) ?  'class=current_menu_ancestor' : '' %> >
+					<li <%= request.url.match(/anuncio/ig) ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/anuncio/list">Anúncios</a>
 					</li>
-					<li <%= request.baseUrl == "/servico" ?  'class=current_menu_ancestor' : '' %> >
+					<li <%= request.url == "/servico" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/servico">Serviços</a>
 					</li>
-					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
+					<li <%= request.url == "/planos" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/planos">Planos</a>
 					</li>
 				</ul>
 				<div id="responsive_navigation">
 					<select class="custom_select nav-responsive">
-						<option value="/" <%= request.baseUrl == "/" ?  'selected' : '' %> > - Home </option>
-						<option value="/anuncio/list" <%= request.baseUrl.match(/anuncio/ig) ?  'selected' : '' %> > -  Anúncios</option>
-						<option value="/servico" <%= request.baseUrl == "/servico" ?  'selected' : '' %> > -  Serviços</option>
-						<option value="/planos" <%= request.baseUrl == "/planos" ?  'selected' : '' %> > -  Planos</option>
+						<option value="/" <%= request.url == "/" ?  'selected' : '' %> > - Home </option>
+						<option value="/anuncio/list" <%= request.url.match(/anuncio/ig) ?  'selected' : '' %> > -  Anúncios</option>
+						<option value="/servico" <%= request.url == "/servico" ?  'selected' : '' %> > -  Serviços</option>
+						<option value="/planos" <%= request.url == "/planos" ?  'selected' : '' %> > -  Planos</option>
 					</select>
 				</div>
 			</nav>

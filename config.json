@@ -1,0 +1,7 @@
+{
+    "SECRET": "junkstation",
+    "KEY": "junkstation.sid",
+    "MAX_AGE": {
+      "maxAge": 3600000
+    }
+  }

@@ -1,8 +1,7 @@
-var express 	= require('express');
-var router 		= express.Router();
-
-router.get('/', function(req, res, next) {
-  res.render('servico');
-});
-
-module.exports = router;
+module.exports = function(app) {
+	var autenticar = require('./../middlewares/loginHandler');
+  	
+  	app.get('/servico', function(req, res, next){
+  		res.render('servico');
+  	});
+};

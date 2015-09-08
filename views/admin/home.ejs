@@ -4,9 +4,31 @@
 		<title>Junk Station a Vitrine do seu clássico</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<% include ../template/css %>
+		<style type="text/css">
+			#main_menu a {
+			    color: #FFF;
+			    font-size: 14px;
+			    float: left;
+			    padding: 40px 20px 20px;
+			    text-decoration: none;
+			}
+
+			.footer-admin{
+			    text-align: center;
+			    color: #fff;
+			    text-size: 16px;
+			    bottom: 0px;
+			    background-color: #0A0A0A;
+			    opacity: 0.6;
+			    position: fixed;
+			    left: 0px;
+			    width: 100%;
+			    margin-bottom : 0px;
+			}
+		</style>
 	</head>
 
-	<body >
+	<body style="background : url(dist/images/bg-admin.jpg) repeat; background-size: cover;">
 		<% include ../template/header_admin %>
 		
 		<div class="container_12 clearfix content" >
@@ -17,18 +39,19 @@
 				<div class="box" ng-repeat="panel in panels">
 					<h3 style="cursor : pointer;text-align:center;" ng-click="togglePanel(panel);">
 						{{panel.title}}&nbsp;&nbsp;
-						<span  ng-class="{'glyphicon glyphicon-plus' : panel.opened, 'glyphicon glyphicon-minus' : !panel.opened}" aria-hidden="true"></span>
+						<span  ng-class="{'glyphicon glyphicon-plus' : !panel.opened, 'glyphicon glyphicon-minus' : panel.opened}" aria-hidden="true"></span>
 					</h3>
 
 					<div class="box-content" ng-show="panel.contentPanel">
-						<li ng-repeat="link in panel.links"><a href="{{link.href}}">{{link.desc}}</a></li>
+						<li ng-repeat="link in panel.links | orderBy : 'desc'"><a href="{{link.href}}">{{link.desc}}</a></li>
 					</div>
 				</div>
 			</div>
 		</div>
 		
 		<!-- INICIO DO FOOTER-->
-		<% include ../template/footer %>
+		<% include ../template/footer-admin %>
+		<!-- FIM DO FOOTER-->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<!-- FIM DO FOOTER-->
 	</body>
