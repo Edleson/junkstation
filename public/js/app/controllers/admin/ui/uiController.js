@@ -10,7 +10,7 @@ app.controller('uiAdminController', ['$scope', function ($scope) {
 			title : "Cadastro Geral", opened : false , contentPanel : false, links : [
 				{href : "#/marca"	  	 , desc : "Gerenciar Marca"			},
 				{href : "#/categoria"	 , desc : "Gerenciar Categoria"		},
-				{href : "#/modelo"	 	 , desc : "Gerenciar Modelos"		},
+				{href : "#/modelo"	 	 , desc : "Gerenciar Modelo"		},
 				{href : "#/combustivel"	 , desc : "Gerenciar Combustível"	},
 				{href : "#/cor"			 , desc : "Gerenciar Cor"			},
 				{href : "#/cambio"		 , desc : "Gerenciar Cambio"		},

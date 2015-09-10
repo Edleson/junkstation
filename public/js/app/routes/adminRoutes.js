@@ -56,35 +56,69 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
       }
   });
 
-  
+  $routeProvider.when('/estilo', {
+      templateUrl : 'partials/estilo.html', 
+      controller  : 'estiloController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
 
+  $routeProvider.when('/marca', {
+      templateUrl : 'partials/marca.html', 
+      controller  : 'marcaController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
 
-    /* 
-    $routeProvider.when('/contato', {
-      templateUrl: 'views/contato.html', 
-      controller: 'homeController'
-    });
+  $routeProvider.when('/modelo', {
+      templateUrl : 'partials/modelo.html', 
+      controller  : 'modeloController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          },
 
-    $routeProvider.when('/servicos', {
-      templateUrl: 'views/servicos.html', 
-      controller: 'homeController'
-    });
+          marcas : function(marcaService){
+            return marcaService.findAll();
+          }
+      }
+  });
 
-    $routeProvider.when('/sobre', {
-      templateUrl: 'views/sobre.html', 
-      controller: 'homeController'
-    });
+  $routeProvider.when('/newsletter', {
+      templateUrl : 'partials/newsletter.html', 
+      controller  : 'newsletterController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
 
-    $routeProvider.when('/anuncio/grid', {
-      templateUrl: 'views/grid_anuncios.html', 
-      controller: 'homeController'
-    });
+  $routeProvider.when('/servico', {
+      templateUrl : 'partials/servico.html', 
+      controller  : 'servicoController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
 
-    $routeProvider.when('/anuncio/detail', {
-      templateUrl: 'views/detalhe_anuncio.html', 
-      controller: 'homeController'
-    });*/
+  $routeProvider.when('/uf', {
+      templateUrl : 'partials/uf.html', 
+      controller  : 'ufController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
 
-    
-    $routeProvider.otherwise({redirectTo: '/'});
+  $routeProvider.otherwise({redirectTo: '#/'});
 }]);
