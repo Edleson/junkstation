@@ -18,7 +18,8 @@ app.controller('uiAdminController', ['$scope', function ($scope) {
 				{href : "#/servico" 	 , desc : "Gerenciar Serviço"		},
 				{href : "#/newsletter" 	 , desc : "Gerenciar Newsletter"	},
 				{href : "#/estilo"       , desc : "Gerenciar Estilo"		},
-				{href : "#/uf"           , desc : "Gerenciar Uf"			}
+				{href : "#/uf"           , desc : "Gerenciar Uf"			},
+				{href : "#/planos"       , desc : "Gerenciar Plano"			}
 			]  
 		},
 		{

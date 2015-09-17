@@ -4,6 +4,84 @@
 		<% include template/meta %>
 		<title>Junk Station a Vitrine do seu clássico</title>
 		<% include template/css %>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+	        body{margin-top: 20px;}
+	        .panel{text-align: center; }
+	        .panel:hover { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }
+	        .panel-body{padding: 0px;text-align: center;}
+	        .the-price{background-color: rgba(220,220,220,.17);box-shadow: 0 1px 0 #dcdcdc, inset 0 1px 0 #fff;padding: 20px;margin:0;}
+	        .the-price h1{line-height: 1em;padding: 0; margin: 0;}
+	        .subscript{font-size: 25px;}
+	        .cnrflash{
+	            position: absolute;
+	            top: -9px;
+	            right: 4px;
+	            z-index: 1; 
+	            overflow: hidden;
+	            width: 100px;
+	            height: 100px;
+	            border-radius: 3px 5px 3px 0;
+	        }
+	        .cnrflash-inner{
+	            position: absolute;
+	            bottom: 0;
+	            right: 0;
+	            width: 145px;
+	            height: 145px;
+	            -ms-transform: rotate(45deg);
+	            -o-transform: rotate(45deg);
+	            -moz-transform: rotate(45deg);
+	            -webkit-transform: rotate(45deg);
+	            -webkit-transform-origin: 100% 100%;
+	            -ms-transform-origin: 100% 100%;
+	            -o-transform-origin: 100% 100%;
+	            -moz-transform-origin: 100% 100%;
+	            background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.1) 50%), linear-gradient(0deg, transparent 0%, rgba(1,1,1,.2) 50%);
+	            background-size: 4px,auto, auto,auto;
+	            background-color: #aa0101;
+	            box-shadow: 0 3px 3px 0 rgba(1,1,1,.5), 0 1px 0 0 rgba(1,1,1,.5), inset 0 -1px 8px 0 rgba(255,255,255,.3), inset 0 -1px 0 0 rgba(255,255,255,.2);
+	        }
+	        .cnrflash-inner:before, .cnrflash-inner:after
+	        {
+	            /*Use the border triangle trick to make  				it look like the ribbon wraps round it's 				container*/
+	            content: " ";
+	            display: block;
+	            position: absolute;
+	            bottom: -16px;
+	            width: 0;
+	            height: 0;
+	            border: 8px solid #800000;
+	        }
+	        .cnrflash-inner:before
+	        {
+	            left: 1px;
+	            border-bottom-color: transparent;
+	            border-right-color: transparent;
+	        }
+	        .cnrflash-inner:after
+	        {
+	            right: 0;
+	            border-bottom-color: transparent;
+	            border-left-color: transparent;
+	        }
+	        .cnrflash-label
+	        {
+	            position: absolute;
+	            bottom: 0;
+	            left: 0;
+	            display: block;
+	            width: 100%;
+	            padding-bottom: 5px;
+	            color: #fff;
+	            text-shadow: 0 1px 1px rgba(1,1,1,.8);
+	            font-size: 0.95em;
+	            font-weight: bold;
+	            text-align: center;
+	        }
+	        .row-centered {text-align:center;}
+	    </style>
 	</head>
 
 	<body >
@@ -18,78 +96,120 @@
 					Marketing apophenia bomb sentient denim into semiotics plastic human lights. Systemic RAF city narrative pen rifle claymore mine render-farm fluidity monofilament chrome grenade girl Chiba marketing. Drugs faded franchise rain denim beef noodles sign sentient motion 8-bit. Sprawl long-chain hydrocarbons apophenia semiotics fluidity shanty town market wonton soup artisanal vehicle footage. 
 				</p>
 
-				<section class="main clearfix">
-					<section class="pricing-columns-both pricing-section">
-				      	<div class="wrapper-full">
-				         	<div id="pricing-chart-wrap">
-				            	<div id="pricing-chart">
-				               		<div id="smaller-plans">
-				                  		<div class="plan ">
-						                    <div class="price">
-						                        <span class="dollar">R$</span>
-						                        <span class="amount" >0</span>
-						                        <span class="slash">/</span>
-						                        <span class="month">Mês</span>
-						                    </div>
-						                    <ul>
-						                        <li>4C<span> Cil </span></li>
-						                        <li>01<span>Foto</span></li>
-						                        <li>30<span>Dias </span></li>
-						                        <li><span>Renováveis</span></li>
-						                    </ul>
-						                     <a class="button sign-up" href="#">Assinar</a>
-						                </div>
-						                <div class="plan popular">
-						                     <div class="price">
-						                        <span class="dollar">R$</span>
-						                        <span class="amount">60</span>
-						                        <span class="slash">/</span>
-						                        <span class="month">Mês</span>
-						                     </div>
-						                     <p class="pop-plan">O mais popular</p>
-						                     <ul>
-						                        <li>V6<span> Cil </span></li>
-						                        <li>03<span> Fotos</span></li>
-						                        <li><span>Mensal</span></li>
-						                        <li><span>Até vender</span></li>
-						                     </ul>
-						                     <a class="button sign-up" href="#">Assinar</a>
-						                </div>
-						                <div class="plan ">
-						                    <div class="price">
-						                    	<span class="dollar">R$</span>
-						                    	<span class="amount">99</span>
-						                        <span class="slash">/</span>
-						                        <span class="month">Mês</span>
-						                    </div>
-						                    <ul>
-						                    	<li>V8<span> Cil </span></li>
-						                    	<li>06<span> Fotos </span></li>
-						                    	<li>01<span> Video </span></li>
-						                    	<li><span>Até Vender</span></li>
-						                    </ul>
-						                    <a class="button sign-up" href="#">Assinar</a>
-						                </div>
-					                 	 <div class="plan ">
-						                    <div class="price">
-						                    	<span class="dollar">R$</span>
-						                    	<span class="amount">150</span>
-						                        <span class="slash">/</span>
-						                        <span class="month">Mês</span>
-						                    </div>
-						                    <ul>
-						                    	<li>V10<span> Cil </span></li>
-						                    	<li>15<span> Fotos </span></li>
-						                    	<li>01<span> Video </span></li>
-						                    	<li><span>Até Vender</span></li>
-						                    </ul>
-						                    <a class="button sign-up" href="#">Assinar</a>
-						                </div>
-				               		</div>
-				            	</div>
-				        	 </div>
-				      	</div>
-				   </section>
+				<br/>
+
+				<section class="main clearfix " >
+					<div class="container">
+					    <div class="row"> 
+					       
+					        <div class="col-xs-12 col-md-3">
+					            <div class="panel panel-primary">
+					                <div class="panel-heading">
+					                    <h3 class="panel-title">4C - Cilindros</h3>
+					                </div>
+					                <div class="panel-body">
+					                    <div class="the-price">
+					                        <h1>FREE<span class="subscript"></span></h1>
+					                        <small></small>
+					                    </div>
+					                    <table class="table">
+					                        <tr><td>01 Foto</td></tr>
+					                        <tr class="active"><td>Nenhum Video</td></tr>
+					                        <tr><td>30 dias de Acesso</td></tr>
+					                        <tr class="active"><td>Renováveis</td></tr>
+					                        <tr><td>Avisos por e-mail</td></tr>
+					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
+					                    </table>
+					                </div>
+					                <div class="panel-footer">
+					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
+					                </div>
+					            </div>
+					        </div>
+
+					      <div class="col-xs-12 col-md-3">
+					            <div class="panel panel-success">
+					                <div class="cnrflash">
+					                    <div class="cnrflash-inner">
+					                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+					                    </div>
+					                </div>
+					                <div class="panel-heading">
+					                    <h3 class="panel-title">V6 - Cilindros</h3>
+					                </div>
+					                <div class="panel-body">
+					                    <div class="the-price">
+					                        <h1>R$55<span class="subscript">/Mês</span></h1>
+					                        <small></small>
+					                    </div>
+					                    <table class="table">
+					                        <tr><td>01 Foto</td></tr>
+					                        <tr class="active"><td>01 Video</td></tr>
+					                        <tr><td>30 dias de Acesso</td></tr>
+					                        <tr class="active"><td>Renováveis</td></tr>
+					                        <tr><td>Avisos por e-mail</td></tr>
+					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
+					                    </table>
+					                </div>
+					                <div class="panel-footer">
+					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
+					                </div>
+					            </div>
+					        </div>
+
+					        <div class="col-xs-12 col-md-3">
+					            <div class="panel panel-info">
+					                <div class="panel-heading">
+					                    <h3 class="panel-title">V8 - Cilindros</h3>
+					                </div>
+					                <div class="panel-body">
+					                    <div class="the-price">
+					                        <h1>R$79<span class="subscript">/Mês</span></h1>
+					                        <small></small>
+					                    </div>
+					                    <table class="table">
+					                        <tr><td>01 Foto</td></tr>
+					                        <tr class="active"><td>01 Video</td></tr>
+					                        <tr><td>30 dias de Acesso</td></tr>
+					                        <tr class="active"><td>Renováveis</td></tr>
+					                        <tr><td>Avisos por e-mail</td></tr>
+					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
+					                    </table>
+					                </div>
+					                <div class="panel-footer">
+					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
+					                </div>
+					            </div>
+					        </div>
+
+					        <div class="col-xs-12 col-md-3">
+					            <div class="panel panel-danger panel-disable">
+					                <div class="panel-heading">
+					                    <h3 class="panel-title">V10 - Cilindros</h3>
+					                </div>
+					                <div class="panel-body">
+					                    <div class="the-price">
+					                        <h1>R$100<span class="subscript">/Mês</span></h1>
+					                        <small></small>
+					                    </div>
+					                    <table class="table">
+					                        <tr><td>01 Foto</td></tr>
+					                        <tr class="active"><td>01 Video</td></tr>
+					                        <tr><td>30 dias de Acesso</td></tr>
+					                        <tr class="active"><td>Renováveis</td></tr>
+					                        <tr><td>Avisos por e-mail</td></tr>
+					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
+					                    </table>
+					                </div>
+					                <div class="panel-footer">
+					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
+					                </div>
+					            </div>
+					        </div>
+
+					    </div>
+
+					</div>
 				</section>
 
 				<h2 class="page_title with_filter clearfix">Se você é PJ, nós temos um plano especial para você!</h2>
@@ -98,9 +218,6 @@
 				</p>
 			</div>
 		</div>
-
-		
-
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
 		<!-- FIM DO FOOTER-->

@@ -10,29 +10,37 @@
 		<% include template/header %>
 		
 		<div class="container_12 clearfix content">
-			
 			<div class="grid_6">
 				<div class="box">
-					<h3>Informações do Vendedor</h3>
-					<div class="box-content">
+					<h3>Login</h3>
+					<div class="box-content clearfix">
 						<form action="/login" method="post">
-							<input type="text" placeholder="Enter your email" name="email">
-							<input type="password" placeholder="Enter your password" name="pass">
-							<input type="password" placeholder="Re-enter your password" name="passagain">
-							<input type="text" placeholder="Enter your name" name="name" class="bigger_margin">
-							<p class="smaller_margin">
-								<label for="newsletter" class="custom_checkbox">
-									<input type="checkbox" name="newsletter" id="newsletter">
-									 Gostaria de receber nossas promoções e notícias.
-								</label>
+							<input type="text" placeholder="Digite o seu email" name="email">
+							<input type="password" placeholder="Digite a sua senha" name="password">
+							
+							<p class="centered_content">
+								<a href="#" class="button submit green wide">Login</a>
 							</p>
 							<p>
-								<label for="terms" class="custom_checkbox">
-									<input type="checkbox" name="terms" id="terms">
-									Eu aceito <a href="#">termos de uso </a> and <a href="#">política de privacidade</a>.
+								<label for="remember_me" class="custom_checkbox remember_me">
+									<input type="checkbox" name="remember_me" id="remember_me">Lembre-me
 								</label>
+
+								<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>
 							</p>
-							<p class="centered_content"><a class="button submit red">Checkout data</a></p>
+							
+							<hr/>
+							
+							<p>ou</p>
+
+							<p class="centered_content">
+								<a href="#" class="button facebook wide wider">Login com Facebook</a>
+							</p>
+							
+							<p class="centered_content">
+								<a href="#" class="button wide red wider">Login com google+</a>
+							</p>
+							<br/>
 						</form>
 					</div>
 				</div>
@@ -40,25 +48,30 @@
 
 			<div class="grid_6">
 				<div class="box">
-					<h3>User login</h3>
-					<div class="box-content clearfix">
-						<form action="/login" method="post">
-							<input type="text" placeholder="Digite o seu email" name="email">
-							<input type="password" placeholder="Digite a sua senha" name="password">
-							<label for="remember_me" class="custom_checkbox remember_me">
-								<input type="checkbox" name="remember_me" id="remember_me">Lembre-me
-							</label>
-							<a class="button submit red right">Login</a>
-							<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>
-						</form>
-					</div>
-				</div>
-
-				<div class="box">
-					<h3>Facebook</h3>
+					<h3>Nova Conta</h3>
 					<div class="box-content">
-						<p>Se você tem uma conta do facebook, clique aqui para fazer o login.</p>
-						<p class="centered_content"><a href="#" class="button facebook wider">Login com Facebook</a></p>
+						<form action="/login" method="post">
+							<input type="text"     placeholder="Digite o nome" name="username"  />
+							<input type="password" placeholder="Digite o seu e-mail" name="email"     />
+							<input type="password" placeholder="Digite a senha" name="password"  />
+							<input type="password" placeholder="Digite a senha novamente" name="repassword" class="bigger_margin" />
+							
+							<p class="smaller_margin">
+								<label for="newsletter" class="custom_checkbox">
+									<input type="checkbox" name="newsletter" id="newsletter">
+									 Gostaria de receber nossas promoções e notícias.
+								</label>
+							</p>
+
+							<p>
+								<label for="terms" class="custom_checkbox">
+									<input type="checkbox" name="terms" id="terms">
+									Eu aceito <a href="#">termos de uso </a> and <a href="#">política de privacidade</a>.
+								</label>
+							</p>
+
+							<p class="centered_content"><a class="button submit green wide">Cadastrar </a></p>
+						</form>
 					</div>
 				</div>
 			</div>
