@@ -68,6 +68,7 @@ module.exports = function(){
 	              'public/js/app/service/admin/newsletterService.js'          	,
 	              'public/js/app/service/admin/servicoService.js'          		,
 	              'public/js/app/service/admin/ufService.js'          			,
+	              'public/js/app/service/admin/planosService.js'          		,
 	              'public/js/app/controllers/adminController.js'                ,
 	              'public/js/app/controllers/admin/anoFabricacaoController.js'  ,
 	              'public/js/app/controllers/admin/cambioController.js'  		,
@@ -79,6 +80,7 @@ module.exports = function(){
 	              'public/js/app/controllers/admin/modeloController.js'    		,
 	              'public/js/app/controllers/admin/newsletterController.js'    	,
 	              'public/js/app/controllers/admin/servicoController.js'    	,
+	              'public/js/app/controllers/admin/planosControllerr.js'    	,
 	              'public/js/app/controllers/admin/ufController.js'    			,
 	              'public/js/app/controllers/admin/ui/uiController.js'          ,
 	              'public/js/app/routes/adminRoutes.js'  

@@ -120,5 +120,15 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
       }
   });
 
+  $routeProvider.when('/planos', {
+      templateUrl : 'partials/planos.html', 
+      controller  : 'planosController',
+      resolve: {
+          situacoes : function(utilsService){
+            return utilsService.listarSituacao();
+          }
+      }
+  });
+
   $routeProvider.otherwise({redirectTo: '#/'});
 }]);

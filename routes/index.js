@@ -1,7 +1,6 @@
 module.exports = function(app) {
-	var autenticar = require('./../middlewares/loginHandler');
+	//var autenticar  = require('./../middlewares/loginHandler');
+	var controller  = app.controllers.public.indexController;
   	
-  	app.get('/', function(req, res, next){
-  		res.render('index');
-  	});
+  	app.get('/', controller.index);
 };

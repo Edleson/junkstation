@@ -142,7 +142,7 @@
 				</div>
 			</div>
 		</section>
-
+		
 		<section id="search">
 			<div class="container">
 				<div class="tabbable tabbable_red">
@@ -160,30 +160,27 @@
 							<form id="homepage_search" action="#/anuncio/list">
 								<div class="row">
 									<div class="span4">
-										<label for="type" class="dropdown_label">Marcas</label>
-										<select name="type" id="type" class="custom_select">
-											<option value="">Cars</option>
-											<option value="">Motorcycles</option>
-											<option value="">Trucks</option>
+										<label for="cbmMarca" class="dropdown_label">Marcas</label>
+										<select name="marca" id="cbmMarca" class="custom_select">
+											<option value="0" selected></option>
+											<% response.marcas.forEach(function(marca){%>
+												<option value="<%- marca._id %>"> <%- marca.nome %> </option>
+											<% }); %>
 										</select>
 									</div>
 
 									<div class="span4">
-										<label for="category" class="dropdown_label">Modelos</label>
-										<select name="category" id="category" class="custom_select">
-											<option value="">Sedan</option>
-											<option value="">Hedgeback</option>
-											<option value="">Pick-up</option>
+										<label for="cbmModelo" class="dropdown_label">Modelos</label>
+										<select name="cbmModelo" id="cbmModelo" class="custom_select">
+											<option value="0" selected ></option>
 										</select>
 									</div>
 
 									<div class="span4">
-										<label for="location" class="dropdown_label">Localização</label>
-										<select name="location" id="location" class="custom_select">
-											<option value="">New York</option>
-											<option value="">Chicago</option>
-											<option value="">Washington</option>
-											<option value="">Boston</option>
+										<label for="cbmUf" class="dropdown_label">Localização</label>
+										<select name="cbmUf" id="cbmUf" class="custom_select">
+											<option value="0" selected></option>
+											
 										</select>
 									</div>
 								</div>
@@ -208,7 +205,7 @@
 									</div>
 
 									<div class="span4">
-										<a href="#" class="clear_filters"><i class="icon-remove"></i>Limpar Filtros</a>
+										<a href="" id="btn-form" class="clear_filters"><i class="icon-remove"></i>Limpar Filtros</a>
 										<a href="#/anuncio/list" class="button submit yellow right">Pesquisar</a>
 									</div>
 								</div>
@@ -260,5 +257,64 @@
 
 
 		<% include template/footer %>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				$("#cbmMarca").change(function(){
+					if($(this).val() !== "0"){
+						var marcaRequest =  {
+							url     : "/admin/marca/"+ $(this).val() +"/modelos" ,
+							params  : {}          ,
+							method  : "get"       ,
+							callback : function(response, textStatus, jqXHR){
+								var modelos = response.data;
+								
+								$('#cbmModelo option').remove();
+								
+								$('#cbmModelo').append($('<option>', {
+									    value : "0" ,
+									    text  : ""  ,
+									    selected : "selected"
+								})).change();
+								modelos.forEach(function(item){
+									$('#cbmModelo').append($('<option>', {
+									    value : item._id ,
+									    text  : item.nome
+									}));
+								});
+							}
+						}
+						ajaxRequest(marcaRequest);
+					}
+					
+				});
+
+				
+				var uFRequest =  {
+					url     : "/admin/uf" ,
+					params  : {}          ,
+					method  : "get"       ,
+					callback : function(response, textStatus, jqXHR){
+						var ufs = response.data;
+						ufs.forEach(function(item){
+							$('#cbmUf').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));
+						});
+					}
+				}
+
+				ajaxRequest(uFRequest);
+
+				$("#btn-form").click(function() {
+					$("#homepage_search")[0].reset();
+					return false;
+				});
+
+			});
+		</script>
+
 	</body>
 </html>

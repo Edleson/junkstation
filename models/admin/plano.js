@@ -6,9 +6,13 @@ module.exports = function(app) {
             required : true   
         },
 
-        sigla : {  
+        tipoPessoa : {
             type     : String , 
-            required : true   
+            required : true  
+        },
+
+        sigla : {  
+            type     : String 
         },
 
         qtdFotos : {

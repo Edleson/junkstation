@@ -10,7 +10,7 @@ module.exports = function(app) {
  	  	user.email        = req.body.email;
   		user.password     = req.body.password;
   		req.session.user  = user;
-  		res.redirect("/");
+  		res.redirect("/anuncio/meusanuncios");
 	});
 };
 

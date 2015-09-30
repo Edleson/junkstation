@@ -1,0 +1,128 @@
+
+<div ng-messages="entityForm.titulo.$error" ng-show="entityForm.$dirty">
+	<div class="alert alert-danger alert-dismissible" role="alert" ng-message="required">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  		<span aria-hidden="true">&times;</span>
+		</button>
+	  	<strong>Erro ! </strong>Há informações no formulário que precisam ser preenchidas !<strong></strong><b></b>
+	</div>
+</div>
+
+<div class="box clearfix">
+	<h3 style="cursor : pointer;text-align:center;" ng-click="showForm === true ? showForm = false : showForm = true ">
+		Cadastro de Planos &nbsp;&nbsp;
+		<span  ng-class="{'glyphicon glyphicon-plus' : !showForm, 'glyphicon glyphicon-minus' : showForm}" aria-hidden="true"></span>
+	</h3>
+	<div class="box-content clearfix bordered_under" ng-show="showForm">
+		<form name="entityForm">
+			
+			<div ng-class="{'form-group has-feedback has-success' : (entityForm.titulo.$valid && entityForm.$dirty), 
+			'form-group has-feedback has-error' : (!entityForm.titulo.$valid && entityForm.$dirty)}">
+		    	<label for="titulo">Título Plano <span class="required">*</span></label>
+		    	<input id="titulo" class="form-control" name="titulo" type="text" ng-model="entity.titulo" ng-required="true" aria-describedby="tituloStatus" />
+		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.titulo.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.titulo.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="tituloStatus" class="sr-only"></span>
+		  	</div>
+
+		  	<div ng-class="{'form-group has-success' : (entityForm.tipoPessoa.$valid && entityForm.$dirty), 
+			'form-group has-error' : (!entityForm.tipoPessoa.$valid && entityForm.$dirty)}">
+		    	<label for="tipoPessoa">Tipo de Pessoa <span class="required">*</span></label>
+		    	<select name="tipoPessoa" id="tipoPessoa" class="form-control" ng-model="entity.tipoPessoa" ng-required="true"
+		    	 ng-options="pes.valor as pes.nome for pes in tipoPessoas" ></select>
+		  	</div>
+			
+			<div class="form-group">
+		    	<label for="sigla">Sigla do Plano</label>
+		    	<input id="sigla" class="form-control" name="sigla" type="text" ng-model="entity.sigla" aria-describedby="siglaStatus" />
+		  	</div>
+
+		  	<div ng-class="{'form-group has-feedback has-success' : (entityForm.qtdFotos.$valid && entityForm.$dirty), 
+			'form-group has-feedback has-error' : (!entityForm.qtdFotos.$valid && entityForm.$dirty)}">
+		    	<label for="qtdFotos">Quantidade de Fotos <span class="required">*</span></label>
+		    	<input id="qtdFotos" class="form-control" name="qtdFotos" type="text" ng-model="entity.qtdFotos"  ng-required="true"/>
+		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.qtdFotos.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.qtdFotos.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="tituloStatus" class="sr-only"></span>
+		  	</div>
+
+		  	<div ng-class="{'form-group has-feedback has-success' : (entityForm.qtdVideos.$valid && entityForm.$dirty), 
+			'form-group has-feedback has-error' : (!entityForm.qtdVideos.$valid && entityForm.$dirty)}">
+		    	<label for="qtdVideos">Quantidade de Vídeos <span class="required">*</span></label>
+		    	<input id="qtdVideos" class="form-control" name="qtdVideos" type="text" ng-model="entity.qtdVideos"  ng-required="true"/>
+		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.qtdVideos.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.qtdVideos.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="tituloStatus" class="sr-only"></span>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label for="prioridade">Prioriadade</label>
+		    	<input id="prioridade" class="form-control" name="prioridade" type="text" ng-model="entity.prioridade"  >
+		  	</div>
+
+		  	<div ng-class="{'form-group has-success' : (entityForm.descExpiracao.$valid && entityForm.$dirty), 
+			'form-group has-error' : (!entityForm.descExpiracao.$valid && entityForm.$dirty)}" >
+		    	<label for="descExpiracao">Descrição do Período <span class="required">*</span></label>
+		    	<input id="descExpiracao" class="form-control" name="descExpiracao" type="text" ng-model="entity.descExpiracao"  ng-required="true"/>
+		  		<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.descExpiracao.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.descExpiracao.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="tituloStatus" class="sr-only"></span>
+		  	</div>
+
+		  	<div ng-class="{'form-group has-success' : (entityForm.situacao.$valid && entityForm.$dirty), 
+			'form-group has-error' : (!entityForm.situacao.$valid && entityForm.$dirty)}">
+		    	<label for="situacao">Situação <span class="required">*</span></label>
+		    	<select name="situacao" id="situacao" class="form-control" ng-model="entity.situacao" ng-required="true"
+		    	 ng-options="atv.valor as atv.nome for atv in situacoes" ></select>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label for="destaque">Destaque</label>
+		    	<select name="destaque" id="destaque" class="form-control" ng-model="entity.destaque"
+		    	 ng-options="des.valor as des.nome for des in destaques" ></select>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label for="descricao">Descrição do Plano </label>
+		    	<textarea name="descricao" id="descricao" class="form-control" cols="30" rows="10" ng-model="entity.descricao" ></textarea>
+		  	</div>
+		  	
+		  	<button type="submit" class="btn btn-success btn-block" ng-click="createOrUpdate(entity)" ng-disabled="entityForm.$invalid">Enviar</button>
+		</form>
+	</div>	
+</div>
+
+<div class="box clearfix" ng-show="entities.length > 0">
+	<h3>Lista de Planos</h3>
+	<div class="box-content clearfix bordered_under">
+		
+		<input id="txtPesquisa" class="form-control" type="text" placeholder="Filtro de pesquisa" ng-model="filtroPesquisa"/>
+		
+		<table class="table table-condensed table-striped table-bordered">
+			<caption></caption>
+			
+			<thead>
+				<tr>
+					<th><a href="" ng-click="orderBy('titulo');">Título</a> </th>
+					<th><a href="" ng-click="orderBy('destaque');">Destaque</a> </th>
+					<th><a href="" ng-click="orderBy('preco');">Preço</a> </th>
+					<th><a href="" ng-click="orderBy('dataCricao');">Data Criação</a></th>
+					<th></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
+					<td>{{entity.titulo}}</td>
+					<td>{{entity.destaque}}</td>
+					<td>{{entity.preco}}</td>
+					<td>{{entity.dataCricao | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+					<td align="center">
+						<button type="button" class="btn btn-success btn-xs" ng-click="selectEntity(entity)">Editar</button>
+						<button type="button" class="btn btn-danger btn-xs"  ng-click="destroy(entity)">Excluir</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>

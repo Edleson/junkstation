@@ -20,6 +20,13 @@ module.exports = function(app) {
         }
                    
     }, {collection: 'marca'});
+
     
-    return mongoose.model('Marca', schema);
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Marca").find(query, cb);
+        }
+    };
+    
+    return  mongoose.model('Marca', schema);
 };
