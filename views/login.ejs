@@ -8,27 +8,62 @@
 
 	<body >
 		<% include template/header %>
-		
+
 		<div class="container_12 clearfix content">
+			<div class="grid_6">
+				<div class="box">
+					<h3>Nova Conta</h3>
+					<div class="box-content">			
+						<%- request.flash("cadastroInvalido") %>
+						<form action="https://<%- request.hostname %>/login/novo" method="post" id="novoUsuarioForm">
+							<input type="text" id="username" placeholder="Digite o username" name="username" />	
+							<input type="text" placeholder="Digite o e-mail" name="email" />
+							<input type="password" id="password" placeholder="Digite a senha" name="password" />
+							<input type="password" id="repassword" placeholder="Digite a senha novamente" name="repassword" class="" />
+							<p class="smaller_margin">
+								<label for="newsletter" class="custom_checkbox">
+									Gostaria de receber nossas promoções e notícias.
+									<input type="checkbox" name="newsletter" id="newsletter">
+								</label>
+							</p>
+
+							<p>
+								<label for="terms" class="custom_checkbox">
+									Eu aceito <a href="#">termos de uso </a> e <a href="#">política de privacidade</a>.
+									<input type="checkbox" name="terms" id="terms" />
+								</label>
+							</p>
+
+							<p class="centered_content"><a class="button submit green wide">Cadastrar </a></p>
+						</form>
+					</div>
+				</div>
+			</div>
+			
 			<div class="grid_6">
 				<div class="box">
 					<h3>Login</h3>
 					<div class="box-content clearfix">
-						<form action="/login" method="post">
-							<input type="text" placeholder="Digite o seu email" name="email">
+						<%- request.flash("loginInvalido") %>
+						<form action="https://<%- request.hostname %>/login" method="post" id="loginForm">
+							<input type="text"     placeholder="Digite o seu email" name="email">
 							<input type="password" placeholder="Digite a sua senha" name="password">
-							
-							<p class="centered_content">
-								<a href="#" class="button submit green wide">Login</a>
-							</p>
+
 							<p>
-								<label for="remember_me" class="custom_checkbox remember_me">
+								<label for="remember_me" class="custom_checkbox remember_me" style="display : none;" >
 									<input type="checkbox" name="remember_me" id="remember_me">Lembre-me
 								</label>
 
-								<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>
+								<a href="#sendPasswordForm" class="forgotten_pass right show_login_form">Esqueceu sua senha?</a>
+							</p>
+
+							<br />
+							
+							<p class="centered_content">
+								<a href="#" class="button submit green wide">Entrar</a>
 							</p>
 							
+							<!--
 							<hr/>
 							
 							<p>ou</p>
@@ -40,46 +75,114 @@
 							<p class="centered_content">
 								<a href="#" class="button wide red wider">Login com google+</a>
 							</p>
-							<br/>
+							<br/>-->
 						</form>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="grid_6">
-				<div class="box">
-					<h3>Nova Conta</h3>
-					<div class="box-content">
-						<form action="/login" method="post">
-							<input type="text"     placeholder="Digite o nome" name="username"  />
-							<input type="password" placeholder="Digite o seu e-mail" name="email"     />
-							<input type="password" placeholder="Digite a senha" name="password"  />
-							<input type="password" placeholder="Digite a senha novamente" name="repassword" class="bigger_margin" />
-							
-							<p class="smaller_margin">
-								<label for="newsletter" class="custom_checkbox">
-									<input type="checkbox" name="newsletter" id="newsletter">
-									 Gostaria de receber nossas promoções e notícias.
-								</label>
-							</p>
-
-							<p>
-								<label for="terms" class="custom_checkbox">
-									<input type="checkbox" name="terms" id="terms">
-									Eu aceito <a href="#">termos de uso </a> and <a href="#">política de privacidade</a>.
-								</label>
-							</p>
-
-							<p class="centered_content"><a class="button submit green wide">Cadastrar </a></p>
-						</form>
-					</div>
+		<div class="login_form_modal_container">
+			<div id="sendPasswordForm" class="box" style="width: 450px;">
+				<h3>Recuperar senha </h3>
+				<div class="box-content clearfix">
+					<div id="msgSenha"></div>
+					<form action="https://<%- request.hostname %>/login/recuperarsenha" method="post" id="recuperarSenhaForm">
+						<p><input type="text" placeholder="Digite o e-mail do seu cadastro" name="email" id="rEmail" ></p>
+						<p><a class="button submit wide red wider">Enviar</a></p>
+					</form>
 				</div>
 			</div>
-			
 		</div>
 		
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
 		<!-- FIM DO FOOTER-->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$.validator.addMethod("equal", function(value,element,param){
+					return value == $(param).val();
+				},"Há diferenças entre os valores comparados");
+
+				$("#loginForm").validate({ 
+					rules: { 
+				        email : {
+				        	required : true	, 
+				          	email    : true 
+				        },
+				        password  : "required" 
+				    },
+
+			        messages: { 
+			          	email      : "Digite um endereço de e-mail válido."	 ,
+			          	password   : "Senha é obrigatória."					 	
+			        } 
+				});
+
+				$("#novoUsuarioForm").validate({ 
+					rules: { 
+				    	username : "required" ,
+				        
+				        email : {
+				        	required : true	, 
+				          	email    : true 
+				        },
+
+				        password  : "required" ,
+
+				        repassword: {
+				        	required : true       ,
+				        	equal    : "#password"
+				        } ,
+
+				        terms : "required"
+				    },
+
+			        messages: { 
+			          	username   : "Nome de usuário é obrigatório."		 ,
+			          	email      : "Digite um endereço de e-mail válido."	 ,
+			          	password   : "Senha é obrigatória."					 ,
+			          	repassword : {
+			          		required : "A confirmação da senha é necessária" ,
+			          		equal    : "Há diferenças entre as senhas digitadas"
+			          	}  ,
+			          	terms      : "Aceite os termos de uso."			
+			        } 
+				});
+
+				$(".forgotten_pass").click(function(){
+					$("#msgSenha").html("").hide();
+					$("#rEmail").val("")
+				});
+
+				$("#recuperarSenhaForm").validate({ 
+					submitHandler: function(form){
+						var request =  {
+							url     : form.action                     ,
+							params  : {email : $("#rEmail").val()}    ,
+							method  : "post"                          ,
+							callback : function(response, textStatus, jqXHR){
+								console.log(response)
+								$("#msgSenha").html(response.data).show();
+							}
+						};
+
+						ajaxRequest(request);
+					},
+
+					rules: { 
+				        email : {
+				        	required : true	, 
+				          	email    : true 
+				        }
+				    },
+
+			        messages: { 
+			          	email      : "Digite um endereço de e-mail válido."				
+			        } 
+				});
+
+			});
+		</script>
 	</body>
 </html>

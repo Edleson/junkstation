@@ -25,6 +25,15 @@
   				<span id="tituloStatus" class="sr-only"></span>
 		  	</div>
 
+		  	<div ng-class="{'form-group has-feedback has-success' : (entityForm.preco.$valid && entityForm.$dirty), 
+			'form-group has-feedback has-error' : (!entityForm.preco.$valid && entityForm.$dirty)}">
+		    	<label for="preco">Preço do Plano<span class="required">*</span></label>
+		    	<input id="preco" class="form-control" name="preco" type="text" ng-model="entity.preco" ng-required="true" aria-describedby="precoStatus" ui-money-mask="2" />
+		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.titulo.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.titulo.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="tituloStatus" class="sr-only"></span>
+		  	</div>
+
 		  	<div ng-class="{'form-group has-success' : (entityForm.tipoPessoa.$valid && entityForm.$dirty), 
 			'form-group has-error' : (!entityForm.tipoPessoa.$valid && entityForm.$dirty)}">
 		    	<label for="tipoPessoa">Tipo de Pessoa <span class="required">*</span></label>
@@ -40,7 +49,7 @@
 		  	<div ng-class="{'form-group has-feedback has-success' : (entityForm.qtdFotos.$valid && entityForm.$dirty), 
 			'form-group has-feedback has-error' : (!entityForm.qtdFotos.$valid && entityForm.$dirty)}">
 		    	<label for="qtdFotos">Quantidade de Fotos <span class="required">*</span></label>
-		    	<input id="qtdFotos" class="form-control" name="qtdFotos" type="text" ng-model="entity.qtdFotos"  ng-required="true"/>
+		    	<input id="qtdFotos" class="form-control" name="qtdFotos" type="text" ng-model="entity.qtdFotos" ui-number-mask="0"  ng-required="true"/>
 		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.qtdFotos.$valid && entityForm.$dirty), 
 			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.qtdFotos.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
   				<span id="tituloStatus" class="sr-only"></span>
@@ -49,7 +58,7 @@
 		  	<div ng-class="{'form-group has-feedback has-success' : (entityForm.qtdVideos.$valid && entityForm.$dirty), 
 			'form-group has-feedback has-error' : (!entityForm.qtdVideos.$valid && entityForm.$dirty)}">
 		    	<label for="qtdVideos">Quantidade de Vídeos <span class="required">*</span></label>
-		    	<input id="qtdVideos" class="form-control" name="qtdVideos" type="text" ng-model="entity.qtdVideos"  ng-required="true"/>
+		    	<input id="qtdVideos" class="form-control" name="qtdVideos" type="text" ng-model="entity.qtdVideos" ui-number-mask="0" ng-required="true"/>
 		    	<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.qtdVideos.$valid && entityForm.$dirty), 
 			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.qtdVideos.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
   				<span id="tituloStatus" class="sr-only"></span>
@@ -106,7 +115,10 @@
 					<th><a href="" ng-click="orderBy('titulo');">Título</a> </th>
 					<th><a href="" ng-click="orderBy('destaque');">Destaque</a> </th>
 					<th><a href="" ng-click="orderBy('preco');">Preço</a> </th>
-					<th><a href="" ng-click="orderBy('dataCricao');">Data Criação</a></th>
+					<th><a href="" ng-click="orderBy('tipoPessoa');">Pessoa</a></th>
+					<th><a href="" ng-click="orderBy('situacao');">Status</a></th>
+					<th><a href="" ng-click="orderBy('qtdFotos');">Fotos</a></th>
+					<th><a href="" ng-click="orderBy('qtdVideos');">Videos</a></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -114,9 +126,12 @@
 			<tbody>
 				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
 					<td>{{entity.titulo}}</td>
-					<td>{{entity.destaque}}</td>
-					<td>{{entity.preco}}</td>
-					<td>{{entity.dataCricao | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+					<td>{{entity.destaque ? 'Sim' : 'Não'}}</td>
+					<td>{{entity.preco | currency : 'R$ '}}</td>
+					<td>{{entity.tipoPessoa === 'PF' ? 'Física' : 'Jurídica'}}</td>
+					<td>{{entity.situacao ? 'Ativo' : 'Inativo'}}</td>
+					<td>{{entity.qtdFotos}}</td>
+					<td>{{entity.qtdVideos}}</td>
 					<td align="center">
 						<button type="button" class="btn btn-success btn-xs" ng-click="selectEntity(entity)">Editar</button>
 						<button type="button" class="btn btn-danger btn-xs"  ng-click="destroy(entity)">Excluir</button>
@@ -125,4 +140,4 @@
 			</tbody>
 		</table>
 	</div>	
-</div>
+</div>s

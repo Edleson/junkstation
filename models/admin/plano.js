@@ -65,6 +65,23 @@ module.exports = function(app) {
         }
 
     }, {collection: 'plano'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Plano").find(query, cb);
+        },
+
+        updateDestaquePlano : function(cb, query){
+            return this.model("Plano").update(
+                query , {
+                    $set: { destaque : false }
+                }, { 
+                    multi : true 
+                },
+                cb
+            );
+        }
+    };
     
     return mongoose.model('Plano', schema);
 };

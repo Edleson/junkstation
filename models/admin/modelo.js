@@ -26,6 +26,13 @@ module.exports = function(app) {
         }
 
     }, {collection: 'modelo'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Modelo").find(query, cb);
+        }
+    };
+
     
     return mongoose.model('Modelo', schema);
 };

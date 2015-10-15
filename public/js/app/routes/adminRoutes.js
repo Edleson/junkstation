@@ -1,5 +1,6 @@
 app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
-  //$httpProvider.interceptors.push('meuInterceptor');
+  $httpProvider.interceptors.push('securityInterceptor');
+  
   $routeProvider.when('/', {
       templateUrl : 'partials/homeAdmin.html', 
       controller  : 'adminController'

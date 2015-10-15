@@ -14,8 +14,8 @@
 			<!-- LINKS PARA MUDANÇA DE IDIOMAS-->
 			<div id="top_toolbar_user_lng">
 				<!-- BOTAO PARA LOGIN DA PAGINA-->
-				<% if(session.user){ %>
-					<a id="user" class="user show_login_form"><%- session.user.email %> </a>
+				<% if(request.user){ %>
+					<a id="user" class="user show_login_form"><%- request.user.local.email %> </a>
 					<a id="user" href="/anuncio/meusanuncios" class="user">Minha Conta</a>
 					<a href="/logout" class="user">Sair</a>
 				<% } else { %>	
@@ -28,15 +28,19 @@
 				<div id="login_form" class="box">
 					<h3>Login</h3>
 					<div class="box-content clearfix">
-						<form action="/login" method="post">
+						<form action="https://<%- request.hostname%>/login" method="post">
 							<input type="hidden" name="_method" value="post">
 							<input type="text"     placeholder="Digite o seu email" name="email" >
 							<input type="password" placeholder="Digite a sua senha" name="password"  >
-							<label for="remember" class="custom_checkbox remember_me">
+							<!--<label for="remember" class="custom_checkbox remember_me">
 								<input type="checkbox" name="remember" id="remember">Lembrar Senha
 							</label>
-							<a class="button submit red right">Entrar</a>
-							<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>
+							<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>-->
+							<br/>
+							<br/>
+							<p><a class="button submit wide red wider">Entrar</a></p>
+							<p><a href="/login" class="button wide green wider">Criar Conta</a></p>
+							
 						</form>
 					</div>
 				</div>
@@ -69,6 +73,9 @@
 					<li <%= request.url == "/planos" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/planos">Planos</a>
 					</li>
+					<li class='current_menu_ancestor' style="display:none;">
+						<a href="/">default</a>
+					</li>
 				</ul>
 				<div id="responsive_navigation">
 					<select class="custom_select nav-responsive">
@@ -82,7 +89,7 @@
 
 			<!-- BOTAO DO TOPO -->
 			<div id="add_listing" class="grid_3">
-				<a href="/anuncio/meusanuncios" class="button green big wide">Anuncie Grátis</a>
+				<a href="/planos" class="button green big wide">Anuncie Grátis</a>
 			</div> 
 		</div>
 	</div>

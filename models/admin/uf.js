@@ -17,6 +17,12 @@ module.exports = function(app) {
         }
 
     }, {collection: 'uf'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("UF").find(query, cb);
+        }
+    };
     
     return mongoose.model('UF', schema);
 };

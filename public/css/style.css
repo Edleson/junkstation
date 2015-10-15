@@ -250,6 +250,18 @@
 		text-align: center;
 	}
 
+	.umterco{
+		width: 33%;
+	}
+
+	.doistercos{
+		width: 66%;
+	}
+			
+	.full{
+		width: 99%;
+	}
+
 	.box{
 		border: 1px solid #e5e5e5;
 		-webkit-border-radius: 4px;
@@ -2466,5 +2478,33 @@
 	}
 
 	.required{color: red}
+
+label.error {
+	color: #FB3A3A;
+    display: inline-block;
+    padding: 0;
+    text-align: left;
+}
+
+.alert-info, .alert-success, .alert-warning, .alert-error {
+    margin: 10px 0px;
+    padding:12px;
+}
+.alert-info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.alert-success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.alert-warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.alert-error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
 	
    

@@ -1,7 +1,7 @@
 module.exports = function(app) {
-    var Repository   = app.models.admin.plano;
+    var Repository          = app.models.admin.plano;
     var createResponseAPI   = app.models.admin.responseAPI;  
-    var controller   = {};
+    var controller          = {};
 
     controller.findAll = function(req, res, next) {
         var ResponseAPI = createResponseAPI();
@@ -42,6 +42,15 @@ module.exports = function(app) {
     controller.create = function(req, res, next) {
         var entity = req.body;
         var ResponseAPI = createResponseAPI();
+        var isDestaque  = entity.destaque;
+        if(isDestaque){
+            var query =  {
+                destaque   : isDestaque        ,
+                tipoPessoa : entity.tipoPessoa 
+            };
+
+            updateDestaque(query);
+        }
         Repository.create(entity, function(error, _entity){
             if(error){
                 ResponseAPI.header.status  = 500 ;
@@ -58,8 +67,18 @@ module.exports = function(app) {
     };
 
     controller.update = function(req, res, next){
-        var entity = req.body;
+        var entity      = req.body;
         var ResponseAPI = createResponseAPI();
+        var isDestaque  = entity.destaque;
+        if(isDestaque){
+            var query =  {
+                destaque   : isDestaque        ,
+                tipoPessoa : entity.tipoPessoa 
+            };
+
+            updateDestaque(query);
+        }
+
         Repository.update({_id : entity._id}, entity, { multi: false }, function(error, _entity){
             if(error){
                 ResponseAPI.header.status  = 500 ;
@@ -92,6 +111,17 @@ module.exports = function(app) {
             }
         });
     };
+
+    var updateDestaque = function(query){
+        var Plano = new app.models.admin.plano({});
+        Plano.updateDestaquePlano(function(error, response){
+            if(error){
+                console.log("Não foi possível atualizar o destaque dos planos");
+            }else{
+                console.log(response);
+            }
+        }, query);
+    }
  
     return controller; 
 };   

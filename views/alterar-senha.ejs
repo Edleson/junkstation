@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<% include template/css %>
+	</head>
+
+	<body >
+		<% include template/header %>
+
+		<div class="container_12 clearfix content">
+			<div class="grid_6">
+				<div class="box">
+					<h3>Alterar Senha</h3>
+					<div class="box-content">			
+						<div id="msgAlteracaoSenha"></div>
+						<form action="https://<%- request.hostname %>/login/alterarsenha" method="post" id="alterarsenhaForm">
+							<input type="hidden" id="user_id" value="<%- user_id%>" name="id"/>
+							<input type="password" id="password" placeholder="Digite a nova senha" name="password" />
+							<input type="password" id="repassword" placeholder="Digite a senha novamente" name="repassword" class="" />
+							<p class="centered_content"><a class="button submit green wide">Enviar </a></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$.validator.addMethod("equal", function(value, element, param){
+					return value == $(param).val();
+				},"Há diferenças entre os valores comparados");
+
+				$("#alterarsenhaForm").validate({ 
+					submitHandler: function(form){
+						var request =  {
+							url     : form.action                     ,
+							params  : {id : $("#user_id").val() , password : $("#password").val()} ,
+							method  : "post"                          ,
+							callback : function(response, textStatus, jqXHR){
+								console.log(response)
+								$("#msgAlteracaoSenha").html(response.data).show();
+							}
+						};
+
+						ajaxRequest(request);
+					},
+
+					rules: { 
+				        password  : "required" 		,
+				        repassword: {
+				        	required : true       	,
+				        	equal    : "#password"
+				        } 
+				    },
+
+			        messages: { 
+			          	password   : "Senha é obrigatória."					 ,
+			          	repassword : {
+			          		required : "A confirmação da senha é necessária" ,
+			          		equal    : "Há diferenças entre as senhas digitadas"
+			          	} 		
+			        } 
+				});
+			});
+		</script>
+	</body>
+</html>

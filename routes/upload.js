@@ -2,7 +2,8 @@ var multer   = require('multer')  	;
 var AWS      = require('aws-sdk') 	;
 
 module.exports = function(app) {
-    var autenticar      = require('./../middlewares/loginHandler');
+    var security        = app.get("security");
+    var isLoggedIn      = require('./../middlewares/loginHandler');
     var accessKeyId     = process.env.AWSAccessKeyId   || null;
     var secretAccessKey = process.env.AWSSecretKey     || null;
     var s3              = new AWS.S3();
@@ -20,7 +21,7 @@ module.exports = function(app) {
         console.log("Configuração AWS realizada com sucesso!");
     }
 
-    app.post('/upload/add', upload.single('imagem') ,  function(req, res, next) {
+    app.post('/upload/add', isLoggedIn,security.forceHTTPS, upload.single('imagem') ,  function(req, res, next) {
         var file    =  req.file;
         var data    =  file.buffer;
         var day     = 86400000

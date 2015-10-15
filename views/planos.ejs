@@ -4,7 +4,6 @@
 		<% include template/meta %>
 		<title>Junk Station a Vitrine do seu clássico</title>
 		<% include template/css %>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 		<style type="text/css">
 	        body{margin-top: 20px;}
@@ -81,6 +80,10 @@
 	            text-align: center;
 	        }
 	        .row-centered {text-align:center;}
+
+	        header{
+	        	margin-top : -20px;
+	        }
 	    </style>
 	</head>
 
@@ -97,118 +100,341 @@
 				</p>
 
 				<br/>
+				
+				<% var numeroPlanos = response.planos.length ; %>
 
 				<section class="main clearfix " >
 					<div class="container">
 					    <div class="row"> 
-					       
-					        <div class="col-xs-12 col-md-3">
-					            <div class="panel panel-primary">
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">4C - Cilindros</h3>
-					                </div>
-					                <div class="panel-body">
-					                    <div class="the-price">
-					                        <h1>FREE<span class="subscript"></span></h1>
-					                        <small></small>
-					                    </div>
-					                    <table class="table">
-					                        <tr><td>01 Foto</td></tr>
-					                        <tr class="active"><td>Nenhum Video</td></tr>
-					                        <tr><td>30 dias de Acesso</td></tr>
-					                        <tr class="active"><td>Renováveis</td></tr>
-					                        <tr><td>Avisos por e-mail</td></tr>
-					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
-					                    </table>
-					                </div>
-					                <div class="panel-footer">
-					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
-					                </div>
-					            </div>
-					        </div>
+					       	<% if(response.planos.length === 0) { %>
+					       		<div class="col-xs-12 col-md-12">
+									Desculpe mas não há planos cadastrado para exibição :( !
+					       		</div>
+					       	<% } %>
 
-					      <div class="col-xs-12 col-md-3">
-					            <div class="panel panel-success">
-					                <div class="cnrflash">
-					                    <div class="cnrflash-inner">
-					                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
-					                    </div>
-					                </div>
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">V6 - Cilindros</h3>
-					                </div>
-					                <div class="panel-body">
-					                    <div class="the-price">
-					                        <h1>R$55<span class="subscript">/Mês</span></h1>
-					                        <small></small>
-					                    </div>
-					                    <table class="table">
-					                        <tr><td>01 Foto</td></tr>
-					                        <tr class="active"><td>01 Video</td></tr>
-					                        <tr><td>30 dias de Acesso</td></tr>
-					                        <tr class="active"><td>Renováveis</td></tr>
-					                        <tr><td>Avisos por e-mail</td></tr>
-					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
-					                    </table>
-					                </div>
-					                <div class="panel-footer">
-					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
-					                </div>
-					            </div>
-					        </div>
+							<% if(numeroPlanos > 0) { %>
+								<!-- PLANO 1 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[0].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
 
-					        <div class="col-xs-12 col-md-3">
-					            <div class="panel panel-info">
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">V8 - Cilindros</h3>
-					                </div>
-					                <div class="panel-body">
-					                    <div class="the-price">
-					                        <h1>R$79<span class="subscript">/Mês</span></h1>
-					                        <small></small>
-					                    </div>
-					                    <table class="table">
-					                        <tr><td>01 Foto</td></tr>
-					                        <tr class="active"><td>01 Video</td></tr>
-					                        <tr><td>30 dias de Acesso</td></tr>
-					                        <tr class="active"><td>Renováveis</td></tr>
-					                        <tr><td>Avisos por e-mail</td></tr>
-					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
-					                    </table>
-					                </div>
-					                <div class="panel-footer">
-					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
-					                </div>
-					            </div>
-					        </div>
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[0].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[0].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[0].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[0].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[0].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[0].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[0].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[0].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[0]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
 
-					        <div class="col-xs-12 col-md-3">
-					            <div class="panel panel-danger panel-disable">
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">V10 - Cilindros</h3>
-					                </div>
-					                <div class="panel-body">
-					                    <div class="the-price">
-					                        <h1>R$100<span class="subscript">/Mês</span></h1>
-					                        <small></small>
-					                    </div>
-					                    <table class="table">
-					                        <tr><td>01 Foto</td></tr>
-					                        <tr class="active"><td>01 Video</td></tr>
-					                        <tr><td>30 dias de Acesso</td></tr>
-					                        <tr class="active"><td>Renováveis</td></tr>
-					                        <tr><td>Avisos por e-mail</td></tr>
-					                        <tr class="active"><td>expira a cada 30 dias </td></tr>
-					                    </table>
-					                </div>
-					                <div class="panel-footer">
-					                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-block" role="button">ASSINAR</a>
-					                </div>
-					            </div>
-					        </div>
+							<% } %>
+
+							<% if(numeroPlanos > 1) { %>
+								<!-- PLANO 2 - -->
+						      	<div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[1].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[1].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[1].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[1].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[1].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[1].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[1].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[1].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[1].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[1]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
+							<% } %>
+
+							<% if(numeroPlanos > 2) { %>
+								<!-- PLANO 3 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[2].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[2].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[2].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[2].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[2].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[2].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[2].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[2].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[2].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[2]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
+							<% } %>
+
+							<% if(numeroPlanos > 3) { %>
+								<!-- PLANO 4 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[3].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[3].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[3].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[3].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[3].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[3].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[3].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[3].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[3].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[3]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>	
+							<% } %>
+
+							<% if(numeroPlanos > 4) { %>
+								<!-- PLANO 5 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[4].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[4].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[4].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[4].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[4].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[4].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[4].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[4].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[4].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[4]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
+							<% } %>
+
+							<% if(numeroPlanos > 5) { %>
+								<!-- PLANO 6 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[5].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[5].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[5].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[5].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[5].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[5].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[5].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[5].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[5].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[5]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>	
+							<% } %>
+
+							<% if(numeroPlanos > 6) { %>
+								<!-- PLANO 7 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[6].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[6].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[6].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[6].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[6].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[6].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[6].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[6].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[6].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[6]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
+							<% } %>
+
+							<% if(numeroPlanos > 7) { %>
+								<!-- PLANO 8 - -->
+						        <div class="col-xs-12 col-md-3">
+						            <div class="panel panel-info">
+						            	<% if(response.planos[7].destaque) { %>
+							            	<div class="cnrflash">
+							                    <div class="cnrflash-inner">
+							                        <span class="cnrflash-label">MAIS<br>POPULAR</span>
+							                    </div>
+							                </div>
+							            <% } %>
+
+						                <div class="panel-heading">
+						                    <h3 class="panel-title"><%- response.planos[7].titulo %></h3>
+						                </div>
+						                <div class="panel-body">
+						                    <div class="the-price">
+						                    	<% if(response.planos[7].preco === 0) {%>
+						                    		 <h1>GRÁTIS<span class="subscript"></span></h1>
+						                    	<% } else { %>
+						                    		 <h1>R$<%- response.planos[7].preco %><span class="subscript">/Mês</span></h1>
+						                    	<% } %>
+						                        <small></small>
+						                    </div>
+						                    <table class="table">
+						                        <tr><td><%- response.planos[7].qtdFotos %> Foto</td></tr>
+						                        <tr class="active"><td><%- response.planos[7].qtdVideos %> Video</td></tr>
+						                        <tr><td><%- response.planos[7].expiracao %> dias de Acesso</td></tr>
+						                        <tr class="active"><td><%- response.planos[7].descExpiracao %></td></tr>
+						                        <tr><td>Avisos por e-mail</td></tr>
+						                        <tr class="active"><td>expira a cada <%- response.planos[7].expiracao %> dias </td></tr>
+						                    </table>
+						                </div>
+						                <div class="panel-footer">
+						                    <a href="/planos/<%- response.planos[7]._id %>/assinar" class="btn btn-success btn-block" role="button">ASSINAR</a>
+						                </div>
+						            </div>
+						        </div>
+							<% } %>
+
 
 					    </div>
-
 					</div>
 				</section>
 

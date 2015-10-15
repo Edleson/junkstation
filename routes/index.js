@@ -1,6 +1,8 @@
 module.exports = function(app) {
-	//var autenticar  = require('./../middlewares/loginHandler');
+	var security    = app.get("security");
 	var controller  = app.controllers.public.indexController;
   	
-  	app.get('/', controller.index);
+  	app.get('/'                  , security.forceHTTP, controller.index);
+  	app.get('/marca/:id/modelos' , controller.findModeloByMarca);
+  	app.get('/ufs'               , controller.findUf);
 };

@@ -1,8 +1,8 @@
 module.exports = function(app) {
-	var autenticar = require('./../middlewares/loginHandler');
+  	var security   = app.get("security");
   	
   	app.get('/logout', function(req, res, next){
-  		req.session.destroy();
+  		req.logout();
   		res.redirect("/");
   	});
 };

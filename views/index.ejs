@@ -157,7 +157,7 @@
 					
 					<div class="tab-content">
 						<div class="tab-pane active" id="tab1">
-							<form id="homepage_search" action="#/anuncio/list">
+							<form id="homepage_search" action="/anuncio/list" method="post">
 								<div class="row">
 									<div class="span4">
 										<label for="cbmMarca" class="dropdown_label">Marcas</label>
@@ -206,7 +206,7 @@
 
 									<div class="span4">
 										<a href="" id="btn-form" class="clear_filters"><i class="icon-remove"></i>Limpar Filtros</a>
-										<a href="#/anuncio/list" class="button submit yellow right">Pesquisar</a>
+										<a href="" class="button submit yellow right">Pesquisar</a>
 									</div>
 								</div>
 							</form>
@@ -217,9 +217,9 @@
 						</div>-->
 					</div>
 				</div>
-				<div class="label_under">
+				<!--<div class="label_under">
 					<p><a href="#">Pesquisa Avançada</a></p>
-				</div>
+				</div>-->
 			</div>
 		</section>
 
@@ -254,17 +254,15 @@
 				</div>
 			</div>
 		</section>
-
-
+		
 		<% include template/footer %>
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
-				
 				$("#cbmMarca").change(function(){
 					if($(this).val() !== "0"){
 						var marcaRequest =  {
-							url     : "/admin/marca/"+ $(this).val() +"/modelos" ,
+							url     : "/marca/"+ $(this).val() +"/modelos" ,
 							params  : {}          ,
 							method  : "get"       ,
 							callback : function(response, textStatus, jqXHR){
@@ -277,6 +275,7 @@
 									    text  : ""  ,
 									    selected : "selected"
 								})).change();
+
 								modelos.forEach(function(item){
 									$('#cbmModelo').append($('<option>', {
 									    value : item._id ,
@@ -287,12 +286,11 @@
 						}
 						ajaxRequest(marcaRequest);
 					}
-					
 				});
 
 				
 				var uFRequest =  {
-					url     : "/admin/uf" ,
+					url     : "/ufs" ,
 					params  : {}          ,
 					method  : "get"       ,
 					callback : function(response, textStatus, jqXHR){
@@ -309,10 +307,10 @@
 				ajaxRequest(uFRequest);
 
 				$("#btn-form").click(function() {
-					$("#homepage_search")[0].reset();
-					return false;
+					$("#homepage_search").reset(function(){
+						return false;
+					});
 				});
-
 			});
 		</script>
 

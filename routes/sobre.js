@@ -1,7 +1,7 @@
 module.exports = function(app) {
-	var autenticar = require('./../middlewares/loginHandler');
+  	var security   = app.get("security");
   	
-  	app.get('/sobre', function(req, res, next){
+  	app.get('/sobre', security.forceHTTP, function(req, res, next){
   		res.render('sobre');
   	});
 };

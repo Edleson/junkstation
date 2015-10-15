@@ -1,7 +1,15 @@
 {
-    "SECRET": "junkstation",
-    "KEY": "junkstation.sid",
+    "SECRET": "junkstation"      ,
+    "KEY": "junkstation.sid"     ,
     "MAX_AGE": {
       "maxAge": 3600000
+    },
+
+    "EMAIL_INFO" : {
+    	"EMAIL_SERVER"   : "junkstation.com.br"            ,
+    	"EMAIL_BOX"      : "no-replay@junkstation.com.br"  ,
+    	"EMAIL_PASSWORD" : "311junk311"                    ,
+    	"EMAIL_PORT"     : 587
     }
-  }
+    
+}

@@ -32,6 +32,7 @@ module.exports = function(){
 	              'public/js/lib/angular-messages.js'                 ,
 	              'public/js/lib/angular-locale_pt-br.js'             ,
 	              'public/js/lib/angular-dialog.min.js'               ,
+	              'public/js/lib/angular-mask.js'               	  ,
 	              'public/js/lib/jquery-1.9.1.min.js'                 ,
 	              'public/js/lib/jquery-blockUI.js'      			  ,
 	              'public/js/lib/superfish.js'                        ,
@@ -43,6 +44,8 @@ module.exports = function(){
 	              'public/js/lib/jquery.fancybox-1.3.4.js'            ,
 	              'public/js/lib/jquery.gmap.min.js'                  ,
 	              'public/js/lib/custom.js'							  ,
+	              'public/js/lib/jquery-validator.js'				  ,
+	              'public/js/lib/aditional-validator.js'			  ,
 	              'public/js/app/util/util.js'						    
 	            ],
 	    fileOut: 'public/dist/js/core-min.js'                         ,
@@ -83,6 +86,7 @@ module.exports = function(){
 	              'public/js/app/controllers/admin/planosControllerr.js'    	,
 	              'public/js/app/controllers/admin/ufController.js'    			,
 	              'public/js/app/controllers/admin/ui/uiController.js'          ,
+	              'public/js/app/interceptors/securityInterceptor.js'           ,
 	              'public/js/app/routes/adminRoutes.js'  
 	            ],
 	    fileOut: 'public/dist/js/app-min.js'                          			,

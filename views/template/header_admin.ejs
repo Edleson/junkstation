@@ -14,8 +14,8 @@
 			<!-- LINKS PARA MUDANÇA DE IDIOMAS-->
 			<div id="top_toolbar_user_lng">
 				<!-- BOTAO PARA LOGIN DA PAGINA-->
-				<% if(session.user){ %>
-					<a id="user" class="user show_login_form"><%- session.user.email %> </a>
+				<% if(request.user){ %>
+					<a id="user" class="user show_login_form"><%- request.user.local.email %> </a>
 					<a id="user" href="/anuncio/meusanuncios" class="user">Minha Conta</a>
 					<a href="/logout" class="user">Sair</a>
 				<% } else { %>	
@@ -107,6 +107,9 @@
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/planos">Vendas</a>
+					</li>
+					<li class='current_menu_ancestor' style="display:none;">
+						<a href="/">default</a>
 					</li>
 				</ul>
 				<div id="responsive_navigation">

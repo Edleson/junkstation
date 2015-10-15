@@ -9,6 +9,8 @@
 	<body >
 		<% include template/header %>
 		<div class="container_12 clearfix content">
+			<% include template/vertical_menu_admin %>
+
 			<div class="grid_9 content">
 				<h2 class="page_title with_filter">Meus Anúncios</h2>
 				<article class="box clearfix grid_item">
@@ -112,17 +114,9 @@
 					</div>
 				</article>
 			</div>
-
-			<div class="grid_3 sidebar">
-				<div class="box">
-					<h3>Gerenciar</h3>
-					<div class="box-content">
-						<li><a href="/anuncio/creat">Incluir Anúncio</a></li>
-						<li><a href="/anuncio/meusanuncios">Meus Anúncios</a></li>
-						<li><a href="/admin#/">Admnistração</a></li>
-					</div>
-				</div>
-			</div>
+			
+			
+			
 		</div>
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
