@@ -52,3 +52,7 @@ function ajaxRequest(request){
 	$.ajax(settings);
 }
 
+function isBlankOrEmpty(value){
+	return(!value || $.trim(value) === "");
+}
+

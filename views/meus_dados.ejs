@@ -11,7 +11,13 @@
 		<div class="container_12 clearfix content" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 			
+
 			<div class="grid_9 bigger_margin">
+				<%- request.flash("cadastro") %>
+				<% 
+					var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
+					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
+				%>
 				<div class="box clearfix">
 					<h3>Meu Perfil</h3>
 					<div class="box-content clearfix bordered_under">
@@ -19,27 +25,28 @@
 						<div class="grid_4 left">
 							<p>
 								<label for="provider" class="dropdown_label">Provedor </label>
-								<input type="text" readonly="readonly" name="provider" value="" >
+								<input type="text" readonly="readonly" name="provider" value="LOCAL" >
 							</p>
 						</div>
 						
 						<div class="grid_4 left">
 							<p>
 								<label for="emailsocial" class="dropdown_label">e-mail</label>
-								<input type="text" readonly="readonly" name="emailsocial" value="" >
+								<input type="text" readonly="readonly" name="emailsocial" value="<%- request.user.local.email %>" >
 							</p>								
 						</div>						
 					</div>
 					
-					<form>
+					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
 						<div class="box-content clearfix">
 							<div class="grid_4 left clearfix">
 								<p>
-									<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa</label>
-									<select  name="tipopessoa" id="tipopessoa" class="customSelect full" >
-										<option value="">Selecione</option>
-										<option value="PF">Pessoa Física</option>
-										<option value="PJ">Pessoa Jurídica</option>
+									<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
+									<select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" >
+										<option value="" >Selecione</option>
+										<% listaPessoa.forEach(function(item){ %>
+											<option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+										<% }); %>
 									</select>
 								</p>
 							</div>
@@ -48,56 +55,57 @@
 								<p></p>
 							</div>
 							
-							<div class="grid_5 left">
+							<div class="grid_5 left cnpjdata">
 								<p>
 									<label for="razaosocial" class="dropdown_label">Razão Social</label>
-									<input type="text" id="razaosocial" name="razaosocial" placeholder="Razão Social">
+									<input type="text" id="razaosocial" name="razaosocial" value="<%- request.user.dadosPessoais.razaosocial %>" maxlength="80" />
 								</p>
 							</div>
 
-							<div class="grid_3 left">
+							<div class="grid_3 left cnpjdata">
 								<p>
 									<label for="cnpj" class="dropdown_label">CNPJ</label>
-									<input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
+									<input type="text" id="cnpj" name="cnpj"  value="<%- request.user.dadosPessoais.cnpj %>" maxlength="14" />
 								</p>
 							</div>
 
 							<div class="grid_8 left">
 								<p>
-									<label for="nome" class="dropdown_label">Nome</label>
-									<input type="text" id="nome" name="nome" placeholder="Seu Nome">
+									<label for="nome" class="dropdown_label">Nome <span class="required">*</span></label>
+									<input type="text" id="nome" name="nome" value="<%- request.user.dadosPessoais.nome %>" maxlength="80"/>
 								</p>
 							</div>
 
 							<div class="grid_3 left">									
 								<p>
-									<label for="nascimento" class="dropdown_label">Data de nascimento</label>
-									<input type="text" id="nascimento" name="nascimento" placeholder="dd/mm/aaaa">
+									<label for="nascimento" class="dropdown_label">Data de nascimento <span class="required">*</span></label>
+									<input type="text" id="dataNascimento" name="dataNascimento"  value="<%- request.user.dadosPessoais.dataNascimentoFormatada %>" />
 								</p>
 							</div>
 
 							<div class="grid_3 left">
 								<p>
-									<label for="cpf" class="dropdown_label">CPF</label>
-									<input type="text" id="cpf" name="cpf" placeholder="CPF" >
+									<label for="cpf" class="dropdown_label">CPF <span class="required">*</span></label>
+									<input type="text" id="cpf" name="cpf" maxlength="11" value="<%- request.user.dadosPessoais.cpf %>" />
 								</p>
 							</div>
 
 							<div class="grid_2 left">							
 								<p>
-									<label for="sexo" class="dropdown_label">Sexo</label>
-									<select name="sexo" id="sexo" class="customSelect full" >
+									<label for="sexo" class="dropdown_label">Sexo <span class="required">*</span></label>
+									<select name="sexo" id="sexo" class="customSelect full" value="<%- request.user.dadosPessoais.sexo %>">
 										<option value="">Selecione</option>
-										<option value="M">Masculino</option>
-										<option value="F">Feminino</option>
+										<% listaSexo.forEach(function(item){ %>
+											<option value="<%- item.value %>" <%- request.user.dadosPessoais.sexo === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+										<% }); %>
 									</select>
 								</p>
 							</div>
 
 							<div class="grid_3 left">							
 								<p>
-									<label for="cep" class="dropdown_label">CEP</label>
-									<input type="text" id="cep" name="cep" placeholder="CEP" >
+									<label for="cep" class="dropdown_label">CEP <span class="required">*</span></label>
+									<input type="text" id="cep" name="cep" maxlength="8" value="<%- request.user.dadosPessoais.cep %>" />
 								</p>
 							</div>
 
@@ -107,59 +115,62 @@
 
 							<div class="grid_5 left">
 								<p>
-									<label for="rua" class="dropdown_label">Endereço</label>
-									<input type="text" id="rua" name="rua" placeholder="Seu Endereço">		
+									<label for="logradouro" class="dropdown_label">Logradouro <span class="required">*</span></label>
+									<input type="text" id="logradouro" name="logradouro"  value="<%- request.user.dadosPessoais.logradouro %>" maxlength="60" />		
 								</p>
 							</div>
 
 							<div class="grid_3 left">
 								<p>
-									<label for="numero" class="dropdown_label">Número</label>
-									<input type="text" id="numero" name="numero" placeholder="Nr." >		
+									<label for="numeroLogradouro" class="dropdown_label">Número <span class="required">*</span></label>
+									<input type="text" id="numeroLogradouro" name="numeroLogradouro" value="<%- request.user.dadosPessoais.numeroLogradouro %>" maxlength="10" />		
 								</p>
 							</div>
 
 							<div class="grid_5 left">
 								<p>
-									<label for="bairro" class="dropdown_label">Bairro</label>
-									<input type="text" id="bairro" name="bairro" placeholder="Bairro">		
+									<label for="bairro" class="dropdown_label">Bairro <span class="required">*</span></label>
+									<input type="text" id="bairro" name="bairro" value="<%- request.user.dadosPessoais.bairro %>" maxlength="30" />		
 								</p>
 							</div>
 
 							<div class="grid_3 left">
 								<p>
 									<label for="complemento" class="dropdown_label">Complemento</label>
-									<input type="text" id="complemento" name="complemento" placeholder="Complemento">	
+									<input type="text" id="complemento" name="complemento" value="<%- request.user.dadosPessoais.complemento %>" maxlength="20" />	
 								</p>
 							</div>
 
 							<div class="grid_5 left">
 								<p>
-									<label for="cidade" class="dropdown_label">Cidade</label>
-									<input type="text" id="cidade" name="cidade" placeholder="Cidade" >		
+									<label for="cidade" class="dropdown_label">Cidade <span class="required">*</span></label>
+									<input type="text" id="cidade" name="cidade" value="<%- request.user.dadosPessoais.cidade %>" maxlength="20"/>		
 								</p>
 							</div>
 
 							<div class="grid_3 left">
 								<p>			    
-							        <label for="estado" class="dropdown_label">Estado</label>
-							        <select id="estado" class="customSelect full">
-							        	<option value="0">Selecione</option>
+							        <label for="estado" class="dropdown_label">Estado <span class="required">*</span></label>
+							        <select id="estado" name="estado" class="customSelect full" value="<%- request.user.dadosPessoais.estado %>" />
+							        	<option value="">Selecione</option>
+							        	<% response.ufs.forEach(function(item){ %>
+											<option value="<%- item.nome %>" <%- request.user.dadosPessoais.estado === item.nome ? 'selected' : '' %> > <%- item.nome %> </option>
+										<% }); %>
 							        </select>
 								</p>
 							</div>	
 
 							<div class="grid_4 left">							
 								<p>
-									<label for="telefonecel" class="dropdown_label">Celular</label>
-									<input type="text" id="telefonecel" name="telefonecel" placeholder="(XX) XXXXX-XXXX">
+									<label for="celular" class="dropdown_label">Celular <span class="required">*</span></label>
+									<input type="text" id="celular" name="celular" placeholder="(XX) XXXXXXXXX" value="<%- request.user.dadosPessoais.celular %>" />
 								</p>
 							</div>
 											
 							<div class="grid_4 left">							
 								<p>
-									<label for="telefoneres" class="dropdown_label">Telefone</label>
-									<input type="text" id="telefoneres" name="telefoneres" placeholder="(XX) XXXX-XXXX">
+									<label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
+									<input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
 								</p>
 							</div>
 
@@ -168,6 +179,10 @@
 							</div>
 
 							<div class="full left">
+								<p></p>
+							</div>
+
+							<div class="full left bigger_margin">
 								<p>
 									<button type="submit" class="button submit wide red right">Salvar Perfil</button>	 
 								</p>
@@ -175,14 +190,139 @@
 						</div>
 					</form>
 				</div>					
-			</div>
-			
-			
-			
+			</div>	
 		</div>
+
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
 		<!-- FIM DO FOOTER-->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				init();
+
+				$("#cep").blur(function(){
+					if(!isBlankOrEmpty(this.value) && this.value.length === 8){
+						$.ajax({
+							type 	 : 'GET',
+	    					url      : "https://viacep.com.br/ws/"+ this.value +"/json"	,
+	    					dataType : "application/json"								,
+						    
+						    success  : function( response ) {
+						    	setEndereco(response);
+						    },
+
+						    error : function(response){
+						    	setEndereco(response);
+						    }
+						});
+					}	
+				});
+
+				$("#tipopessoa").change(function(){
+					showTipoPessoa(this.value);
+				});
+
+				$("#perfilForm").validate({ 
+					rules: { 
+				    	tipopessoa 		 : "required" ,
+				    	nome 			 : "required" ,
+				    	dataNascimento	 : {
+				    		required : true,
+				    		dateBR   : true
+				    	},
+				    	cpf 			 : {
+				    		required : true ,
+				    		cpf : true
+				    	},
+				    	sexo 			 : "required" ,
+				    	cep 			 : "required" ,
+				    	logradouro 		 : "required" ,
+				    	numeroLogradouro : "required" ,
+				    	bairro 		 	 : "required" ,
+				    	cidade 		 	 : "required" ,
+				    	estado 		 	 : "required" 
+				    },
+
+			        messages: { 
+			          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
+				    	nome 			 : "O nome do responsável é obrigatório" ,
+				    	dataNascimento	 : {
+				    		required : "A data de nascimento é obrigatório" ,
+				    		dateBR : "Digite uma data Válida."
+				    	},
+				    	cpf 			 : {
+				    		required : "O CPF do responsável é obrigatório",
+				    		cpf : "Digite um CPF Válido"
+				    	} ,
+				    	sexo 			 : "O sexo é obrigatório" ,
+				    	cep 			 : "O CEP é obrigatório" ,
+				    	logradouro 		 : "O logradouro é obrigatório" ,
+				    	numeroLogradouro : "O número do logradouro é obrigatório" ,
+				    	bairro 		 	 : "O bairro é obrigatório" ,
+				    	cidade 		 	 : "A cidade é obrigatório" ,
+				    	estado 		 	 : "O estado é obrigatório" 		
+			        } 
+				});
+
+			});
+
+			function setEndereco(endereco){
+				console.log(endereco);
+				var status = endereco.status;
+				if(status !== 200){
+					clearEndereco();
+				}else{
+					var end = $.parseJSON(endereco.responseText);
+					if(end.erro){
+						clearEndereco();
+					}else{
+						$("#bairro").val(end.bairro).attr("readonly", "readonly");
+						$("#logradouro").val(end.logradouro).attr("readonly", "readonly");
+						$("#cidade").val(end.localidade).attr("readonly", "readonly");
+						$("#uf").val(end.uf);	
+					}
+					
+				}
+			}
+
+			function clearEndereco(){
+				alert("Não foi possível encontrar o CEP informado :( ");
+					$("#bairro").val("").removeAttr("readonly");
+					$("#logradouro").val("").removeAttr("readonly");
+					$("#complemento").val("").removeAttr("readonly");
+					$("#cidade").val("").removeAttr("readonly");
+					$("#uf").val("").removeAttr("readonly");
+			}
+
+			function init(){
+				$("#cnpj").mask("99999999999999");
+				$("#cpf").mask("99999999999");
+				$("#dataNascimento").mask("99/99/9999");
+				$("#cep").mask("99999999");
+				$("#celular").mask("(99) 9?99999999");
+				$("#telefone").mask("(99) 99999999");
+
+				showTipoPessoa($("#tipopessoa").val());
+				setOptions();
+			}
+
+			function showTipoPessoa(value){
+				if(value === "PJ"){
+					$(".cnpjdata").show();
+				}else{
+					$(".cnpjdata").hide();
+					$("#cnpj").val("");
+					$("#razaosocial").val("");
+				}
+			}
+
+			function setOptions(){
+				var tipoPessoa = $("#tipopessoa").val();
+				console.log("TIpo Pessoa :" + tipoPessoa);
+				$("#tipopessoa").find("option[value='"+ tipoPessoa +"']").attr("selected", "selected");
+			}
+
+		</script>
 	</body>
 </html>
 

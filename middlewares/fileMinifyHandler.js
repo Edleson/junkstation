@@ -46,6 +46,7 @@ module.exports = function(){
 	              'public/js/lib/custom.js'							  ,
 	              'public/js/lib/jquery-validator.js'				  ,
 	              'public/js/lib/aditional-validator.js'			  ,
+				  'public/js/lib/jquery-maskedinput.js'			  	  ,
 	              'public/js/app/util/util.js'						    
 	            ],
 	    fileOut: 'public/dist/js/core-min.js'                         ,

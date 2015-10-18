@@ -54,7 +54,5 @@ module.exports = function(){
         }
     };
 
-    //console.log(context);
-
     return context;
 }

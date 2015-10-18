@@ -10,8 +10,30 @@
 		<% include template/header %>
 		
 		<div class="container_12 clearfix" id="add_new_item_info">
-			<form action="https://<%- request.host%>/login">
-				<div class="grid_8 bigger_margin">
+			<% include template/vertical_menu_admin %>
+
+			<!--<div class="grid_3">
+				<div class="box">
+					<h3>Add Fotos</h3>
+					<div class="box-content">
+						<p class="centered_content">
+							<a href="#fotos_form" class="button red modal">Upload photos</a>
+						</p>
+					</div>
+				</div>
+				
+				<div class="box">
+					<h3>Add Videos</h3>
+					<div class="box-content">
+						<p class="centered_content">
+							<a href="#video_form" class="button red modal">Upload video</a>
+						</p>
+					</div>
+				</div>
+			</div>-->
+
+			<form action="https://<%- request.hostname%>/login">
+				<div class="grid_9 bigger_margin">
 					<div class="box clearfix">
 						<h3>Informações do Veículo</h3>
 						<div class="box-content clearfix bordered_under">
@@ -150,37 +172,10 @@
 							<textarea name="description" id="description" placeholder="Enter your description"></textarea>
 						</div>
 					</div>
-					<a class="button submit green">Publicar Anúncio</a>
+					<a class="button submit wide green">Publicar Anúncio</a>
 				</div>
 				
-				<div class="grid_4">
-					<div class="box">
-						<h3>Add Fotos</h3>
-						<div class="box-content">
-							<p class="centered_content">
-								<a href="#fotos_form" class="button red modal">Upload photos</a>
-							</p>
-						</div>
-					</div>
-					
-					<div class="box">
-						<h3>Add Videos</h3>
-						<div class="box-content">
-							<p class="centered_content">
-								<a href="#video_form" class="button red modal">Upload video</a>
-							</p>
-						</div>
-					</div>
-
-					<!--<div class="box">
-						<h3>Sell options</h3>
-						<div class="box-content">
-							<p><label for="negotiable" class="custom_checkbox"><input type="checkbox" name="negotiable" id="negotiable">Price is negotiable</label></p>
-							<p><label for="exchange" class="custom_checkbox"><input type="checkbox" name="exchange" id="exchange">Possible exchange</label></p>
-							<a href="#">Learn more about rating system</a>
-						</div>
-					</div>-->
-				</div>
+				
 			</form>
 			<!-- MODAL PARA UPLOAD DE FOTOS-->
 			<div class="login_form_modal_container">

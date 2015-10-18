@@ -1,30 +1,36 @@
 var mongoose     = require('mongoose');
 var bcrypt       = require('bcrypt-nodejs');
 var findOrCreate = require('mongoose-findorcreate');
+var moment       = require('moment');
 
 module.exports = function() {
     var userSchema = mongoose.Schema({
-        local            : {
+        local : {
             username     : String ,
-            email        : String ,
+            email        : {
+                type : String    ,
+                index : {
+                    unique : true
+                }
+            } ,
             password     : String 
         },
 
-        facebook         : {
+        facebook : {
             id           : String ,
             token        : String ,
             email        : String ,
             name         : String
         },
 
-        twitter          : {
+        twitter : {
             id           : String ,
             token        : String ,
             displayName  : String ,
             username     : String 
         },
 
-        google           : {
+        google : {
             id           : String ,
             token        : String ,
             email        : String ,
@@ -59,9 +65,102 @@ module.exports = function() {
         perfil  : {
             type : Array        ,
             default : ["ANUNCIANTE"]
+        },
+
+        dadosPessoais : {
+            tipopessoa : {
+                type : String  ,
+                trim : true    
+            },
+
+            razaosocial : {
+                type : String  ,
+                trim : true    
+            },
+
+            cnpj : {
+                type   : String ,
+                index  : {
+                  unique : true 
+                }
+            },
+
+            nome : {
+                type  : String  ,
+                trim  : true    ,
+                index : true 
+            },
+
+            dataNascimento : {
+                type : Date  ,
+            },
+
+            cpf : {
+                type   : String ,
+                index  : {
+                  unique : true 
+                }
+            },
+
+            sexo : {
+                type : String  ,
+                trim : true    
+            },
+
+            cep : {
+                type : String 
+            },
+
+            logradouro : {
+                type : String  ,
+                trim : true    
+            },
+
+            numeroLogradouro : {
+                type : String  ,
+                trim : true    
+            },
+
+            bairro : {
+                type : String  ,
+                trim : true    
+            },
+
+            complemento : {
+                type : String  ,
+                trim : true    
+            },
+
+            cidade : {
+                type : String  ,
+                trim : true    
+            },
+
+            estado : {
+                type : String  ,
+                trim : true    
+            },
+
+            celular : {
+                type : String  ,
+                trim : true    
+            },
+
+            telefone : {
+                type : String  ,
+                trim : true    
+            }
         }
 
     }, {collection: 'user'});
+
+    userSchema.virtual('dadosPessoais.dataNascimentoFormatada').get(function(){
+        if(this.dadosPessoais.dataNascimento !== undefined){
+            return moment(this.dadosPessoais.dataNascimento).format('DD/MM/YYYY');
+        }else{
+            return '';
+        }
+    });
 
     userSchema.methods.findByQuery = function(cb, query){
         return this.model("User").find(query, cb);

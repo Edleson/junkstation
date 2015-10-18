@@ -5,7 +5,7 @@ mongoose.set('debug', false);
  *registrando alguns evento para a conexão com MONGODB.   
  ************************************************************************/
 module.exports = function(context){
-    var uri = 'mongodb://localhost/junk';
+    var uri = context.database.url;
     mongoose.connect(uri);
     
     mongoose.connection.on('connected', function() {

@@ -100,10 +100,6 @@
 		<!-- FIM DO FOOTER-->
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$.validator.addMethod("equal", function(value,element,param){
-					return value == $(param).val();
-				},"Há diferenças entre os valores comparados");
-
 				$("#loginForm").validate({ 
 					rules: { 
 				        email : {

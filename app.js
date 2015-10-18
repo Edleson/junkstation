@@ -16,6 +16,7 @@ var logger          = require('morgan');
 var passport        = require("passport");
 var flash           = require('connect-flash');
 var cookieParser    = require('cookie-parser');
+var moment          = require('moment');
 var cookie          = cookieParser();
 var app             = express();
 
@@ -77,6 +78,7 @@ app.all(['/admin*'], isLoggedIn, security.forceHTTPS);
 
 app.set("security"    , security    );
 app.set("emailSender" , emailSender );
+app.set("moment"      , moment      );
 
 //load('config')
   load('models')
