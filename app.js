@@ -17,6 +17,7 @@ var passport        = require("passport");
 var flash           = require('connect-flash');
 var cookieParser    = require('cookie-parser');
 var moment          = require('moment');
+var htmlMinify      = require('html-minifier').minify;
 var cookie          = cookieParser();
 var app             = express();
 
@@ -79,6 +80,7 @@ app.all(['/admin*'], isLoggedIn, security.forceHTTPS);
 app.set("security"    , security    );
 app.set("emailSender" , emailSender );
 app.set("moment"      , moment      );
+app.set("html-minify" , htmlMinify  );
 
 //load('config')
   load('models')

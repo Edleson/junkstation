@@ -1,4 +1,5 @@
 module.exports = function(app) {
+    var htmlMinify        = app.get("html-minify");
     var marca             = new app.models.admin.marca({});
     var modelo            = new app.models.admin.modelo({});
     var uf                = new app.models.admin.uf({});
@@ -14,7 +15,15 @@ module.exports = function(app) {
                 throw Exception("Ocorreu um erro durante o processamento da requisição ! :(");
             }else{
                 responseObject.marcas = marcas;
-                res.render('index' , {response : responseObject});
+                res.render('index' , {response : responseObject}, function(err, html){
+                    html = htmlMinify(html , {
+                        removeComments     : true ,
+                        collapseWhitespace : true ,
+                        minifyJS           : true ,
+                        processScripts     : ["text/ng-template"]
+                    });
+                    res.send(html);
+                });
             }
         }, query);
     }

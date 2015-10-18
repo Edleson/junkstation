@@ -22,6 +22,7 @@
     "express-load": "^1.1.15",
     "express-session": "^1.11.1",
     "hashids": "^1.0.2",
+    "html-minifier": "^0.8.0",
     "imagemin": "^3.2.0",
     "method-override": "^2.3.5",
     "moment": "^2.10.6",
