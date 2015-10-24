@@ -5,7 +5,7 @@ module.exports = function(app) {
     var uf                = new app.models.admin.uf({});
     var createResponseAPI = app.models.admin.responseAPI;
     var controller     = {};
-    var responseObject = {};
+    var responseObject = {}; 
 
     controller.index = function(req, res, next) {
         var query = {situacao : true};
@@ -15,15 +15,7 @@ module.exports = function(app) {
                 throw Exception("Ocorreu um erro durante o processamento da requisição ! :(");
             }else{
                 responseObject.marcas = marcas;
-                res.render('index' , {response : responseObject}, function(err, html){
-                    html = htmlMinify(html , {
-                        removeComments     : true ,
-                        collapseWhitespace : true ,
-                        minifyJS           : true ,
-                        processScripts     : ["text/ng-template"]
-                    });
-                    res.send(html);
-                });
+                htmlMinify('index', res , {response : responseObject});
             }
         }, query);
     }

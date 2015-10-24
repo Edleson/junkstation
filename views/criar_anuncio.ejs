@@ -31,152 +31,363 @@
 					</div>
 				</div>
 			</div>-->
-
+ 
 			<form action="https://<%- request.hostname%>/login">
 				<div class="grid_9 bigger_margin">
 					<div class="box clearfix">
-						<h3>Informações do Veículo</h3>
+						<h3>Informações do Anunciante </h3>
 						<div class="box-content clearfix bordered_under">
-							<div class="half left">
+							<div class="grid_8 left">
 								<p>
-									<label for="type" class="dropdown_label">Tipo de Veículo</label>
-									<select name="type" id="type" class="custom_select">
-										<option value="">Carros</option>
-										<option value="">Motos</option>
-										<option value="">Caminhões</option>
-									</select>
+									<label for="anunciante" class="dropdown_label">Nome do Anunciante</label>
+									<input type="text" readonly="readonly" name="anunciante" id="anunciante" value="<%- request.user.dadosPessoais.nome %>" >
 								</p>
-								<p class="smaller_margin">
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="localizacao" class="dropdown_label">Cidade</label>
+									<input type="text" readonly="readonly" name="localizacao" id="localizacao" value="<%- request.user.dadosPessoais.cidade %>" >
+								</p>
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="provider" class="dropdown_label">Estado</label>
+									<input type="text" readonly="readonly" name="provider" value="<%- request.user.dadosPessoais.estado %>" >
+								</p>
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="provider" class="dropdown_label">Dt. Anúncio </label>
+									<input type="text" readonly="readonly" name="provider" value="<%- util.moment().format('L') %>" >
+								</p>
+							</div>
+							
+							<div class="grid_4 left">
+								<p>
+									<label for="emailsocial" class="dropdown_label">Vencimento</label>
+									<input type="text" readonly="readonly" name="emailsocial" value="<%- util.moment().add(30, 'days').format('L') %>" >
+								</p>								
+							</div>
+							
+							<br/>
+
+							<div class="grid_4 left big_margin">
+								<p>
 									<label for="condition_new" class="custom_radio">
-										<input type="radio" name="condition" id="condition_new" value="new">Ativo
+										<input type="radio" name="condition" id="condition_new" value="new" >Ativo
 									</label>
 									<label for="condition_used" class="custom_radio">
 										<input type="radio" name="condition" id="condition_used" value="used">Inativo
 									</label>
-								</p>
+								</p>								
 							</div>
 
-							<div class="half right">
-								<p>
-									<label for="category" class="dropdown_label">Categoria</label>
-									<select name="category" id="category" class="custom_select">
-										<option value="">Sedan</option>
-										<option value="">Pick-up</option>
-									</select>
-								</p>
-							</div>
 						</div>
-
+					</div>
+					<div class="box clearfix">
+						<h3>Informações do Anúncio </h3>
 						<div class="box-content clearfix">
-							<div class="half left">
+							<div class="grid_4 left">									
 								<p>
-									<label for="location" class="dropdown_label">Localização</label>
-									<select name="location" id="location" class="custom_select">
-										<option value="">São Paulo</option>
-										<option value="">Rio de Janeiro</option>
-										<option value="">Minas Gerais</option>
-									</select>
+									<label for="preco" class="dropdown_label">Preço <span class="required">*</span></label>
+									<input type="text" id="preco" name="preco"  value="" />
 								</p>
-								<p>
-									<label for="brand" class="dropdown_label">Marca</label>
-									<select name="brand" id="brand" class="custom_select">
-										<option value="">Chevrolet</option>
-										<option value="">BMW</option>
-										<option value="">Mercedes</option>
-										<option value="">Audi</option>
-									</select>
-								</p>
-								<p>
-									<label for="model" class="dropdown_label">Modelo</label>
-									<select name="model" id="model" class="custom_select">
-										<option value="">Camaro</option>
-									</select>
-								</p>
-
-								<p>
-									<label for="price_from" class="dropdown_label">Ano</label>
-									<select name="price_from" id="price_from" class="custom_select range">
-										<option value="">1981</option>
-										<option value="">1982</option>
-										<option value="">1983</option>
-										<option value="">1984</option>
-									</select>
-									<span class="range_delimiter">-</span> 
-									<select name="price_to" id="price_to" class="custom_select range">
-										<option value="">1981</option>
-										<option value="">1982</option>
-										<option value="">1983</option>
-										<option value="">1984</option>
-									</select>
-								</p>
-								<p>
-									<label for="exterior_color" class="dropdown_label">Cor Externa</label>
-									<select name="exterior_color" id="exterior_color" class="custom_select">
-										<option value="">Branco</option>
-										<option value="">Amarelo</option>
-										<option value="">Prata</option>
-										<option value="">Vermelho</option>
-										<option value="">Azul</option>
-									</select>
-								</p>
-								
 							</div>
 
-							<div class="half right">
+							<div class="grid_4 left">									
 								<p>
-									<label for="transmision" class="dropdown_label">Direção</label>
-									<select name="transmision" id="transmision" class="custom_select">
-										<option value="">Manual</option>
-										<option value="">Semi-automatica</option>
-										<option value="">Automatica</option>
-									</select>
+									<label for="kilometragem" class="dropdown_label">KM <span class="required">*</span></label>
+									<input type="text" id="kilometragem" name="kilometragem"  value="" />
 								</p>
+							</div>
+							
+							<div class="grid_3 left">									
 								<p>
-									<label for="engine_from" class="dropdown_label">Combustivel</label>
-									<select name="engine_from" id="engine_from" class="custom_select">
-										<option value="">Gasoline</option>
-										<option value="">Diesel</option>
-										<option value="">Alcool</option>
-									</select>
-								</p>
-								<p>
-									<label for="fuel" class="dropdown_label">Fuel</label>
-									<select name="fuel" id="fuel" class="custom_select">
-										<option value="">Gasoline</option>
-										<option value="">Diesel</option>
-										<option value="">LPG</option>
-									</select>
-								</p>
-								<p>
-									<label for="drive" class="dropdown_label">Tração</label>
-									<select name="drive" id="drive" class="custom_select">
-										<option value="">Front-wheel</option>
-										<option value="">Rear-wheel</option>
-										<option value="">4x4</option>
-									</select>
-								</p>
-								<p>
-									<label for="interior_color" class="dropdown_label">Cor Interna</label>
-									<select name="interior_color" id="interior_color" class="custom_select">
-										<option value="">Cinza</option>
-										<option value="">Marrom</option>
-										<option value="">Cinza</option>
+									<label for="marca" class="dropdown_label">Marca <span class="required">*</span></label>
+									<select name="marca" id="marca" class="customSelect full" value="">
+										<option value="">Selecione</option>
 									</select>
 								</p>
 							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
+									<select name="modelo" id="modelo" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
+									<select name="anoFabricacao" id="anoFabricacao" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="portas" class="dropdown_label">Portas <span class="required">*</span></label>
+									<select name="portas" id="portas" class="customSelect full" value="">
+										<option value="">Selecione</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="cambio" class="dropdown_label">Câmbio <span class="required">*</span></label>
+									<select name="cambio" id="cambio" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="cor" class="dropdown_label">Cor <span class="required">*</span></label>
+									<select name="cor" id="cor" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
+									<select name="categoria" id="categoria" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="combustivel" class="dropdown_label">Combustível <span class="required">*</span></label>
+									<select name="combustivel" id="combustivel" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="estilo" class="dropdown_label">Estilo <span class="required">*</span></label>
+									<select name="estilo" id="estilo" class="customSelect full" value="">
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="motor" class="dropdown_label">Motor <span class="required">*</span></label>
+									<input type="text" id="motor" name="motor"  value="" />
+								</p>
+							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="renavam" class="dropdown_label">Renavam <span class="required">*</span></label>
+									<input type="text" id="renavam" name="renavam"  value="" />
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="placa" class="dropdown_label">Placa <span class="required">*</span></label>
+									<input type="text" id="placa" name="placa"  value="" />
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro asdasdaa
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
+							<div class="grid_2 left">									
+								<p>
+									<label for="terms" class="custom_checkbox">
+										<input type="checkbox" name="terms" id="terms" />
+										Banco de coro
+									</label>
+								</p>
+							</div>
+
 						</div>
 					</div>
-					<div class="box">
-						<h3>Descrição do Veículo</h3>
+
+					<div class="box clearfix">
+						<h3>Descrição do Anúncio</h3>
 						<div class="box-content">
-							<textarea name="description" id="description" placeholder="Enter your description"></textarea>
+
+							<div class="grid_8 left">									
+								<p>
+									<label for="titulo" class="dropdown_label">Título<span class="required">*</span></label>
+									<input type="text" id="titulo" name="titulo"  value="" />
+								</p>
+							</div>
+
+							<div class="grid_8 left">	
+								<p>
+									<label for="descricao" class="dropdown_label">Descrição <span class="required">*</span></label>
+									<textarea name="descricao" id="descricao" ></textarea>
+								</p>
+							</div>
+							
 						</div>
 					</div>
+
+					<div class="box clearfix">
+						<h3>Fotos e Vídeos</h3>
+						<div class="box-content">
+							<div class="grid_8 list_item">
+								<div class="half left">
+									<div class="overlayed" >
+										<img src="/dist/images/sls.jpg" alt="">
+									</div>
+									<input type="file" name="foto" />
+								</div>
+								<!--<div class="half right">
+									<div class="item_heading">
+										<h4>Mercedes <a href="/anuncio/detail">SLS AMG</a></h4>
+										<p class="location">
+											San Francisco, <strong>CA</strong>
+											<span class="vendor">Tom Harris</span>
+										</p>
+									</div>
+									<div class="item_info clearfix">
+										<p class="half left">
+											<span class="item_year">2012</span>
+											<span class="item_type">Grand Tourer</span>
+											<span class="item_drive">RWD</span>
+											<span class="item_engine">6.2</span>
+										</p>
+										<p class="half right">
+											<span class="item_transimition">Automatic</span>
+											<span class="item_fuel">Petrol</span>
+											<span class="item_mileage">1,000 miles</span>
+										</p>
+									</div>
+									<div class="item_footer">
+										<span class="item_price">$215,000</span>
+										<span class="item_date">25 March, 2013</span>
+										<span class="item_rating">4.9</span>
+									</div>
+								</div>-->
+							</div>
+						</div>
+					</div>
+					
+
 					<a class="button submit wide green">Publicar Anúncio</a>
 				</div>
-				
-				
 			</form>
+
 			<!-- MODAL PARA UPLOAD DE FOTOS-->
 			<div class="login_form_modal_container">
 				<div id="fotos_form" class="box">
@@ -208,6 +419,154 @@
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
 		<!-- FIM DO FOOTER-->
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				init();
+
+				$("#marca").change(function(){
+					var marcaCallback = function(response, textStatus, jqXHR){
+						var modelos = response.data;
+						
+						$('#modelo option').remove();
+						
+						$('#modelo').append($('<option>', {
+							    value : "" ,
+							    text  : "Selecione"  ,
+							    selected : "selected"
+						})).change();
+
+						modelos.forEach(function(item){
+							$('#modelo').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));
+						});
+					};
+
+					if($(this).val() !== "0"){
+						listModeloByMarca($(this).val(), marcaCallback, {}, true);
+					}
+
+
+				});
+			});
+
+			function init(){
+				/***********************************************************
+			    * CARREGA TODAS AS MARCAS ATIVAS E PREENCHE O COMBO MARCAS * 
+			    ***********************************************************/
+				var marcaCallback = function(response, textStatus, jqXHR){
+					var marcas = response.data;
+					marcas.forEach(function(item){
+						$('#marca').append($('<option>', {
+						    value : item._id ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listMarca(marcaCallback, {}, false);
+				/***********************************************************
+			    * Todos os anos de fabricações ativos                      * 
+			    ***********************************************************/
+			    var anoCallBack = function(response, textStatus, jqXHR){
+					var ano = response.data;
+					ano.forEach(function(item){
+						$('#anoFabricacao').append($('<option>', {
+						    value : item.ano ,
+						    text  : item.ano
+						}));
+					});
+				};
+				listAnoFabricacao(anoCallBack, {}, false);
+				/***********************************************************
+			    * Lista todos os câmbios ativos                            * 
+			    ***********************************************************/
+			    var cambioCallBack = function(response, textStatus, jqXHR){
+					var cambio = response.data;
+					cambio.forEach(function(item){
+						$('#cambio').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listCambio(cambioCallBack, {}, false);
+				/***********************************************************
+			    * Lista todas as cores ativas                              * 
+			    ***********************************************************/
+			    var corCallBack = function(response, textStatus, jqXHR){
+					var cor = response.data;
+					cor.forEach(function(item){
+						$('#cor').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listCor(corCallBack, {}, false);
+				/***********************************************************
+			    * Lista todas as categorias ativas                         * 
+			    ***********************************************************/
+			    var categoriaCallBack = function(response, textStatus, jqXHR){
+					var categoria = response.data;
+					categoria.forEach(function(item){
+						$('#categoria').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listCategoria(categoriaCallBack, {}, false);
+				/***********************************************************
+			    * Lista todas os combustíveies                             * 
+			    ***********************************************************/
+			    var combustivelCallBack = function(response, textStatus, jqXHR){
+					var combustivel = response.data;
+					combustivel.forEach(function(item){
+						$('#combustivel').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listCombustivel(combustivelCallBack, {}, false);
+				/***********************************************************
+			    * Lista todas os estilos ativos                            * 
+			    ***********************************************************/
+			    var estiloCallBack = function(response, textStatus, jqXHR){
+					var estilo = response.data;
+					estilo.forEach(function(item){
+						$('#estilo').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listEstilo(estiloCallBack, {}, false);
+
+
+     			$("input:file").on('change', function () {
+			        if (typeof (FileReader) != "undefined") {
+			            var image_holder = $(this).parent().find("div.overlayed");
+			            image_holder.empty();
+			 
+			            var reader = new FileReader();
+			            
+			            reader.onload = function (e) {
+			                $("<img />", {
+			                    "src": e.target.result,
+			                    "class": "thumb-image"
+			                }).appendTo(image_holder);
+			            }
+			            image_holder.show();
+			            reader.readAsDataURL($(this)[0].files[0]);
+			        } else {
+			            alert("O seu navegador não tem suporte a preview de imagens");
+			        }
+			    });
+			};
+		</script>
 	</body>
 </html>
 

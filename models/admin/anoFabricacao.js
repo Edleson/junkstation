@@ -19,6 +19,12 @@ module.exports = function(app) {
           default : Date.now 
         }           
     }, {collection: 'anoFabricacao'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("AnoFabricacao").find(query, cb);
+        }
+    };
     
     return mongoose.model('AnoFabricacao', schema);
 };

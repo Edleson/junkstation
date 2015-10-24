@@ -20,6 +20,12 @@ module.exports = function(app) {
         }
                    
     }, {collection: 'estilo'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Estilo").find(query, cb);
+        }
+    };
     
     return mongoose.model('Estilo', schema);
 };

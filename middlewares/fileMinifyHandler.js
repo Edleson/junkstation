@@ -47,7 +47,9 @@ module.exports = function(){
 	              'public/js/lib/jquery-validator.js'				  ,
 	              'public/js/lib/aditional-validator.js'			  ,
 				  'public/js/lib/jquery-maskedinput.js'			  	  ,
-	              'public/js/app/util/util.js'						    
+				  'public/js/lib/jquery-imagePreview.js'			  ,
+	              'public/js/app/util/util.js'						  ,
+	              'public/js/app/util/dominioUtil.js'						  	    
 	            ],
 	    fileOut: 'public/dist/js/core-min.js'                         ,
 	    callback: function(err, min){

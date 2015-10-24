@@ -1,8 +1,22 @@
 module.exports = function(app) {
     var User       = app.models.admin.user;
+    var marca      = new app.models.admin.marca({});
     var uf         = new app.models.admin.uf({});
     var moment     = app.get("moment");       
     var controller = {};
+
+    controller.criarAnuncioGET = function(req, res, next) {
+        var query = {situacao : true};
+        marca.findByQuery(function(err, marcas){
+            if(err){
+                console.log(err);
+                throw Exception("Ocorreu um erro durante o processamento da requisição ! :(");
+            }else{
+                responseObject.marcas = marcas;
+                htmlMinify('criar_anuncio', res , {response : responseObject});
+            }
+        }, query);
+    }
 
     controller.cadastroPerfilGET = function(req, res, next){
         var query          = {situacao : true};

@@ -20,6 +20,12 @@ module.exports = function(app) {
         }
 
     }, {collection: 'categoria'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Categoria").find(query, cb);
+        }
+    };
     
     return mongoose.model('Categoria', schema);
 };

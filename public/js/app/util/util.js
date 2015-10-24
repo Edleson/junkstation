@@ -23,7 +23,9 @@ function showGrowl(title , message, timeout){
 	$.growlUI(title , message, timeout); 
 }
 
-function ajaxRequest(request){
+function ajaxRequest(request, showGifLoad){
+	//console.log(request);
+	
 	settings = {
 		url         : request.url       ,
 		data  	    : request.params 	,
@@ -33,7 +35,9 @@ function ajaxRequest(request){
 		crossDomain : true      		,
 		
 		beforeSend  : function( jqXHR, object){
-			showBlockUI({message : "Carregando ..."}); 
+			if(showGifLoad){
+				showBlockUI({message : "Carregando ..."}); 
+			}
 		},
 
 		success     : function( data, textStatus, jqXHR){
@@ -45,7 +49,9 @@ function ajaxRequest(request){
 		},
 		
 		complete  	: function( jqXHR, textStatus ){
-			hideBlockUI();
+			if(showGifLoad){
+				hideBlockUI();
+			}
 		}
 	}
 
@@ -54,5 +60,22 @@ function ajaxRequest(request){
 
 function isBlankOrEmpty(value){
 	return(!value || $.trim(value) === "");
+}
+
+function humanFileSize(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
 }
 

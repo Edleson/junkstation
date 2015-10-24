@@ -25,6 +25,12 @@ module.exports = function(app) {
         }
 
     }, {collection: 'newsletter'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Newsletter").find(query, cb);
+        }
+    };
     
     return mongoose.model('Newsletter', schema);
 };

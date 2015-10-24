@@ -259,53 +259,43 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
+				var marcaCallback = function(response, textStatus, jqXHR){
+					var modelos = response.data;
+					
+					$('#cbmModelo option').remove();
+					
+					$('#cbmModelo').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change();
+
+					modelos.forEach(function(item){
+						$('#cbmModelo').append($('<option>', {
+						    value : item._id ,
+						    text  : item.nome
+						}));
+					});
+				};
+				
 				$("#cbmMarca").change(function(){
 					if($(this).val() !== "0"){
-						var marcaRequest =  {
-							url     : "/marca/"+ $(this).val() +"/modelos" ,
-							params  : {}          ,
-							method  : "get"       ,
-							callback : function(response, textStatus, jqXHR){
-								var modelos = response.data;
-								
-								$('#cbmModelo option').remove();
-								
-								$('#cbmModelo').append($('<option>', {
-									    value : "0" ,
-									    text  : ""  ,
-									    selected : "selected"
-								})).change();
-
-								modelos.forEach(function(item){
-									$('#cbmModelo').append($('<option>', {
-									    value : item._id ,
-									    text  : item.nome
-									}));
-								});
-							}
-						}
-						ajaxRequest(marcaRequest);
+						listModeloByMarca($(this).val(), marcaCallback, {}, true);
 					}
 				});
 
-				
-				var uFRequest =  {
-					url     : "/ufs" ,
-					params  : {}          ,
-					method  : "get"       ,
-					callback : function(response, textStatus, jqXHR){
-						var ufs = response.data;
-						ufs.forEach(function(item){
-							$('#cbmUf').append($('<option>', {
-							    value : item.nome ,
-							    text  : item.nome
-							}));
-						});
-					}
-				}
+				var ufCallBack = function(response, textStatus, jqXHR){
+					var ufs = response.data;
+					ufs.forEach(function(item){
+						$('#cbmUf').append($('<option>', {
+						    value : item.nome ,
+						    text  : item.nome
+						}));
+					});
+				};
 
-				ajaxRequest(uFRequest);
-
+				listUF(ufCallBack, {}, false);
+				 
 				$("#btn-form").click(function() {
 					$("#homepage_search").reset(function(){
 						return false;

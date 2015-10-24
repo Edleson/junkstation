@@ -16,7 +16,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/anuncio/creat', isLoggedIn, security.forceHTTPS, function(req, res, next){
-		res.render('criar_anuncio');
+		res.render('criar_anuncio'); 
 	});
 
 	app.get('/anuncio/meusanuncios', isLoggedIn, security.forceHTTPS, function(req, res, next){

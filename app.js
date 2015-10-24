@@ -17,10 +17,11 @@ var passport        = require("passport");
 var flash           = require('connect-flash');
 var cookieParser    = require('cookie-parser');
 var moment          = require('moment');
-var htmlMinify      = require('html-minifier').minify;
+var moment_pt       = require('./config/moment_ptBr')(moment);
 var cookie          = cookieParser();
 var app             = express();
 
+moment.locale("pt-br", moment_pt);
 /***********************************************************
  * Carrega os midlewares que serão utilizados por toda     *
  * aplicação.                                              *
@@ -33,6 +34,19 @@ var error           = require('./middlewares/errorHandler');
 var isLoggedIn      = require('./middlewares/loginHandler');
 var security        = require('./middlewares/securityHandler')(context);
 var emailSender     = require('./middlewares/emailHandler')(context);
+
+var htmlmin = function(ejsRender, response , data ){
+    var htmlMinify = require('html-minifier').minify;
+    response.render(ejsRender , data , function(err, html){
+        html = htmlMinify(html , {
+            removeComments     : true ,
+            collapseWhitespace : true ,
+            minifyJS           : true ,
+            processScripts     : ["text/ng-template"]
+        });
+        response.send(html);
+    });
+};
 
 
 
@@ -71,6 +85,9 @@ app.use(function(req, res, next) {
   res.locals.request  = req;
   res.locals.response = res;
   res.locals.session  = req.session;
+  res.locals.util     = {
+      moment : moment
+  };
   next();
 });
 
@@ -80,7 +97,7 @@ app.all(['/admin*'], isLoggedIn, security.forceHTTPS);
 app.set("security"    , security    );
 app.set("emailSender" , emailSender );
 app.set("moment"      , moment      );
-app.set("html-minify" , htmlMinify  );
+app.set("html-minify" , htmlmin     );
 
 //load('config')
   load('models')

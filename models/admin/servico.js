@@ -27,6 +27,12 @@ module.exports = function(app) {
         }
 
     }, {collection: 'servico'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Servico").find(query, cb);
+        }
+    };
     
     return mongoose.model('Servico', schema);
 };

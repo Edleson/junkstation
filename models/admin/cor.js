@@ -20,6 +20,12 @@ module.exports = function(app) {
         }
                    
     }, {collection: 'cor'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Cor").find(query, cb);
+        }
+    };
     
     return mongoose.model('Cor', schema);
 };

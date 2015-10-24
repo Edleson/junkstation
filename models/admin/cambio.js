@@ -20,6 +20,12 @@ module.exports = function(app) {
         }
 
     }, {collection: 'cambio'});
+
+    schema.methods = {
+        findByQuery : function(cb, query){
+            return this.model("Cambio").find(query, cb);
+        }
+    };
     
     return mongoose.model('Cambio', schema);
 };
