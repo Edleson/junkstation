@@ -1,4 +1,5 @@
 module.exports = function(app) {
+    var htmlMinify = app.get("html-minify");
     var User       = app.models.admin.user;
     var marca      = new app.models.admin.marca({});
     var uf         = new app.models.admin.uf({});
@@ -6,17 +7,8 @@ module.exports = function(app) {
     var controller = {};
 
     controller.criarAnuncioGET = function(req, res, next) {
-        var query = {situacao : true};
-        marca.findByQuery(function(err, marcas){
-            if(err){
-                console.log(err);
-                throw Exception("Ocorreu um erro durante o processamento da requisição ! :(");
-            }else{
-                responseObject.marcas = marcas;
-                htmlMinify('criar_anuncio', res , {response : responseObject});
-            }
-        }, query);
-    }
+        htmlMinify('criar_anuncio', res , {});
+    };
 
     controller.cadastroPerfilGET = function(req, res, next){
         var query          = {situacao : true};

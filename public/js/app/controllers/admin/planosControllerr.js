@@ -13,7 +13,7 @@ app.controller('planosController', function ($scope, planosService, $rootScope, 
 		}).error(function(response){
 			showGrowl(response.header.error.code + " : " + response.header.error.errmsg, response.header.message,  6000);
 		});
-	}
+	} 
 
 	$scope.createOrUpdate = function(entity){
 		showBlockUI({message : "Carregando ..."}); 

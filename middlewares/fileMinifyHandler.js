@@ -6,14 +6,13 @@ module.exports = function(){
 	new compressor.minify({
 	    type: 'yui-css',
 	    fileIn: [
-	              'public/css/font-awesome.css',
-	              'public/css/icomoon.css',
-	              'public/css/font-awesome.css',
-	              'public/css/jquery.fancybox-1.3.4.css',
-	              'public/css/revslider.css',
-	              'public/css/style.css',
-	              'public/css/planos.css',
-	              'public/css/responsive.css',
+	              'public/css/font-awesome.css' 			,
+	              'public/css/icomoon.css'					,
+	              'public/css/jquery.fancybox-1.3.4.css'	,
+	              'public/css/revslider.css'				,
+	              'public/css/style.css'					,
+	              'public/css/planos.css'					,
+	              'public/css/responsive.css'				,
 	              'public/css/ng-dialog.min.css'
 	            ],
 	    fileOut: 'public/dist/css/base-min.css',
@@ -47,6 +46,7 @@ module.exports = function(){
 	              'public/js/lib/jquery-validator.js'				  ,
 	              'public/js/lib/aditional-validator.js'			  ,
 				  'public/js/lib/jquery-maskedinput.js'			  	  ,
+				  'public/js/lib/jquery-maskmoney.js'			  	  ,
 				  'public/js/lib/jquery-imagePreview.js'			  ,
 	              'public/js/app/util/util.js'						  ,
 	              'public/js/app/util/dominioUtil.js'						  	    

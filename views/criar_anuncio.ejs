@@ -93,7 +93,7 @@
 							<div class="grid_4 left">									
 								<p>
 									<label for="preco" class="dropdown_label">Preço <span class="required">*</span></label>
-									<input type="text" id="preco" name="preco"  value="" />
+									<input type="text" id="preco" name="preco"  value="" ui-money-mask="2" />
 								</p>
 							</div>
 
@@ -199,7 +199,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="renavam" class="dropdown_label">Renavam <span class="required">*</span></label>
-									<input type="text" id="renavam" name="renavam"  value="" />
+									<input type="text" id="renavam" name="renavam"  value="" maxlength="11" />
 								</p>
 							</div>
 
@@ -207,114 +207,6 @@
 								<p>
 									<label for="placa" class="dropdown_label">Placa <span class="required">*</span></label>
 									<input type="text" id="placa" name="placa"  value="" />
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro asdasdaa
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="terms" class="custom_checkbox">
-										<input type="checkbox" name="terms" id="terms" />
-										Banco de coro
-									</label>
 								</p>
 							</div>
 
@@ -352,33 +244,32 @@
 									</div>
 									<input type="file" name="foto" />
 								</div>
-								<!--<div class="half right">
+								<div class="half right">
 									<div class="item_heading">
-										<h4>Mercedes <a href="/anuncio/detail">SLS AMG</a></h4>
+										<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
 										<p class="location">
-											San Francisco, <strong>CA</strong>
-											<span class="vendor">Tom Harris</span>
+											<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
+											<span class="vendor"><%- request.user.dadosPessoais.nome.substring(0, 10) %></span>
 										</p>
 									</div>
 									<div class="item_info clearfix">
 										<p class="half left">
-											<span class="item_year">2012</span>
-											<span class="item_type">Grand Tourer</span>
-											<span class="item_drive">RWD</span>
-											<span class="item_engine">6.2</span>
+											<span class="item_year" alt="Ano de Fabricação">-</span>
+											<span class="item_type" alt="Tipo de Veículo">-</span>
+											<span class="item_drive" alt="Motor">-</span>
 										</p>
 										<p class="half right">
-											<span class="item_transimition">Automatic</span>
-											<span class="item_fuel">Petrol</span>
-											<span class="item_mileage">1,000 miles</span>
+											<span class="item_transimition">-</span>
+											<span class="item_fuel">-</span>
+											<span class="item_mileage">-</span>
 										</p>
 									</div>
 									<div class="item_footer">
-										<span class="item_price">$215,000</span>
-										<span class="item_date">25 March, 2013</span>
-										<span class="item_rating">4.9</span>
+										<span class="item_price">R$ 0,00</span>
+										<span class="item_date"><%- util.moment().format("LL")%></span>
+										<!--<span class="item_rating">4.9</span>-->
 									</div>
-								</div>-->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -445,9 +336,107 @@
 					};
 
 					if($(this).val() !== "0"){
+						$(".marcaTXT").html($(this).find("option:selected").text());
 						listModeloByMarca($(this).val(), marcaCallback, {}, true);
+					}else{
+						$(".marcaTXT").html("-");
 					}
+				});
 
+				$('#modelo').change(function(){
+					if(this.value !== ""){
+						$(".modeloTXT").html(this.value);
+					}else{
+						$(".modeloTXT").html("-");
+					}
+				});
+
+				$('#anoFabricacao').change(function(){
+					if(this.value !== ""){
+						$(".item_year").html(this.value);
+					}else{
+						$(".item_year").html("-");
+					}
+				});
+
+				$('#estilo').change(function(){
+					if(this.value !== ""){
+						$(".item_type").html(this.value);
+					}else{
+						$(".item_type").html("-");
+					}
+				});
+
+				$('#cambio').change(function(){
+					if(this.value !== ""){
+						$(".item_transimition").html(this.value);
+					}else{
+						$(".item_transimition").html("-");
+					}
+				});
+
+				$('#combustivel').change(function(){
+					if(this.value !== ""){
+						$(".item_fuel").html(this.value);
+					}else{
+						$(".item_fuel").html("-");
+					}
+				});
+
+				$('#kilometragem').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_mileage").html(this.value + " KM");
+					}else{
+						$(".item_mileage").html("-");
+					}
+				}).maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: "."   ,
+					decimal     	: ""    ,
+					precision   	: 0     ,
+					allowZero   	: false ,
+					allowNegative 	: false
+
+				});
+
+				$('#preco').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_price").html("R$ " + this.value);
+					}else{
+						$(".item_price").html("R$ 0,00");
+					}
+				}).maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: "."   ,
+					decimal     	: ","   ,
+					precision   	: 2     ,
+					allowZero   	: false ,
+					allowNegative 	: false
+
+				});
+
+				$('#motor').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_drive").html(this.value);
+					}else{
+						$(".item_drive").html("-");
+					}
+				});
+
+				$('#placa').mask("aaa9999");
+				$('#renavam').maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: ""   ,
+					decimal     	: ""   ,
+					precision   	: 0     ,
+					allowZero   	: false ,
+					allowNegative 	: false
 
 				});
 			});
