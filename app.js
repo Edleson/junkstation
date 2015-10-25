@@ -19,6 +19,9 @@ var cookieParser    = require('cookie-parser');
 var moment          = require('moment');
 var moment_pt       = require('./config/moment_ptBr')(moment);
 var cookie          = cookieParser();
+var multer          = require('multer')    ;
+var storage         = multer.memoryStorage()
+var form            = multer({ storage: storage });
 var app             = express();
 
 moment.locale("pt-br", moment_pt);
@@ -80,6 +83,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(logger('dev'));
+//app.use(form().);
 
 app.use(function(req, res, next) {
   res.locals.request  = req;

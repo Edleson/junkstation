@@ -6,10 +6,7 @@
     },
 
     "EMAIL_INFO" : {
-    	"EMAIL_SERVER"   : "junkstation.com.br"            ,
-    	"EMAIL_BOX"      : "no-replay@junkstation.com.br"  ,
-    	"EMAIL_PASSWORD" : "311junk311"                    ,
-    	"EMAIL_PORT"     : 587
+    	
     }
     
 }

@@ -21,7 +21,7 @@ module.exports = function(app) {
         console.log("Configuração AWS realizada com sucesso!");
     }
 
-    app.post('/upload/add', isLoggedIn,security.forceHTTPS, upload.single('imagem') ,  function(req, res, next) {
+    app.post('/upload/add', isLoggedIn, security.forceHTTPS, upload.single('imagem') , function(req, res, next) {
         var file    =  req.file;
         var data    =  file.buffer;
         var day     = 86400000

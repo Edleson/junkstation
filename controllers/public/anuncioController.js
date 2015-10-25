@@ -10,6 +10,21 @@ module.exports = function(app) {
         htmlMinify('criar_anuncio', res , {});
     };
 
+    controller.criarAnuncioPOST = function(req, res, next) {
+        req.flash('cadastroAnuncio', '<div class="alert-success">Anúncio cadastrado com sucesso</div>');
+        console.log(req.form);
+        req.form.complete(function(err, fields, files){
+            console.log(fields);
+            if (err) {
+                console.log(err);
+                next(err);
+            } else {
+                console.log('\nuploaded %s to %s', files.image.filename, files.image.path);
+                htmlMinify('criar_anuncio', res , {});
+            }
+        });  
+    };
+
     controller.cadastroPerfilGET = function(req, res, next){
         var query          = {situacao : true};
         var response = {
