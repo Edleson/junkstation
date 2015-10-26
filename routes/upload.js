@@ -9,7 +9,7 @@ module.exports = function(app) {
     var s3              = new AWS.S3();
     var storage         = multer.memoryStorage()
     var upload          = multer({ storage: storage });
-    
+     
     AWS.config.update({
         accessKeyId     : accessKeyId       ,
         secretAccessKey : secretAccessKey

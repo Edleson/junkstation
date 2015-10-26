@@ -1,7 +1,5 @@
 var forceSSL    = require('express-force-ssl');
 var Hashids     = require("hashids");
-//var defaultSalt = "junkstation";
-//var defaulhash  = "0123456789abcdefghijlmnopqrstuvxzywABCDEFGHIJLMNOPQRSTUVXZYW"
 
 module.exports = function(context) {
 	var handler = {};

@@ -1,10 +1,11 @@
 module.exports = function(app) {
-    var htmlMinify = app.get("html-minify");
-    var User       = app.models.admin.user;
-    var marca      = new app.models.admin.marca({});
-    var uf         = new app.models.admin.uf({});
-    var moment     = app.get("moment");       
-    var controller = {};
+    var htmlMinify  = app.get("html-minify");
+    var fileHandler = app.get("fileHandler");
+    var User        = app.models.admin.user;
+    var marca       = new app.models.admin.marca({});
+    var uf          = new app.models.admin.uf({});
+    var moment      = app.get("moment");       
+    var controller  = {};
 
     controller.criarAnuncioGET = function(req, res, next) {
         htmlMinify('criar_anuncio', res , {});
@@ -12,17 +13,16 @@ module.exports = function(app) {
 
     controller.criarAnuncioPOST = function(req, res, next) {
         req.flash('cadastroAnuncio', '<div class="alert-success">Anúncio cadastrado com sucesso</div>');
-        console.log(req.form);
-        req.form.complete(function(err, fields, files){
-            console.log(fields);
-            if (err) {
-                console.log(err);
-                next(err);
-            } else {
-                console.log('\nuploaded %s to %s', files.image.filename, files.image.path);
-                htmlMinify('criar_anuncio', res , {});
+        var callback = function(error, responseAWS, idAnuncio){
+            if(error){
+                console.log(JSON.stringify(error));
+            }else{
+                console.log(JSON.stringify(responseAWS));
             }
-        });  
+        };
+        console.log(callback);
+        fileHandler.uploadMultiploFile(req, "¨66768964826374", callback);
+        htmlMinify('criar_anuncio', res , {});
     };
 
     controller.cadastroPerfilGET = function(req, res, next){
@@ -33,7 +33,7 @@ module.exports = function(app) {
        
         uf.findByQuery(function(err, ufs){
             response.ufs = ufs;
-            res.render('meus_dados', {response : response }); 
+            htmlMinify('meus_dados', res, {response : response }); 
         }, query);
     };
 
@@ -55,10 +55,10 @@ module.exports = function(app) {
                 if(error){
                     console.log(error)
                     req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
-                    res.render('meus_dados', {response : response });
+                    htmlMinify('meus_dados', res, {response : response });
                 }else{
                     req.flash('cadastro', '<div class="alert-success">Dados salvos com sucesso :) </div>');
-                    res.render('meus_dados', {response : response });
+                    htmlMinify('meus_dados', res, {response : response });
                 }
             }, query);
         })

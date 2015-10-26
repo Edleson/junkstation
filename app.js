@@ -20,8 +20,8 @@ var moment          = require('moment');
 var moment_pt       = require('./config/moment_ptBr')(moment);
 var cookie          = cookieParser();
 var multer          = require('multer')    ;
-var storage         = multer.memoryStorage()
-var form            = multer({ storage: storage });
+var storage         = multer.memoryStorage();
+var upload          = multer({ storage: storage });
 var app             = express();
 
 moment.locale("pt-br", moment_pt);
@@ -37,6 +37,7 @@ var error           = require('./middlewares/errorHandler');
 var isLoggedIn      = require('./middlewares/loginHandler');
 var security        = require('./middlewares/securityHandler')(context);
 var emailSender     = require('./middlewares/emailHandler')(context);
+var fileHandler     = require('./middlewares/fileHandler')(context);
 
 var htmlmin = function(ejsRender, response , data ){
     var htmlMinify = require('html-minifier').minify;
@@ -50,9 +51,6 @@ var htmlmin = function(ejsRender, response , data ){
         response.send(html);
     });
 };
-
-
-
 /***********************************************************
  * Carrega os certificados utilizados para configuração do * 
  *https.                                                   *
@@ -83,7 +81,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(logger('dev'));
-//app.use(form().);
 
 app.use(function(req, res, next) {
   res.locals.request  = req;
@@ -95,13 +92,15 @@ app.use(function(req, res, next) {
   next();
 });
 
-
 app.all(['/admin*'], isLoggedIn, security.forceHTTPS);
 
 app.set("security"    , security    );
 app.set("emailSender" , emailSender );
 app.set("moment"      , moment      );
 app.set("html-minify" , htmlmin     );
+app.set("fileHandler" , fileHandler );
+app.set("multer"      , upload      );
+
 
 //load('config')
   load('models')
@@ -111,6 +110,7 @@ app.set("html-minify" , htmlmin     );
 
 app.use(error.notFound);
 app.use(error.serverError);
+
 
 /***********************************************************
  * Faz otimização das imagens e coloca no diretório DIST   * 

@@ -32,7 +32,14 @@ module.exports = function(){
 
         aws : {
             access_key : AWS_ACCESS_KEY ,
-            secret_key : AWS_SECRET_KEY
+            secret_key : AWS_SECRET_KEY ,
+            S3 : {
+                Bucket          : "junkstation"                ,
+                ACL             : "public-read"                ,
+                CacheControl    : "max-age=" + (86400000 * 30) ,//30 Dias
+                ContentLanguage : "pt-BR"                      ,
+                Expires         : (86400000 * 30)               //30 Dias
+            }
         },
 
         sec : {
