@@ -39,6 +39,7 @@
 					
 					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
 						<div class="box-content clearfix">
+							
 							<div class="grid_4 left clearfix">
 								<p>
 									<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
@@ -102,6 +103,20 @@
 								</p>
 							</div>
 
+							<div class="grid_4 left">							
+								<p>
+									<label for="celular" class="dropdown_label">Celular <span class="required">*</span></label>
+									<input type="text" id="celular" name="celular" placeholder="(XX) XXXXXXXXX" value="<%- request.user.dadosPessoais.celular %>" />
+								</p>
+							</div>
+											
+							<div class="grid_4 right">							
+								<p>
+									<label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
+									<input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
+								</p>
+							</div>
+
 							<div class="grid_3 left">							
 								<p>
 									<label for="cep" class="dropdown_label">CEP <span class="required">*</span></label>
@@ -159,36 +174,15 @@
 							        </select>
 								</p>
 							</div>	
-
-							<div class="grid_4 left">							
+							
+							<div class="grid_8 left ">
 								<p>
-									<label for="celular" class="dropdown_label">Celular <span class="required">*</span></label>
-									<input type="text" id="celular" name="celular" placeholder="(XX) XXXXXXXXX" value="<%- request.user.dadosPessoais.celular %>" />
-								</p>
-							</div>
-											
-							<div class="grid_4 left">							
-								<p>
-									<label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
-									<input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
-								</p>
-							</div>
-
-							<div class="full left">
-								<p></p>
-							</div>
-
-							<div class="full left">
-								<p></p>
-							</div>
-
-							<div class="full left bigger_margin">
-								<p>
-									<button type="submit" class="button submit wide red right">Salvar Perfil</button>	 
+									<button type="submit" class="button submit wide red ">Salvar Perfil</button>
 								</p>
 							</div>
 						</div>
 					</form>
+					
 				</div>					
 			</div>	
 		</div>

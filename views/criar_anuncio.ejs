@@ -12,29 +12,10 @@
 		<div class="container_12 clearfix" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 
-			<!--<div class="grid_3">
-				<div class="box">
-					<h3>Add Fotos</h3>
-					<div class="box-content">
-						<p class="centered_content">
-							<a href="#fotos_form" class="button red modal">Upload photos</a>
-						</p>
-					</div>
-				</div>
-				
-				<div class="box">
-					<h3>Add Videos</h3>
-					<div class="box-content">
-						<p class="centered_content">
-							<a href="#video_form" class="button red modal">Upload video</a>
-						</p>
-					</div>
-				</div>
-			</div>-->
- 
-			
 			<div class="grid_9 bigger_margin">
 				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="user" value="<%- request.user._id %>" />
+					<input type="hidden" name="plano" value="<%- request.user._id %>" />
 					<%- request.flash("cadastroAnuncio") %>
 					<div class="box clearfix">
 						<h3>Informações do Anunciante </h3>
@@ -63,14 +44,14 @@
 							<div class="grid_4 left">
 								<p>
 									<label for="dataAnuncio" class="dropdown_label">Dt. Anúncio </label>
-									<input type="text" id="dataAnuncio"readonly="readonly" name="dataAnuncio" value="<%- util.moment().format('L') %>" >
+									<input type="text" id="dataAnuncio"readonly="readonly" name="data_anuncio" value="<%- util.moment().format('L') %>" >
 								</p>
 							</div>
 							
 							<div class="grid_4 left">
 								<p>
 									<label for="vencimento" class="dropdown_label">Vencimento</label>
-									<input type="text" readonly="readonly" id="vencimento" name="vencimento" value="<%- util.moment().add(30, 'days').format('L') %>" >
+									<input type="text" readonly="readonly" id="vencimento" name="data_vencimento" value="<%- util.moment().add(30, 'days').format('L') %>" >
 								</p>								
 							</div>
 							
@@ -79,10 +60,10 @@
 							<div class="grid_4 left big_margin">
 								<p>
 									<label for="condition_new" class="custom_radio">
-										<input type="radio" name="situacao" id="condition_new" value="new" >Ativo
+										<input type="radio" name="status" id="condition_new" value="true" >Ativo
 									</label>
 									<label for="condition_used" class="custom_radio">
-										<input type="radio" name="situacao" id="condition_used" value="used">Inativo
+										<input type="radio" name="status" id="condition_used" value="false">Inativo
 									</label>
 								</p>								
 							</div>
@@ -95,7 +76,7 @@
 							<div class="grid_4 left">									
 								<p>
 									<label for="preco" class="dropdown_label">Preço <span class="required">*</span></label>
-									<input type="text" id="preco" name="preco"  value="" ui-money-mask="2" />
+									<input type="text" id="preco" name="preco"  value=""  />
 								</p>
 							</div>
 
@@ -109,7 +90,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="marca" class="dropdown_label">Marca <span class="required">*</span></label>
-									<select name="marca" id="marca" class="customSelect full" value="">
+									<select name="marca" id="marca" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -118,7 +99,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
-									<select name="modelo" id="modelo" class="customSelect full" value="">
+									<select name="modelo" id="modelo" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -127,7 +108,7 @@
 							<div class="grid_2 left">									
 								<p>
 									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
-									<select name="anoFabricacao" id="anoFabricacao" class="customSelect full" value="">
+									<select name="ano" id="anoFabricacao" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -136,7 +117,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="portas" class="dropdown_label">Portas <span class="required">*</span></label>
-									<select name="portas" id="portas" class="customSelect full" value="">
+									<select name="numero_portas" id="portas" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 										<option value="2">2</option>
 										<option value="3">3</option>
@@ -149,7 +130,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="cambio" class="dropdown_label">Câmbio <span class="required">*</span></label>
-									<select name="cambio" id="cambio" class="customSelect full" value="">
+									<select name="cambio" id="cambio" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -158,7 +139,7 @@
 							<div class="grid_2 left">									
 								<p>
 									<label for="cor" class="dropdown_label">Cor <span class="required">*</span></label>
-									<select name="cor" id="cor" class="customSelect full" value="">
+									<select name="cor" id="cor" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -167,7 +148,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
-									<select name="categoria" id="categoria" class="customSelect full" value="">
+									<select name="categoria" id="categoria" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -176,7 +157,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="combustivel" class="dropdown_label">Combustível <span class="required">*</span></label>
-									<select name="combustivel" id="combustivel" class="customSelect full" value="">
+									<select name="combustivel" id="combustivel" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -185,7 +166,7 @@
 							<div class="grid_2 left">									
 								<p>
 									<label for="estilo" class="dropdown_label">Estilo <span class="required">*</span></label>
-									<select name="estilo" id="estilo" class="customSelect full" value="">
+									<select name="estilo" id="estilo" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -194,7 +175,7 @@
 							<div class="grid_3 left">									
 								<p>
 									<label for="motor" class="dropdown_label">Motor <span class="required">*</span></label>
-									<input type="text" id="motor" name="motor"  value="" />
+									<input type="text" id="motor" name="motor"  value="" maxlength="10" />
 								</p>
 							</div>
 
@@ -208,7 +189,7 @@
 							<div class="grid_2 left">									
 								<p>
 									<label for="placa" class="dropdown_label">Placa <span class="required">*</span></label>
-									<input type="text" id="placa" name="placa"  value="" />
+									<input type="text" id="placa" name="placa"  value="" maxlength="7" />
 								</p>
 							</div>
 
@@ -222,19 +203,20 @@
 							<div class="grid_8 left">									
 								<p>
 									<label for="titulo" class="dropdown_label">Título<span class="required">*</span></label>
-									<input type="text" id="titulo" name="titulo"  value="" />
+									<input type="text" id="titulo" name="titulo_anuncio"  value="" />
 								</p>
 							</div>
 
 							<div class="grid_8 left">	
 								<p>
 									<label for="descricao" class="dropdown_label">Descrição <span class="required">*</span></label>
-									<textarea name="descricao" id="descricao" ></textarea>
+									<textarea name="descricao_anuncio" id="descricao" ></textarea>
 								</p>
 							</div>
 							
 						</div>
 					</div>
+					
 					<div class="box clearfix">
 						<h3>Fotos e Vídeos</h3>
 						<div class="box-content">
@@ -250,7 +232,47 @@
 										<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
 										<p class="location">
 											<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
-											<span class="vendor"><%- request.user.dadosPessoais.nome.substring(0, 10) %></span>
+											<span class="vendor"></span>
+										</p>
+									</div>
+									<div class="item_info clearfix">
+										<p class="half left">
+											<span class="item_year" alt="Ano de Fabricação">-</span>
+											<span class="item_type" alt="Tipo de Veículo">-</span>
+											<span class="item_drive" alt="Motor">-</span>
+										</p>
+										<p class="half right">
+											<span class="item_transimition">-</span>
+											<span class="item_fuel">-</span>
+											<span class="item_mileage">-</span>
+										</p>
+									</div>
+									<div class="item_footer">
+										<span class="item_price">R$ 0,00</span>
+										<span class="item_date"><%- util.moment().format("LL")%></span>
+										<!--<span class="item_rating">4.9</span>-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="box clearfix">
+						<h3>Fotos e Vídeos</h3>
+						<div class="box-content">
+							<div class="grid_8 list_item">
+								<div class="half left">
+									<div class="overlayed" >
+										<img src="/dist/images/sls.jpg" alt="">
+									</div>
+									<input type="file" name="fotos" />
+								</div>
+								<div class="half right">
+									<div class="item_heading">
+										<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
+										<p class="location">
+											<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
+											<span class="vendor"></span>
 										</p>
 									</div>
 									<div class="item_info clearfix">

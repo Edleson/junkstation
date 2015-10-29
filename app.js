@@ -62,7 +62,8 @@ var ssl_option      = {
 /***********************************************************
  * Midlewares de configuração do Express                   *
  **********************************************************/
-app.disable('x-powered-by');  
+app.disable('x-powered-by');
+app.set("trust proxy", true);  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
 app.use(compression());
@@ -102,11 +103,8 @@ app.set("fileHandler" , fileHandler );
 app.set("multer"      , upload      );
 
 
-//load('config')
-  load('models')
-  .then('controllers')
-  .then('routes')
-  .into(app);
+
+load('util').then('models').then('controllers').then('routes').into(app);
 
 app.use(error.notFound);
 app.use(error.serverError);
@@ -126,14 +124,14 @@ _compressor();
  * Inicializa o servidor web.                               * 
  ************************************************************/
 http.createServer(app).listen(3000, function(){
-  console.log("Junkstation started at port :" + 3000);
+  console.log("Junkstation started at port : " + 3000);
 });
 
 /************************************************************
  * Inicializa o servidor web HTTPS                          * 
  ************************************************************/
 https.createServer(ssl_option, app).listen(8443, function(){
-  console.log("Junkstation started at port :" + 8443);
+  console.log("Junkstation started at port : " + 8443);
 });
 
 //module.exports = app;

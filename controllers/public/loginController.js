@@ -1,4 +1,5 @@
 module.exports = function(app) {
+    var htmlMinify        = app.get("html-minify");
     var User              = app.models.admin.user;
     var createResponseAPI = app.models.admin.responseAPI;
     var security          = app.get("security");
@@ -62,10 +63,11 @@ module.exports = function(app) {
         var id = req.params.id;
         User.update({_id : security.decryptHexNumber(id)}, {contaAtiva : true}, { multi: false }, function(error, user){
             if(error){
-               console.log(error);
-               res.render('server-error.ejs', {error : error});
+               //res.render('server-error.ejs', {error : error});
+               next(error)
             }else{
-                res.render('confirma_cadastro.ejs', {usuario : user});
+                //res.render('confirma_cadastro.ejs', {usuario : user});
+                htmlMinify('confirma_cadastro', res , {usuario : user});
             }
         });
         
@@ -83,7 +85,7 @@ module.exports = function(app) {
                 ResponseAPI.header.message = "Não foi possível alterar a senha!";
                 ResponseAPI.header.error   = error;
                 ResponseAPI.data           = {};
-                console.log(err);
+                //console.log(err);
                 res.status(500).json(ResponseAPI);
             }else{
                var mensage = "<div class='alert-success'>Sua senha foi alterada com sucesso</div>";

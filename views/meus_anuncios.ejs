@@ -10,109 +10,37 @@
 		<% include template/header %>
 		<div class="container_12 clearfix content">
 			<% include template/vertical_menu_admin %>
-
+			
 			<div class="grid_9 content">
 				<h2 class="page_title with_filter">Meus Anúncios</h2>
-				<article class="box clearfix grid_item">
-					<div class="item_heading">
-						<div class="overlayed">
-							<img src="/dist/images/smart.jpg" alt="">
-							<div class="overlay">
-								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
-								<span class="overlay-icon-right"><a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+				<% response.forEach(function(anuncio){ %>
+					<article class="box clearfix grid_item">
+						<div class="item_heading">
+							<div class="overlayed">
+								<img src="/dist/images/smart.jpg" alt="">
+								<div class="overlay">
+									<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
+									<span class="overlay-icon-right"><a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
+								</div>
 							</div>
+							<h4> <a href="/anuncio/detail"><%- anuncio.modelo %></a></h4>
+							<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
 						</div>
-						<h4>Smart <a href="/anuncio/detail">Fortwo</a></h4>
-						<span class="location">New York, <strong>NY</strong></span>
-					</div>
 
-					<div class="item_info">
-						<span class="item_year">2006</span>
-						<span class="item_engine">0.9</span>
-						<span class="item_transimition">Automatic</span>
-						<span class="item_mileage">16,000 miles</span>
-					</div>
+						<div class="item_info">
+							<span class="item_year"><%- anuncio.ano %></span>
+							<span class="item_engine"><%- anuncio.motor %></span>
+							<span class="item_transimition"><%- anuncio.cambio %></span>
+							<span class="item_mileage"><%- anuncio.kilometragem %> KM</span>
 
-					<div class="item_footer">
-						<span class="item_price">$6,000</span>
-						<span class="item_rating">4.3</span>
-					</div>
-				</article>
-				<article class="box clearfix grid_item">
-					<div class="item_heading">
-						<div class="overlayed">
-							<img src="/dist/images/smart.jpg" alt="">
-							<div class="overlay">
-								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
-								<span class="overlay-icon-right"><a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
-							</div>
 						</div>
-						<h4>Smart <a href="/anuncio/detail">Fortwo</a></h4>
-						<span class="location">New York, <strong>NY</strong></span>
-					</div>
 
-					<div class="item_info">
-						<span class="item_year">2006</span>
-						<span class="item_engine">0.9</span>
-						<span class="item_transimition">Automatic</span>
-						<span class="item_mileage">16,000 miles</span>
-					</div>
-
-					<div class="item_footer">
-						<span class="item_price">$6,000</span>
-						<span class="item_rating">4.3</span>
-					</div>
-				</article>
-				<article class="box clearfix grid_item">
-					<div class="item_heading">
-						<div class="overlayed">
-							<img src="/dist/images/smart.jpg" alt="">
-							<div class="overlay">
-								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
-								<span class="overlay-icon-right"><a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
-							</div>
+						<div class="item_footer">
+							<span class="item_price"><%- anuncio.preco %></span>
+							<span ><a class="button submit wide green">Editar</a></span>
 						</div>
-						<h4>Smart <a href="/anuncio/detail">Fortwo</a></h4>
-						<span class="location">New York, <strong>NY</strong></span>
-					</div>
-
-					<div class="item_info">
-						<span class="item_year">2006</span>
-						<span class="item_engine">0.9</span>
-						<span class="item_transimition">Automatic</span>
-						<span class="item_mileage">16,000 miles</span>
-					</div>
-
-					<div class="item_footer">
-						<span class="item_price">$6,000</span>
-						<span class="item_rating">4.3</span>
-					</div>
-				</article>
-				<article class="box clearfix grid_item">
-					<div class="item_heading">
-						<div class="overlayed">
-							<img src="/dist/images/smart.jpg" alt="">
-							<div class="overlay">
-								<span class="overlay-icon-left"><a href="/anuncio/detail"><i class="icomoon-link"></i></a></span>
-								<span class="overlay-icon-right"><a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="group1"><i class="icomoon-expand-2"></i></a></span>
-							</div>
-						</div>
-						<h4>Smart <a href="/anuncio/detail">Fortwo</a></h4>
-						<span class="location">New York, <strong>NY</strong></span>
-					</div>
-
-					<div class="item_info">
-						<span class="item_year">2006</span>
-						<span class="item_engine">0.9</span>
-						<span class="item_transimition">Automatic</span>
-						<span class="item_mileage">16,000 miles</span>
-					</div>
-
-					<div class="item_footer">
-						<span class="item_price">$6,000</span>
-						<span class="item_rating">4.3</span>
-					</div>
-				</article>
+					</article>
+				<%});%>
 			</div>
 			
 			

@@ -16,12 +16,9 @@ module.exports = function(app) {
 		res.render('anuncio_detalhe');
 	});
 
-	app.get('/anuncio/meusanuncios', isLoggedIn, security.forceHTTPS, function(req, res, next){
-		res.render('meus_anuncios');
-	});
-
-	app.get('/anuncio/create'    , isLoggedIn, security.forceHTTPS, controller.criarAnuncioGET   								);
-	app.post('/anuncio/create'   , isLoggedIn, security.forceHTTPS, multer.array("fotos", 10), controller.criarAnuncioPOST  	);
-	app.get('/anuncio/meusdados' , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilGET 								);
-	app.post('/anuncio/meusdados', isLoggedIn, security.forceHTTPS, controller.cadastroPerfil    								);
+	app.get('/anuncio/meusanuncios', isLoggedIn, security.forceHTTPS, controller.meusAnuncios);
+	app.get('/anuncio/create'    , isLoggedIn, security.forceHTTPS, controller.criarAnuncioGET);
+	app.post('/anuncio/create'   , isLoggedIn, security.forceHTTPS, multer.array("fotos", 10), controller.criarAnuncioPOST);
+	app.get('/anuncio/meusdados' , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilGET);
+	app.post('/anuncio/meusdados', isLoggedIn, security.forceHTTPS, controller.cadastroPerfil);
 };

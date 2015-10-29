@@ -1,18 +1,25 @@
 var AWS      = require('aws-sdk') 	;
 
 module.exports = function(context){
-	var handler  = {}; 
-	var s3       = new AWS.S3();
+	var handler         = {};
+	var accessKeyId     = process.env.AWS_ACCESS_KEY   || null;
+    var secretAccessKey = process.env.AWS_SECRET_KEY   || null; 
+	var s3              = new AWS.S3();
 
 	/**********************************************************
  	* Configura o acesso aos recursos AWS                     *
  	**********************************************************/
 	AWS.config.update({
-        accessKeyId     : context.aws.access_key  ,
-        secretAccessKey : context.aws.secret_key
+        accessKeyId     : accessKeyId       ,
+        secretAccessKey : secretAccessKey   ,
+        sslEnabled      : true
     });
 
-	console.log(JSON.stringify(context));
+    //console.log(AWS.config);
+
+	//console.log(JSON.stringify(accessKeyId));
+	//console.log(JSON.stringify(secretAccessKey));
+    
     /*********************************************************
  	* Função responsável por realizar o upload de um único   *
  	* arquivo                                                *
@@ -52,7 +59,7 @@ module.exports = function(context){
             Expires             : context.aws.S3.Expires 
         };
 
-       //console.log(JSON.stringify(params));
+       console.log(params);
 
         s3.putObject(params, function (error, response) {
             callback(error, response, object);

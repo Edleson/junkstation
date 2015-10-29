@@ -4,16 +4,19 @@ var AWS      = require('aws-sdk') 	;
 module.exports = function(app) {
     var security        = app.get("security");
     var isLoggedIn      = require('./../middlewares/loginHandler');
-    var accessKeyId     = process.env.AWSAccessKeyId   || null;
-    var secretAccessKey = process.env.AWSSecretKey     || null;
+    var accessKeyId     = process.env.AWS_ACCESS_KEY   || null;
+    var secretAccessKey = process.env.AWS_SECRET_KEY   || null;
     var s3              = new AWS.S3();
     var storage         = multer.memoryStorage()
     var upload          = multer({ storage: storage });
      
     AWS.config.update({
         accessKeyId     : accessKeyId       ,
-        secretAccessKey : secretAccessKey
+        secretAccessKey : secretAccessKey   ,
+        sslEnabled      : true
     });
+
+    //console.log(AWS.config);
     
     if(accessKeyId === null || secretAccessKey === null){
         console.log("Variáveis de Ambiente AWSAccessKeyId ou AWSSecretKey não foram encontradas");
@@ -40,6 +43,8 @@ module.exports = function(app) {
             ContentType         : file.mimetype        ,
             Expires             : new Date 
         };
+
+        //console.log(params);
 
         s3.putObject(params, function (error, response) {
             if (error) {
