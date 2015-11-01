@@ -3,17 +3,17 @@
 	<head>
 		<% include template/meta %>
 		<title>Junk Station a Vitrine do seu clássico</title>
+		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 		<% include template/css %>
 	</head>
 
 	<body >
 		<% include template/header %>
-		
 		<div class="container_12 clearfix" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 
 			<div class="grid_9 bigger_margin">
-				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data">
+				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data" id="anuncioForm">
 					<input type="hidden" name="user" value="<%- request.user._id %>" />
 					<input type="hidden" name="plano" value="<%- request.user._id %>" />
 					<%- request.flash("cadastroAnuncio") %>
@@ -86,6 +86,15 @@
 									<input type="text" id="kilometragem" name="kilometragem"  value="" />
 								</p>
 							</div>
+
+							<div class="grid_3 left">									
+								<p>
+									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
+									<select name="categoria" id="categoria" class="customSelect full" value="" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
 							
 							<div class="grid_3 left">									
 								<p>
@@ -96,7 +105,7 @@
 								</p>
 							</div>
 
-							<div class="grid_3 left">									
+							<div class="grid_2 left">									
 								<p>
 									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
 									<select name="modelo" id="modelo" class="customSelect full" value="" >
@@ -105,14 +114,7 @@
 								</p>
 							</div>
 
-							<div class="grid_2 left">									
-								<p>
-									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
-									<select name="ano" id="anoFabricacao" class="customSelect full" value="" >
-										<option value="">Selecione</option>
-									</select>
-								</p>
-							</div>
+							
 
 							<div class="grid_3 left">									
 								<p>
@@ -147,8 +149,8 @@
 
 							<div class="grid_3 left">									
 								<p>
-									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
-									<select name="categoria" id="categoria" class="customSelect full" value="" >
+									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
+									<select name="ano" id="anoFabricacao" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
@@ -312,6 +314,39 @@
 			$(document).ready(function(){
 				init();
 
+				var categoriaCallback = function(response, textStatus, jqXHR){
+					var marcas = response.data;
+					$('#marca option').remove();
+					$('#marca option').remove();
+					
+					$('#marca').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change(); 
+
+					$('#modelo').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change();
+
+					marcas.forEach(function(item){
+						$('#marca').append($('<option>', {
+						    value : item._id ,
+						    text  : item.nome
+						}));
+					});
+				};
+
+				$("#categoria").change(function(){
+					if($(this).val() !== "0"){
+						listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
+					}
+				});
+				
+				
+
 				$("#marca").change(function(){
 					var marcaCallback = function(response, textStatus, jqXHR){
 						var modelos = response.data;
@@ -436,13 +471,41 @@
 					allowNegative 	: false
 
 				});
+
+				$("#anuncioForm").validate({ 
+					submitHandler : function(){
+						var categoria = $("#categoria").find("option:selected").text();
+						var marca     = $("#marca").find("option:selected").text();
+
+						$("#categoria option:selected").val(categoria)
+						$("#marca option:selected").val(marca);
+						
+						return true;
+					},
+					rules    : {},
+			        messages : {} 
+				});
 			});
 
 			function init(){
 				/***********************************************************
+			    * Lista todas as categorias ativas                         * 
+			    ***********************************************************/
+			    var categoriaCallBack = function(response, textStatus, jqXHR){
+					var categoria = response.data;
+					categoria.forEach(function(item){
+						$('#categoria').append($('<option>', {
+						    value : item._id ,
+						    text  : item.nome
+						}));
+					});
+				};
+				listCategoria(categoriaCallBack, {}, false);
+
+				/***********************************************************
 			    * CARREGA TODAS AS MARCAS ATIVAS E PREENCHE O COMBO MARCAS * 
 			    ***********************************************************/
-				var marcaCallback = function(response, textStatus, jqXHR){
+				/*var marcaCallback = function(response, textStatus, jqXHR){
 					var marcas = response.data;
 					marcas.forEach(function(item){
 						$('#marca').append($('<option>', {
@@ -451,7 +514,7 @@
 						}));
 					});
 				};
-				listMarca(marcaCallback, {}, false);
+				listMarca(marcaCallback, {}, false);*/
 				/***********************************************************
 			    * Todos os anos de fabricações ativos                      * 
 			    ***********************************************************/
@@ -491,19 +554,6 @@
 					});
 				};
 				listCor(corCallBack, {}, false);
-				/***********************************************************
-			    * Lista todas as categorias ativas                         * 
-			    ***********************************************************/
-			    var categoriaCallBack = function(response, textStatus, jqXHR){
-					var categoria = response.data;
-					categoria.forEach(function(item){
-						$('#categoria').append($('<option>', {
-						    value : item.nome ,
-						    text  : item.nome
-						}));
-					});
-				};
-				listCategoria(categoriaCallBack, {}, false);
 				/***********************************************************
 			    * Lista todas os combustíveies                             * 
 			    ***********************************************************/

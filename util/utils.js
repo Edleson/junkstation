@@ -6,8 +6,8 @@ module.exports = function(app) {
     numeral.defaultFormat('0,0.00');
     numeral.language('br', {
         delimiters: {
-            thousands: '.',
-            decimal: ','
+            thousands : '.',
+            decimal   : ','
         },
 
         abbreviations: {
@@ -25,6 +25,7 @@ module.exports = function(app) {
             symbol: 'R$'
         }
     });
+    numeral.language('br');
 
     var isBlankOrEmpty = function(value){
         //console.log(value);
@@ -52,7 +53,7 @@ module.exports = function(app) {
     var Util = {
         moment         : moment          ,
         numeral        : numeral         ,
-        unFormatMoeda  :  unFormatMoeda  ,
+        unFormatMoeda  : unFormatMoeda   ,
         isBlankOrEmpty : isBlankOrEmpty
     };
 

@@ -24,8 +24,6 @@ module.exports = function(app) {
     * Objeto que será exposto com controller para toda app     * 
     ***********************************************************/
     var controller     = {};
-
-
     /***********************************************************
     * Lista todas as marcas ativas do collections de marcas    * 
     ***********************************************************/
@@ -68,7 +66,7 @@ module.exports = function(app) {
             }
         }, query);
     }
-   
+
     /***********************************************************
     * Lista todos anos de fabricação dos veículos              * 
     ***********************************************************/
@@ -148,6 +146,28 @@ module.exports = function(app) {
             }else{
                 ResponseAPI.header.url     = req.url;
                 ResponseAPI.data           = categorias;
+                res.status(200).json(ResponseAPI);
+            }
+        }, query);
+    }
+
+    /***********************************************************
+    * Lista todas as marcas para uma categoria                 * 
+    ***********************************************************/
+    controller.findMarcaByCategoria = function(req, res, next) {
+        var categoriaId = req.params.id; 
+        var query       = {situacao : true , categoria : categoriaId};
+        var ResponseAPI = createResponseAPI();
+        marca.findByQuery(function(err, marcas){
+            if(err){
+                ResponseAPI.header.status  = 500 ;
+                ResponseAPI.header.url     = req.url;
+                ResponseAPI.header.message = "Não foi possível listar as marcas !";
+                ResponseAPI.header.error   = err;
+                ResponseAPI.data           = [];
+            }else{
+                ResponseAPI.header.url     = req.url;
+                ResponseAPI.data           = marcas;
                 res.status(200).json(ResponseAPI);
             }
         }, query);

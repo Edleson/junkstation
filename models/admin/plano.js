@@ -25,9 +25,9 @@ module.exports = function(app) {
             default  : 0 
         },
 
-        prioridade : {
+        qtdAnuncios : {
             type     : Number ,
-            default  : 0 
+            default  : 1 
         },
 
         expiracao : {

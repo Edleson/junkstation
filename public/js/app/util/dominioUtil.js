@@ -21,6 +21,16 @@ function listModeloByMarca(idMarca, callback, params, showGifLoad){
 	ajaxRequest(request, showGifLoad);
 }
 
+function listMarcaByCategoria(idCategoria, callback, params, showGifLoad){
+	var request =  {
+		url      : "/dominio/categoria/" + idCategoria + "/marca" 	,
+		params   : params | 	{}   				 	      		,         
+		method   : "get"       					              		,
+		callback : callback
+	};
+	ajaxRequest(request, showGifLoad);
+}
+
 function listAnoFabricacao(callback, params, showGifLoad){
 	var request =  {
 		url      : "/dominio/anofabricacao" ,

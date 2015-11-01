@@ -48,6 +48,7 @@ module.exports = function(){
 				  'public/js/lib/jquery-maskedinput.js'			  	  ,
 				  'public/js/lib/jquery-maskmoney.js'			  	  ,
 				  'public/js/lib/jquery-imagePreview.js'			  ,
+				  'public/js/lib/jquery-confirm.js'			  		  ,
 	              'public/js/app/util/util.js'						  ,
 	              'public/js/app/util/dominioUtil.js'						  	    
 	            ],

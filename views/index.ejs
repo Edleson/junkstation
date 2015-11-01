@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
 	<head>
-		<% include template/meta %>
+		<% include template/meta %> 
 		<title>Junk Station a Vitrine do seu clássico</title>
 		<% include template/css %>
 	</head>
@@ -160,12 +160,20 @@
 							<form id="homepage_search" action="/anuncio/list" method="post">
 								<div class="row">
 									<div class="span4">
+										<label for="cbCategoria" class="dropdown_label">Categoria</label>
+										<select name="cbCategoria" id="cbCategoria" class="custom_select">
+											<option value="0" selected></option>
+											<% response.categorias.forEach(function(categoria){%>
+												<option value="<%- categoria._id %>"> <%- categoria.nome %> </option>
+											<% }); %>
+										</select>
+									</div>
+
+									<div class="span4">
 										<label for="cbmMarca" class="dropdown_label">Marcas</label>
 										<select name="marca" id="cbmMarca" class="custom_select">
 											<option value="0" selected></option>
-											<% response.marcas.forEach(function(marca){%>
-												<option value="<%- marca._id %>"> <%- marca.nome %> </option>
-											<% }); %>
+											
 										</select>
 									</div>
 
@@ -173,14 +181,6 @@
 										<label for="cbmModelo" class="dropdown_label">Modelos</label>
 										<select name="cbmModelo" id="cbmModelo" class="custom_select">
 											<option value="0" selected ></option>
-										</select>
-									</div>
-
-									<div class="span4">
-										<label for="cbmUf" class="dropdown_label">Localização</label>
-										<select name="cbmUf" id="cbmUf" class="custom_select">
-											<option value="0" selected></option>
-											
 										</select>
 									</div>
 								</div>
@@ -284,18 +284,37 @@
 					}
 				});
 
-				var ufCallBack = function(response, textStatus, jqXHR){
-					var ufs = response.data;
-					ufs.forEach(function(item){
-						$('#cbmUf').append($('<option>', {
-						    value : item.nome ,
+				var categoriaCallback = function(response, textStatus, jqXHR){
+					var marcas = response.data;
+					$('#cbmMarca option').remove();
+					$('#cbmModelo option').remove();
+					
+					$('#cbmMarca').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change(); 
+
+					$('#cbmModelo').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change();
+
+					marcas.forEach(function(item){
+						$('#cbmMarca').append($('<option>', {
+						    value : item._id ,
 						    text  : item.nome
 						}));
 					});
 				};
 
-				listUF(ufCallBack, {}, false);
-				 
+				$("#cbCategoria").change(function(){
+					if($(this).val() !== "0"){
+						listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
+					}
+				});
+
 				$("#btn-form").click(function() {
 					$("#homepage_search").reset(function(){
 						return false;

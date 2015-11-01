@@ -10,20 +10,7 @@ module.exports = function(app) {
     var controller  = {};
 
     controller.meusAnuncios = function(req, res, next) {
-        var query       = {user : req.user._id};
-        var AnuncioDao  = new Anuncio({});
-        AnuncioDao.findByQuery(function(err, anuncios){
-            if(err){
-                req.flash('meusAnuncios', '<div class="alert-error">Não foi possível listar os seus anuncios :( </div>');
-                htmlMinify('meus_anuncios', res , {response : []});
-            }else{
-                //console.log(anuncios)
-                if(anuncios.length === 0 ){
-                    req.flash('meusAnuncios', '<div class="alert-info">Você ainda não possível nenhum anúncio cadastrdo</div>');
-                }
-                htmlMinify('meus_anuncios', res , {response : anuncios});
-            }
-        }, query);
+        listarAnuncioByUser(req, res, next, false);
     };
 
     controller.criarAnuncioGET = function(req, res, next) {
@@ -33,13 +20,11 @@ module.exports = function(app) {
     controller.criarAnuncioPOST = function(req, res, next) {
         var post = req.body;
         var anuncio = validateAnuncio(post);
-        
         Anuncio.create(anuncio , function(error, response){
             if(error){
                 req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
                 htmlMinify('criar_anuncio', res , {});
             }else{
-                //console.log(response);
                 var callback = function(error, responseAWS, idAnuncio){
                     if(error){
                         console.log(JSON.stringify(error));
@@ -49,7 +34,21 @@ module.exports = function(app) {
                 };
                 fileHandler.uploadMultiploFile(req, response._id, callback);
                 req.flash('cadastroAnuncio', '<div class="alert-success">Anúncio cadastrado com sucesso</div>');
+                req.session.countAnuncio = req.session.countAnuncio + 1 ;
                 htmlMinify('criar_anuncio', res , {});
+            }
+        });
+    };
+
+    controller.deletarAnuncio = function(req, res, next) {
+        var id = req.body.id;
+        Anuncio.remove({"_id" : id}, function(error){
+            if(error){
+                req.flash('deleteAnuncio', '<div class="alert-error">Não foi possível excluir o Anúncio :( </div>');
+                listarAnuncioByUser(req, res, next, false);
+            }else{
+                req.flash('deleteAnuncio', '<div class="alert-success">Anúncio excluído com sucesso</div>');
+                listarAnuncioByUser(req, res, next, false);
             }
         });
     };
@@ -94,6 +93,23 @@ module.exports = function(app) {
                 }
             }, query);
         })
+    };
+
+    function listarAnuncioByUser(req, res, next, isDelete){
+        var query       = {user : req.user._id};
+        var AnuncioDao  = new Anuncio({});
+        AnuncioDao.findByQuery(function(err, anuncios){
+            if(err){
+                req.flash('meusAnuncios', '<div class="alert-error">Não foi possível listar os seus anuncios :( </div>');
+                htmlMinify('meus_anuncios', res , {response : []});
+            }else{
+                if(anuncios.length === 0 ){
+                    req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">Você ainda não possível nenhum anúncio cadastrado</div>');
+                }
+                req.session.countAnuncio = anuncios.length;
+                htmlMinify('meus_anuncios', res , {response : anuncios});
+            }
+        }, query);
     };
 
     function validateAnuncio(anuncio){

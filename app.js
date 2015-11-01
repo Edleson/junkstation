@@ -38,6 +38,7 @@ var isLoggedIn      = require('./middlewares/loginHandler');
 var security        = require('./middlewares/securityHandler')(context);
 var emailSender     = require('./middlewares/emailHandler')(context);
 var fileHandler     = require('./middlewares/fileHandler')(context);
+var utils           = require('./util/utils')(app);
 
 var htmlmin = function(ejsRender, response , data ){
     var htmlMinify = require('html-minifier').minify;
@@ -82,6 +83,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(logger('dev'));
+
+app.locals.Utils = utils;
 
 app.use(function(req, res, next) {
   res.locals.request  = req;

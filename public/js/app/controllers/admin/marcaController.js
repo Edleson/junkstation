@@ -1,9 +1,12 @@
 
-app.controller('marcaController', function ($scope, marcaService, $rootScope, ngDialog, situacoes) {
+app.controller('marcaController', function ($scope, marcaService, $rootScope, ngDialog, situacoes, categorias) {
 	$scope.entities   = [];
 	$scope.entity     = {};
+	$scope.categorias = categorias.data.data;
 	$scope.situacoes  = situacoes;
 	var Service       = marcaService;
+
+	console.log(categorias.data.data);
 	
 	var findAll = function(){
 		Service.findAll().success(function(response, status){

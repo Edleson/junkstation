@@ -73,6 +73,10 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
       resolve: {
           situacoes : function(utilsService){
             return utilsService.listarSituacao();
+          },
+
+          categorias : function(categoriaService){
+            return categoriaService.findAll();
           }
       }
   });

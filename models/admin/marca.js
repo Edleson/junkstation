@@ -9,6 +9,12 @@ module.exports = function(app) {
             } 
         },
 
+        categoria : { 
+            type     : mongoose.Schema.Types.ObjectId   , 
+            ref      : 'Categoria'                      ,
+            required : true    
+        },
+
         situacao : {  
             type    : Boolean , 
             default : true 

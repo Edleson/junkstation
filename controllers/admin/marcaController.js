@@ -5,7 +5,7 @@ module.exports = function(app) {
 
     controller.findAll = function(req, res, next) {
         var ResponseAPI = createResponseAPI();
-        Repository.find(function(error, entities){
+         Repository.find().populate("categoria").exec(function(error, entities){
             if(error){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;

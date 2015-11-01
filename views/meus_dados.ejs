@@ -3,6 +3,7 @@
 	<head>
 		<% include template/meta %>
 		<title>Junk Station a Vitrine do seu clássico</title>
+		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 		<% include template/css %>
 	</head>
 
@@ -20,7 +21,7 @@
 				%>
 				<div class="box clearfix">
 					<h3>Meu Perfil</h3>
-					<div class="box-content clearfix bordered_under">
+					<!--<div class="box-content clearfix bordered_under">
 						
 						<div class="grid_4 left">
 							<p>
@@ -35,7 +36,7 @@
 								<input type="text" readonly="readonly" name="emailsocial" value="<%- request.user.local.email %>" >
 							</p>								
 						</div>						
-					</div>
+					</div>-->
 					
 					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
 						<div class="box-content clearfix">
