@@ -80,9 +80,7 @@ module.exports = function() {
 
             cnpj : {
                 type   : String ,
-                index  : {
-                  unique : true 
-                }
+                index  : true
             },
 
             nome : {
@@ -97,9 +95,7 @@ module.exports = function() {
 
             cpf : {
                 type   : String ,
-                index  : {
-                  unique : true 
-                }
+                index  : true
             },
 
             sexo : {
