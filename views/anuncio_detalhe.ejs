@@ -8,23 +8,23 @@
 
 	<body >
 		<% include template/header %>
-		
+		<% console.log(anuncio) %>
 		<div class="container_12 clearfix">
 			<div class="grid_8 content">
 				<h2 class="page_title">
-					<a href="#">Clássico</a> - 
-					<a href="#">Camaro</a> - Chevrolet
+					<a href="#">Anuncio </a> - 
+					<a href="#"><%- anuncio.marca %></a> - <%- anuncio.modelo %>
 				</h2>
 				
 				<article class="box clearfix item_main">
-					<h3>Chevrolet Camaro</h3>
+					<h3><%- anuncio.marca %> <%- anuncio.modelo %></h3>
 					<span class="item_rating">4.5</span>
 					<div class="half left item_images clearfix">
 						<div class="overlayed">
 							<img src="/dist/images/aston.jpg" alt="">
 							<div class="overlay">
 								<span class="overlay-icon-single">
-									<a href="/dist/images/aston.jpg" class="fancybox" data-fancybox-group="group1">
+									<a href="/dist/images/aston.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 										<i class="icomoon-expand-2"></i>
 									</a>
 								</span>
@@ -36,7 +36,7 @@
 								<img src="/dist/images/aston1.jpg" alt="">
 								<div class="overlay">
 									<span class="overlay-icon-single">
-										<a href="/dist/images/aston1.jpg" class="fancybox" data-fancybox-group="group1">
+										<a href="/dist/images/aston1.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
 									</span>
@@ -47,7 +47,7 @@
 								<img src="/dist/images/aston2.jpg" alt="">
 								<div class="overlay">
 									<span class="overlay-icon-single">
-										<a href="/dist/images/aston2.jpg" class="fancybox" data-fancybox-group="group1">
+										<a href="/dist/images/aston2.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
 									</span>
@@ -58,7 +58,7 @@
 								<img src="/dist/images/aston3.jpg" alt="">
 								<div class="overlay">
 									<span class="overlay-icon-single">
-										<a href="/dist/images/aston3.jpg" class="fancybox" data-fancybox-group="group1">
+										<a href="/dist/images/aston3.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
 									</span>
@@ -69,7 +69,7 @@
 								<img src="/dist/images/aston4.jpg" alt="">
 								<div class="overlay">
 									<span class="overlay-icon-single">
-										<a href="/dist/images/aston4.jpg" class="fancybox" data-fancybox-group="group1">
+										<a href="/dist/images/aston4.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
 									</span>
@@ -81,56 +81,61 @@
 
 					<div class="half right">
 						<div class="item_heading">
-							<h4>Chevrolet <a href="item.html">Camaro</a></h4>
-							<span class="location">São Paulo, <strong>SP</strong></span>
-							<span class="vendor">Carlos Araújo</span>
-							<span class="item_date">25 Março, 2015</span>
+							<h4><%- anuncio.marca %> <a href="item.html"><%- anuncio.modelo %></a></h4>
+							<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
+							<span class="vendor"><%- anuncio.anunciante %></span>
+							<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
 						</div>
 						<div class="item_info clearfix">
 							<p class="half left">
-								<span class="item_year">2000</span>
-								<span class="item_engine">1,6</span>
-								<span class="item_fuel">Gasolina</span>
-								<span class="item_transimition">Manual</span>
-								<span class="item_drive">Direção Hidráulica</span>
+								<span class="item_year"> - <%- anuncio.ano %></span>
+								<span class="item_engine"> - <%- anuncio.motor %></span>
+								<span class="item_fuel"> - <%- anuncio.combustivel %></span>
+								<span class="item_transimition"> - <%- anuncio.cambio %></span>
 							</p>
 							<p class="half right">
-								<span class="item_type">Sedan</span>
-								<span class="item_mileage">90.000 KM</span>
-								<span class="item_color">Preto </span>
-								<span class="item_interior_color">Preto</span>
+								<span class="item_type"> - <%- anuncio.estilo %></span>
+								<span class="item_mileage"> - <%- anuncio.kilometragem %> KM</span>
+								<span class="item_color"> - <%- anuncio.cor %> </span>
+								<!--<span class="item_interior_color">Preto</span>-->
 							</p>
 						</div>
 						<div class="item_footer row clearfix">
-							<span class="item_price span5">35.000,00</span>
+							<span class="item_price span5">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
 							<a href="#" class="button small-button green span7">Fale com Vendedor</a>
 						</div>
 					</div>
 				</article>
 
 				<section id="item_info" class="box">
-					<h3>Informações sobre o Veículo</h3>
+					<h3>Informações sobre o Anúncio</h3>
 					<div class="box-content">
-						<h5>Chevrolet Camaro Clássico</h5>
-						<p>Tem um boato que fala da existência de um Camaro perdido, que foi construído em 1970 com um motor V8 aspirado de 1000 cavalos. Existe uma única unidade no mundo, e ela foi escondida pelo Chegãn Lucca em algum lugar da Arábia Saudita. O motivo de ter guardado foi a alta tecnologia empregada na sua construção, que seria muito avançada para a época.</p>
-						<h5>Acessórios</h5>
+						<h5><%- anuncio.titulo %></h5>
+						<p><%- anuncio.descricao_anuncio %></p>
+						<!--<h5>Acessórios</h5>
 						<ul>
 							<li>Banco de couro</li>
 							<li>Vidro eletrico.</li>
-						</ul>
+						</ul>-->
 					</div>
 				</section>	
 
 				<section id="vendor" class="box">
-					<h3>Vendor</h3>
+					<h3>Informações do Anunciante</h3>
 					<div class="box-content clearfix">
 						<div class="half left">
 							<div class="row">
-								<img src="/dist/images/johnsdoe.jpg" alt="" class="span4">
+								<img src="/dist/images/no-foto.jpg" alt="" class="span4">
 								<div class="span8 vendor_info">
-									<span class="vendor_title">Carlos Araújo</span>
-									<span>Cidade: <strong>São Paulo, SP</strong></span>
-									<span>Proposta : <strong>10</strong></span>
+									<span class="vendor_title"><%- anuncio.anunciante %></span>
+									<span>
+										Cidade: 
+										<strong>
+											<%- anuncio.user.dadosPessoais.cidade %> ,
+											<%- anuncio.user.dadosPessoais.estado %>
+										</strong>
+									</span>
+									<span>Visualizações : <strong>10</strong></span>
 									<span>Última visualização: <strong>5 hr atrás</strong></span>
 								</div>
 							</div>
@@ -139,12 +144,13 @@
 							<a href="#">Informações do Vendedor</a>
 							<a href="#" class="button  blue big wide">
 								<i class="icomoon-volume-medium"></i>
-								(11) 2291-6968
+								<%- anuncio.user.dadosPessoais.telefone %>
 							</a>
 						</div>
 					</div>
 				</section>
 				
+				<!--
 				<section id="post_comments" class="box">
 					<h3>Comments</h3>
 					<div class="box-content new_comment">
@@ -204,7 +210,7 @@
 							<a href="#" class="button wide red wider">See all 26 Comments</a>
 						</div>
 					</div>					
-				</section>
+				</section>-->
 			</div>
 
 			<div class="grid_4 sidebar">

@@ -18,29 +18,35 @@
 				<% 
 					var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
 					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
+					var plano = null ;
+					if(request.user.plano === undefined){
+						plano = "";
+					}else if(request.user.plano !== undefined && request.user.plano._id !== undefined){
+						plano = request.user.plano._id.toString();
+					}else{
+						plano = request.user.plano.toString();
+					}
 				%>
 				<div class="box clearfix">
 					<h3>Meu Perfil</h3>
-					<!--<div class="box-content clearfix bordered_under">
-						
-						<div class="grid_4 left">
-							<p>
-								<label for="provider" class="dropdown_label">Provedor </label>
-								<input type="text" readonly="readonly" name="provider" value="LOCAL" >
-							</p>
-						</div>
-						
-						<div class="grid_4 left">
-							<p>
-								<label for="emailsocial" class="dropdown_label">e-mail</label>
-								<input type="text" readonly="readonly" name="emailsocial" value="<%- request.user.local.email %>" >
-							</p>								
-						</div>						
-					</div>-->
-					
 					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
+						<div class="box-content clearfix bordered_under">
+							<div class="grid_8 left">
+								<p>
+									<label for="plano" class="dropdown_label">Plano</label>
+									<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" >
+										<option value="" >Selecione</option>
+										<% response.planos.forEach(function(item){ %>
+											<option value="<%- item._id %>" <%- plano === item._id.toString() ? 'selected' : '' %> >
+												<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
+											</option>
+										<% }); %>
+									</select>
+								</p>								
+							</div>					
+						</div>
+
 						<div class="box-content clearfix">
-							
 							<div class="grid_4 left clearfix">
 								<p>
 									<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
@@ -219,6 +225,7 @@
 
 				$("#perfilForm").validate({ 
 					rules: { 
+						plano            : "required" ,
 				    	tipopessoa 		 : "required" ,
 				    	nome 			 : "required" ,
 				    	dataNascimento	 : {
@@ -239,6 +246,7 @@
 				    },
 
 			        messages: { 
+			        	plano            : "O plano é obrigatório",
 			          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
 				    	nome 			 : "O nome do responsável é obrigatório" ,
 				    	dataNascimento	 : {

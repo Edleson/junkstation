@@ -1,4 +1,6 @@
-var mongoose   = require('mongoose');
+var mongoose     = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
 module.exports = function(app) {
     var schema = mongoose.Schema({
         nome : {  
@@ -33,6 +35,12 @@ module.exports = function(app) {
         }
     };
 
+    schema.plugin(deepPopulate, {
+        whitelist: [
+            'marca',
+            'marca.categoria'
+        ]
+    });
     
     return mongoose.model('Modelo', schema);
 };

@@ -135,5 +135,11 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
       }
   });
 
+  $routeProvider.when('/anuncio/list', {
+      templateUrl : 'partials/listaAnuncios.html', 
+      controller  : 'anuncioController'
+    }
+  );
+
   $routeProvider.otherwise({redirectTo: '#/'});
 }]);

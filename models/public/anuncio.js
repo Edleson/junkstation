@@ -1,17 +1,23 @@
-var mongoose   = require('mongoose');
-
+var mongoose         = require('mongoose');
+var deepPopulate     = require('mongoose-deep-populate')(mongoose);
+var mongoosePaginate = require('mongoose-paginate');
+ 
 module.exports = function(app) {
     var Utils       = app.util.utils;
     
     var schema = mongoose.Schema({
         user : {
-            type : mongoose.Schema.ObjectId ,
-            required : true , 
-            index : true
+            type : mongoose.Schema.ObjectId  ,
+            required : true                  , 
+            index    : true                  ,
+            ref      : 'User'                
         }, 
 
         plano : {
-            type : mongoose.Schema.ObjectId
+            type : mongoose.Schema.ObjectId  ,
+            required : true                  , 
+            index    : true                  ,
+            ref      : 'Plano'     
         },
 
         anunciante : {
@@ -29,13 +35,15 @@ module.exports = function(app) {
         },
 
         data_anuncio : {
-            type : Date ,
-            required : true 
+            type     : Date ,
+            required : true , 
+            index    : true 
         },
 
         data_vencimento : {
-            type : Date ,
-            required : true 
+            type     : Date  ,
+            required : true  ,
+            index    : true 
         },
 
         status : {
@@ -53,11 +61,13 @@ module.exports = function(app) {
         },
 
         marca : {
-            type : String
+            type  : String , 
+            index : true
         },
 
         modelo : {
-            type : String
+            type  : String , 
+            index : true 
         },
 
         ano : {
@@ -77,7 +87,8 @@ module.exports = function(app) {
         },
 
         categoria : {
-            type : String
+            type : String ,
+            index : true
         },
 
         combustivel : {
@@ -131,6 +142,15 @@ module.exports = function(app) {
             return '0,00';
         }
     });
+
+    schema.plugin(deepPopulate, {
+        whitelist: [
+            'user' ,
+            'plano'
+        ]
+    });
+
+    schema.plugin(mongoosePaginate);
     
     return mongoose.model('Anuncio', schema);
 };

@@ -10,13 +10,15 @@ var security        = require("./securityHandler")(context);
 
 module.exports = function() {
 	var User = mongoose.model('User');
+    var Repository = new User({});
 	
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        User.findById(id).populate("plano").exec(function(err, user) {
+            //console.log("deserializeUser : \n" + user);
             done(err, user);
         });
     });
@@ -31,7 +33,7 @@ module.exports = function() {
     }, function(req, email, password, done) {
         
         process.nextTick(function() {
-            User.findOne({ 'local.email' :  email }, function(err, user) {
+            User.findOne({ 'local.email' :  email }).populate("plano").exec(function(err, user) {
                 if (err){
 					return done(err);
 				}

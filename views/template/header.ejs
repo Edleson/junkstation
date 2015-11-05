@@ -65,7 +65,7 @@
 						<a href="/">Home</a>
 					</li>
 					<li <%= request.url.match(/anuncio/ig) ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/anuncio/list">Anúncios</a>
+						<a href="/anuncio/lista">Anúncios</a>
 					</li>
 					<li <%= request.url == "/servico" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/servico">Serviços</a>
@@ -80,7 +80,7 @@
 				<div id="responsive_navigation">
 					<select class="custom_select nav-responsive">
 						<option value="/" <%= request.url == "/" ?  'selected' : '' %> > - Home </option>
-						<option value="/anuncio/list" <%= request.url.match(/anuncio/ig) ?  'selected' : '' %> > -  Anúncios</option>
+						<option value="/anuncio/lista" <%= request.url.match(/anuncio/ig) ?  'selected' : '' %> > -  Anúncios</option>
 						<option value="/servico" <%= request.url == "/servico" ?  'selected' : '' %> > -  Serviços</option>
 						<option value="/planos" <%= request.url == "/planos" ?  'selected' : '' %> > -  Planos</option>
 					</select>

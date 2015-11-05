@@ -2,7 +2,8 @@ module.exports = function(app) {
     /***********************************************************
     * Variáveis que lista os domínios da JUnkstation           * 
     ***********************************************************/
-    var marca             = new app.models.admin.marca({});
+    //var marca             = new app.models.admin.marca({});
+    var Marca             = app.models.admin.marca;
     var modelo            = new app.models.admin.modelo({});
     var ano               = new app.models.admin.anoFabricacao({});
     var cambio            = new app.models.admin.cambio({});
@@ -30,7 +31,7 @@ module.exports = function(app) {
     controller.listMarca = function(req, res, next) {  
         var query       = {situacao : true};
         var ResponseAPI = createResponseAPI();
-        marca.findByQuery(function(err, marcas){
+        Marca.find(query).sort({nome : 1}).populate("categoria", "nome").exec(function(err, marcas){
             if(err){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;
@@ -42,7 +43,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = marcas;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        });
     }
 
     /***********************************************************
@@ -158,7 +159,7 @@ module.exports = function(app) {
         var categoriaId = req.params.id; 
         var query       = {situacao : true , categoria : categoriaId};
         var ResponseAPI = createResponseAPI();
-        marca.findByQuery(function(err, marcas){
+        Marca.find(query).deepPopulate("categoria").exec(function(err, marcas){
             if(err){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;
@@ -170,10 +171,10 @@ module.exports = function(app) {
                 ResponseAPI.data           = marcas;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        });
     }
 
-    /***********************************************************
+    /**********************************************************
     * Lista todas os combustíveis da aplicação                * 
     ***********************************************************/
     controller.listCombustivel = function(req, res, next) {

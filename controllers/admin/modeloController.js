@@ -1,11 +1,11 @@
 module.exports = function(app) {
-    var Repository  = app.models.admin.modelo;
+    var Repository          = app.models.admin.modelo;
     var createResponseAPI   = app.models.admin.responseAPI;  
     var controller  = {};
 
     controller.findAll = function(req, res, next) {
         var ResponseAPI = createResponseAPI();
-        Repository.find().populate("marca").exec(function(error, entities){
+        Repository.find().deepPopulate('marca marca.categoria').exec(function(error, entities){
             if(error){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;

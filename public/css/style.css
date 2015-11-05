@@ -2006,7 +2006,8 @@
 	.grid_item{
 		width: 181px;
 		float: left;
-		margin-right: 38px;
+		margin-right: 25px;
+		min-height: 355px;
 	}
 
 	.grid_item.last{
@@ -2015,6 +2016,7 @@
 
 	.grid_item .item_heading{
 		padding: 10px;
+		min-height: 208px;
 	}
 
 	.grid_item .item_info{

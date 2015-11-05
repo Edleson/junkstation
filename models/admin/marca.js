@@ -1,12 +1,12 @@
 var mongoose   = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
 module.exports = function(app) {
     var schema = mongoose.Schema({
         nome : {  
             type     : String , 
             required : true   , 
-            index    : { 
-                unique : true
-            } 
+            index    : true
         },
 
         categoria : { 
@@ -33,6 +33,12 @@ module.exports = function(app) {
             return this.model("Marca").find(query, cb);
         }
     };
+
+    schema.plugin(deepPopulate, {
+        whitelist: [
+            'categoria'
+        ]
+    });
     
     return  mongoose.model('Marca', schema);
 };

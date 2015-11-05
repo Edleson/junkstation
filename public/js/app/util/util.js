@@ -27,12 +27,12 @@ function ajaxRequest(request, showGifLoad){
 	//console.log(request);
 	
 	settings = {
-		url         : request.url       ,
-		data  	    : request.params 	,
-		async    	: true 				,
-		method   	: request.method 	,
-		dataType    : "json"			,
-		crossDomain : true      		,
+		url         : request.url       				,
+		data  	    : request.params 					,
+		async    	: true 								,
+		method   	: request.method 					,
+		dataType    : request.dataType | "json"			,
+		crossDomain : true      						,
 		
 		beforeSend  : function( jqXHR, object){
 			if(showGifLoad){

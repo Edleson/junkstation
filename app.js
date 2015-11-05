@@ -35,6 +35,7 @@ var _imageHandler   = require('./middlewares/imageHandler');
 var _compressor     = require('./middlewares/fileMinifyHandler');
 var error           = require('./middlewares/errorHandler');
 var isLoggedIn      = require('./middlewares/loginHandler');
+var paginate        = require('./middlewares/paginateHandler');
 var security        = require('./middlewares/securityHandler')(context);
 var emailSender     = require('./middlewares/emailHandler')(context);
 var fileHandler     = require('./middlewares/fileHandler')(context);
@@ -43,6 +44,9 @@ var utils           = require('./util/utils')(app);
 var htmlmin = function(ejsRender, response , data ){
     var htmlMinify = require('html-minifier').minify;
     response.render(ejsRender , data , function(err, html){
+        if(err){
+          console.log(err);  
+        }
         html = htmlMinify(html , {
             removeComments     : true ,
             collapseWhitespace : true ,
@@ -67,6 +71,7 @@ app.disable('x-powered-by');
 app.set("trust proxy", true);  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
+app.use(paginate.middleware(6, 50));
 app.use(compression());
 app.use(cookie);
 app.use(session({ 
@@ -87,10 +92,10 @@ app.use(logger('dev'));
 app.locals.Utils = utils;
 
 app.use(function(req, res, next) {
-  res.locals.request  = req;
-  res.locals.response = res;
-  res.locals.session  = req.session;
-  res.locals.util     = {
+  res.locals.request   = req;
+  res.locals.response  = res;
+  res.locals.session   = req.session;
+  res.locals.util      = {
       moment : moment
   };
   next();
@@ -104,6 +109,7 @@ app.set("moment"      , moment      );
 app.set("html-minify" , htmlmin     );
 app.set("fileHandler" , fileHandler );
 app.set("multer"      , upload      );
+app.set("paginate"    , paginate    );
 
 
 

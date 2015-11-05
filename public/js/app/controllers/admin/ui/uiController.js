@@ -23,9 +23,9 @@ app.controller('uiAdminController', ['$scope', function ($scope) {
 			]  
 		},
 		{
-			title : "Gerenciar Anúncios", opened : false , contentPanel : false, links : [
+			title : "Gerenciar Anúncios" , opened : false , contentPanel : false, links : [
 				{href : "#"				 , desc : "Lista de Anunciantes"	},
-				{href : "#"				 , desc : "Lista de Anúncios"		}		
+				{href : "#/anuncio/list" , desc : "Lista de Anúncios"		}		
 			]  
 		},
 		{

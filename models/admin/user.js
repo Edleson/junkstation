@@ -37,6 +37,11 @@ module.exports = function() {
             name         : String
         },
 
+        plano : {
+            type     : mongoose.Schema.Types.ObjectId   , 
+            ref      : 'Plano'                           
+        },
+
         dataCadastro : {
             type    : Date      , 
             default : Date.now  

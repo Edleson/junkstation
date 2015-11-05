@@ -38,8 +38,8 @@
 
 		  	<div class="form-group">
 		    	<label for="marca">Marca</label>
-		    	<select name="marca" id="marca" class="form-control" ng-model="entity.marca" ng-required="true"
-		    	 ng-options="mca as mca.nome for mca in marcas" ></select>
+		    	<select name="marca" id="marca" class="form-control" ng-model="entity.marca._id" ng-required="true"
+		    	 ng-options="mca._id as (mca.nome +' ('+  mca.categoria.nome +')') group by mca.categoria.nome for mca in marcas | orderBy : 'nome'" ></select>
 		  	</div>
 		  	
 		  	<div class="form-group">
@@ -64,8 +64,9 @@
 			
 			<thead>
 				<tr>
-					<th><a href="" ng-click="orderBy('marca');">Marca</a></th>
-					<th><a href="" ng-click="orderBy('nome');">Nome</a> </th>
+					<th><a href="" ng-click="orderBy('marca.categoria.nome');">Categoria</a></th>
+					<th><a href="" ng-click="orderBy('marca.nome');">Marca</a></th>
+					<th><a href="" ng-click="orderBy('nome');">Modelo</a> </th>
 					<th><a href="" ng-click="orderBy('situacao');">Ativo</a> </th>
 					<th><a href="" ng-click="orderBy('dataCricao');">Data Criação</a></th>
 					<th></th>
@@ -74,10 +75,11 @@
 			
 			<tbody>
 				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
+					<td>{{entity.marca.categoria.nome}}</td>
 					<td>{{entity.marca.nome}}</td>
 					<td>{{entity.nome}}</td>
 					<td>{{entity.situacao === true ? "Sim" : "Não" }}</td>
-					<td>{{entity.dataCricao | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+					<td>{{entity.dataCricao | date : 'dd/MM/yyyy'}}</td>
 					<td align="center">
 						<button type="button" class="btn btn-success btn-xs" ng-click="selectEntity(entity)">Editar</button>
 						<button type="button" class="btn btn-danger btn-xs"  ng-click="destroy(entity)">Excluir</button>

@@ -1,0 +1,40 @@
+<div class="box clearfix" ng-show="true">
+	<h3>Lista de Anúncios <span class="badge">{{entities.length}}</span></h3>
+	<div class="box-content clearfix bordered_under">
+		
+		<input id="txtPesquisa" class="form-control" type="text" placeholder="Filtro de pesquisa" ng-model="filtroPesquisa"/>
+		
+		<table class="table table-condensed table-striped table-bordered">
+			<caption></caption>
+			
+			<thead>
+				<tr>
+					<th><a href="" ng-click="orderBy('anunciante');">Anunciante</a></th>
+					<th><a href="" ng-click="orderBy('preco');">Preço</a> </th>
+					<th><a href="" ng-click="orderBy('status');">Ativo</a> </th>
+					<th><a href="" ng-click="orderBy('dataCricao');">Data Anúncio</a></th>
+					<th><a href="" ng-click="orderBy('categoria');">Categoria</a> </th>
+					<th><a href="" ng-click="orderBy('marca');">Marca</a> </th>
+					<th><a href="" ng-click="orderBy('modelo');">Modelo</a> </th>
+					<!--<th></th>-->
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
+					<td>{{entity.anunciante}}</td>
+					<td>{{entity.preco | currency : 'R$ '}}</td>
+					<td>{{entity.status === true ? "Sim" : "Não" }}</td>
+					<td>{{entity.data_anuncio | date : 'dd/MM/yyyy'}}</td>
+					<td>{{entity.categoria}}</td>
+					<td>{{entity.marca}}</td>
+					<td>{{entity.modelo}}</td>
+					<!--<td align="center">
+						<button type="button" class="btn btn-success btn-xs" ng-click="selectEntity(entity)">Editar</button>
+						<button type="button" class="btn btn-danger btn-xs"  ng-click="destroy(entity)">Excluir</button>
+					</td>-->
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>

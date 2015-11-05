@@ -1,0 +1,106 @@
+<% if(anuncios.length === 0) {%>
+	<section id="search_results">
+		<p class="no_results">
+			Ops :( ! Não encontramos nenhum resultado para sua pesquisa. 
+		</p>
+	</section>
+<% }else{ %>
+	<input type="hidden" id="currentGridPage" value="/anuncio/grid?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
+	<input type="hidden" id="currentlistPage" value="/anuncio/lista?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
+
+	<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
+		<ul class='pagination'>
+			<% if(paginate.hasPreviousPages) {%>
+				<li><a class="button pagination-previous" href="<%- paginate.href(true) %>&ajax=true"> &lt;&lt; </a></li>
+			<% }%>
+
+			<%  var current = '';
+				pages.forEach(function(page){
+					current = paginate.page == page.number ? 'current' : '';	 
+			%>
+					<li><a class='button pagination-number <%- current %>' href='<%- page.url %>&ajax=true'><%- page.number %></a></li>
+			<% });%>
+
+			<% if(paginate.hasNextPages(pageCount)) {
+				var page = paginate.page + 1;
+			%>
+				<li>
+					<a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>&ajax=true"> &gt;&gt; </a>
+				</li>
+			<% }%>
+		</ul>
+	<% }%>
+
+	<% anuncios.forEach(function(anuncio){ %>
+		<article class="box clearfix list_item">
+			<div class="half left">
+				<div class="overlayed">
+					<img src="/dist/images/sls.jpg" alt="">
+					<div class="overlay">
+						<span class="overlay-icon-left">
+							<a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
+						</span>
+						<!--<span class="overlay-icon-right">
+							<a href="/dist/images/sls.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+								<i class="icomoon-expand-2"></i>
+							</a>
+						</span>-->
+					</div>
+				</div>
+			</div>
+
+			<div class="half right">
+				<div class="item_heading">
+					<h4><%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"> <%- anuncio.modelo %></a> </h4>
+					<p class="location">
+						<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
+						<span class="vendor"><%- anuncio.anunciante %></span>
+					</p>
+				</div>
+
+				<div class="item_info clearfix">
+					<p class="half left">
+						<span class="item_year"><%- anuncio.ano %></span>
+						<span class="item_type"><%- anuncio.estilo %></span>
+						<span class="item_drive"><%- anuncio.cambio %></span>
+						<span class="item_engine"><%- anuncio.motor %></span>
+					</p>
+					<p class="half right">
+						<span class="item_transimition"><%- anuncio.cor %></span>
+						<span class="item_fuel"><%- anuncio.combustíveis %></span>
+						<span class="item_mileage"><%- anuncio.kilometragem %></span>
+					</p>
+				</div>
+
+				<div class="item_footer">
+					<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
+					<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('LL') %></span>
+					<!--<span class="item_rating">4.9</span>-->
+				</div>
+			</div>
+		</article>
+	<%});%>
+
+	<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
+		<ul class='pagination'>
+			<% if(paginate.hasPreviousPages) {%>
+				<li><a class="button pagination-previous" href="<%- paginate.href(true) %>&ajax=true"> &lt;&lt; </a></li>
+			<% }%>
+
+			<%  var current = '';
+				pages.forEach(function(page){
+					current = paginate.page == page.number ? 'current' : '';	 
+			%>
+					<li><a class='button pagination-number <%- current %>' href='<%- page.url %>&ajax=true'><%- page.number %></a></li>
+			<% });%>
+
+			<% if(paginate.hasNextPages(pageCount)) {
+				var page = paginate.page + 1;
+			%>
+				<li>
+					<a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>&ajax=true"> &gt;&gt; </a>
+				</li>
+			<% }%>
+		</ul>
+	<% }%>
+<% }%>
