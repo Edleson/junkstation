@@ -21,10 +21,10 @@
 					<span class="item_rating">4.5</span>
 					<div class="half left item_images clearfix">
 						<div class="overlayed">
-							<img src="/dist/images/aston.jpg" alt="">
+							<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
 							<div class="overlay">
 								<span class="overlay-icon-single">
-									<a href="/dist/images/aston.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+									<a href="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 										<i class="icomoon-expand-2"></i>
 									</a>
 								</span>
@@ -32,49 +32,20 @@
 						</div>
 
 						<div class="row four_images">
-							<div class="overlayed span3">
-								<img src="/dist/images/aston1.jpg" alt="">
-								<div class="overlay">
-									<span class="overlay-icon-single">
-										<a href="/dist/images/aston1.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-											<i class="icomoon-expand-2"></i>
-										</a>
-									</span>
-								</div>
-							</div>
+							<% anuncio.demaisFotos.forEach(function(media){ console.log(media);%>
 
-							<div class="overlayed span3">
-								<img src="/dist/images/aston2.jpg" alt="">
-								<div class="overlay">
-									<span class="overlay-icon-single">
-										<a href="/dist/images/aston2.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-											<i class="icomoon-expand-2"></i>
-										</a>
-									</span>
+								<div class="overlayed span3">
+									<img src="<%- media.prefix + media.nome %>" alt="">
+									<div class="overlay">
+										<span class="overlay-icon-single">
+											<a href="<%- media.prefix + media.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+												<i class="icomoon-expand-2"></i>
+											</a>
+										</span>
+									</div>
 								</div>
-							</div>
-
-							<div class="overlayed span3">
-								<img src="/dist/images/aston3.jpg" alt="">
-								<div class="overlay">
-									<span class="overlay-icon-single">
-										<a href="/dist/images/aston3.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-											<i class="icomoon-expand-2"></i>
-										</a>
-									</span>
-								</div>
-							</div>
-
-							<div class="overlayed span3">
-								<img src="/dist/images/aston4.jpg" alt="">
-								<div class="overlay">
-									<span class="overlay-icon-single">
-										<a href="/dist/images/aston4.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-											<i class="icomoon-expand-2"></i>
-										</a>
-									</span>
-								</div>
-							</div>
+							<%});%>
+							
 						</div>
 						<a href="#" class="view_more_images">[+] View all photos</a>
 					</div>

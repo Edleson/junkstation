@@ -63,10 +63,8 @@ module.exports = function(app) {
         var id = req.params.id;
         User.update({_id : security.decryptHexNumber(id)}, {contaAtiva : true}, { multi: false }, function(error, user){
             if(error){
-               //res.render('server-error.ejs', {error : error});
                next(error)
             }else{
-                //res.render('confirma_cadastro.ejs', {usuario : user});
                 htmlMinify('confirma_cadastro', res , {usuario : user});
             }
         });
@@ -85,7 +83,6 @@ module.exports = function(app) {
                 ResponseAPI.header.message = "Não foi possível alterar a senha!";
                 ResponseAPI.header.error   = error;
                 ResponseAPI.data           = {};
-                //console.log(err);
                 res.status(500).json(ResponseAPI);
             }else{
                var mensage = "<div class='alert-success'>Sua senha foi alterada com sucesso</div>";

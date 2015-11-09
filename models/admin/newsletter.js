@@ -1,4 +1,6 @@
-var mongoose   = require('mongoose');
+var mongoose     = require('mongoose');
+var findOrCreate = require('mongoose-findorcreate');
+
 module.exports = function(app) {
     var schema = mongoose.Schema({
         nome : {  
@@ -31,6 +33,8 @@ module.exports = function(app) {
             return this.model("Newsletter").find(query, cb);
         }
     };
+
+    schema.plugin(findOrCreate);
     
     return mongoose.model('Newsletter', schema);
 };

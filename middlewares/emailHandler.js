@@ -57,6 +57,24 @@ module.exports = function(ctx) {
 		});	
 	}
 
+	email.sendNewsletter = function(data, callback){
+		var template = new EmailTemplate(path.join(templatesDir, 'newsletter'));
+		
+		template.render(data, function(error, results){
+			if(error){
+				console.error(error);
+			}
+
+			transporter.sendMail({
+	    		from    : "no-replay@junkstation.com.br"     ,
+	    		to      : data.email                         ,
+	    		subject : 'Newsletter Junk Station'  		 ,
+	    		html    : results.html                       ,
+	    		text    : results.text     
+			}, callback);
+		});	
+	}
+
 	return email;
 
 }

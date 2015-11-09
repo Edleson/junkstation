@@ -62,7 +62,7 @@
 							<article class="box clearfix list_item">
 								<div class="half left">
 									<div class="overlayed">
-										<img src="/dist/images/sls.jpg" alt="">
+										<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
 										<div class="overlay">
 											<span class="overlay-icon-left">
 												<a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
@@ -180,11 +180,12 @@
 				
 				<div class="box">
 					<h3>Assine nossa newsletter</h3>
+					<span id="newsletterMessage"></span>
 					<div class="box-content widget_newsletter">
 						<p>Fique por dentro das novidades que rolam na JunkStation</p>
-						<form action="#">
-							<input type="text" name="name" placeholder="Name">
-							<input type="text" name="email" placeholder="Email">
+						<form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
+							<input type="text" name="nome"  placeholder="Nome"  maxlength="30"  id="nomeNewsletter"/>
+							<input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter"/>
 							<p class="newsletter_checkbox">
 								<label for="special_offers" class="custom_checkbox">
 									<input type="checkbox" name="special_offers" id="special_offers">
@@ -204,6 +205,38 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
+
+				$("#newsletterForm").validate({ 
+					submitHandler : function(form){
+						var request =  {
+							url     : form.action   ,
+							params  : {nome : $("#nomeNewsletter").val() , email : $("#emailNewsletter").val()} ,
+							method  : "post"        ,
+							callback : function(response, textStatus, jqXHR){
+								$("#newsletterMessage").html(response.header.message);
+								console.log(response);
+							}
+						};
+
+						console.log(request);
+
+						ajaxRequest(request , true);
+					},
+
+					rules: { 
+				    	nome  : "required" ,
+				        email : {
+				        	required : true	, 
+				          	email    : true 
+				        }
+				    },
+
+			        messages: { 
+			          	nome       : "O nome da newsletter é obrigatório"  ,
+			          	email      : "Digite um endereço de e-mail válido."	 
+			          			
+			        } 
+				});
 
 				$("#pesquisaForm").validate({ 
 					submitHandler: function(form){
@@ -247,7 +280,6 @@
 				$("#ajaxContent").on("click", ".pagination a", listaAnuncio);
 				
 				function listaAnuncio(e){
-					$.fancybox.init();
 					e.preventDefault();
 					var url = $(this).attr("href");
 					var id  = $(this).attr("id");

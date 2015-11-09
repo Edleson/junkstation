@@ -58,7 +58,22 @@ module.exports = function(){
 
         database :{
             url : MONGODB_URL
-        }
+        },
+
+        //LocalStorage , S3Storage
+        storage : {
+            storageType : "LocalStorage",
+            localStorage : {
+                prefix : "/tmp/"         ,
+                nome    : "LocalStorage"
+            },
+            s3Storage : {
+                prefix : "",
+                nome    : "S3Storage"
+            }
+        },
+
+        watermark : true
     };
 
     return context;

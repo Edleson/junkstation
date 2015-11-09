@@ -4,6 +4,13 @@ var mongoosePaginate = require('mongoose-paginate');
  
 module.exports = function(app) {
     var Utils       = app.util.utils;
+
+    var media = {
+        prefix  : {type : String},
+        nome    : {type : String},
+        tipo    : {type : String},
+        tamanho : {type : Number}
+    };
     
     var schema = mongoose.Schema({
         user : {
@@ -119,9 +126,9 @@ module.exports = function(app) {
             type : String
         },
 
-        fotos : {
-            type : String
-        },
+        fotoPrincipal : media ,
+
+        demaisFotos : [media] ,
 
         videos : {
             type : String

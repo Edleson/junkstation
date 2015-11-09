@@ -1,4 +1,9 @@
+var path     = require('path');
+var fs       = require('fs');
+var gm       = require('gm').subClass({imageMagick: true});
+
 module.exports = function(app) {
+    var context     = app.get("context");
     var Utils       = app.util.utils;
     var htmlMinify  = app.get("html-minify");
     var fileHandler = app.get("fileHandler");
@@ -13,7 +18,7 @@ module.exports = function(app) {
            
     var controller  = {};
 
-    controller.meusAnuncios = function(req, res, next) {
+    controller.meusAnuncios = function(req, res, next) { 
         listarAnuncioByUser(req, res, next, false);
     };
 
@@ -114,7 +119,6 @@ module.exports = function(app) {
                 }
             }
         });
-       
     };
 
     controller.anuncioDetalheGET = function(req, res, next) {
@@ -131,19 +135,13 @@ module.exports = function(app) {
     controller.criarAnuncioPOST = function(req, res, next) {
         var post = req.body;
         var anuncio = validateAnuncio(post);
-        Anuncio.create(anuncio , function(error, response){
+        Anuncio.create(anuncio , function(error, _anuncio){
             if(error){
                 req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
                 htmlMinify('criar_anuncio', res , {});
             }else{
-                var callback = function(error, responseAWS, idAnuncio){
-                    if(error){
-                        console.log(JSON.stringify(error));
-                    }else{
-                        console.log(JSON.stringify(responseAWS));
-                    }
-                };
-                fileHandler.uploadMultiploFile(req, response._id, callback);
+                var callback = getCallbackUpload(context);
+                fileHandler.uploadMultiploFile(req, _anuncio, callback);
                 req.flash('cadastroAnuncio', '<div class="alert-success">Anúncio cadastrado com sucesso</div>');
                 req.session.countAnuncio = req.session.countAnuncio + 1 ;
                 htmlMinify('criar_anuncio', res , {});
@@ -232,7 +230,69 @@ module.exports = function(app) {
         anuncio.data_vencimento = Utils.moment(anuncio.data_vencimento, "DD/MM/YYYY");
         anuncio.preco           = Utils.unFormatMoeda(anuncio.preco);
         return anuncio;
-    }
+    };
+
+    function getCallbackUpload(context){
+        if(context.storage.storageType === context.storage.localStorage.nome){
+            var callback  = function(req, anuncio){
+                var watermark =  path.join(__dirname, "../../public/real_images" , "watermark.png");
+                var tempDir   = '../../public/tmp';
+                var medias    = [];
+                var files     = req.files;
+
+                var media     = {};
+                var prefix    = req.protocol + "://" + req.headers.host + "" + context.storage.localStorage.prefix;
+                var id        = anuncio._id;
+                if(files){
+                    var contador = 0;
+                    files.forEach(function(file){
+                        var nomeArquivo = id + file.originalname;
+                        var media = {
+                            prefix  : prefix                    ,
+                            nome    : nomeArquivo               ,
+                            tipo    : file.mimetype             ,
+                            tamanho : file.size
+                        };
+
+                        if(contador === 0){
+                            anuncio.fotoPrincipal = media;
+                        }else{
+                            anuncio.demaisFotos.push(media);
+                        }
+
+                        if(context.watermark){
+                            gm(file.buffer, file.originalname)
+                            .draw(['image Over 0,0 0,0 "'+ watermark + '"' ])
+                            .write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                if (err){
+                                    console.log(err);  
+                                }
+                            });    
+                        }else{
+                             gm(file.buffer, file.originalname).write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                if (err){
+                                    console.log(err);  
+                                }
+                            }); 
+                        }
+                        contador++;     
+                    });
+
+                    Anuncio.update({"_id" : id}, anuncio , function(error){
+                        if(error){
+                            console.log(error);
+                        }
+                    }); 
+                } 
+            }
+
+            return callback;
+        }else if(context.storage.storageType === context.storage.s3Storage.nome){
+           
+        }else{
+            throw new Error("Não foi definida nenhuma estratégia de armazenamento de arquivos! Revise o arquivo de configuração context.js.");
+        }
+    };
     
     return controller; 
 };   

@@ -110,6 +110,8 @@ app.set("html-minify" , htmlmin     );
 app.set("fileHandler" , fileHandler );
 app.set("multer"      , upload      );
 app.set("paginate"    , paginate    );
+app.set("context"     , context     );
+
 
 
 
