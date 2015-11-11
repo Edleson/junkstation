@@ -8,7 +8,7 @@
 
 	<body >
 		<% include template/header %>
-		<% console.log(anuncio) %>
+
 		<div class="container_12 clearfix">
 			<div class="grid_8 content">
 				<h2 class="page_title">
@@ -32,8 +32,7 @@
 						</div>
 
 						<div class="row four_images">
-							<% anuncio.demaisFotos.forEach(function(media){ console.log(media);%>
-
+							<% anuncio.demaisFotos.forEach(function(media){ %>
 								<div class="overlayed span3">
 									<img src="<%- media.prefix + media.nome %>" alt="">
 									<div class="overlay">
@@ -81,7 +80,7 @@
 				<section id="item_info" class="box">
 					<h3>Informações sobre o Anúncio</h3>
 					<div class="box-content">
-						<h5><%- anuncio.titulo %></h5>
+						<h5><%- anuncio.titulo_anuncio %></h5>
 						<p><%- anuncio.descricao_anuncio %></p>
 						<!--<h5>Acessórios</h5>
 						<ul>

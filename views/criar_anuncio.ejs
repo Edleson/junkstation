@@ -21,6 +21,7 @@
 					<input type="hidden" name="user" value="<%- request.user._id %>" />
 					<input type="hidden" name="plano" value="<%- request.user.plano._id %>" />
 					<%- request.flash("cadastroAnuncio") %>
+					
 					<div class="box clearfix">
 						<h3>Informações do Anunciante </h3>
 						<div class="box-content clearfix bordered_under">
@@ -68,7 +69,7 @@
 							
 							<br/>
 
-							<div class="grid_4 left big_margin">
+							<div class="grid_8 left big_margin">
 								<p>
 									<label for="condition_new" class="custom_radio">
 										<input type="radio" name="status" id="condition_new" value="true" >Ativo
@@ -78,12 +79,39 @@
 									</label>
 								</p>								
 							</div>
-
 						</div>
 					</div>
+					
 					<div class="box clearfix">
 						<h3>Informações do Anúncio </h3>
 						<div class="box-content clearfix">
+							<div class="grid_4 left">									
+								<p>
+									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
+									<select name="categoria" id="categoria" class="customSelect full" value="" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+							
+							<div class="grid_4 left">									
+								<p>
+									<label for="marca" class="dropdown_label">Marca <span class="required">*</span></label>
+									<select name="marca" id="marca" class="customSelect full" value="" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left">									
+								<p>
+									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
+									<select name="modelo" id="modelo" class="customSelect full" value="" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
 							<div class="grid_4 left">									
 								<p>
 									<label for="preco" class="dropdown_label">Preço <span class="required">*</span></label>
@@ -93,41 +121,23 @@
 
 							<div class="grid_4 left">									
 								<p>
-									<label for="kilometragem" class="dropdown_label">KM <span class="required">*</span></label>
-									<input type="text" id="kilometragem" name="kilometragem"  value="" />
-								</p>
-							</div>
-
-							<div class="grid_3 left">									
-								<p>
-									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
-									<select name="categoria" id="categoria" class="customSelect full" value="" >
-										<option value="">Selecione</option>
-									</select>
-								</p>
-							</div>
-							
-							<div class="grid_3 left">									
-								<p>
-									<label for="marca" class="dropdown_label">Marca <span class="required">*</span></label>
-									<select name="marca" id="marca" class="customSelect full" value="" >
+									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
+									<select name="ano" id="anoFabricacao" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
 							</div>
 
-							<div class="grid_2 left">									
+							<div class="grid_4 left carro moto all">									
 								<p>
-									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
-									<select name="modelo" id="modelo" class="customSelect full" value="" >
+									<label for="cor" class="dropdown_label">Cor <span class="required">*</span></label>
+									<select name="cor" id="cor" class="customSelect full" value="" >
 										<option value="">Selecione</option>
 									</select>
 								</p>
 							</div>
 
-							
-
-							<div class="grid_3 left">									
+							<div class="grid_4 left carro all">									
 								<p>
 									<label for="portas" class="dropdown_label">Portas <span class="required">*</span></label>
 									<select name="numero_portas" id="portas" class="customSelect full" value="" >
@@ -140,34 +150,7 @@
 								</p>
 							</div>
 
-							<div class="grid_3 left">									
-								<p>
-									<label for="cambio" class="dropdown_label">Câmbio <span class="required">*</span></label>
-									<select name="cambio" id="cambio" class="customSelect full" value="" >
-										<option value="">Selecione</option>
-									</select>
-								</p>
-							</div>
-
-							<div class="grid_2 left">									
-								<p>
-									<label for="cor" class="dropdown_label">Cor <span class="required">*</span></label>
-									<select name="cor" id="cor" class="customSelect full" value="" >
-										<option value="">Selecione</option>
-									</select>
-								</p>
-							</div>
-
-							<div class="grid_3 left">									
-								<p>
-									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
-									<select name="ano" id="anoFabricacao" class="customSelect full" value="" >
-										<option value="">Selecione</option>
-									</select>
-								</p>
-							</div>
-
-							<div class="grid_3 left">									
+							<div class="grid_4 left carro all">									
 								<p>
 									<label for="combustivel" class="dropdown_label">Combustível <span class="required">*</span></label>
 									<select name="combustivel" id="combustivel" class="customSelect full" value="" >
@@ -176,7 +159,7 @@
 								</p>
 							</div>
 
-							<div class="grid_2 left">									
+							<div class="grid_4 left carro all">									
 								<p>
 									<label for="estilo" class="dropdown_label">Estilo <span class="required">*</span></label>
 									<select name="estilo" id="estilo" class="customSelect full" value="" >
@@ -185,27 +168,42 @@
 								</p>
 							</div>
 
-							<div class="grid_3 left">									
+							<div class="grid_4 left carro all">									
 								<p>
-									<label for="motor" class="dropdown_label">Motor <span class="required">*</span></label>
+									<label for="cambio" class="dropdown_label">Câmbio <span class="required">*</span></label>
+									<select name="cambio" id="cambio" class="customSelect full" value="" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="motor" class="dropdown_label">Motor </label>
 									<input type="text" id="motor" name="motor"  value="" maxlength="10" />
 								</p>
 							</div>
 
-							<div class="grid_3 left">									
+							<div class="grid_4 left carro caminhao all">									
 								<p>
-									<label for="renavam" class="dropdown_label">Renavam <span class="required">*</span></label>
+									<label for="kilometragem" class="dropdown_label">KM <span class="required">*</span></label>
+									<input type="text" id="kilometragem" name="kilometragem"  value="" />
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="renavam" class="dropdown_label">Renavam </label>
 									<input type="text" id="renavam" name="renavam"  value="" maxlength="11" />
 								</p>
 							</div>
 
-							<div class="grid_2 left">									
+							<div class="grid_4 left carro caminhao all">									
 								<p>
-									<label for="placa" class="dropdown_label">Placa <span class="required">*</span></label>
+									<label for="placa" class="dropdown_label">Placa </label>
 									<input type="text" id="placa" name="placa"  value="" maxlength="7" />
 								</p>
 							</div>
-
 						</div>
 					</div>
 
@@ -223,7 +221,7 @@
 							<div class="grid_8 left">	
 								<p>
 									<label for="descricao" class="dropdown_label">Descrição <span class="required">*</span></label>
-									<textarea name="descricao_anuncio" id="descricao" ></textarea>
+									<textarea name="descricao_anuncio" id="descricao" maxlength="800"></textarea>
 								</p>
 							</div>
 							
@@ -231,12 +229,12 @@
 					</div>
 					
 					<div class="box clearfix">
-						<h3>Fotos e Vídeos</h3>
+						<h3>Foto Principal</h3>
 						<div class="box-content">
 							<div class="grid_8 list_item">
 								<div class="half left">
 									<div class="overlayed" >
-										<img src="/dist/images/sls.jpg" alt="">
+										<img src="/dist/images/no-image.png" alt="">
 									</div>
 									<input type="file" name="fotos" />
 								</div>
@@ -268,45 +266,52 @@
 								</div>
 							</div>
 							
-							<hr/>
-
-							<div class="grid_8 list_item">
-								<div class="half left">
-									<div class="overlayed" >
-										<img src="/dist/images/sls.jpg" alt="">
-									</div>
-									<input type="file" name="fotos" />
-								</div>
-								<div class="half right">
-									<div class="item_heading">
-										<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
-										<p class="location">
-											<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
-											<span class="vendor"></span>
-										</p>
-									</div>
-									<div class="item_info clearfix">
-										<p class="half left">
-											<span class="item_year" alt="Ano de Fabricação">-</span>
-											<span class="item_type" alt="Tipo de Veículo">-</span>
-											<span class="item_drive" alt="Motor">-</span>
-										</p>
-										<p class="half right">
-											<span class="item_transimition">-</span>
-											<span class="item_fuel">-</span>
-											<span class="item_mileage">-</span>
-										</p>
-									</div>
-									<div class="item_footer">
-										<span class="item_price">R$ 0,00</span>
-										<span class="item_date"><%- util.moment().format("LL")%></span>
-										<!--<span class="item_rating">4.9</span>-->
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
-
+					
+					<% if(plano.qtdFotos > 1) {%>
+						<div class="box clearfix">
+							<h3>Demais Fotos</h3>
+							<div class="box-content">
+								<% for(var i = 1 ; i < plano.qtdFotos; i++) {%>
+									<div class="grid_8 list_item">
+										<div class="half left">
+											<div class="overlayed" >
+												<img src="/dist/images/no-image.png" alt="">
+											</div>
+											<input type="file" name="fotos" />
+										</div>
+										<div class="half right">
+											<div class="item_heading">
+												<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
+												<p class="location">
+													<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
+													<span class="vendor"></span>
+												</p>
+											</div>
+											<div class="item_info clearfix">
+												<p class="half left">
+													<span class="item_year" alt="Ano de Fabricação">-</span>
+													<span class="item_type" alt="Tipo de Veículo">-</span>
+													<span class="item_drive" alt="Motor">-</span>
+												</p>
+												<p class="half right">
+													<span class="item_transimition">-</span>
+													<span class="item_fuel">-</span>
+													<span class="item_mileage">-</span>
+												</p>
+											</div>
+											<div class="item_footer">
+												<span class="item_price">R$ 0,00</span>
+												<span class="item_date"><%- util.moment().format("LL")%></span>
+												<!--<span class="item_rating">4.9</span>-->
+											</div>
+										</div>
+									</div>
+								<% } %>
+							</div>
+						</div>
+					<% } %>
 					<a class="button submit wide green">Publicar Anúncio</a>
 				</form>
 				<br />
@@ -350,11 +355,18 @@
 				$("#categoria").change(function(){
 					if($(this).val() !== "0"){
 						listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
+						var value = $(this).find("option:selected").text();
+						console.log(value);
+						clearAtributos();
+						showCarros(value);
+						showBicicletas(value);
+						showMotos(value);
+						showCaminhoes(value);
+						showPecas(value);
+
 					}
 				});
 				
-				
-
 				$("#marca").change(function(){
 					var marcaCallback = function(response, textStatus, jqXHR){
 						var modelos = response.data;
@@ -438,7 +450,6 @@
 					precision   	: 0     ,
 					allowZero   	: false ,
 					allowNegative 	: false
-
 				});
 
 				$('#preco').blur(function(){
@@ -456,7 +467,6 @@
 					precision   	: 2     ,
 					allowZero   	: false ,
 					allowNegative 	: false
-
 				});
 
 				$('#motor').blur(function(){
@@ -477,25 +487,172 @@
 					precision   	: 0     ,
 					allowZero   	: false ,
 					allowNegative 	: false
-
 				});
 
 				$("#anuncioForm").validate({ 
-					submitHandler : function(){
+					submitHandler : function(form){
 						var categoria = $("#categoria").find("option:selected").text();
 						var marca     = $("#marca").find("option:selected").text();
 
 						$("#categoria option:selected").val(categoria)
 						$("#marca option:selected").val(marca);
-						
-						return true;
+
+						$.confirm({
+							post : true,
+							text : "Confirma a inclusão do novo anúncio ?", 
+							title: "Novo Anúncio",
+							confirm : function(){
+								form.submit();
+								return false;
+							},
+							cancel : function(){
+								return false;
+							}
+						});
 					},
-					rules    : {},
-			        messages : {} 
+
+					rules    : {
+						status    : "required" ,
+						categoria : "required" ,
+						marca     : "required" ,
+						modelo    : "required" ,
+						preco     : "required" ,
+						ano       : "required" ,
+						cor       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var moto     = new RegExp(/moto/gi);
+									var test     = (carro.test(value) || moto.test(value));
+									return test;
+								}	
+							}
+						},
+						numero_portas : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+						combustivel       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+
+						cambio       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+
+						kilometragem : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var caminhao = new RegExp(/caminh[ao,oes,ão,ões]/gi);
+									var test     = (carro.test(value) || caminhao.test(value));	
+									return test;
+								}	
+							}
+						},
+
+						titulo_anuncio    : "required" ,
+						descricao_anuncio : "required" ,
+						fotos             :{
+							accept   : "png,jpe?g,gif" , 
+							filesize : 1048576  
+						}
+
+					},
+
+			        messages : {
+			        	status            : "É necessário informar o status do anúncio." 	,
+			        	categoria         : "A categoria é obrigatória." 					,
+						marca             : "A marca é obrigatória" 						,
+						modelo            : "O modelo é obrigatório" 						,
+						preco             : "O preço é obrigatório" 						,
+						ano               : "O ano é obrigatório" 							,
+						cor               : "A cor do veículo é obrigatório" 				,
+						numero_portas     : "O número de portas" 							,
+						combustivel       : "O tipo de combustivel é obrigatório" 			,
+						cambio            : "O câmbio é obrigatório" 						,
+						titulo_anuncio    : "O título do anúncio é obrigatório" 			,
+			        	descricao_anuncio : "A descrição do anúncio é obrigatório"			,
+			        	fotos             : "Formato inválido, aceitos (PNG,JPEG,JPG ou GIF), até 1MB"
+			        } 
 				});
+
 			});
 
+			function showCarros(value){
+				var regex = new RegExp(/carro/gi);
+				if(regex.test(value)){
+					$(".carro").show();
+				}
+			}
+
+			function showBicicletas(value){
+				var regex = new RegExp(/bicicleta/gi);
+				if(regex.test(value)){
+					$(".bicicleta").show();
+				}
+			}
+
+			function showCaminhoes(value){
+				var regex = new RegExp(/caminh[ao,oes,ão,ões]/gi);
+				if(regex.test(value)){
+					$(".caminhao").show();
+				}
+			}
+
+			function showMotos(value){
+				var regex = new RegExp(/moto/gi);
+				if(regex.test(value)){
+					$(".moto").show();
+				}
+			}
+
+			function showPecas(value){
+				var regex = new RegExp(/pe[c,ç]a/gi);
+				if(regex.test(value)){
+					$(".pecas").show();
+				}
+			}
+
+			function clearAtributos(){
+				$(".all").hide();
+
+				$(".all").find("input").each(function(index){
+					$(this).val("");
+				});
+
+				$(".all").find("select").each(function(index){
+					$(this).val("").find("option[value='']").change();
+				});
+
+				
+
+			}
+
 			function init(){
+				$(".all").hide();
 				/***********************************************************
 			    * Lista todas as categorias ativas                         * 
 			    ***********************************************************/
@@ -509,20 +666,6 @@
 					});
 				};
 				listCategoria(categoriaCallBack, {}, false);
-
-				/***********************************************************
-			    * CARREGA TODAS AS MARCAS ATIVAS E PREENCHE O COMBO MARCAS * 
-			    ***********************************************************/
-				/*var marcaCallback = function(response, textStatus, jqXHR){
-					var marcas = response.data;
-					marcas.forEach(function(item){
-						$('#marca').append($('<option>', {
-						    value : item._id ,
-						    text  : item.nome
-						}));
-					});
-				};
-				listMarca(marcaCallback, {}, false);*/
 				/***********************************************************
 			    * Todos os anos de fabricações ativos                      * 
 			    ***********************************************************/

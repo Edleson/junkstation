@@ -1154,3 +1154,10 @@ jQuery.validator.addMethod("telefone", function (value, element) {
 $.validator.addMethod("equal", function(value, element, param){
 	return value == $(param).val();
 },"Há diferenças entre os valores comparados");
+
+$.validator.addMethod('filesize', function(value, element, param) {
+    // param = size (en bytes) 
+    // element = element to validate (<input>)
+    // value = value of the element (file name)
+    return this.optional(element) || (element.files[0].size <= param) 
+});

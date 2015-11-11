@@ -1,6 +1,7 @@
 var path     = require('path');
 var fs       = require('fs');
 var gm       = require('gm').subClass({imageMagick: true});
+var del      = require("del");
 
 module.exports = function(app) {
     var context     = app.get("context");
@@ -23,7 +24,7 @@ module.exports = function(app) {
     };
 
     controller.criarAnuncioGET = function(req, res, next) {
-        htmlMinify('criar_anuncio', res , {});
+        htmlMinify('criar_anuncio', res , {}); 
     };
 
     controller.pesquisaAnuncio = function(req, res, next) {
@@ -150,7 +151,20 @@ module.exports = function(app) {
     };
 
     controller.deletarAnuncio = function(req, res, next) {
-        var id = req.body.id;
+        var id         = req.body.id;
+        var anuncioDir = '../../public/tmp/anuncio/' + id;
+
+        del(path.join(__dirname, anuncioDir)).then(function(paths){
+            console.log('Deleted files/folders:\n', paths.join('\n'));
+        });
+        
+        /*fs.rmdir(path.join(__dirname, anuncioDir), function(error){
+            console.log(error);
+            if(error){
+                console.log("Ocorreu um erro durante a exclusão do diretório de medias do anúncio : " + id);
+            }
+        });*/
+
         Anuncio.remove({"_id" : id}, function(error){
             if(error){
                 req.flash('deleteAnuncio', '<div class="alert-error">Não foi possível excluir o Anúncio :( </div>');
@@ -221,6 +235,7 @@ module.exports = function(app) {
                 }
                 req.session.countAnuncio = anuncios.length;
                 htmlMinify('meus_anuncios', res , {response : anuncios}); 
+                //res.render('meus_anuncios', {response : anuncios});
             }
         }, query);
     };
@@ -236,54 +251,82 @@ module.exports = function(app) {
         if(context.storage.storageType === context.storage.localStorage.nome){
             var callback  = function(req, anuncio){
                 var watermark =  path.join(__dirname, "../../public/real_images" , "watermark.png");
-                var tempDir   = '../../public/tmp';
+                var tempDir   = '../../public/tmp/anuncio/';
                 var medias    = [];
                 var files     = req.files;
-
                 var media     = {};
-                var prefix    = req.protocol + "://" + req.headers.host + "" + context.storage.localStorage.prefix;
                 var id        = anuncio._id;
-                if(files){
-                    var contador = 0;
-                    files.forEach(function(file){
-                        var nomeArquivo = id + file.originalname;
-                        var media = {
-                            prefix  : prefix                    ,
-                            nome    : nomeArquivo               ,
-                            tipo    : file.mimetype             ,
-                            tamanho : file.size
-                        };
+                var prefix    = req.protocol + "://" + req.headers.host + "" + context.storage.localStorage.prefix;
+                prefix        = prefix + "anuncio/" + id + "/";
+                tempDir       = tempDir + id;                 
+               /*******************************************************
+                * Verifica se existe o diretório com ID do Anuncio    *
+                *******************************************************/
+                fs.exists(tempDir, function (exists) {
+                   /*******************************************************
+                    * Casso do diretório não exista cria o diretório      *
+                    *******************************************************/
+                    if(!exists){
+                        fs.mkdirSync(path.join(__dirname, tempDir));
+                    }
 
-                        if(contador === 0){
-                            anuncio.fotoPrincipal = media;
-                        }else{
-                            anuncio.demaisFotos.push(media);
-                        }
+                    /*******************************************************
+                    * Recupera a lista de imagens enviadas na requisição   *
+                    *******************************************************/
+                    if(files){
+                        var contador = 0;
+                        files.forEach(function(file){
+                            var nomeArquivo = id + file.originalname;
+                            var media = {
+                                prefix  : prefix                    ,
+                                nome    : nomeArquivo               ,
+                                tipo    : file.mimetype             ,
+                                tamanho : file.size
+                            };
 
-                        if(context.watermark){
-                            gm(file.buffer, file.originalname)
-                            .draw(['image Over 0,0 0,0 "'+ watermark + '"' ])
-                            .write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
-                                if (err){
-                                    console.log(err);  
-                                }
-                            });    
-                        }else{
-                             gm(file.buffer, file.originalname).write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
-                                if (err){
-                                    console.log(err);  
-                                }
-                            }); 
-                        }
-                        contador++;     
-                    });
+                            /*******************************************************
+                             * Recupera a foto principal do anúncio                *
+                             *******************************************************/
+                            if(contador === 0){
+                                anuncio.fotoPrincipal = media;
+                            }else{
+                                anuncio.demaisFotos.push(media);
+                            }
 
-                    Anuncio.update({"_id" : id}, anuncio , function(error){
-                        if(error){
-                            console.log(error);
-                        }
-                    }); 
-                } 
+                            /*******************************************************
+                             * Aplica a marca d'água da junk caso esteja configurado*
+                             *******************************************************/
+                            if(context.watermark){
+                                gm(file.buffer, file.originalname)
+                                .draw(['image Over 0,0 0,0 "'+ watermark + '"' ])
+                                .write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                    if (err){
+                                        console.log(err);  
+                                    }
+                                });    
+                            }else{
+                                 gm(file.buffer, file.originalname).write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                    if (err){
+                                        console.log(err);  
+                                    }
+                                }); 
+                            }
+                            contador++;     
+                        });
+                        
+                       /*******************************************************
+                        * Atualiza o anúncio com a localização da foto        *
+                        *******************************************************/
+                        Anuncio.update({"_id" : id}, anuncio , function(error){
+                            if(error){
+                                console.log(error);
+                            }
+                        }); 
+                    } 
+
+                });
+
+                
             }
 
             return callback;
@@ -291,6 +334,29 @@ module.exports = function(app) {
            
         }else{
             throw new Error("Não foi definida nenhuma estratégia de armazenamento de arquivos! Revise o arquivo de configuração context.js.");
+        }
+    };
+
+    function deleteDirR(path, cb) {
+        var files = [];
+        var curPath = '';
+
+        if (fs.exists(path)) {
+            files = fs.readdir(path);
+
+            files.forEach(function(file,index){
+                curPath = path + '/' + file;
+
+                if (fs.lstatSync(curPath).isDirectory()){
+                    deleteDirR(curPath, cb);
+                }else
+                    fs.unlinkSync(curPath);
+            });
+
+            fs.rmdirSync(path);
+            cb(null);
+        } else {
+            cb(new Error('The path passed does not exist.'));
         }
     };
     

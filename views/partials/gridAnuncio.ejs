@@ -37,7 +37,7 @@
 		<article class="box clearfix grid_item ">
 			<div class="item_heading">
 				<div class="overlayed">
-					<img src="/dist/images/smart.jpg" alt="">
+					<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
 					<div class="overlay">
 						<span class="overlay-icon-left">
 							<a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
@@ -49,7 +49,7 @@
 						</span>-->
 					</div>
 				</div>
-				<h4><%- anuncio.marca %>  <a href="/anuncio/detail"> <%- anuncio.modelo %></a></h4>
+				<h4><%- anuncio.marca %>  <a href="/anuncio/detail/<%- anuncio._id %>"> <%- anuncio.modelo %></a></h4>
 				<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
 			</div>
 			<div class="item_info">

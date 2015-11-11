@@ -5,7 +5,7 @@
 		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 		<title>Junk Station a Vitrine do seu clássico</title>
 		
-		<% include template/css %>
+		<% include template/css %> 
 	</head>
 
 	<body >
@@ -23,21 +23,21 @@
 					<article class="box clearfix grid_item">
 						<div class="item_heading">
 							<div class="overlayed">
-								<img src="/dist/images/smart.jpg" alt="">
+								<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
 								<div class="overlay">
 									<span class="overlay-icon-left">
-										<a href="/anuncio/detail">
+										<a href="/anuncio/detail/<%- anuncio._id %>">
 											<i class="icomoon-link"></i>
 										</a>
 									</span>
 									<span class="overlay-icon-right">
-										<a href="/dist/images/smart.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+										<a href="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
 									</span>
 								</div>
 							</div>
-							<h4> <%- anuncio.marca %> <a href="/anuncio/detail"><%- anuncio.modelo %></a></h4>
+							<h4> <%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"><%- anuncio.modelo %></a></h4>
 							<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
 						</div>
 

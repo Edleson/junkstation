@@ -6,9 +6,19 @@ module.exports = function(app) {
     var Utils       = app.util.utils;
 
     var media = {
-        prefix  : {type : String},
-        nome    : {type : String},
-        tipo    : {type : String},
+        prefix  : {
+            type   : String,
+            default : "/dist/images/" 
+        },
+        nome    : {
+            type : String,
+            default : "no-image.png"
+
+        },
+        tipo    : {
+            type : String ,
+            default : "image/png"
+        },
         tamanho : {type : Number}
     };
     

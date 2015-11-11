@@ -4,6 +4,23 @@ var findOrCreate = require('mongoose-findorcreate');
 var moment       = require('moment');
 
 module.exports = function() {
+    var media = {
+        prefix  : {
+            type   : String,
+            default : "/dist/images/" 
+        },
+        nome    : {
+            type : String,
+            default : "no-image.png"
+
+        },
+        tipo    : {
+            type : String ,
+            default : "image/png"
+        },
+        tamanho : {type : Number}
+    };
+
     var userSchema = mongoose.Schema({
         local : {
             username     : String ,
@@ -36,6 +53,8 @@ module.exports = function() {
             email        : String ,
             name         : String
         },
+
+        fotoPerfil : media ,
 
         plano : {
             type     : mongoose.Schema.Types.ObjectId   , 
