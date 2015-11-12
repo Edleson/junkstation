@@ -354,14 +354,32 @@
                                                          <div style="line-height: 14px;">              
                                                             <a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
                                                             <font face="Arial, Helvetica, sans-serif" size="2" color="#596167">
-                                                            <% console.log(data.anuncio.fotoPrincipal.prefix + data.anuncio.fotoPrincipal.nome) %>
+                                                            
                                                             <img src="<%= data.anuncio.fotoPrincipal.prefix + data.anuncio.fotoPrincipal.nome %>" width="185" alt="Image 1" border="0" style="display: block; width: 100%; height: auto;" /></font></a>
                                                          </div>
                                                       </td>
                                                    </tr>
                                                 </table>
-                                             </div>
-
+                                              </div>
+                                            
+                                            <% data.anuncio.demaisFotos.forEach(function(foto) {%>
+                                                <div class="mob_100" style="float: left; display: inline-block; width: 33%;">
+                                                  <table class="mob_100" width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="border-collapse: collapse;">
+                                                     <tr>
+                                                        <td align="center" style="line-height: 14px; padding: 0 10px;">
+                                                           <!-- padding -->
+                                                           <div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>
+                                                           <div style="line-height: 14px;">              
+                                                              <a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
+                                                              <font face="Arial, Helvetica, sans-serif" size="2" color="#596167">
+                                                              
+                                                              <img src="<%= foto.prefix + foto.nome %>" width="185" alt="Image 1" border="0" style="display: block; width: 100%; height: auto;" /></font></a>
+                                                           </div>
+                                                        </td>
+                                                     </tr>
+                                                  </table>
+                                                </div>
+                                            <%});%>
                                           </td>
                                        </tr>
                                        <tr>
