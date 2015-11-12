@@ -19,7 +19,7 @@ module.exports = function(app) {
                 ResponseAPI.header.url     = req.url;
                 if(created){
                     var host = req.headers.host;
-                    var url  = "/newsletter/cancelar/" + _entity._id ;
+                    var url  = "/newsletter/delete/" + _entity._id ;
                     var link = "https://" + host + url;
                     
                     var destination = {

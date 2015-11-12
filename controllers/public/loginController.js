@@ -3,7 +3,7 @@ module.exports = function(app) {
     var User              = app.models.admin.user;
     var createResponseAPI = app.models.admin.responseAPI;
     var security          = app.get("security");
-    var emailSender       = app.get("emailSender");
+    var emailSender       = app.get("emailSender"); 
     var controller        = {};
 
     var sendEmail = function(req, user){

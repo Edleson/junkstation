@@ -7,9 +7,6 @@ var config        = require("../config");
 module.exports = function(ctx) {
 	var email   = {};
 
-	
-	//console.log(ctx["email"]);
-	
 	var emailOptions = {
 		host : ctx.email.hostname ,
 		port : ctx.email.port     ,
@@ -30,7 +27,7 @@ module.exports = function(ctx) {
 			}
 
 			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"    	 ,
+	    		from    : "no-replay@junkstation.com.br"     ,
 	    		to      : data.email                         ,
 	    		subject : 'Bem vindo à família Junkstation'  ,
 	    		html    : results.html                       ,
@@ -75,6 +72,23 @@ module.exports = function(ctx) {
 		});	
 	}
 
-	return email;
+	email.sendNewAnuncio = function(data, callback){
+		var template = new EmailTemplate(path.join(templatesDir, 'novo-anuncio'));
+		
+		template.render(data, function(error, results){
+			if(error){
+				console.error(error);
+			}
 
+			transporter.sendMail({
+	    		from    : "no-replay@junkstation.com.br"     		,
+	    		to      : data.email                         		,
+	    		subject : 'Obrigado por anunciar na Junk Station'   ,
+	    		html    : results.html                       		,
+	    		text    : results.text     
+			}, callback);
+		});	
+	}
+
+	return email;
 }

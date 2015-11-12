@@ -1,7 +1,7 @@
-var path     = require('path');
-var fs       = require('fs');
-var gm       = require('gm').subClass({imageMagick: true});
-var del      = require("del");
+var path = require('path');
+var fs   = require('fs');
+var gm   = require('gm').subClass({imageMagick: true});
+var del  = require("del");
 
 module.exports = function(app) {
     var context     = app.get("context");
@@ -9,25 +9,24 @@ module.exports = function(app) {
     var htmlMinify  = app.get("html-minify");
     var fileHandler = app.get("fileHandler");
     var paginate    = app.get("paginate");
+    var emailSender = app.get("emailSender");
     var User        = app.models.admin.user;
     var Anuncio     = app.models.public.anuncio;
     var marca       = new app.models.admin.marca({});
     var plano       = new app.models.admin.plano({}); 
     var uf          = new app.models.admin.uf({});
-    var paginateNum = 10 ;
-
-           
+    var paginateNum = 10 ;      
     var controller  = {};
 
-    controller.meusAnuncios = function(req, res, next) { 
+    controller.meusAnuncios       = function(req, res, next){ 
         listarAnuncioByUser(req, res, next, false);
     };
 
-    controller.criarAnuncioGET = function(req, res, next) {
+    controller.criarAnuncioGET    = function(req, res, next){
         htmlMinify('criar_anuncio', res , {}); 
     };
 
-    controller.pesquisaAnuncio = function(req, res, next) {
+    controller.pesquisaAnuncio    = function(req, res, next){
         var paginateOption = {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
@@ -62,7 +61,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.listAnuncioGET = function(req, res, next) {
+    controller.listAnuncioGET     = function(req, res, next){
         var paginateOption = {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
@@ -93,7 +92,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.listAnuncioGridGET = function(req, res, next) {
+    controller.listAnuncioGridGET = function(req, res, next){
         var paginateOption = {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
@@ -122,7 +121,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.anuncioDetalheGET = function(req, res, next) {
+    controller.anuncioDetalheGET  = function(req, res, next){
         var id = req.params.id;
         Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
             if(error){
@@ -133,7 +132,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.criarAnuncioPOST = function(req, res, next) {
+    controller.criarAnuncioPOST   = function(req, res, next){
         var post = req.body;
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
@@ -150,7 +149,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.deletarAnuncio = function(req, res, next) {
+    controller.deletarAnuncio     = function(req, res, next){
         var id         = req.body.id;
         var anuncioDir = '../../public/tmp/anuncio/' + id;
 
@@ -176,7 +175,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.cadastroPerfilGET = function(req, res, next){
+    controller.cadastroPerfilGET  = function(req, res, next){
         var query          = {situacao : true};
         var response = {
             ufs    : [] ,
@@ -192,7 +191,7 @@ module.exports = function(app) {
         }, query);
     };
 
-    controller.cadastroPerfil = function(req, res, next){
+    controller.cadastroPerfil     = function(req, res, next){
         var _user          = req.user;
         var _dadosPessoais = req.body;
         var query          = {situacao : true};
@@ -321,6 +320,9 @@ module.exports = function(app) {
                             if(error){
                                 console.log(error);
                             }
+
+                            sendEmailNewAnuncio(req, anuncio);
+
                         }); 
                     } 
 
@@ -337,28 +339,34 @@ module.exports = function(app) {
         }
     };
 
-    function deleteDirR(path, cb) {
-        var files = [];
-        var curPath = '';
+    function sendEmailNewAnuncio(req, anuncio){
+        var user          = req.user;
+        var host          = req.headers.host;
+        var link_servico  = "http://" + host + "/servico";
+        var url_imagem    = "https://" + host + "/dist/images/dot.gif";
+        var meus_anuncios = "https://" + host + "/anuncio/meusanuncios";
 
-        if (fs.exists(path)) {
-            files = fs.readdir(path);
+        /*******************************************************
+         * Envia um e-mail com as informações do anúncio       *
+         *******************************************************/
+        var destination = {
+            email : user.local.email ,
+            data  : {
+                anuncio   : anuncio       , 
+                servico   : link_servico  ,
+                imagem    : url_imagem    ,
+                url_admin : meus_anuncios
+            }
+        };
 
-            files.forEach(function(file,index){
-                curPath = path + '/' + file;
-
-                if (fs.lstatSync(curPath).isDirectory()){
-                    deleteDirR(curPath, cb);
-                }else
-                    fs.unlinkSync(curPath);
-            });
-
-            fs.rmdirSync(path);
-            cb(null);
-        } else {
-            cb(new Error('The path passed does not exist.'));
-        }
+        emailSender.sendNewAnuncio(destination, function(error , info){
+            if(error){
+                console.log(error);
+            }else{
+                console.log(info);                
+            }
+        });
     };
-    
+ 
     return controller; 
 };   
