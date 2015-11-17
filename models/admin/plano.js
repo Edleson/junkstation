@@ -1,4 +1,6 @@
-var mongoose   = require('mongoose');
+var mongoose     = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
 module.exports = function(app) {
     var schema = mongoose.Schema({
         titulo : {  
@@ -82,6 +84,8 @@ module.exports = function(app) {
             );
         }
     };
+
+    schema.plugin(deepPopulate, {}); 
     
     return mongoose.model('Plano', schema);
 };

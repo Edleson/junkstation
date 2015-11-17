@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<% include template/css %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		<div class="container_12 clearfix" id="add_new_item_info">
+			<% include template/vertical_menu_admin %>
+			<% 
+				var plano      = anuncio.plano;
+				var nomePlano  = plano.titulo;
+				var precoPlano = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
+
+				var media = {
+       				prefix  : "/dist/images/"	,
+        			nome    : "no-image.png"  	,	
+        			tipo    : "image/png"   	        
+    			};
+
+    			if((anuncio.demaisFotos.length + 1) < plano.qtdFotos){
+    				var diferenca = plano.qtdFotos - (anuncio.demaisFotos.length + 1);
+    				for(var i = 0 ; i < diferenca; i++){
+    					anuncio.demaisFotos.push(media);
+    				}
+    			}
+
+    			var hasMediaMain = anuncio.fotoPrincipal.nome === "no-image.png" ? false : true; 
+			%>
+
+			<div class="grid_9 bigger_margin">
+				<input type="hidden" id="_categoria" 		value="<%- anuncio.categoria %>" 		/>
+				<input type="hidden" id="_marca"     		value="<%- anuncio.marca %>"     		/>
+				<input type="hidden" id="_modelo"    		value="<%- anuncio.modelo %>"    		/>
+				<input type="hidden" id="_ano"       		value="<%- anuncio.ano %>"       		/>
+				<input type="hidden" id="_cor"       		value="<%- anuncio.cor %>"       		/>
+				<input type="hidden" id="_numero_portas"	value="<%- anuncio.numero_portas %>"    />
+				<input type="hidden" id="_combustivel"      value="<%- anuncio.combustivel %>"      />
+				<input type="hidden" id="_estilo"       	value="<%- anuncio.estilo %>"       	/>
+				<input type="hidden" id="_cambio"       	value="<%- anuncio.cambio %>"       	/>
+				<input type="hidden" id="_status"       	value="<%- anuncio.status %>"       	/>
+
+				<form action="https://<%- request.hostname%>/anuncio/edit?<%- new Date().getTime() %>" method="post" enctype="multipart/form-data" id="anuncioForm" name="anuncioForm">
+					<input type="hidden" id="anuncioID" name="_id"  value="<%- anuncio._id %>" 		/>
+					<input type="hidden" id="_METHOD" name="_METHOD" value="post" 		/>
+					<%- request.flash("cadastroAnuncio") %>
+					<div class="box clearfix">
+						<h3>Informações do Anunciante </h3>
+						<div class="box-content clearfix bordered_under">
+							<div class="grid_4 left">
+								<p>
+									<label for="anunciante" class="dropdown_label">Nome do Anunciante</label>
+									<input type="text" readonly="readonly" name="anunciante" id="anunciante" value="<%- anuncio.anunciante %>" >
+								</p>
+							</div>
+ 
+							<div class="grid_4 left">
+								<p>
+									<label for="anunciante" class="dropdown_label">Plano Contratado</label>
+									<input type="text" name="nomePlano" readonly="readonly" value="<%- nomePlano + ' - ' + precoPlano %>" />
+								</p>
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="localizacao" class="dropdown_label">Cidade</label>
+									<input type="text" readonly="readonly" name="localizacao" id="localizacao" value="<%- anuncio.localizacao %>" >
+								</p>
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="provider" class="dropdown_label">Estado</label>
+									<input type="text" readonly="readonly" name="estado" value="<%- anuncio.estado %>" >
+								</p>
+							</div>
+
+							<div class="grid_4 left">
+								<p>
+									<label for="dataAnuncio" class="dropdown_label">Dt. Anúncio </label>
+									<input type="text" id="dataAnuncio"readonly="readonly" name="data_anuncio" value="<%- util.moment(anuncio.data_anuncio).format('L') %>" >
+								</p>
+							</div>
+							
+							<div class="grid_4 left">
+								<p>
+									<label for="vencimento" class="dropdown_label">Vencimento</label>
+									<input type="text" readonly="readonly" id="vencimento" name="data_vencimento" value="<%- util.moment(anuncio.data_vencimento).format('L') %>" >
+								</p>								
+							</div>
+							
+							<br/>
+
+							<div class="grid_8 left big_margin">
+								<p>
+									<label for="condition_new" class='custom_radio'>
+										<input type="radio" name="status" id="condition_new" value="true" >Ativo
+									</label>
+									<label for="condition_used" class="custom_radio">
+										<input type="radio" name="status" id="condition_used" value="false">Inativo
+									</label>
+								</p>								
+							</div>
+						</div>
+					</div>
+					
+					<div class="box clearfix">
+						<h3>Informações do Anúncio </h3>
+						<div class="box-content clearfix">
+							<div class="grid_4 left">									
+								<p>	
+									<label for="categoria" class="dropdown_label">Categoria <span class="required">*</span></label>
+									<select name="categoria" id="categoria" class="customSelect full" value="<%- anuncio.categoria %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+							
+							<div class="grid_4 left">									
+								<p>
+									<label for="marca" class="dropdown_label">Marca <span class="required">*</span></label>
+									<select name="marca" id="marca" class="customSelect full" value="<%- anuncio.marca %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left">									
+								<p>
+									<label for="modelo" class="dropdown_label">Modelo <span class="required">*</span></label>
+									<select name="modelo" id="modelo" class="customSelect full" value="<%- anuncio.modelo %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left">									
+								<p>
+									<label for="preco" class="dropdown_label">Preço <span class="required">*</span></label>
+									<input type="text" id="preco" name="preco"  value="<%- Utils.numeral(anuncio.preco).format('0,0.00') %>"  />
+								</p>
+							</div>
+
+							<div class="grid_4 left">									
+								<p>
+									<label for="anoFabricacao" class="dropdown_label">Ano <span class="required">*</span></label>
+									<select name="ano" id="anoFabricacao" class="customSelect full" value="<%- anuncio.ano %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro moto all">									
+								<p>
+									<label for="cor" class="dropdown_label">Cor <span class="required">*</span></label>
+									<select name="cor" id="cor" class="customSelect full" value="<%- anuncio.cor %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="portas" class="dropdown_label">Portas <span class="required">*</span></label>
+									<select name="numero_portas" id="portas" class="customSelect full" value="<%- anuncio.numero_portas %>" >
+										<option value="">Selecione</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="combustivel" class="dropdown_label">Combustível <span class="required">*</span></label>
+									<select name="combustivel" id="combustivel" class="customSelect full" value="<%- anuncio.combustivel %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="estilo" class="dropdown_label">Estilo <span class="required">*</span></label>
+									<select name="estilo" id="estilo" class="customSelect full" value="<%- anuncio.estilo %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="cambio" class="dropdown_label">Câmbio <span class="required">*</span></label>
+									<select name="cambio" id="cambio" class="customSelect full" value="<%- anuncio.cambio %>" >
+										<option value="">Selecione</option>
+									</select>
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="motor" class="dropdown_label">Motor </label>
+									<input type="text" id="motor" name="motor"  value="<%- anuncio.motor %>" maxlength="10" />
+								</p>
+							</div>
+
+							<div class="grid_4 left carro caminhao all">									
+								<p>
+									<label for="kilometragem" class="dropdown_label">KM <span class="required">*</span></label>
+									<input type="text" id="kilometragem" name="kilometragem"  value="<%- anuncio.kilometragem %>" />
+								</p>
+							</div>
+
+							<div class="grid_4 left carro all">									
+								<p>
+									<label for="renavam" class="dropdown_label">Renavam </label>
+									<input type="text" id="renavam" name="renavam"  value="<%- anuncio.renavam %>" maxlength="11" />
+								</p>
+							</div>
+
+							<div class="grid_4 left carro caminhao all">									
+								<p>
+									<label for="placa" class="dropdown_label">Placa </label>
+									<input type="text" id="placa" name="placa"  value="<%- anuncio.placa %>" maxlength="7" />
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="box clearfix">
+						<h3>Descrição do Anúncio</h3>
+						<div class="box-content">
+
+							<div class="grid_8 left">									
+								<p>
+									<label for="titulo" class="dropdown_label">Título<span class="required">*</span></label>
+									<input type="text" id="titulo" name="titulo_anuncio"  value="<%- anuncio.titulo_anuncio %>" />
+								</p>
+							</div>
+
+							<div class="grid_8 left">	
+								<p>
+									<label for="descricao" class="dropdown_label">Descrição <span class="required">*</span></label>
+									<textarea name="descricao_anuncio" id="descricao" maxlength="800"><%- anuncio.descricao_anuncio %></textarea>
+								</p>
+							</div>
+							
+						</div>
+					</div>
+					
+
+					<div class="box clearfix">
+						<h3>Foto Principal</h3>
+						<div class="box-content">
+							<div class="grid_8 list_item">
+								<div class="half left">
+									<div class="overlayed" >
+										<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
+									</div>
+									<input type="file" name="fotoPrincipal" <%- hasMediaMain ? "disabled='disabled'" : '' %> />
+								</div>
+								<div class="half right">
+									<div class="item_heading">
+										<h4> <span class="marcaTXT"><%- anuncio.marca %></span>
+										 <a href="#" class="modeloTXT"> <%- anuncio.modelo %> </a></h4>
+										<p class="location">
+											<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
+											<span class="vendor"></span>
+										</p>
+									</div>
+									<div class="item_info clearfix">
+										<p class="half left">
+											<span class="item_year" alt="Ano de Fabricação">- <%- anuncio.ano %></span>
+											<span class="item_type" alt="Tipo de Veículo">- <%- anuncio.estilo %></span>
+											<span class="item_drive" alt="Motor">- <%- anuncio.motor %></span>
+										</p>
+										<p class="half right">
+											<span class="item_transimition">- <%- anuncio.cambio %></span>
+											<span class="item_fuel">- <%- anuncio.cambio %></span>
+											<span class="item_mileage">- <%- anuncio.kilometragem %></span>
+										</p>
+									</div>
+									<div class="item_footer">
+										<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00")%></span>
+										<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
+										<span class="item_rating">0.0</span>
+										<% if(hasMediaMain){%>
+											<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- anuncio.fotoPrincipal.nome %>&principal=true" class="button small-button wide red removeMedia">Trocar Foto</a>
+										<%}%>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="box clearfix">
+						<h3>Demais Fotos</h3>
+						<div class="box-content">
+							<% anuncio.demaisFotos.forEach(function(media){
+								var hasMedia = (media.nome === "no-image.png" ? false : true); 
+							%>
+								<div class="grid_8 list_item">
+									<div class="half left">
+										<div class="overlayed" >
+											<img src="<%- media.prefix + media.nome %>" alt="">
+										</div>
+										<input type="file" name="fotos" <%- hasMedia ? "disabled='disabled'" : '' %>/>
+									</div>
+									<div class="half right">
+										<div class="item_heading">
+											<h4> <span class="marcaTXT"><%- anuncio.marca %></span>
+											 <a href="#" class="modeloTXT"> <%- anuncio.modelo %> </a></h4>
+											<p class="location">
+												<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
+												<span class="vendor"></span>
+											</p>
+										</div>
+										<div class="item_info clearfix">
+											<p class="half left">
+												<span class="item_year" alt="Ano de Fabricação">- <%- anuncio.ano %></span>
+												<span class="item_type" alt="Tipo de Veículo">- <%- anuncio.estilo %></span>
+												<span class="item_drive" alt="Motor">- <%- anuncio.motor %></span>
+											</p>
+											<p class="half right">
+												<span class="item_transimition">- <%- anuncio.cambio %></span>
+												<span class="item_fuel">- <%- anuncio.cambio %></span>
+												<span class="item_mileage">- <%- anuncio.kilometragem %></span>
+											</p>
+										</div>
+										<div class="item_footer">
+											<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00")%></span>
+											<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
+											<span class="item_rating">0.0</span>
+											<% if(hasMedia){%>
+												<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- media.nome %>&principal=false" class="button small-button wide red removeMedia">Trocar Foto</a>
+											<%}%>
+										</div>
+									</div>
+								</div>
+								<hr />
+							<%}); %>
+						</div>
+					</div>
+					
+					<a class="button submit wide green">Publicar Anúncio</a>
+				</form>
+				<br />
+				
+			</div>
+		</div>
+		
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+
+		<script type="text/javascript">
+			
+
+			$(document).ready(function(){
+				var categoriaCallback = function(response, textStatus, jqXHR){
+					var marcas = response.data;
+					$('#marca option').remove();
+					$('#marca option').remove();
+					
+					$('#marca').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change(); 
+
+					$('#modelo').append($('<option>', {
+						    value : "0" ,
+						    text  : ""  ,
+						    selected : "selected"
+					})).change();
+
+					marcas.forEach(function(item){
+						$('#marca').append($('<option>', {
+						    value : item._id ,
+						    text  : item.nome
+						}));
+					});
+				};
+
+				$("#categoria").change(function(){
+					if($(this).val() !== "0"){
+						listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
+						var value = $(this).find("option:selected").text();
+						console.log(value);
+						clearAtributos();
+						showCarros(value);
+						showBicicletas(value);
+						showMotos(value);
+						showCaminhoes(value);
+						showPecas(value);
+					}
+				});
+				
+				$("#marca").change(function(){
+					var marcaCallback = function(response, textStatus, jqXHR){
+						var modelos = response.data;
+						
+						$('#modelo option').remove();
+						
+						$('#modelo').append($('<option>', {
+							    value : "" ,
+							    text  : "Selecione"  ,
+							    selected : "selected"
+						})).change();
+
+						modelos.forEach(function(item){
+							$('#modelo').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));
+						});
+					};
+
+					if($(this).val() !== "0"){
+						$(".marcaTXT").html($(this).find("option:selected").text());
+						listModeloByMarca($(this).val(), marcaCallback, {}, true);
+					}else{
+						$(".marcaTXT").html("-");
+					}
+				});
+
+				$('#modelo').change(function(){
+					if(this.value !== ""){
+						$(".modeloTXT").html(this.value);
+					}else{
+						$(".modeloTXT").html("-");
+					}
+				});
+
+				$('#anoFabricacao').change(function(){
+					if(this.value !== ""){
+						$(".item_year").html(this.value);
+					}else{
+						$(".item_year").html("-");
+					}
+				});
+
+				$('#estilo').change(function(){
+					if(this.value !== ""){
+						$(".item_type").html(this.value);
+					}else{
+						$(".item_type").html("-");
+					}
+				});
+
+				$('#cambio').change(function(){
+					if(this.value !== ""){
+						$(".item_transimition").html(this.value);
+					}else{
+						$(".item_transimition").html("-");
+					}
+				});
+
+				$('#combustivel').change(function(){
+					if(this.value !== ""){
+						$(".item_fuel").html(this.value);
+					}else{
+						$(".item_fuel").html("-");
+					}
+				});
+
+				$('#kilometragem').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_mileage").html(this.value + " KM");
+					}else{
+						$(".item_mileage").html("-");
+					}
+				}).maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: "."   ,
+					decimal     	: ""    ,
+					precision   	: 0     ,
+					allowZero   	: false ,
+					allowNegative 	: false
+				});
+
+				$('#preco').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_price").html("R$ " + this.value);
+					}else{
+						$(".item_price").html("R$ 0,00");
+					}
+				}).maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: "."   ,
+					decimal     	: ","   ,
+					precision   	: 2     ,
+					allowZero   	: false ,
+					allowNegative 	: false
+				});
+
+				$('#motor').blur(function(){
+					if(!isBlankOrEmpty(this.value)){
+						$(".item_drive").html(this.value);
+					}else{
+						$(".item_drive").html("-");
+					}
+				});
+
+				$('#placa').mask("aaa9999");
+				$('#renavam').maskMoney({
+					prefix      	: ""    ,
+					suffix      	: ""    ,
+					affixesStay 	: false ,
+					thousands   	: ""   ,
+					decimal     	: ""   ,
+					precision   	: 0     ,
+					allowZero   	: false ,
+					allowNegative 	: false
+				});
+
+				$("#anuncioForm").validate({ 
+					submitHandler : function(form){
+						var categoria = $("#categoria").find("option:selected").text();
+						var marca     = $("#marca").find("option:selected").text();
+
+						$("#categoria option:selected").val(categoria)
+						$("#marca option:selected").val(marca);
+
+						console.log($("#fotoPrincipal").val());
+
+						$.confirm({
+							post : true,
+							text : "Confirma a edição do anúncio ?", 
+							title: "Edição Anúncio",
+							confirm : function(){
+								form.submit();
+								//return true;
+							},
+							cancel : function(){
+								return false;
+							}
+						});
+					},
+
+					rules    : {
+						status    : "required" ,
+						categoria : "required" ,
+						marca     : "required" ,
+						modelo    : "required" ,
+						preco     : "required" ,
+						ano       : "required" ,
+						cor       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var moto     = new RegExp(/moto/gi);
+									var test     = (carro.test(value) || moto.test(value));
+									return test;
+								}	
+							}
+						},
+						numero_portas : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+						combustivel       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+
+						cambio       : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var test     = carro.test(value);
+									return test;
+								}	
+							}
+						},
+
+						kilometragem : {
+							required : {
+								depends : function(element){
+									var value    = $("#categoria").find("option:selected").text()
+									var carro    = new RegExp(/carro/gi);
+									var caminhao = new RegExp(/caminh[ao,oes,ão,ões]/gi);
+									var test     = (carro.test(value) || caminhao.test(value));	
+									return test;
+								}	
+							}
+						},
+
+						titulo_anuncio    : "required" ,
+						descricao_anuncio : "required" ,
+						fotos             :{
+							accept   : "png,jpe?g,gif" , 
+							filesize : 1048576  
+						}
+
+					},
+
+			        messages : {
+			        	status            : "É necessário informar o status do anúncio." 	,
+			        	categoria         : "A categoria é obrigatória." 					,
+						marca             : "A marca é obrigatória" 						,
+						modelo            : "O modelo é obrigatório" 						,
+						preco             : "O preço é obrigatório" 						,
+						ano               : "O ano é obrigatório" 							,
+						cor               : "A cor do veículo é obrigatório" 				,
+						numero_portas     : "O número de portas" 							,
+						combustivel       : "O tipo de combustivel é obrigatório" 			,
+						cambio            : "O câmbio é obrigatório" 						,
+						titulo_anuncio    : "O título do anúncio é obrigatório" 			,
+			        	descricao_anuncio : "A descrição do anúncio é obrigatório"			,
+			        	fotos             : "Formato inválido, aceitos (PNG,JPEG,JPG ou GIF), até 1MB"
+			        } 
+				});
+
+				var showfields = function(){
+					var _categoria     = $("#_categoria").val();
+					var _marca         = $("#_marca").val();
+					var _modelo        = $("#_modelo").val();
+					var _numero_portas = $("#_numero_portas").val();
+					var _status 	   = $("#_status").val();
+
+					$("#numero_portas").find("option[value='" + _numero_portas + "']").change();
+					
+					showCarros(_categoria);
+					showBicicletas(_categoria);
+					showMotos(_categoria);
+					showCaminhoes(_categoria);
+					showPecas(_categoria);
+
+					if(_status == "true"){
+						$("#condition_new").click();
+						$("#condition_new").parent().addClass('radio_on');
+						$("#condition_used").parent().removeClass('radio_on');
+					}else{
+						$("#condition_used").click();
+						$("#condition_used").parent().addClass('radio_on');
+						$("#condition_new").parent().removeClass('radio_on');
+					}	
+
+					var idCategoria = $("#categoria").val();
+					
+					listMarcaByCategoria(idCategoria, function(response, textStatus, jqXHR){
+						var marcas = response.data;
+						
+						marcas.forEach(function(item){
+							if(_marca === item.nome){
+								$('#marca').append($('<option>', {
+								    value : item._id  ,
+								    text  : item.nome ,
+								    selected : "selected"
+								}));
+							}else{
+								$('#marca').append($('<option>', {
+								    value : item._id ,
+								    text  : item.nome
+								}));
+							}
+						});
+
+						var idMarca = $("#marca").val();
+
+						listModeloByMarca(idMarca, function(response, textStatus, jqXHR){
+							var modelos = response.data;
+							modelos.forEach(function(_item){
+								if(_modelo === _item.nome){
+									$('#modelo').append($('<option>', {
+									    value : _item.nome ,
+									    text  : _item.nome ,
+									    selected : "selected"
+									}));
+								}else{
+									$('#modelo').append($('<option>', {
+									    value : _item.nome ,
+									    text  : _item.nome
+									}));
+								}
+							});
+						}, {}, false);
+					}, {}, false);
+				};
+
+				init(showfields);
+
+				$(".removeMedia").click(function(){
+					var button = this;
+					var inputFile = $(this).parent().parent().parent().find("input[type='file']");
+					$.confirm({
+							post : true,
+							text : "Tem certeza que gostaria de trocar a foto, a foto antiga será descartada ?", 
+							title: "Confirmação de alteração de foto",
+							confirm : function(){
+								$(inputFile).removeAttr('disabled');
+								$(button).hide();
+
+								var callback = function(response, textStatus, jqXHR){
+									$(inputFile).parent().find("img").attr("src", "/dist/images/no-image.png");
+								};
+
+								var request =  {
+									url      : $(button).attr("href") 	,
+									params   : {}   					,         
+									method   : "get"       				,
+									callback : callback
+								};
+
+								console.log(request);
+
+								ajaxRequest(request, true);
+
+								return false;
+								
+							},
+							cancel : function(){
+								return false;
+							}
+						});
+					return false;
+				});
+
+			});
+
+			function showCarros(value){
+				var regex = new RegExp(/carro/gi);
+				if(regex.test(value)){
+					$(".carro").show();
+				}
+			}
+
+			function showBicicletas(value){
+				var regex = new RegExp(/bicicleta/gi);
+				if(regex.test(value)){
+					$(".bicicleta").show();
+				}
+			}
+
+			function showCaminhoes(value){
+				var regex = new RegExp(/caminh[ao,oes,ão,ões]/gi);
+				if(regex.test(value)){
+					$(".caminhao").show();
+				}
+			}
+
+			function showMotos(value){
+				var regex = new RegExp(/moto/gi);
+				if(regex.test(value)){
+					$(".moto").show();
+				}
+			}
+
+			function showPecas(value){
+				var regex = new RegExp(/pe[c,ç]a/gi);
+				if(regex.test(value)){
+					$(".pecas").show();
+				}
+			}
+
+			function clearAtributos(){
+				$(".all").hide();
+
+				$(".all").find("input").each(function(index){
+					$(this).val("");
+				});
+
+				$(".all").find("select").each(function(index){
+					$(this).val("").find("option[value='']").change();
+				});
+			}
+
+			function init(showfields){
+				
+				$(".all").hide();
+				
+				/***********************************************************
+			    * Lista todas as categorias ativas                         * 
+			    ***********************************************************/
+			    var categoriaCallBack = function(response, textStatus, jqXHR){
+					var categoria = response.data;
+					var _categoria = $("#_categoria").val();
+					var id = null;
+					categoria.forEach(function(item){
+						if(_categoria === item.nome){
+							$('#categoria').append($('<option>', {
+							    value    : item._id  	,
+							    text     : item.nome 	,
+							    selected : "selected"
+							}));
+							id = item._id;
+						}else{
+							$('#categoria').append($('<option>', {
+							    value : item._id ,
+							    text  : item.nome
+							}));	
+						}
+						
+					});
+					showfields();
+				};
+				listCategoria(categoriaCallBack, {}, false);
+				
+				/***********************************************************
+			    * Todos os anos de fabricações ativos                      * 
+			    ***********************************************************/
+			    var anoCallBack = function(response, textStatus, jqXHR){
+					var ano = response.data;
+					var _ano = $("#_ano").val();
+					ano.forEach(function(item){
+						if(item.ano == _ano){
+							$('#anoFabricacao').append($('<option>', {
+							    value    : item.ano ,
+							    text     : item.ano ,
+							    selected : "selected"
+							}));
+
+						}else{
+							$('#anoFabricacao').append($('<option>', {
+							    value : item.ano ,
+							    text  : item.ano
+							}));
+						}
+						
+					});
+				};
+				listAnoFabricacao(anoCallBack, {}, false);
+				
+				/***********************************************************
+			    * Lista todos os câmbios ativos                            * 
+			    ***********************************************************/
+			    var cambioCallBack = function(response, textStatus, jqXHR){
+					var cambio = response.data;
+					var _cambio = $("#_cambio").val();
+					cambio.forEach(function(item){
+						if(_cambio === item.nome){
+							$('#cambio').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome ,
+							    selected : "selected"
+							}));
+						}else{
+							$('#cambio').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));
+						}
+						
+					});
+				};
+				listCambio(cambioCallBack, {}, false);
+				
+				/***********************************************************
+			    * Lista todas as cores ativas                              * 
+			    ***********************************************************/
+			    var corCallBack = function(response, textStatus, jqXHR){
+					var cor = response.data;
+					var _cor = $("#_cor").val();
+					cor.forEach(function(item){
+						if(_cor === item.nome){
+							$('#cor').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome ,
+							    selected : "selected"
+							}));
+						}else{
+							$('#cor').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));
+						}
+						
+					});
+				};
+				listCor(corCallBack, {}, false);
+				
+				/***********************************************************
+			    * Lista todas os combustíveies                             * 
+			    ***********************************************************/
+			    var combustivelCallBack = function(response, textStatus, jqXHR){
+					var combustivel  = response.data;
+					var _combustivel = $("#_combustivel").val();
+					combustivel.forEach(function(item){
+						if(_combustivel === item.nome){
+							$('#combustivel').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome ,
+							    selected : "selected"
+							}));
+						}else{
+							$('#combustivel').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));	
+						}
+						
+					});
+				};
+				listCombustivel(combustivelCallBack, {}, false);
+				
+				/***********************************************************
+			    * Lista todas os estilos ativos                            * 
+			    ***********************************************************/
+			    var estiloCallBack = function(response, textStatus, jqXHR){
+					var estilo  = response.data;
+					var _estilo = $("#_estilo").val();
+					estilo.forEach(function(item){
+						if(_estilo === item.nome){
+							$('#estilo').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome ,
+							    selected : "selected"
+							}));
+						}else{
+							$('#estilo').append($('<option>', {
+							    value : item.nome ,
+							    text  : item.nome
+							}));	
+						}
+						
+					});
+				};
+				listEstilo(estiloCallBack, {}, false);
+
+     			$("input:file").on('change', function () {
+			        if (typeof (FileReader) != "undefined") {
+			            var image_holder = $(this).parent().find("div.overlayed");
+			            image_holder.empty();
+			 
+			            var reader = new FileReader();
+			            
+			            reader.onload = function (e) {
+			                $("<img />", {
+			                    "src": e.target.result,
+			                    "class": "thumb-image"
+			                }).appendTo(image_holder);
+			            }
+			            image_holder.show();
+			            reader.readAsDataURL($(this)[0].files[0]);
+			        } else {
+			            alert("O seu navegador não tem suporte a preview de imagens");
+			        }
+			    });
+			};
+		</script>
+	</body>
+</html>
+

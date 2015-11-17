@@ -224,6 +224,21 @@
 				});
 
 				$("#perfilForm").validate({ 
+					submitHandler : function(form){
+				
+						$.confirm({
+							post : true,
+							text : "Confirma a inclusão dos dados ?", 
+							title: "Dados Cadastrais",
+							confirm : function(){
+								form.submit();
+								return false;
+							},
+							cancel : function(){
+								return false;
+							}
+						});
+					},
 					rules: { 
 						plano            : "required" ,
 				    	tipopessoa 		 : "required" ,

@@ -14,7 +14,7 @@
 				<h2 class="page_title">
 					<a href="#">Anuncio </a> - 
 					<a href="#"><%- anuncio.marca %></a> - <%- anuncio.modelo %>
-				</h2>
+				</h2> 
 				
 				<article class="box clearfix item_main">
 					<h3><%- anuncio.marca %> <%- anuncio.modelo %></h3>
@@ -72,7 +72,7 @@
 						</div>
 						<div class="item_footer row clearfix">
 							<span class="item_price span5">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
-							<a href="#" class="button small-button green span7">Fale com Vendedor</a>
+							<a href="#propostaModal" class="button small-button green span7 modal">Fale com Vendedor</a>
 						</div>
 					</div>
 				</article>
@@ -105,14 +105,18 @@
 											<%- anuncio.user.dadosPessoais.estado %>
 										</strong>
 									</span>
-									<span>Visualizações : <strong>10</strong></span>
-									<span>Última visualização: <strong>5 hr atrás</strong></span>
+									<span>Visualizações : <strong><%- anuncio.views %></strong></span>
+									<span>Última visualização: 
+										<strong> 
+											<%- util.moment(anuncio.user.ultimoLogin).startOf('hour').fromNow() %> 
+										</strong>
+									</span>
 								</div>
 							</div>
 						</div>
 						<div class="half right">
 							<a href="#">Informações do Vendedor</a>
-							<a href="#" class="button  blue big wide">
+							<a href="#" class="button green big wide">
 								<i class="icomoon-volume-medium"></i>
 								<%- anuncio.user.dadosPessoais.telefone %>
 							</a>
@@ -213,6 +217,7 @@
 						</script>
 					</div>
 				</div>
+				
 				<!--
 				<div class="box">
 					<h3>Categories</h3>
@@ -229,39 +234,42 @@
 
 				<div class="label_under">
 					<p><a href="#">View all categories</a></p>
-				</div>
-
-				<div class="box">
-					<h3>Online Support</h3>
-					<div class="box-content widget_online_support">
-						<div class="row">
-							<img src="/dist/images/johnsdoe.jpg" alt="" class="span6">
-							<div class="span6">
-								<span class="online_support_title">John S. Doe</span>
-								<p>Integer nisl nunc, porta id sodales et, pulvinar et risus.</p>
-							</div>
-						</div>
-						<a href="#" class="button blue big wide"><i class="icomoon-volume-medium"></i>+1 (555) 555 - 35 - 55</a>
-						<a href="#">Contact Support Team</a><br>
-						<a href="#" class="link_light_gray">Learn more about <strong>Motor</strong></a>
-					</div>
 				</div>-->
 
 				<div class="box">
 					<h3>Assine nossa newsletter</h3>
+					<span id="newsletterMessage"></span>
 					<div class="box-content widget_newsletter">
 						<p>Fique por dentro das novidades que rolam na JunkStation</p>
-						<form action="#">
-							<input type="text" name="name" placeholder="Name">
-							<input type="text" name="email" placeholder="Email">
+						<form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
+							<input type="text" name="nome"  placeholder="Nome"  maxlength="30"  id="nomeNewsletter"/>
+							<input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter"/>
 							<p class="newsletter_checkbox">
 								<label for="special_offers" class="custom_checkbox">
 									<input type="checkbox" name="special_offers" id="special_offers">
 									Receber ofertas especiais
 								</label>
 							</p>
-							<p class="newsletter_button"><a class="button wide submit red wider">Assinar</a>
+							<p class="newsletter_button"><a class="button submit wide red wider">Assinar</a>
 						</form>
+					</div>
+				</div>
+
+				<div class="box">
+					<h3>Suporte On-line</h3>
+					<div class="box-content widget_online_support">
+						<div class="row">
+							<img src="/dist/images/logo.png" alt="" class="span6">
+							<div class="span6">
+								<span class="online_support_title">Equipe JunkStation</span>
+								<p>Onde o seu clássico não é carro velho!</p>
+							</div>
+						</div>
+						<a href="#" class="button blue big wide">
+							<i class="icomoon-volume-medium"></i>(11) 2292-5082
+						</a>
+						<a href="#">Suporte JunkStation</a><br>
+						<a href="#" class="link_light_gray">Aprenda mais sobre o <strong>Motor</strong></a>
 					</div>
 				</div>
 
@@ -274,9 +282,100 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="login_form_modal_container">
+			<div id="propostaModal" class="box">
+				<h3>Deixe sua mensagem para o vendedor</h3>
+				<span id="propostaMessage"></span>
+				<div class="box-content clearfix">
+					<form action="http://<%- request.hostname%>/anuncio/<%- anuncio._id%>/proposta" method="post" name="propostaForm" id="propostaForm">
+						<input type="hidden" name="_method" value="post">
+						<input type="text"     placeholder="Digite o seu nome"   name="nomeContato" >
+						<input type="text"     placeholder="Digite o seu E-mail" name="emailContato" >
+						<textarea name="assunto"  cols="30" rows="10" maxlength="140" placeholder="Digite aqui a sua mensagem até 140 caracteres"></textarea>
+						<!--<label for="remember" class="custom_checkbox remember_me">
+							<input type="checkbox" name="remember" id="remember">Lembrar Senha
+						</label>
+						<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>-->
+						<br/>
+						<br/>
+						<p><a class="button submit wide green wider">Enviar</a></p>
+					</form>
+				</div>
+			</div>
+		</div>
 		
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
 		<!-- FIM DO FOOTER-->
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				$("#newsletterForm").validate({ 
+					submitHandler : function(form){
+						var request =  {
+							url     : form.action   ,
+							params  : {nome : $("#nomeNewsletter").val() , email : $("#emailNewsletter").val()} ,
+							method  : "post"        ,
+							callback : function(response, textStatus, jqXHR){
+								$("#newsletterMessage").html(response.header.message);
+								console.log(response);
+							}
+						};
+
+						ajaxRequest(request , true);
+					},
+
+					rules: { 
+				    	nome  : "required" ,
+				        email : {
+				        	required : true	, 
+				          	email    : true 
+				        }
+				    },
+
+			        messages: { 
+			          	nome       : "O nome da newsletter é obrigatório"  ,
+			          	email      : "Digite um endereço de e-mail válido."	 
+			          			
+			        } 
+				});
+
+				$("#propostaForm").validate({ 
+					submitHandler : function(form){
+						var params  = $(form).serializeJSON();
+						var request =  {
+							url     : form.action   ,
+							params  : params 		,
+							method  : "post"        ,
+							callback : function(response, textStatus, jqXHR){
+								$("#propostaMessage").html(response.header.message);
+								form.reset();
+							}
+						};
+
+						ajaxRequest(request , true);
+					},
+
+					rules: { 
+				    	nomeContato  : "required" ,
+				        emailContato : {
+				        	required : true	, 
+				          	email    : true 
+				        },
+				        assunto : "required"
+				    },
+
+			        messages: { 
+			          	nomeContato    : "O nome da contato é obrigatório"  ,
+			          	emailContato   : "Digite um endereço de e-mail válido.",
+			          	assunto        : "A texto da mensagem é obrigatório"	 
+			          			
+			        } 
+				});
+				
+			});
+		</script>
 	</body>
 </html>

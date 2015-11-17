@@ -6,22 +6,25 @@ module.exports = function(app) {
     var Utils       = app.util.utils;
 
     var media = {
-        prefix  : {
-            type   : String,
-            default : "/dist/images/" 
-        },
-        nome    : {
-            type : String,
-            default : "no-image.png"
-
-        },
-        tipo    : {
-            type : String ,
-            default : "image/png"
-        },
-        tamanho : {type : Number}
+        prefix  : { type : String, default : "/dist/images/"} ,
+        nome    : { type : String, default : "no-image.png"}  ,
+        tipo    : { type : String, default : "image/png"}     ,
+        tamanho : { type : Number}
     };
-    
+
+    var proposta = {
+        //id           : { type : mongoose.Schema.ObjectId },
+        nomeContato  : { type : String },
+        emailContato : { type : String },
+        assunto      : { type : String },
+        dataProposta : { type : Date , default : Date.now },
+        resposta     : {
+            data   : { type : Date   },
+            corpo  : { type : String },
+            status : { type : Boolean , default : false}
+        } 
+    };
+ 
     var schema = mongoose.Schema({
         user : {
             type : mongoose.Schema.ObjectId  ,
@@ -142,7 +145,14 @@ module.exports = function(app) {
 
         videos : {
             type : String
-        }
+        },
+
+        views : {
+            type    : Number ,
+            default : 0
+        }, 
+
+        proposta : [proposta]
          
     }, {collection: 'anuncio'});
 

@@ -4,19 +4,20 @@ var gm   = require('gm').subClass({imageMagick: true});
 var del  = require("del");
 
 module.exports = function(app) {
-    var context     = app.get("context");
-    var Utils       = app.util.utils;
-    var htmlMinify  = app.get("html-minify");
-    var fileHandler = app.get("fileHandler");
-    var paginate    = app.get("paginate");
-    var emailSender = app.get("emailSender");
-    var User        = app.models.admin.user;
-    var Anuncio     = app.models.public.anuncio;
-    var marca       = new app.models.admin.marca({});
-    var plano       = new app.models.admin.plano({}); 
-    var uf          = new app.models.admin.uf({});
-    var paginateNum = 10 ;      
-    var controller  = {};
+    var context           = app.get("context");
+    var Utils             = app.util.utils;
+    var htmlMinify        = app.get("html-minify");
+    var fileHandler       = app.get("fileHandler");
+    var paginate          = app.get("paginate");
+    var emailSender       = app.get("emailSender");
+    var User              = app.models.admin.user;
+    var Anuncio           = app.models.public.anuncio;
+    var marca             = new app.models.admin.marca({});
+    var plano             = new app.models.admin.plano({}); 
+    var uf                = new app.models.admin.uf({});
+    var createResponseAPI = app.models.admin.responseAPI;  
+    var paginateNum       = 10 ;      
+    var controller        = {};
 
     controller.meusAnuncios       = function(req, res, next){ 
         listarAnuncioByUser(req, res, next, false);
@@ -37,8 +38,6 @@ module.exports = function(app) {
         };
 
         var search = req.body;
-
-        console.log(search);
 
         Anuncio.paginate(search, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
@@ -123,11 +122,47 @@ module.exports = function(app) {
 
     controller.anuncioDetalheGET  = function(req, res, next){
         var id = req.params.id;
+
         Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
             if(error){
                 next(error);
             }else{
+                Anuncio.update({"_id" : id}, {views : anuncio.views + 1}, function(_error, _anuncio){
+                    if(_error){
+                        console.log("Ocorreu um error durante a atualização das visualizações do anúncio" + _error)
+                    }
+                });
                 htmlMinify('anuncio_detalhe', res , {anuncio : anuncio});
+            }
+        });
+    };
+
+    controller.editAnuncioGET     = function(req, res, next){
+        var id = req.params.id;
+        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
+            if(error){
+                next(error);
+            }else{
+                htmlMinify('editar_anuncio', res , {anuncio : anuncio});
+            }
+        });
+    };
+
+    controller.editAnuncio        = function(req, res, next){
+        var id      = req.body._id;
+        var post    = req.body;
+        var anuncio = validateAnuncio(post);
+        
+        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, _anuncio){
+            if(error){
+                console.log(error);
+                next(error);
+            }else{
+               // anuncio.fotoPrincipal = _anuncio.fotoPrincipal;
+                anuncio.demaisFotos   = _anuncio.demaisFotos;
+                var callback = getCallbackUpload(context, "UPDATE");
+                fileHandler.uploadMultiploFile(req, anuncio, callback);
+                res.redirect("/anuncio/meusAnuncios");
             }
         });
     };
@@ -157,13 +192,6 @@ module.exports = function(app) {
             console.log('Deleted files/folders:\n', paths.join('\n'));
         });
         
-        /*fs.rmdir(path.join(__dirname, anuncioDir), function(error){
-            console.log(error);
-            if(error){
-                console.log("Ocorreu um erro durante a exclusão do diretório de medias do anúncio : " + id);
-            }
-        });*/
-
         Anuncio.remove({"_id" : id}, function(error){
             if(error){
                 req.flash('deleteAnuncio', '<div class="alert-error">Não foi possível excluir o Anúncio :( </div>');
@@ -221,6 +249,70 @@ module.exports = function(app) {
         })
     };
 
+    controller.cadastroProposta   = function(req, res, next){
+        var id          = req.params.id;
+        var proposta    = req.body;
+        var ResponseAPI = createResponseAPI();
+        
+        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
+            if(error){
+                console.log(error);
+            }
+            anuncio.proposta.push(proposta);
+            Anuncio.update({"_id" : id}, anuncio , function(error, updated){
+                if(error){
+                    console.log(error);
+                    ResponseAPI.header.status  = 500 ;
+                    ResponseAPI.header.url     = req.url;
+                    ResponseAPI.header.message = '<div class="alert-error">Ocorreu um erro durante o envio da sua mensagem</div>';
+                    ResponseAPI.header.error   = error;
+                    res.status(500).json(ResponseAPI);
+                }else{
+                    console.log(updated);
+                    ResponseAPI.header.url     = req.url;
+                    var host = req.headers.host;
+                    var url  = "/anuncio/meusanuncios";
+                    var link = "https://" + host + url;
+                    
+                    var destination = {
+                        email : anuncio.user.local.email ,
+                        data  : {
+                            anuncio  : anuncio  ,
+                            proposta : proposta , 
+                            link     : link
+                        }
+                    };
+
+                    emailSender.sendNewMessage(destination, function(error , info){
+                        if(error){
+                            console.log(error);
+                        }else{
+                            console.log(info);                
+                        }
+                    });
+
+                    ResponseAPI.header.message = '<div class="alert-success">Sua mensagem foi enviada com sucesso!</div>';
+                    ResponseAPI.data           = anuncio;
+                    res.status(201).json(ResponseAPI);
+                }
+            });
+        })    
+    };
+
+    controller.deletarFoto        = function(req, res, next){
+        var id  = req.params.id;
+        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
+            if(error){
+                console.log(error);
+            }
+            
+            getCallbackUpload(context, "DELETE")(req, res, anuncio);
+        })    
+    };
+
+    /************************************************************
+     * Funcões auxiliares                                       *
+     ************************************************************/
     function listarAnuncioByUser(req, res, next, isDelete){
         var query       = {user : req.user._id};
         var AnuncioDao  = new Anuncio({});
@@ -246,7 +338,7 @@ module.exports = function(app) {
         return anuncio;
     };
 
-    function getCallbackUpload(context){
+    function getCallbackUpload(context, tipoCallabck){
         if(context.storage.storageType === context.storage.localStorage.nome){
             var callback  = function(req, anuncio){
                 var watermark =  path.join(__dirname, "../../public/real_images" , "watermark.png");
@@ -258,10 +350,11 @@ module.exports = function(app) {
                 var prefix    = req.protocol + "://" + req.headers.host + "" + context.storage.localStorage.prefix;
                 prefix        = prefix + "anuncio/" + id + "/";
                 tempDir       = tempDir + id;                 
+               
                /*******************************************************
                 * Verifica se existe o diretório com ID do Anuncio    *
                 *******************************************************/
-                fs.exists(tempDir, function (exists) {
+                fs.exists(path.join(__dirname, tempDir), function (exists) {
                    /*******************************************************
                     * Casso do diretório não exista cria o diretório      *
                     *******************************************************/
@@ -320,18 +413,181 @@ module.exports = function(app) {
                             if(error){
                                 console.log(error);
                             }
-
                             sendEmailNewAnuncio(req, anuncio);
-
                         }); 
                     } 
+                });
+            }
 
+            var callbackUpdate = function(req, anuncio){
+                var watermark =  path.join(__dirname, "../../public/real_images" , "watermark.png");
+                var tempDir   = '../../public/tmp/anuncio/';
+                var medias    = [];
+                var files     = req.files['fotos'];
+                var _file     = req.files['fotoPrincipal'];
+                var media     = {};
+                var id        = anuncio._id;
+                var prefix    = req.protocol + "://" + req.headers.host + "" + context.storage.localStorage.prefix;
+                prefix        = prefix + "anuncio/" + id + "/";
+                tempDir       = tempDir + id;     
+
+               /*******************************************************
+                * Verifica se existe o diretório com ID do Anuncio    *
+                *******************************************************/
+                fs.exists(path.join(__dirname, tempDir), function (exists) {
+
+                   /*******************************************************
+                    * Casso do diretório não exista cria o diretório      *
+                    *******************************************************/
+                    if(!exists){
+                        fs.mkdirSync(path.join(__dirname, tempDir));
+                    }
+
+                    console.log(_file);
+                   /*******************************************************
+                    * Recupera a foto principal do anúncio                *
+                    *******************************************************/
+                    if(_file !== undefined && _file.length > 0){
+                        var nomeArquivo = id + _file[0].originalname;
+                        var media = {
+                            prefix  : prefix                    ,
+                            nome    : nomeArquivo               ,
+                            tipo    : _file[0].mimetype             ,
+                            tamanho : _file[0].size
+                        };
+
+                        anuncio.fotoPrincipal = media; 
+
+                        console.log(anuncio);
+
+                        if(context.watermark){
+                            gm(_file[0].buffer, _file[0].originalname)
+                            .draw(['image Over 0,0 0,0 "'+ watermark + '"' ])
+                            .write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                if (err){
+                                    console.log(err);  
+                                }
+                            });    
+                        }else{
+                             gm(_file[0].buffer, _file[0].originalname).write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                if (err){
+                                    console.log(err);  
+                                }
+                            }); 
+                        }
+                    }
+
+
+                    /*******************************************************
+                    * Recupera a lista de imagens enviadas na requisição   *
+                    *******************************************************/
+                    if(files){
+                        var contador = 0;
+                        files.forEach(function(file){
+                            var nomeArquivo = id + file.originalname;
+                            var media = {
+                                prefix  : prefix                    ,
+                                nome    : nomeArquivo               ,
+                                tipo    : file.mimetype             ,
+                                tamanho : file.size
+                            };
+                            
+                            anuncio.demaisFotos.push(media);
+                            /*******************************************************
+                             * Aplica a marca d'água da junk caso esteja configurado*
+                             *******************************************************/
+                            if(context.watermark){
+                                gm(file.buffer, file.originalname)
+                                .draw(['image Over 0,0 0,0 "'+ watermark + '"' ])
+                                .write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                    if (err){
+                                        console.log(err);  
+                                    }
+                                });    
+                            }else{
+                                 gm(file.buffer, file.originalname).write(path.join(__dirname, tempDir , nomeArquivo), function (err) {
+                                    if (err){
+                                        console.log(err);  
+                                    }
+                                }); 
+                            }
+                            contador++;     
+                        }); 
+                    } 
+                   /*******************************************************
+                    * Atualiza o anúncio com a localização da foto        *
+                    *******************************************************/
+                    Anuncio.update({"_id" : id}, anuncio , function(error){
+                        if(error){
+                            console.log(error);
+                        }
+                    });
+                });
+            }
+
+            var callbackDelete = function(req, res, anuncio){
+                var tempDir     = '../../public/tmp/anuncio/';
+                var file        = req.query.media;
+                var ResponseAPI = createResponseAPI();
+                var principal   = req.query.principal;
+                tempDir = tempDir + anuncio._id + "/" + file;
+                
+                del(path.join(__dirname, tempDir)).then(function(paths){
+                    console.log('Deletatados  arquivos/pastas : \n', paths.join('\n'));
                 });
 
-                
+                var mediaDefault = {
+                    prefix  : "/dist/images/"   ,
+                    nome    : "no-image.png"    ,   
+                    tipo    : "image/png"               
+                };
+
+                if(principal == "true"){
+                    anuncio.fotoPrincipal = mediaDefault;
+                }else{
+
+                    console.log(anuncio.demaisFotos);
+
+                    var newArray =  anuncio.demaisFotos.filter(function(media){
+                        return media.nome !== file;
+                    });
+
+                    console.log(newArray);
+
+                    anuncio.demaisFotos = newArray;
+                }
+
+                Anuncio.update({"_id" : anuncio._id}, anuncio , function(error, updated){
+                    if(error){
+                        ResponseAPI.header.status  = 500 ;
+                        ResponseAPI.header.url     = req.url;
+                        ResponseAPI.header.message = '<div class="alert-error">Não foi possível encontrar excluir a imagem</div>';
+                        ResponseAPI.header.error   = error;
+                        res.status(500).json(ResponseAPI);
+                    }else{
+                        
+                        ResponseAPI.header.message = '<div class="alert-success">Mensagem excluída com sucesso!</div>';
+                        ResponseAPI.data           = anuncio;
+                        res.status(201).json(ResponseAPI);
+                    }
+                });
+            }
+
+            switch(tipoCallabck){
+                case "CADASTRO" :
+                    break;
+                case "UPDATE" :
+                    callback = callbackUpdate;
+                    break;
+                case "DELETE" :
+                    callback = callbackDelete;
+                    break;
+                default :
+                    console.log("Default callback retorned");
             }
 
             return callback;
+
         }else if(context.storage.storageType === context.storage.s3Storage.nome){
            
         }else{

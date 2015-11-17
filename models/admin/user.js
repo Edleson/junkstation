@@ -2,6 +2,7 @@ var mongoose     = require('mongoose');
 var bcrypt       = require('bcrypt-nodejs');
 var findOrCreate = require('mongoose-findorcreate');
 var moment       = require('moment');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 module.exports = function() {
     var media = {
@@ -54,7 +55,7 @@ module.exports = function() {
             name         : String
         },
 
-        fotoPerfil : media ,
+        fotoPerfil : media , 
 
         plano : {
             type     : mongoose.Schema.Types.ObjectId   , 
@@ -63,6 +64,11 @@ module.exports = function() {
 
         dataCadastro : {
             type    : Date      , 
+            default : Date.now  
+        },
+
+        ultimoLogin : {
+            type    : Date       , 
             default : Date.now  
         },
 
@@ -205,7 +211,13 @@ module.exports = function() {
        }else{
           throw new Error("Senha anterior inválida :( !");
        }
-    };  
+    };
+
+    userSchema.plugin(deepPopulate, {
+        whitelist: [
+            'plano'
+        ]
+    });  
     
     userSchema.plugin(findOrCreate);
     

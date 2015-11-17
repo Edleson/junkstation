@@ -90,5 +90,23 @@ module.exports = function(ctx) {
 		});	
 	}
 
+	email.sendNewMessage = function(data, callback){
+		var template = new EmailTemplate(path.join(templatesDir, 'nova-mensagem'));
+		
+		template.render(data, function(error, results){
+			if(error){
+				console.error(error);
+			}
+
+			transporter.sendMail({
+	    		from    : "no-replay@junkstation.com.br"     			,
+	    		to      : data.email                         			,
+	    		subject : 'Você tem um novo interessado no seu anúncio' ,
+	    		html    : results.html                       			,
+	    		text    : results.text     
+			}, callback);
+		});	
+	}
+
 	return email;
 }

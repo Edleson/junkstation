@@ -49,6 +49,12 @@ module.exports = function() {
                 if (!user.validPassword(password)){
 					return done(null, false, req.flash('loginInvalido', '<div class="alert-error">Oops! :( senha incorreta!</div>'));
 				}else{
+                    user.ultimoLogin = new Date();
+                    User.update({"_id" : user._id}, {ultimoLogin : new Date()}, function(error, _user){
+                        if(error){
+                            console.log("Error ao atualizar os dados de acesso do usuário \n" + error);
+                        }
+                    })
 					return done(null, user);
 				}
             });

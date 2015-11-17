@@ -42,16 +42,16 @@
 						</div>
 
 						<div class="item_info">
-							<span class="item_year"> - <%- anuncio.ano %></span>
-							<span class="item_engine"> - <%- anuncio.motor %></span>
-							<span class="item_transimition"> - <%- anuncio.cambio %></span>
-							<span class="item_mileage"> - <%- anuncio.kilometragem %> KM</span>
+							<span class="item_year">Criado em <%- util.moment(anuncio.data_anuncio).format("L") %></span>
+							<span class="item_year">Expira em <%- util.moment(anuncio.data_vencimento).format("L") %></span>
+							<span class="item_transimition"><%- anuncio.proposta.length %> mensagem(s)</span>
+							<span class="item_mileage"><%- anuncio.views %> views</span>
 
 						</div>
 
 						<div class="item_footer">
 							<span class="item_price"> R$ <%- Utils.numeral(anuncio.preco).format('0,0.00') %></span>
-							<span ><a class="button small-button wide blue">Editar</a></span>
+							<span ><a href="/anuncio/<%- anuncio._id %>/edit" class="button small-button wide blue">Editar</a></span>
 							
 							<form action="/anuncio/delete" method="post" name="<%- anuncio._id%>">
 								<input type="hidden" name="id" value="<%- anuncio._id%>" />
