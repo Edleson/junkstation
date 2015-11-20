@@ -39,6 +39,23 @@ module.exports = function(app) {
 
         var search = req.body;
 
+        if(req.query.index){
+            var value = null;
+            for(var property in search){
+                value = search[property];
+                if(value === ""){
+                    delete search[property];
+                }
+            }
+        }
+
+        if(search["fotoPrincipal.nome"] || search["fotoPrincipal.nome"] ){
+            search["$or"] = [{"fotoPrincipal.nome" : {"$ne" : "no-image.png"}} ];
+            delete search["fotoPrincipal.nome"];
+            delete search["videoPrincipal.nome"];
+        }
+
+
         Anuncio.paginate(search, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
                 next(error);
@@ -51,11 +68,14 @@ module.exports = function(app) {
                 }
 
                 if(req.query.ajax){
-                    htmlMinify('partials/listaAnuncios', res , response);
+                    if(req.query.view == "grid"){
+                        htmlMinify('partials/gridAnuncio', res , response);
+                    }else{
+                        htmlMinify('partials/listaAnuncios', res , response);    
+                    }
                 }else{
                     htmlMinify('anuncio_lista', res , response);
                 }
-                
             }
         });
     };
@@ -69,7 +89,7 @@ module.exports = function(app) {
             populate : "user" ,
             lean     : null
         };
-       
+
         Anuncio.paginate({status : true}, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
                 next(error);
@@ -100,7 +120,7 @@ module.exports = function(app) {
             populate : "user" ,
             lean     : null
         };
-       
+
         Anuncio.paginate({status : true}, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
                 next(error);
@@ -622,6 +642,30 @@ module.exports = function(app) {
                 console.log(info);                
             }
         });
+    };
+
+    function getSearchParams(req){
+        var search = req.query | {status : true};
+
+        var value = null;
+        for(var property in search){
+            value = search[property];
+            if(value === ""){
+                delete search[property];
+            }
+        }
+        
+        if(search["fotoPrincipal.nome"] || search["fotoPrincipal.nome"] ){
+            search["$or"] = [{"fotoPrincipal.nome" : {"$ne" : "no-image.png"}} ];
+            delete search["fotoPrincipal.nome"];
+            delete search["videoPrincipal.nome"];
+        }
+
+        search.status = true;
+
+        console.log(search);
+
+        return search;
     };
  
     return controller; 

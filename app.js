@@ -71,7 +71,7 @@ app.disable('x-powered-by');
 app.set("trust proxy", true);  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
-app.use(paginate.middleware(6, 50));
+app.use(paginate.middleware(3, 50));
 app.use(compression());
 app.use(cookie);
 app.use(session({ 

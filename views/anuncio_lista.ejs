@@ -19,8 +19,8 @@
 						<option value="">Ano</option>
 						<option value="">Kilometragem</option>
 					</select>
-					<a href="/anuncio/lista?ajax=true" id="modoLista" class="sort_list current"></a>
-					<a href="/anuncio/grid?ajax=true"  id="modoGrid"  class="sort_grid"></a>
+					<a href="#" id="modoLista" class="sort_list current"></a>
+					<a href="#"  id="modoGrid"  class="sort_grid"></a>
 				</div>
 
 				<div id="ajaxContent">
@@ -32,8 +32,8 @@
 						</section>
 
 					<% }else{ %>
-						<input type="hidden" id="currentGridPage" value="/anuncio/grid?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
-						<input type="hidden" id="currentlistPage" value="/anuncio/lista?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
+						<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+						<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 						
 						<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 							<ul class='pagination'>
@@ -87,22 +87,22 @@
 
 									<div class="item_info clearfix">
 										<p class="half left">
-											<span class="item_year"><%- anuncio.ano %></span>
-											<span class="item_type"><%- anuncio.estilo %></span>
-											<span class="item_drive"><%- anuncio.cambio %></span>
-											<span class="item_engine"><%- anuncio.motor %></span>
+											<span class="item_year"> - <%- anuncio.ano %></span>
+											<span class="item_type"> - <%- anuncio.estilo %></span>
+											<span class="item_drive"> - <%- anuncio.cambio %></span>
+											<span class="item_engine"> - <%- anuncio.motor %></span>
 										</p>
 										<p class="half right">
-											<span class="item_transimition"><%- anuncio.cor %></span>
-											<span class="item_fuel"><%- anuncio.combustíveis %></span>
-											<span class="item_mileage"><%- anuncio.kilometragem %></span>
+											<span class="item_transimition"> - <%- anuncio.cor %></span>
+											<span class="item_fuel"> - <%- anuncio.combustíveis %></span>
+											<span class="item_mileage"> - <%- anuncio.kilometragem %></span>
 										</p>
 									</div>
 
 									<div class="item_footer">
 										<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
 										<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('LL') %></span>
-										<!--<span class="item_rating">4.9</span>-->
+										<span class="item_rating">0.0</span>
 									</div>
 								</div>
 							</article>
@@ -161,10 +161,10 @@
 
 							<p>
 								<label for="with_photos" class="custom_checkbox">
-									<input type="checkbox" name="with_photos" id="with_photos">Com Fotos
+									<input type="checkbox" name="fotoPrincipal.nome" id="with_photos" value="true">Com Fotos
 								</label>
 								<label for="with_video" class="custom_checkbox">
-									<input type="checkbox" name="with_video " id="with_video">Com Videos
+									<input type="checkbox" name="videoPrincipal.nome" id="with_video">Com Videos
 								</label>
 							</p>
 							
@@ -240,21 +240,7 @@
 
 				$("#pesquisaForm").validate({ 
 					submitHandler: function(form){
-						var params = {
-							status    : true , 
-							categoria : $("#cbCategoria").val() != "0" ? $("#cbCategoria option:selected").text() : "",
-							marca     : $("#cbmMarca").val() != "0" ? $("#cbmMarca option:selected").text() : "", 
-							modelo    : $("#cbmModelo").val() != "0" ? $("#cbmModelo option:selected").text() : "" 
-						}
-
-						var value = null;
-						
-						for(var property in params){
-							value = params[property];
-							if(value === ""){
-								delete params[property];
-							}
-						}
+						var params = getParamsSearch();
 
 						var request =  {
 							url     : form.action   ,
@@ -283,6 +269,8 @@
 					e.preventDefault();
 					var url = $(this).attr("href");
 					var id  = $(this).attr("id");
+
+					var params = getParamsSearch();
 					
 					if(id === "modoLista"){
 						$("#modoLista").addClass('current');
@@ -296,8 +284,8 @@
 
 					var request =  {
 						url      : url 	 		,
-						params   :	{}   		,         
-						method   : "get"		,
+						params   : params   	,         
+						method   : "post"		,
 						dataType : "text/html"	,
 						callback : listaAnuncioCallBack
 					};
@@ -382,9 +370,29 @@
 						listModeloByMarca($(this).val(), marcaCallback, {}, true);
 					}
 				});
-
-
 			});
+
+			function getParamsSearch(){
+				var params = {
+					status    : true , 
+					categoria : $("#cbCategoria").val() != "0" ? $("#cbCategoria option:selected").text() : "",
+					marca     : $("#cbmMarca").val()    != "0" ? $("#cbmMarca option:selected").text()    : "", 
+					modelo    : $("#cbmModelo").val()   != "0" ? $("#cbmModelo option:selected").text()   : "",
+					"fotoPrincipal.nome" : $("#with_photos:checked").val(),
+					"videoPrincipal.nome" : $("#with_video:checked").val(),
+				}
+
+				var value = null;
+				
+				for(var property in params){
+					value = params[property];
+					if(value === "" || value == undefined){
+						delete params[property];
+					}
+				}
+
+				return params;
+			}
 		</script>
 	</body>
 </html>

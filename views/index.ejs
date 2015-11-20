@@ -157,11 +157,12 @@
 					
 					<div class="tab-content">
 						<div class="tab-pane active" id="tab1">
-							<form id="homepage_search" action="/anuncio/list" method="post">
+							<form id="homepage_search" action="/anuncio/pesquisa?index=true" method="post">
+								<input type="hidden" name="status" value="true" />
 								<div class="row">
 									<div class="span4">
 										<label for="cbCategoria" class="dropdown_label">Categoria</label>
-										<select name="cbCategoria" id="cbCategoria" class="custom_select">
+										<select name="categoria" id="cbCategoria" class="custom_select">
 											<option value="0" selected></option>
 											<% response.categorias.forEach(function(categoria){%>
 												<option value="<%- categoria._id %>"> <%- categoria.nome %> </option>
@@ -179,7 +180,7 @@
 
 									<div class="span4">
 										<label for="cbmModelo" class="dropdown_label">Modelos</label>
-										<select name="cbmModelo" id="cbmModelo" class="custom_select">
+										<select name="modelo" id="cbmModelo" class="custom_select">
 											<option value="0" selected ></option>
 										</select>
 									</div>
@@ -197,10 +198,10 @@
 
 									<div class="span4 darker">
 										<label for="with_photos" class="custom_checkbox custom_checkbox_light">
-											<input type="checkbox" name="with_photos" id="with_photos">Com Fotos
+											<input type="checkbox" name="fotoPrincipal.nome" id="with_photos" value="true">Com Fotos
 										</label>
 										<label for="with_videos" class="custom_checkbox custom_checkbox_light">
-											<input type="checkbox" name="with_videos" id="with_videos">Com Videos
+											<input type="checkbox" name="videoPrincipal.nome" id="with_videos" value="true">Com Videos
 										</label>
 									</div>
 
@@ -315,10 +316,23 @@
 					}
 				});
 
-				$("#btn-form").click(function() {
-					$("#homepage_search").reset(function(){
-						return false;
-					});
+				$("#homepage_search").validate({ 
+					submitHandler: function(form){
+						var params = {
+							status    : true , 
+							categoria : $("#cbCategoria").val() != "0" ? $("#cbCategoria option:selected").text() : "",
+							marca     : $("#cbmMarca").val()    != "0" ? $("#cbmMarca option:selected").text()    : "", 
+							modelo    : $("#cbmModelo").val()   != "0" ? $("#cbmModelo option:selected").text()   : "" 
+						}
+
+						console.log(params);
+
+						$("#cbCategoria option:selected").val(params.categoria);
+						$("#cbmMarca option:selected").val(params.marca);
+						$("#cbmModelo option:selected").val(params.modelo)
+
+						return true; 
+					}
 				});
 			});
 		</script>

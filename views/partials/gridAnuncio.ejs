@@ -6,9 +6,8 @@
 	</section>
 
 <% }else{ %>
-
-	<input type="hidden" id="currentGridPage" value="/anuncio/grid?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
-	<input type="hidden" id="currentlistPage" value="/anuncio/lista?page=<%-paginate.page%>&limit=<%-paginate.limit%>&ajax=true">
+	<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+	<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 	
 	<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 		<ul class='pagination'>
@@ -60,7 +59,7 @@
 			</div>
 			<div class="item_footer">
 				<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
-				<!--<span class="item_rating">4.3</span>-->
+				
 			</div>
 		</article>
 	<%});%>
