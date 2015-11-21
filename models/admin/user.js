@@ -220,6 +220,42 @@ module.exports = function() {
     });  
     
     userSchema.plugin(findOrCreate);
+
+    var User = mongoose.model('User', userSchema);
+
+    createMasterUser(User);
     
-    return mongoose.model('User', userSchema);
+    return User;
 };
+
+function createMasterUser(User){
+    var email = "master@junkstation.com.br";
+    var password = "junk1234";
+    var _user = User({}); 
+    
+    _user.local = {
+        username  : "Master" ,
+        email     : email    ,
+        password  : _user.generateHash(password)
+    };
+
+    _user.emailEnviado = true ;
+    _user.status       = true ;
+    _user.contaAtiva   = true ;
+    _user.perfil.push("ADMIN");
+
+    User.findOne({ 'local.email' :  email }, function(error, existingUser){
+        if(error){
+            console.log("Ocorreu um erro ao pesquisar o usuário master : " + error);
+        }
+
+        if (!existingUser){
+            _user.save(function(_err, newUser){
+                if(_err){
+                    console.log("Ocorreu um erro ao pesquisar o usuário master : " + _err);
+                }
+                console.log("Usuário master cadastrado com sucesso");
+            });
+        }
+    });
+}

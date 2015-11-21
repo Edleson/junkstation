@@ -23,7 +23,7 @@
 					<article class="box clearfix grid_item">
 						<div class="item_heading">
 							<div class="overlayed">
-								<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
+								<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="" style="height : 120px;">
 								<div class="overlay">
 									<span class="overlay-icon-left">
 										<a href="/anuncio/detail/<%- anuncio._id %>">
@@ -34,10 +34,10 @@
 										<a href="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
 											<i class="icomoon-expand-2"></i>
 										</a>
-									</span>
+									</span> 
 								</div>
 							</div>
-							<h4> <%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"><%- anuncio.modelo %></a></h4>
+							<h4 style="height : 50px;"> <%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"><%- anuncio.modelo %></a></h4>
 							<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
 						</div>
 

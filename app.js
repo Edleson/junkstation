@@ -96,12 +96,27 @@ app.use(function(req, res, next) {
   res.locals.response  = res;
   res.locals.session   = req.session;
   res.locals.util      = {
-      moment : moment
+      moment : moment , 
+      isAdmin : function(req){
+        if(req.user){
+          var perfil = req.user.perfil.filter(function(item){
+            return item === "ADMIN";
+          });
+
+          if(!perfil || perfil.length == 0){
+            return false;
+          }else{
+            return true;
+          }
+        }else{
+          return false;
+        }
+      }
   };
   next();
 });
 
-app.all(['/admin*'], isLoggedIn, security.forceHTTPS);
+app.all(['/admin*'], isLoggedIn, security.authorize, security.forceHTTPS);
 
 app.set("security"    , security    );
 app.set("emailSender" , emailSender );

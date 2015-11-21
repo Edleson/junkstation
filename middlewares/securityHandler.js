@@ -37,5 +37,23 @@ module.exports = function(context) {
 		return hashids.decodeHex(value);
 	};
 
+	handler.authorize  = function(req, res, next){
+		var user = req.user;
+
+		if(!user){
+			next(new Error("Você não tem autorização para acessar essa funcionalidade!"));
+		}
+
+		var perfil = user.perfil.filter(function(item){
+			return item === "ADMIN";
+		});
+
+		if(!perfil || perfil.length == 0){
+			return next(new Error("Seu perfil não tem acesso a essa funcionalidade!"));
+		}else{
+			return next();
+		}
+	};
+
 	return handler;
 };

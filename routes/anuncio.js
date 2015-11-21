@@ -12,7 +12,7 @@ module.exports = function(app) {
   	/********************************************************************************************
 	 * Rotas abertas ao publico do site                                                         *
 	 ********************************************************************************************/
-  	app.post('/anuncio/pesquisa'     , security.forceHTTP , controller.pesquisaAnuncio);
+  	app.get('/anuncio/pesquisa'     , security.forceHTTP , controller.pesquisaAnuncio);
 	app.get('/anuncio/detail/:id'    , security.forceHTTP , controller.anuncioDetalheGET);
 	app.get('/anuncio/lista'         , security.forceHTTP , controller.listAnuncioGET);
 	app.get('/anuncio/grid'          , security.forceHTTP , controller.listAnuncioGridGET);

@@ -2,30 +2,30 @@
 	<section id="search_results">
 		<p class="no_results">
 			Ops :( ! Não encontramos nenhum resultado para sua pesquisa. 
-		</p>
+		</p> 
 	</section>
 <% }else{ %>
-	<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-	<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+	<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+	<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 
 	<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 		<ul class='pagination'>
 			<% if(paginate.hasPreviousPages) {%>
-				<li><a class="button pagination-previous" href="<%- paginate.href(true) %>&ajax=true"> &lt;&lt; </a></li>
+				<li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
 			<% }%>
 
 			<%  var current = '';
 				pages.forEach(function(page){
 					current = paginate.page == page.number ? 'current' : '';	 
 			%>
-					<li><a class='button pagination-number <%- current %>' href='<%- page.url %>&ajax=true'><%- page.number %></a></li>
+					<li><a class='button pagination-number <%- current %>' href='<%- page.url %>'><%- page.number %></a></li>
 			<% });%>
 
 			<% if(paginate.hasNextPages(pageCount)) {
 				var page = paginate.page + 1;
 			%>
 				<li>
-					<a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>&ajax=true"> &gt;&gt; </a>
+					<a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>"> &gt;&gt; </a>
 				</li>
 			<% }%>
 		</ul>
@@ -75,7 +75,7 @@
 				<div class="item_footer">
 					<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
 					<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('LL') %></span>
-					<span class="item_rating">0.0</span>
+					<span class="item_rating"></span>
 				</div>
 			</div>
 		</article>
@@ -89,9 +89,10 @@
 
 			<%  var current = '';
 				pages.forEach(function(page){
-					current = paginate.page == page.number ? 'current' : '';	 
+					var current = paginate.page == page.number ? 'current' : '';
+					var url = "/anuncio/lista?page=" + page.number + "&limit=" + paginate.limit ;	 
 			%>
-					<li><a class='button pagination-number <%- current %>' href='<%- page.url %>&ajax=true'><%- page.number %></a></li>
+					<li><a class='button pagination-number <%- current %>' href='<%- url %>'><%- page.number %></a></li>
 			<% });%>
 
 			<% if(paginate.hasNextPages(pageCount)) {

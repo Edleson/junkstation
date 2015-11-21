@@ -24,7 +24,25 @@ module.exports = function(app) {
     };
 
     controller.criarAnuncioGET    = function(req, res, next){
-        htmlMinify('criar_anuncio', res , {}); 
+        var user = req.user;
+        if(!user.plano){
+            var query          = {situacao : true};
+            var response = {
+                ufs    : [] ,
+                planos : []
+            };
+           
+            uf.findByQuery(function(err, ufs){
+                response.ufs = ufs;
+                plano.findByQuery(function(error, planos ){
+                    response.planos = planos;
+                    req.flash('cadastro', '<div class="alert-info">Você precisa nos fornecer alguns dados para começar a anunciar, vamos lá rapidinho :) </div>');
+                    res.render('meus_dados', {response : response });
+                }, query);
+            }, query);
+        }else{
+            htmlMinify('criar_anuncio', res , {});
+        }    
     };
 
     controller.pesquisaAnuncio    = function(req, res, next){
@@ -32,29 +50,12 @@ module.exports = function(app) {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
             columns  : null   ,
-            sortBy   : null   ,
+            sortBy   : {data_anuncio : -1}   ,
             populate : "user" ,
             lean     : null
         };
 
-        var search = req.body;
-
-        if(req.query.index){
-            var value = null;
-            for(var property in search){
-                value = search[property];
-                if(value === ""){
-                    delete search[property];
-                }
-            }
-        }
-
-        if(search["fotoPrincipal.nome"] || search["fotoPrincipal.nome"] ){
-            search["$or"] = [{"fotoPrincipal.nome" : {"$ne" : "no-image.png"}} ];
-            delete search["fotoPrincipal.nome"];
-            delete search["videoPrincipal.nome"];
-        }
-
+        var search = getSearchParams(req);
 
         Anuncio.paginate(search, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
@@ -82,15 +83,17 @@ module.exports = function(app) {
 
     controller.listAnuncioGET     = function(req, res, next){
         var paginateOption = {
-            page     : req.query.page   ,
-            limit    : req.query.limit  ,
-            columns  : null   ,
-            sortBy   : null   ,
-            populate : "user" ,
+            page     : req.query.page        ,
+            limit    : req.query.limit       ,
+            columns  : null                  ,
+            sortBy   : {data_anuncio : -1}    ,
+            populate : "user"                ,
             lean     : null
         };
 
-        Anuncio.paginate({status : true}, paginateOption, function(error, anuncios, pageCount, itemCount){
+        var search = getSearchParams(req);
+
+        Anuncio.paginate(search, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
                 next(error);
             }else{
@@ -116,12 +119,14 @@ module.exports = function(app) {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
             columns  : null   ,
-            sortBy   : null   ,
+            sortBy   : {data_anuncio : -1}    ,
             populate : "user" ,
             lean     : null
         };
 
-        Anuncio.paginate({status : true}, paginateOption, function(error, anuncios, pageCount, itemCount){
+        var search = getSearchParams(req);
+
+        Anuncio.paginate(search, paginateOption, function(error, anuncios, pageCount, itemCount){
             if(error){
                 next(error);
             }else{
@@ -645,12 +650,23 @@ module.exports = function(app) {
     };
 
     function getSearchParams(req){
-        var search = req.query | {status : true};
+        //console.log(req.query);
+
+        var search = {
+            status                : true                            , 
+            categoria             : req.query.categoria             ,
+            marca                 : req.query.marca                 , 
+            modelo                : req.query.modelo                ,
+            "fotoPrincipal.nome"  : req.query["fotoPrincipal.nome"] ,
+            "videoPrincipal.nome" : req.query["videoPrincipal.nome"] 
+        }
+
+        //console.log(search);
 
         var value = null;
         for(var property in search){
             value = search[property];
-            if(value === ""){
+            if(value == "" || value == 0 || value == undefined){
                 delete search[property];
             }
         }
@@ -661,9 +677,7 @@ module.exports = function(app) {
             delete search["videoPrincipal.nome"];
         }
 
-        search.status = true;
-
-        console.log(search);
+        //console.log(search);
 
         return search;
     };

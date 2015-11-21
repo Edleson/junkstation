@@ -7,7 +7,7 @@
 	</head>
 
 	<body >
-		<% include template/header %>
+		<% include template/header %> 
 		
 		<div class="container_12 clearfix">
 			<div class="grid_8 content">
@@ -32,20 +32,25 @@
 						</section>
 
 					<% }else{ %>
-						<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-						<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+						<input type="hidden" id="currentGridPage" value="/anuncio/lista?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+						<input type="hidden" id="currentlistPage" value="/anuncio/lista?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 						
 						<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 							<ul class='pagination'>
 								<% if(paginate.hasPreviousPages) {%>
-									<li><a class="button pagination-previous" href="<%- paginate.href(true) %>&ajax=true"> &lt;&lt; </a></li>
+									<li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
 								<% }%>
 
 								<%  var current = '';
 									pages.forEach(function(page){
-										current = paginate.page == page.number ? 'current' : '';	 
+										var current = paginate.page == page.number ? 'current' : '';
+										var url = "/anuncio/lista?page=" + page.number + "&limit=" + paginate.limit ;	 
 								%>
-										<li><a class='button pagination-number <%- current %>' href='<%- page.url %>&ajax=true'><%- page.number %></a></li>
+										<li>
+											<a class='button pagination-number <%- current %>' href='<%- url %>'>
+												<%- page.number %>
+											</a>
+										</li>
 								<% });%>
 
 								<% if(paginate.hasNextPages(pageCount)) {
@@ -241,11 +246,11 @@
 				$("#pesquisaForm").validate({ 
 					submitHandler: function(form){
 						var params = getParamsSearch();
-
+						var url = parseQueryString(form.action) + "&" + serializeQueryString(params);
 						var request =  {
-							url     : form.action   ,
-							params  : params    	,
-							method  : "post"        ,
+							url     : url   ,
+							params  : {}    ,
+							method  : "get" ,
 							callback : function(response, textStatus, jqXHR){
 								$("#ajaxContent").html(response);
 							}
@@ -267,11 +272,11 @@
 				
 				function listaAnuncio(e){
 					e.preventDefault();
-					var url = $(this).attr("href");
+					var url = parseQueryString($(this).attr("href"));
 					var id  = $(this).attr("id");
 
 					var params = getParamsSearch();
-					
+
 					if(id === "modoLista"){
 						$("#modoLista").addClass('current');
 						$("#modoGrid").removeClass('current');
@@ -282,13 +287,17 @@
 						url =  $("#currentGridPage").val();
 					}
 
+					url = url + "&" + serializeQueryString(params);
+
 					var request =  {
-						url      : url 	 		,
-						params   : params   	,         
-						method   : "post"		,
-						dataType : "text/html"	,
+						url      : parseQueryString(url + "&ajax=true"),
+						params   : {}   			,         
+						method   : "get"			,
+						dataType : "text/html"		,
 						callback : listaAnuncioCallBack
 					};
+
+					console.log(request);
 
 					ajaxRequest(request, true);
 					return false;

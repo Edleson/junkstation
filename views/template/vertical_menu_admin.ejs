@@ -2,11 +2,13 @@
 	<div class="box">
 		<h3>Gerenciar</h3>
 		<div class="box-content">
-			<li><a href="/admin#/">Área Admnistrativa</a></li>
+			<% if(util.isAdmin(request)) { %>
+				<li><a href="/admin#/">Área Admnistrativa</a></li>
+			<%}%>
 			<li><a href="/anuncio/create">Incluir Anúncio</a></li>
 			<li><a href="/anuncio/meusanuncios">Meus Anúncios</a> <span class="badge"><%- session.countAnuncio %></span> </li>
 			<li><a href="/anuncio/meusdados">Meus Dados</a></li>
-			<li><a href="#">Alterar Senha</a></li>
+			<!--<li><a href="#">Alterar Senha</a></li>-->
 		</div>
 	</div>
 </div>

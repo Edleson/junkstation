@@ -79,3 +79,51 @@ function humanFileSize(bytes, si) {
     return bytes.toFixed(1)+' '+units[u];
 }
 
+function parseQueryString(str) {
+    // parse will split the string along the &
+    // and loop over the result
+
+    var keyValues, i, len, el, 
+        parts, key, value, result;
+
+    result    = {};
+    sepToken  = '&';
+    keyValues = str.split('&');
+
+    i   = 0;
+    len = keyValues.length;
+
+    for(i; i<len; i++) {
+        el    = keyValues[i];
+        parts = el.split('=');
+        key   = parts[0];
+        value = parts[1];
+
+        // this will replace any duplicate param 
+        // with the last value found
+        result[key] = value;
+    }
+
+    return serializeQueryString(result);
+}
+
+function serializeQueryString(data) {
+    // serialize simply loops over the data and constructs a new string
+
+    var prop, result, value;
+
+    result = [];
+
+    for(prop in data) {
+        if (data.hasOwnProperty(prop)) {
+            value = data[prop];
+
+            // push each seriialized key value into an array
+            result.push(prop + '=' + value);
+        }
+    }
+
+    // return the resulting array joined on &
+    return result.join("&");
+}
+
