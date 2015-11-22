@@ -15,9 +15,11 @@
 				<div class="results_filter">
 					<label for="sort" class="dropdown_label">ordenar por :</label>
 					<select name="sort" id="sort" class="custom_select">
-						<option value="">Preço</option>
-						<option value="">Ano</option>
-						<option value="">Kilometragem</option>
+						<option value="mais_recentes" selected="selected" >Mais recentes</option>
+						<option value="mais_antigos">Mais antigos</option>
+						<option value="maior_preco">Maior preço</option>
+						<option value="menor_preco">Menor preço</option>
+						<option value="views">Mais vistos</option>
 					</select>
 					<a href="#" id="modoLista" class="sort_list current"></a>
 					<a href="#"  id="modoGrid"  class="sort_grid"></a>
@@ -176,7 +178,7 @@
 						</div>
 
 						<div class="box-content">
-							<p class="newsletter_button"><a class="button submit wide green wider">Pesquisar</a>
+							<p class="newsletter_button"><a id="btn-pesquisar" class="button submit wide green wider">Pesquisar</a>
 						</div>
 
 
@@ -379,6 +381,10 @@
 						listModeloByMarca($(this).val(), marcaCallback, {}, true);
 					}
 				});
+
+				$("#sort").change(function(){
+					$("#btn-pesquisar").click();
+				});
 			});
 
 			function getParamsSearch(){
@@ -389,6 +395,7 @@
 					modelo    : $("#cbmModelo").val()   != "0" ? $("#cbmModelo option:selected").text()   : "",
 					"fotoPrincipal.nome" : $("#with_photos:checked").val(),
 					"videoPrincipal.nome" : $("#with_video:checked").val(),
+					orderby   : $("#sort").val()
 				}
 
 				var value = null;

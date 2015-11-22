@@ -50,7 +50,7 @@ module.exports = function(app) {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
             columns  : null   ,
-            sortBy   : {data_anuncio : -1}   ,
+            sortBy   : getSort(req)     ,
             populate : "user" ,
             lean     : null
         };
@@ -86,7 +86,7 @@ module.exports = function(app) {
             page     : req.query.page        ,
             limit    : req.query.limit       ,
             columns  : null                  ,
-            sortBy   : {data_anuncio : -1}    ,
+            sortBy   : getSort(req)          ,
             populate : "user"                ,
             lean     : null
         };
@@ -119,7 +119,7 @@ module.exports = function(app) {
             page     : req.query.page   ,
             limit    : req.query.limit  ,
             columns  : null   ,
-            sortBy   : {data_anuncio : -1}    ,
+            sortBy   : getSort(req)     ,
             populate : "user" ,
             lean     : null
         };
@@ -680,6 +680,25 @@ module.exports = function(app) {
         //console.log(search);
 
         return search;
+    };
+
+    function getSort(req){
+        var orderby = req.query.orderby || "data_anuncio";
+
+        switch(orderby){
+            case "mais_recentes" :
+                return { data_anuncio : -1};
+            case "mais_antigos" :
+                return { data_anuncio : 1 };
+            case "maior_preco" :
+                return { preco : -1 };
+            case "menor_preco" :
+                return { preco : 1 };
+            case "views" :
+                return { views : -1 };
+            default :
+                return { data_anuncio : -1};
+        }
     };
  
     return controller; 

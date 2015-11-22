@@ -26,7 +26,7 @@ module.exports = function(app) {
     };
  
     var schema = mongoose.Schema({
-        user : {
+        user : { 
             type : mongoose.Schema.ObjectId  ,
             required : true                  , 
             index    : true                  ,
