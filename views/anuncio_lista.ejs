@@ -34,8 +34,8 @@
 						</section>
 
 					<% }else{ %>
-						<input type="hidden" id="currentGridPage" value="/anuncio/lista?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-						<input type="hidden" id="currentlistPage" value="/anuncio/lista?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+						<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+						<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 						
 						<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 							<ul class='pagination'>
@@ -180,8 +180,6 @@
 						<div class="box-content">
 							<p class="newsletter_button"><a id="btn-pesquisar" class="button submit wide green wider">Pesquisar</a>
 						</div>
-
-
 					</form>
 				</div>
 				
@@ -248,6 +246,7 @@
 				$("#pesquisaForm").validate({ 
 					submitHandler: function(form){
 						var params = getParamsSearch();
+						params.view = $("#modoLista").hasClass('current') ? "list" : "grid";
 						var url = parseQueryString(form.action) + "&" + serializeQueryString(params);
 						var request =  {
 							url     : url   ,
@@ -260,7 +259,7 @@
 
 						ajaxRequest(request , true);
 
-						return false 
+						return false ;
 					}
 				});
 
@@ -279,14 +278,18 @@
 
 					var params = getParamsSearch();
 
+					delete params.view;
+
 					if(id === "modoLista"){
 						$("#modoLista").addClass('current');
 						$("#modoGrid").removeClass('current');
 						url =  $("#currentlistPage").val();
+						params.view = "list";
 					}else if(id === "modoGrid"){
 						$("#modoGrid").addClass('current');
 						$("#modoLista").removeClass('current');
 						url =  $("#currentGridPage").val();
+						params.view = "grid";
 					}
 
 					url = url + "&" + serializeQueryString(params);
@@ -298,8 +301,6 @@
 						dataType : "text/html"		,
 						callback : listaAnuncioCallBack
 					};
-
-					console.log(request);
 
 					ajaxRequest(request, true);
 					return false;
@@ -324,7 +325,6 @@
 				};
 
 				listCategoria(loadCategoriaCallback, {} , true);
-
 
 				var categoriaCallback = function(response, textStatus, jqXHR){
 					var marcas = response.data;
@@ -396,6 +396,7 @@
 					"fotoPrincipal.nome" : $("#with_photos:checked").val(),
 					"videoPrincipal.nome" : $("#with_video:checked").val(),
 					orderby   : $("#sort").val()
+					
 				}
 
 				var value = null;

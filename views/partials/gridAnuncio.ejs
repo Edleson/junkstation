@@ -6,8 +6,8 @@
 	</section>
 
 <% }else{ %>
-	<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?ajax=true&view=grid&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-	<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?ajax=true&view=list&page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+	<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+	<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
 	
 	<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
 		<ul class='pagination'>

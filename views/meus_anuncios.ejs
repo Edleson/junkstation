@@ -44,7 +44,7 @@
 						<div class="item_info">
 							<span class="item_year">Criado em <%- util.moment(anuncio.data_anuncio).format("L") %></span>
 							<span class="item_year">Expira em <%- util.moment(anuncio.data_vencimento).format("L") %></span>
-							<span class="item_transimition"><%- anuncio.proposta.length %> mensagem(s)</span>
+							<span class="item_transimition"><a href="/anuncio/<%- anuncio._id %>/mensagem"><%- anuncio.proposta.length %> mensagem(s)</a></span>
 							<span class="item_mileage"><%- anuncio.views %> views</span>
 
 						</div>

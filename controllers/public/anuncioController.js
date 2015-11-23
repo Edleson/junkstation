@@ -162,6 +162,17 @@ module.exports = function(app) {
         });
     };
 
+    controller.anuncioMensagem  = function(req, res, next){
+        var id = req.params.id;
+        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
+            if(error){
+                next(error);
+            }else{
+                htmlMinify('mensagem', res , {anuncio : anuncio});
+            }
+        });
+    };
+
     controller.editAnuncioGET     = function(req, res, next){
         var id = req.params.id;
         Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){

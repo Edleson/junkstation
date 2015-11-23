@@ -24,6 +24,7 @@ module.exports = function(app) {
 	app.get( '/anuncio/meusanuncios'     , isLoggedIn, security.forceHTTPS, controller.meusAnuncios);
 	app.get( '/anuncio/create'           , isLoggedIn, security.forceHTTPS, controller.criarAnuncioGET);
 	app.get( '/anuncio/:id/edit'  	     , isLoggedIn, security.forceHTTPS, controller.editAnuncioGET);
+	app.get( '/anuncio/:id/mensagem'  	 , isLoggedIn, security.forceHTTPS, controller.anuncioMensagem);
 	app.get( '/anuncio/:id/remove/media' , isLoggedIn, security.forceHTTPS, controller.deletarFoto);
 	app.post('/anuncio/edit'  	         , isLoggedIn, security.forceHTTPS, multer.fields(uploadOptions),  controller.editAnuncio);
 	app.post('/anuncio/create'           , isLoggedIn, security.forceHTTPS, multer.array("fotos", 10), controller.criarAnuncioPOST);
