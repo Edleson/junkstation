@@ -82,20 +82,17 @@
 					<li <%= request.baseUrl == "/servico" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/servico">Relatório</a>
 						<ul>
-							<li><a href="#">Anúncio</a></li>
+							<li><a href="#/anuncio/list">Anúncios</a></li>
 							<li><a href="#/users">Usuários</a></li>
-							<li><a href="#">Anunciantes</a></li>
-							<li><a href="#">Financeiro</a></li>
-							<li><a href="#">Acesso</a></li>
-							<li><a href="#">Vendas</a></li>
+							<li><a href="#/anuncio/anunciante">Anunciantes</a></li>
 							
 						</ul>
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/planos">Anúncio</a>
+						<a href="#/anuncio/list">Anúncio</a>
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/planos">Plano</a>
+						<a href="#/planos">Planos</a>
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/planos">Pagamento</a>
@@ -105,9 +102,6 @@
 					</li>
 					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
 						<a href="/planos">Integração</a>
-					</li>
-					<li <%= request.baseUrl == "/planos" ?  'class=current_menu_ancestor' : '' %> >
-						<a href="/planos">Vendas</a>
 					</li>
 					<li class='current_menu_ancestor' style="display:none;">
 						<a href="/">default</a>

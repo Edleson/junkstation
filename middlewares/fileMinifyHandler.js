@@ -94,6 +94,7 @@ module.exports = function(){
 	              'public/js/app/controllers/admin/ufController.js'    			,
 	              'public/js/app/controllers/admin/anuncioController.js'    	,
 	              'public/js/app/controllers/admin/userController.js'    		,
+	              'public/js/app/controllers/admin/anuncianteController.js'    	,
 	              'public/js/app/controllers/admin/ui/uiController.js'          ,
 	              'public/js/app/interceptors/securityInterceptor.js'           ,
 	              'public/js/app/routes/adminRoutes.js'  

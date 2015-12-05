@@ -15,5 +15,36 @@ app.controller('userController', function ($scope, userService, $rootScope, ngDi
 		$scope.direcao   = !$scope.direcao;
 	}
 
+	$scope.isAdmin = function(user){
+		if(user){
+			var isAdmin = user.perfil.filter(function(item){
+				return item === "ADMIN";
+			});
+			return isAdmin.length > 0;
+		}else{
+			return false;
+		}
+	}
+
+	$scope.removeAdmin = function(user){
+		var notAdmin = {};
+		notAdmin._id = user._id;
+		notAdmin.perfil = user.perfil.filter(function(item){
+			return item !== "ADMIN";
+		});
+		user.perfil = notAdmin.perfil;
+		Service.update(notAdmin);
+		findAll();
+	}
+
+	$scope.addAdmin = function(user){
+		var admin = {};
+		admin._id = user._id;
+		admin.perfil = user.perfil;
+		admin.perfil.push("ADMIN");
+		Service.update(admin);
+		findAll();
+	}
+
 	findAll();
 });

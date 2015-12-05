@@ -7,7 +7,7 @@ app.factory("anuncioService", function ($http) {
 	};
 
 	var _findAllAnunciantes = function(){
-		return $http.get(baseAdminURL + root + "list");
+		return $http.get(baseAdminURL + root + "anunciante");
 	};
 	return {
 		findAll             : _findAll 				,

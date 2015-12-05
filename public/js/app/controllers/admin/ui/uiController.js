@@ -8,32 +8,31 @@ app.controller('uiAdminController', ['$scope', function ($scope) {
 	$scope.panels = [
 		{
 			title : "Cadastro Geral", opened : false , contentPanel : false, links : [
-				{href : "#/marca"	  	 , desc : "Gerenciar Marca"			},
-				{href : "#/categoria"	 , desc : "Gerenciar Categoria"		},
-				{href : "#/modelo"	 	 , desc : "Gerenciar Modelo"		},
-				{href : "#/combustivel"	 , desc : "Gerenciar Combustível"	},
-				{href : "#/cor"			 , desc : "Gerenciar Cor"			},
-				{href : "#/cambio"		 , desc : "Gerenciar Cambio"		},
-				{href : "#/anoFabricacao", desc : "Gerenciar Ano Fabricação"},
-				{href : "#/servico" 	 , desc : "Gerenciar Serviço"		},
-				{href : "#/newsletter" 	 , desc : "Gerenciar Newsletter"	},
-				{href : "#/estilo"       , desc : "Gerenciar Estilo"		},
-				{href : "#/uf"           , desc : "Gerenciar Uf"			},
-				{href : "#/planos"       , desc : "Gerenciar Plano"			}
+				{href : "#/marca"	  			, desc : "Gerenciar Marca"			},
+				{href : "#/categoria"	 		, desc : "Gerenciar Categoria"		},
+				{href : "#/modelo"	 	 		, desc : "Gerenciar Modelo"			},
+				{href : "#/combustivel"	 		, desc : "Gerenciar Combustível"	},
+				{href : "#/cor"			 		, desc : "Gerenciar Cor"			},
+				{href : "#/cambio"		 		, desc : "Gerenciar Cambio"			},
+				{href : "#/anoFabricacao"		, desc : "Gerenciar Ano Fabricação"	},
+				{href : "#/servico" 	 		, desc : "Gerenciar Serviço"		},
+				{href : "#/newsletter" 	 		, desc : "Gerenciar Newsletter"		},
+				{href : "#/estilo"      		, desc : "Gerenciar Estilo"			},
+				{href : "#/uf"           		, desc : "Gerenciar Uf"				},
+				{href : "#/planos"       		, desc : "Gerenciar Plano"			}
 			]  
 		},
 		{
 			title : "Gerenciar Anúncios" , opened : false , contentPanel : false, links : [
-				{href : "#"				 , desc : "Lista de Anunciantes"	},
-				{href : "#/anuncio/list" , desc : "Lista de Anúncios"		}		
+				{href : "#/anuncio/anunciante"	, desc : "Lista de Anunciantes"		},
+				{href : "#/anuncio/list" 		, desc : "Lista de Anúncios"		}		
 			]  
 		},
 		{
 			title : "Relatórios", opened : false , contentPanel : false, links : [
-				{href : "#"				 , desc : "Relatório Anúncios"		},
-				{href : "#/users"		 , desc : "Relatório Usuários"		},
-				{href : "#"              , desc : "Relatório Anunciantes"	},
-				{href : "#"              , desc : "Relatório Financeiro"	}			
+				{href : "#/anuncio/list" 		, desc : "Relatório Anúncios"		},
+				{href : "#/users"		 		, desc : "Relatório Usuários"		},
+				{href : "#/anuncio/anunciante"  , desc : "Relatório Anunciantes"	}		
 			]  
 		}
 	];

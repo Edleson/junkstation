@@ -141,6 +141,12 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
     }
   );
 
+  $routeProvider.when('/anuncio/anunciante', {
+      templateUrl : 'partials/anunciantes.html', 
+      controller  : 'anuncianteController'
+    }
+  );
+
   $routeProvider.when('/users', {
       templateUrl : 'partials/users.html', 
       controller  : 'userController'

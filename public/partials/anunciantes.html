@@ -1,5 +1,5 @@
 <div class="box clearfix" ng-show="true">
-	<h3>Lista de Usuários <span class="badge">{{entities.length}}</span></h3>
+	<h3>Lista de Anunciantes <span class="badge">{{entities.length}}</span></h3>
 	<div class="box-content clearfix bordered_under">
 		
 		<input id="txtPesquisa" class="form-control" type="text" placeholder="Filtro de pesquisa" ng-model="filtroPesquisa"/>
@@ -10,25 +10,29 @@
 			<thead>
 				<tr>
 					<th><a href="" ng-click="orderBy('local.username');">Nome</a></th>
+					<th><a href="" ng-click="orderBy('local.email');">E-mail</a> </th>
 					<th><a href="" ng-click="orderBy('contaAtiva');">Status</a> </th>
 					<th><a href="" ng-click="orderBy('dataCadastro');">Data Cadastro</a></th>
-					<th><a href="" ng-click="orderBy('perfil');">perfil</a></th>
-					<th></th>
+					<th><a href="" ng-click="orderBy('dadosPessoais.cidade');">Cidade</a> </th>
+					<th><a href="" ng-click="orderBy('dadosPessoais.estado');">UF</a> </th>
+					<th><a href="" ng-click="orderBy('dadosPessoais.telefone');">Fone</a> </th>
+					<!--<th></th>-->
 				</tr>
 			</thead>
 			
 			<tbody>
 				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
 					<td>{{entity.local.username}}</td>
+					<td>{{entity.local.email}}</td>
 					<td>{{entity.contaAtiva === true ? "Ativo" : "Inativo" }}</td>
 					<td>{{entity.dataCadastro | date : 'dd/MM/yyyy'}}</td>
-					<td>{{entity.perfil.toString()}}</td>
-					<td align="center">
-						<div ng-if="entity.local.email !== 'master@junkstation.com.br'">
-							<button type="button" class="btn btn-success btn-xs" ng-if="!isAdmin(entity);" ng-click="addAdmin(entity)">ADD ADMIN</button>
-							<button type="button" class="btn btn-danger btn-xs " ng-if="isAdmin(entity); " ng-click="removeAdmin(entity);">DEL ADMIN</button>
-						</div>
-					</td>
+					<td>{{entity.dadosPessoais.cidade}}</td>
+					<td>{{entity.dadosPessoais.estado}}</td>
+					<td>{{entity.dadosPessoais.telefone}}</td>
+					<!--<td align="center">
+						<button type="button" class="btn btn-success btn-xs" ng-click="selectEntity(entity)">Editar</button>
+						<button type="button" class="btn btn-danger btn-xs"  ng-click="destroy(entity)">Excluir</button>
+					</td>-->
 				</tr>
 			</tbody>
 		</table>
