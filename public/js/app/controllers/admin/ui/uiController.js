@@ -31,6 +31,7 @@ app.controller('uiAdminController', ['$scope', function ($scope) {
 		{
 			title : "Relatórios", opened : false , contentPanel : false, links : [
 				{href : "#"				 , desc : "Relatório Anúncios"		},
+				{href : "#/users"		 , desc : "Relatório Usuários"		},
 				{href : "#"              , desc : "Relatório Anunciantes"	},
 				{href : "#"              , desc : "Relatório Financeiro"	}			
 			]  

@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var bcrypt       = require('bcrypt-nodejs');
 var findOrCreate = require('mongoose-findorcreate');
 var moment       = require('moment');
-var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var deepPopulate = require('mongoose-deep-populate')(mongoose); 
 
 module.exports = function() {
     var media = {

@@ -141,5 +141,11 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
     }
   );
 
+  $routeProvider.when('/users', {
+      templateUrl : 'partials/users.html', 
+      controller  : 'userController'
+    }
+  );
+
   $routeProvider.otherwise({redirectTo: '#/'});
 }]);
