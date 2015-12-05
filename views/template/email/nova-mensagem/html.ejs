@@ -110,7 +110,7 @@
                               <div style="line-height: 44px;">
                                 <font face="Arial, Helvetica, sans-serif" size="5" color="#57697e" style="font-size: 34px;">
                                 <span style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; color: #57697e;">
-                                Você tem uma nova mensagem referente ao seu anúncio <%- data.anuncio.marca %> <%- data.anuncio.modelo %>
+                                <%- data.proposta.nomeContato %> gostaria de saber mais sobre, <%- data.anuncio.marca %> <%- data.anuncio.modelo %>
                                 </span></font>
                               </div>
                               <!-- padding -->
@@ -122,7 +122,8 @@
                               <div style="line-height: 24px;">
                                 <font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">
                                 <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">
-                                  Aqui na Junk Station, você acompanha o seu anúncio, é avisado quando chega novas mensagens, quantas visualizações seu anúncio tem . Entre no painel administrativo e confira a mensagem dos interessados no seu anúncio. Junkstation onde o seu clássico não é carro velho.
+                                  <!--Aqui na Junk Station, você acompanha o seu anúncio, é avisado quando chega novas mensagens, quantas visualizações seu anúncio tem . Entre no painel administrativo e confira a mensagem dos interessados no seu anúncio. Junkstation onde o seu clássico não é carro velho.-->
+                                  <%- data.proposta.assunto %>
                                 <br>
                                 <br>
 
@@ -138,7 +139,7 @@
                                 
                                 <a href="<%- data.link %>" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; font-size: 13px; cursor : pointer;">
                                   <font face="Arial, Helvetica, sans-seri; font-size: 13px;" size="3" color="#596167">
-                                	   Clique aqui para visualizar suas mensagens :)
+                                	   Não perca tempo e responda para <a href="mailto:<%- data.proposta.emailContato %>"><%- data.proposta.emailContato %></a>  e aumente as chances de sucesso para o seu anúncio.
                                 	</font>
                                 </a>
                               </div>
