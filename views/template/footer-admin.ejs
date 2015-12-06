@@ -6,8 +6,8 @@
 
 <script type="text/ng-template" id="modalDialogId">
     <div class="ngdialog-message">
-        <h3>Escolha uma das opções abaixo : </h3>
-        <p>Tem certeza que deseja excluir o registro?</p>
+        <h3>{{ msgTitle || 'Escolha uma das opções abaixo :' }} </h3>
+        <p>{{ msgBody || 'Tem certeza que deseja excluir o registro ?' }}</p>
     </div>
     <div class="ngdialog-buttons">
         <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(confirmValue)">Confirmar</button>

@@ -27,23 +27,39 @@ app.controller('userController', function ($scope, userService, $rootScope, ngDi
 	}
 
 	$scope.removeAdmin = function(user){
-		var notAdmin = {};
-		notAdmin._id = user._id;
-		notAdmin.perfil = user.perfil.filter(function(item){
-			return item !== "ADMIN";
-		});
-		user.perfil = notAdmin.perfil;
-		Service.update(notAdmin);
-		findAll();
+		$rootScope.msgTitle	= "Permissão de Administrador";
+		$rootScope.msgBody	= "Tem certeza que quer retirar os poderes de administrador do usuário " + user.local.username;
+
+		ngDialog.openConfirm({
+            template  : 'modalDialogId',
+            className : 'ngdialog-theme-default'
+        }).then(function (value) {
+        	var notAdmin = {};
+			notAdmin._id = user._id;
+			notAdmin.perfil = user.perfil.filter(function(item){
+				return item !== "ADMIN";
+			});
+			user.perfil = notAdmin.perfil;
+			Service.update(notAdmin);
+			findAll();
+        }, function (reason) {});
 	}
 
 	$scope.addAdmin = function(user){
-		var admin = {};
-		admin._id = user._id;
-		admin.perfil = user.perfil;
-		admin.perfil.push("ADMIN");
-		Service.update(admin);
-		findAll();
+		$rootScope.msgTitle	= "Permissão de Administrador";
+		$rootScope.msgBody	= "Tem certeza quer dar poderes de administrador para o usuário " + user.local.username;
+
+		ngDialog.openConfirm({
+            template  : 'modalDialogId',
+            className : 'ngdialog-theme-default'
+        }).then(function (value) {
+        	var admin = {};
+			admin._id = user._id;
+			admin.perfil = user.perfil;
+			admin.perfil.push("ADMIN");
+			Service.update(admin);
+			findAll();
+        }, function (reason) {});
 	}
 
 	findAll();
