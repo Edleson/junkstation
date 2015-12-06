@@ -669,7 +669,8 @@ module.exports = function(app) {
             marca                 : req.query.marca                 , 
             modelo                : req.query.modelo                ,
             "fotoPrincipal.nome"  : req.query["fotoPrincipal.nome"] ,
-            "videoPrincipal.nome" : req.query["videoPrincipal.nome"] 
+            "videoPrincipal.nome" : req.query["videoPrincipal.nome"],
+            data_vencimento       : {"$gte" : new Date()}     
         }
 
         //console.log(search);
