@@ -9,7 +9,11 @@ module.exports = function(){
     var NODE_SSL_KEY    = process.env.NODE_SSL_KEY                                       ;
     var SEC_HASH        = "0123456789abcdefghijlmnopqrstuvxzywABCDEFGHIJLMNOPQRSTUVXZYW" ;
 
-    /*console.log("Carregando o contexto da aplicação ......");
+    var PAGSEGURO_ENV   = process.env.PAGSEGURO_ENV                                      ;
+    var PAGSEGURO_EMAIL = process.env.PAGSEGURO_EMAIL                                    ;
+    var PAGSEGURO_TOKEN = process.env.PAGSEGURO_TOKEN                                    ;
+
+    /*console.log("Carregando as variáveis de ambiente ............");
     console.log("USER_EMAIL = [ "+ USER_EMAIL +" ]");
     console.log("USER_EMAIL_PASS = [ "+ USER_EMAIL_PASS +" ]");
     console.log("AWS_ACCESS_KEY = [ "+ AWS_ACCESS_KEY +" ]");
@@ -17,7 +21,10 @@ module.exports = function(){
     console.log("SEC_SALT = [ "+ SEC_SALT +" ]");
     console.log("MONGODB_URL = [ "+ MONGODB_URL +" ]");
     console.log("NODE_SSL_CERT = [ "+ NODE_SSL_CERT +" ]");
-    console.log("NODE_SSL_KEY = [ "+ NODE_SSL_KEY +" ]");*/
+    console.log("NODE_SSL_KEY = [ "+ NODE_SSL_KEY +" ]");
+    console.log("PAGSEGURO_ENV = [ "+ PAGSEGURO_ENV +" ]");
+    console.log("PAGSEGURO_EMAIL = [ "+ PAGSEGURO_EMAIL +" ]");
+    console.log("PAGSEGURO_TOKEN = [ "+ PAGSEGURO_TOKEN +" ]");*/
 
     var context = {
         email : {
@@ -70,6 +77,41 @@ module.exports = function(){
             s3Storage : {
                 prefix : "",
                 nome    : "S3Storage"
+            }
+        },
+
+        cobranca : {
+            pagseguro : {
+                email            : PAGSEGURO_EMAIL                                      ,
+                token            : PAGSEGURO_TOKEN                                      , 
+                ambiente         : PAGSEGURO_ENV || "sandbox"                           ,
+                comprador        : "c75900997936019031965@sandbox.pagseguro.com.br"     ,
+                
+                buildUrlCheckout : function(code){
+                    var baseUrlProduction = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=";
+                    var baseUrlSandbox    = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code="
+                    if(this.ambiente === "sandbox"){
+                        return baseUrlSandbox + code;
+                    }else{
+                        return baseUrlProduction + code;
+                    }
+                },
+
+                getRedirectUrl : function(){
+                    if(this.ambiente === "sandbox"){
+                        return "https://www.pontoclass.com/checkout/sucess";
+                    }else{
+                        return "https://www.junkstation.com.br/checkout/sucess";
+                    }
+                },
+
+                getNotificationUrl : function(){
+                    if(this.ambiente === "sandbox"){
+                        return "https://www.pontoclass.com/notificacao/pagseguro";
+                    }else{
+                        return "https://www.junkstation.com.br/notificacao/pagseguro";
+                    }
+                }
             }
         },
 

@@ -247,8 +247,10 @@
 							params  : {email : $("#rEmail").val()}    ,
 							method  : "post"                          ,
 							callback : function(response, textStatus, jqXHR){
-								console.log(response)
 								$("#msgSenha").html(response.data).show();
+								var msg = $("#msgSenha").html(response.data).text();
+								alert(msg);
+								window.location.href = "/login";
 							}
 						};
 

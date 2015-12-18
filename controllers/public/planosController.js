@@ -16,6 +16,5 @@ module.exports = function(app) {
         }, query);
     }
 
-    
     return controller; 
 };   

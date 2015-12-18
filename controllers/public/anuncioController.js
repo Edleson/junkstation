@@ -10,7 +10,10 @@ module.exports = function(app) {
     var fileHandler       = app.get("fileHandler");
     var paginate          = app.get("paginate");
     var emailSender       = app.get("emailSender");
+    var pagseguro         = app.get("pagseguro");
     var User              = app.models.admin.user;
+    var Assinatura        = app.models.admin.assinatura;
+    var Utils             = app.util.utils;
     var Anuncio           = app.models.public.anuncio;
     var marca             = new app.models.admin.marca({});
     var plano             = new app.models.admin.plano({}); 
@@ -26,7 +29,7 @@ module.exports = function(app) {
     controller.criarAnuncioGET    = function(req, res, next){
         var user = req.user;
         if(!user.plano){
-            var query          = {situacao : true};
+            var query = {situacao : true};
             var response = {
                 ufs    : [] ,
                 planos : []
@@ -162,7 +165,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.anuncioMensagem  = function(req, res, next){
+    controller.anuncioMensagem    = function(req, res, next){
         var id = req.params.id;
         Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
             if(error){
@@ -208,14 +211,15 @@ module.exports = function(app) {
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
             if(error){
-                req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
+                req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu anúncio :( </div>');
                 htmlMinify('criar_anuncio', res , {});
             }else{
                 var callback = getCallbackUpload(context);
                 fileHandler.uploadMultiploFile(req, _anuncio, callback);
                 req.flash('cadastroAnuncio', '<div class="alert-success">Anúncio cadastrado com sucesso</div>');
                 req.session.countAnuncio = req.session.countAnuncio + 1 ;
-                htmlMinify('criar_anuncio', res , {});
+                //htmlMinify('criar_anuncio', res , {});
+                res.redirect("/anuncio/meusanuncios");
             }
         });
     };
@@ -256,19 +260,19 @@ module.exports = function(app) {
     };
 
     controller.cadastroPerfil     = function(req, res, next){
-        var _user          = req.user;
-        var _dadosPessoais = req.body;
-        var query          = {situacao : true};
-        var data           = Utils.moment(_dadosPessoais.dataNascimento, "DD/MM/YYYY");
+        var _user           = req.user;
+        var _dadosPessoais  = req.body;
+        var query           = {situacao : true};
+        var data            = Utils.moment(_dadosPessoais.dataNascimento, "DD/MM/YYYY");
         _dadosPessoais.dataNascimento = data;
         _user.dadosPessoais = _dadosPessoais;
-        _user.plano = _dadosPessoais.plano;
-        var Repository = new User(_user);
+        _user.plano         = _dadosPessoais.plano;
+        var Repository      = new User(_user);
+        
         User.update({_id : _user.id}, _user, function(error, user){
-            var response = {
+            var response    = {
                 ufs : [] 
             };
-
             uf.findByQuery(function(err, ufs){
                 response.ufs = ufs;
                 plano.findByQuery(function(_error, planos ){
@@ -278,7 +282,9 @@ module.exports = function(app) {
                         res.render('meus_dados', {response : response });
                     }else{
                         req.flash('cadastro', '<div class="alert-success">Dados salvos com sucesso :) </div>');
-                        res.render('meus_dados', {response : response });
+                        //res.render('meus_dados', {response : response });
+                        //pagseguro.checkout(req, res, next, User, Utils, Assinatura);
+                        res.redirect("/anuncio/create");
                     }
                 }, query);
             }, query);
@@ -364,7 +370,7 @@ module.exports = function(app) {
                 htmlMinify('meus_anuncios', res , {response : anuncios}); 
                 //res.render('meus_anuncios', {response : anuncios});
             }
-        }, query);
+        }, query).sort({data_anuncio : -1});
     };
 
     function validateAnuncio(anuncio){
@@ -661,8 +667,6 @@ module.exports = function(app) {
     };
 
     function getSearchParams(req){
-        //console.log(req.query);
-
         var search = {
             status                : true                            , 
             categoria             : req.query.categoria             ,
@@ -696,7 +700,6 @@ module.exports = function(app) {
 
     function getSort(req){
         var orderby = req.query.orderby || "data_anuncio";
-
         switch(orderby){
             case "mais_recentes" :
                 return { data_anuncio : -1};

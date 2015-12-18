@@ -67,8 +67,7 @@ module.exports = function(app) {
             }else{
                 htmlMinify('confirma_cadastro', res , {usuario : user});
             }
-        });
-        
+        });     
     };
 
     controller.alterarSenha = function(req, res, next) {
@@ -93,8 +92,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = mensage ;
                 res.status(200).json(ResponseAPI);
             }
-        });
-        
+        });   
     };
 
     return controller; 

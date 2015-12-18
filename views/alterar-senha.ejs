@@ -44,8 +44,10 @@
 							params  : {id : $("#user_id").val() , password : $("#password").val()} ,
 							method  : "post"                          ,
 							callback : function(response, textStatus, jqXHR){
-								console.log(response)
 								$("#msgAlteracaoSenha").html(response.data).show();
+								var msg = $("#msgAlteracaoSenha").html(response.data).text();
+								alert(msg);
+								window.location.href = "/anuncio/meusanuncios";
 							}
 						};
 

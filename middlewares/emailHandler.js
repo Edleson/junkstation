@@ -2,7 +2,6 @@ var nodemailer    = require('nodemailer');
 var path          = require('path');
 var templatesDir  = path.resolve(__dirname, '..', 'views/template/email');
 var EmailTemplate = require("email-templates").EmailTemplate;
-var config        = require("../config");
 
 module.exports = function(ctx) {
 	var email   = {};

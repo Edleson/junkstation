@@ -3,7 +3,6 @@ module.exports = function(app) {
 	var multer      = app.get("multer");
   	var isLoggedIn  = require('./../middlewares/loginHandler');
   	var controller  = app.controllers.public.anuncioController;
-
   	var uploadOptions = [
   							{name : "fotos"         , maxCount : 10}			,
   						 	{name : "fotoPrincipal" , maxCount : 1 }

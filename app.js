@@ -39,6 +39,7 @@ var paginate        = require('./middlewares/paginateHandler');
 var security        = require('./middlewares/securityHandler')(context);
 var emailSender     = require('./middlewares/emailHandler')(context);
 var fileHandler     = require('./middlewares/fileHandler')(context);
+var pagseguro       = require('./middlewares/pagseguroHandler')(context);
 var utils           = require('./util/utils')(app);
 
 var htmlmin = function(ejsRender, response , data ){
@@ -71,7 +72,7 @@ app.disable('x-powered-by');
 app.set("trust proxy", true);  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
-app.use(paginate.middleware(3, 50));
+app.use(paginate.middleware(15, 50));
 app.use(compression());
 app.use(cookie);
 app.use(session({ 
@@ -126,9 +127,7 @@ app.set("fileHandler" , fileHandler );
 app.set("multer"      , upload      );
 app.set("paginate"    , paginate    );
 app.set("context"     , context     );
-
-
-
+app.set("pagseguro"   , pagseguro   );
 
 load('util').then('models').then('controllers').then('routes').into(app);
 

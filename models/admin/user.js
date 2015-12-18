@@ -62,6 +62,11 @@ module.exports = function() {
             ref      : 'Plano'                           
         },
 
+        assinatura : {
+            type     : mongoose.Schema.Types.ObjectId   , 
+            ref      : 'Assinatura'                           
+        },
+
         dataCadastro : {
             type    : Date      , 
             default : Date.now  
@@ -215,7 +220,9 @@ module.exports = function() {
 
     userSchema.plugin(deepPopulate, {
         whitelist: [
-            'plano'
+            'plano',
+            'assinatura',
+            'assinatura.plano'
         ]
     });  
     
