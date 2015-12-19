@@ -31,7 +31,7 @@ module.exports = function(app) {
     controller.listMarca = function(req, res, next) {  
         var query       = {situacao : true};
         var ResponseAPI = createResponseAPI();
-        Marca.find(query).sort({nome : 1}).populate("categoria", "nome").exec(function(err, marcas){
+        Marca.find(query).sort({"marca.nome" : 1}).deepPopulate("categoria").exec(function(err, marcas){
             if(err){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;
@@ -65,7 +65,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = modelos;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({nome : 1});
     }
 
     /***********************************************************
@@ -149,7 +149,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = categorias;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({nome : 1});
     }
 
     /***********************************************************
@@ -159,7 +159,7 @@ module.exports = function(app) {
         var categoriaId = req.params.id; 
         var query       = {situacao : true , categoria : categoriaId};
         var ResponseAPI = createResponseAPI();
-        Marca.find(query).deepPopulate("categoria").exec(function(err, marcas){
+        Marca.find(query).sort({nome : 1}).deepPopulate("categoria").exec(function(err, marcas){
             if(err){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;

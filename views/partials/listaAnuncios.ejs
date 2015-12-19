@@ -35,7 +35,7 @@
 		<article class="box clearfix list_item">
 			<div class="half left">
 				<div class="overlayed">
-					<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
+					<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="<%- anuncio.marca +' '+ anuncio.modelo %>" style="max-height : 209px; min-width : 279px;">
 					<div class="overlay">
 						<span class="overlay-icon-left">
 							<a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
@@ -67,14 +67,14 @@
 					</p>
 					<p class="half right">
 						<span class="item_transimition"> - <%- anuncio.cor %></span>
-						<span class="item_fuel"> - <%- anuncio.combustíveis %></span>
+						<span class="item_fuel"> - <%- anuncio.combustivel %></span>
 						<span class="item_mileage"> - <%- anuncio.kilometragem %></span>
 					</p>
 				</div>
 
 				<div class="item_footer">
 					<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
-					<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('LL') %></span>
+					<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('DD MMM YYYY') %></span>
 					<span class="item_rating"></span>
 				</div>
 			</div>

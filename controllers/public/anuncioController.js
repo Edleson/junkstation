@@ -153,7 +153,7 @@ module.exports = function(app) {
 
         Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
             if(error){
-                next(error);
+                next(error); 
             }else{
                 Anuncio.update({"_id" : id}, {views : anuncio.views + 1}, function(_error, _anuncio){
                     if(_error){

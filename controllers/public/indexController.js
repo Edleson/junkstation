@@ -14,7 +14,7 @@ module.exports = function(app) {
                 responseObject.categorias = categorias;
                 htmlMinify('index', res , {response : responseObject});
             }
-        }, query);
+        }, query).sort({nome : 1});
     }
 
     return controller; 
