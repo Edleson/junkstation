@@ -9,7 +9,7 @@ module.exports = function(app) {
         categoria.findByQuery(function(err, categorias){
             if(err){
                 console.log(err);
-                throw Exception("Ocorreu um erro durante o processamento da requisição ! :(");
+                next(err);
             }else{
                 responseObject.categorias = categorias;
                 htmlMinify('index', res , {response : responseObject});

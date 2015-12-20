@@ -17,7 +17,8 @@ module.exports = function(context){
     });
     
     mongoose.connection.on('error', function(erro) {
-        console.log('Mongoose! Erro na conexão: ' + erro);
+        console.log('Mongoose! Não foi possível estabelecer a conexão com a base de dados : ');
+        consele.log(erro);
     });
     
     process.on('SIGINT', function(){
