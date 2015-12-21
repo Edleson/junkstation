@@ -1,5 +1,6 @@
 var request  = require('request');
-var xml2Json = require("xml2js");
+//var xml2Json = require("xml2js");
+var toJSON = require('xmljson').to_json;
 
 module.exports = function(app) {
     var htmlMinify  = app.get("html-minify");
@@ -15,7 +16,7 @@ module.exports = function(app) {
         request(urlPesquisa, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 //console.log(body);
-                xml2Json.parseString(body, function(error, result){
+                toJSON(body, function(error, result){
                     console.log(result);
                 });
             } 
