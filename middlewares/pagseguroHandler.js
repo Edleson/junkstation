@@ -72,10 +72,11 @@ module.exports = function(context) {
             			/*********************************************************
 					 	* Inicia o fluxo de pagamento      *
 					 	**********************************************************/
-            			iniciaFluxoPagamento(req.user, plano, emailComprador, ddd, valorPlano, res);
+            			iniciaFluxoPagamento(req.user, plano, emailComprador, ddd, numero, valorPlano, res);
             		});
             	}else{
-            		res.redirect("/anuncio/create");
+            		iniciaFluxoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res);
+            		//res.redirect("/anuncio/create");
             	}
             }
         });
@@ -98,7 +99,7 @@ module.exports = function(context) {
 		}
 	}
 
-	function iniciaFluxoPagamento(user, plano, emailComprador, ddd, valorPlano, res  ){
+	function iniciaFluxoPagamento(user, plano, emailComprador, ddd, numero, valorPlano, res  ){
 		if(user.assinatura.status === "COMPLETO" || user.assinatura.status === "APROVADO"){
     		res.redirect("/anuncio/create");
     	}else{
