@@ -99,17 +99,17 @@ module.exports = function(){
 
                 getRedirectUrl : function(){
                     if(this.ambiente === "sandbox"){
-                        return "https://www.pontoclass.com/checkout/sucess";
+                        return "https://www.pontoclass.com/pagseguro/success";
                     }else{
-                        return "https://www.junkstation.com.br/checkout/sucess";
+                        return "https://www.junkstation.com.br/pagseguro/success";
                     }
                 },
 
                 getNotificationUrl : function(){
                     if(this.ambiente === "sandbox"){
-                        return "https://www.pontoclass.com/notificacao/pagseguro";
+                        return "https://www.pontoclass.com/pagseguro/notificacao";
                     }else{
-                        return "https://www.junkstation.com.br/notificacao/pagseguro";
+                        return "https://www.junkstation.com.br/pagseguro/notificacao";
                     }
                 }
             }
