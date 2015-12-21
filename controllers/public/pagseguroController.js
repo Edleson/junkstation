@@ -1,17 +1,17 @@
+ var request  = require('request');
 
 module.exports = function(app) {
     var htmlMinify  = app.get("html-minify");
     var context     = app.get("context");
-    var request     = require('request');
     var controller  = {};
     // var responseObject = {}; 
 
     controller.index = function(req, res, next) {
         var notification = req.body;
         console.log(notification);
-        var urlPesquisa  = context.getUrlSearchTransaction(notification.notificationCode);
+        var urlPesquisa  = context.cobranca.pagseguro.getUrlSearchTransaction(notification.notificationCode);
         console.log(urlPesquisa);
-        request('http://www.google.com', function (error, response, body) {
+        request(urlPesquisa, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
             }

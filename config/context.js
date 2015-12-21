@@ -126,5 +126,7 @@ module.exports = function(){
         watermark : true
     };
 
+    console.log(context.cobranca.pagseguro.getUrlSearchTransaction('1'));
+
     return context;
 }
