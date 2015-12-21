@@ -115,7 +115,7 @@ module.exports = function(){
 
                 getUrlSearchTransaction : function(transaction_id){
                     if(this.ambiente === "sandbox"){
-                        return "https://ws.pagseguro.uol.com.br/v3/transactions/notifications/" + transaction_id + "?email=" + this.email +"&token="+this.token;
+                        return "https://ws.sandbox.pagseguro.uol.com.br/v3/transactions/notifications/" + transaction_id + "?email=" + this.email +"&token="+this.token;
                     }else{
                         return "https://ws.pagseguro.uol.com.br/v3/transactions/notifications" + transaction_id + "?email=" + this.email +"&token="+this.token;;
                     }
