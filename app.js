@@ -17,6 +17,7 @@ var passport        = require("passport");
 var flash           = require('connect-flash');
 var cookieParser    = require('cookie-parser');
 var moment          = require('moment');
+var cors            = require('cors')
 var moment_pt       = require('./config/moment_ptBr')(moment);
 var cookie          = cookieParser();
 var multer          = require('multer')    ;
@@ -72,6 +73,7 @@ app.disable('x-powered-by');
 app.set("trust proxy", true);  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
+app.use(cors());
 app.use(paginate.middleware(15, 50));
 app.use(compression());
 app.use(cookie);

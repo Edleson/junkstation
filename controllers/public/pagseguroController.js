@@ -7,7 +7,7 @@ module.exports = function(app) {
     controller.index = function(req, res, next) {
         console.log(req.query);
         console.log(req.body);
-        res.status(200);
+        htmlMinify('pagseguro_success', res , {});
     }
 
     controller.success = function(req, res, next) {
