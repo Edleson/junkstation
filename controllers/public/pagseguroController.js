@@ -9,7 +9,7 @@ module.exports = function(app) {
     controller.index = function(req, res, next) {
         var notification = req.body;
         console.log(notification);
-        var urlPesquisa  = context.getUrlSearchTransaction(notification.notifcationCode);
+        var urlPesquisa  = context.getUrlSearchTransaction(notification.notificationCode);
         console.log(urlPesquisa);
         request('http://www.google.com', function (error, response, body) {
             if (!error && response.statusCode == 200) {
