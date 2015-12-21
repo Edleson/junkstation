@@ -283,8 +283,8 @@ module.exports = function(app) {
                     }else{
                         req.flash('cadastro', '<div class="alert-success">Dados salvos com sucesso :) </div>');
                         //res.render('meus_dados', {response : response });
-                        //pagseguro.checkout(req, res, next, User, Utils, Assinatura);
-                        res.redirect("/anuncio/create");
+                        pagseguro.checkout(req, res, next, User, Utils, Assinatura);
+                    //    res.redirect("/anuncio/create");
                     }
                 }, query);
             }, query);
