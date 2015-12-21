@@ -3,7 +3,7 @@ module.exports = function(app) {
     var htmlMinify  = app.get("html-minify");
     var pagseguro   = app.get("pagseguro");
     var request     = require('request');
-    // var controller     = {};
+    var controller     = {};
     // var responseObject = {}; 
 
     controller.index = function(req, res, next) {
