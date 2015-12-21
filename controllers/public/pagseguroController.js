@@ -14,7 +14,7 @@ module.exports = function(app) {
         request(urlPesquisa, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
-            }
+            } 
         });
 
         htmlMinify('pagseguro_success', res , {});
