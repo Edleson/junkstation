@@ -25,7 +25,7 @@ module.exports = function(app) {
         } 
     };
  
-    var schema = mongoose.Schema({
+    var schema = mongoose.Schema({ 
         user : { 
             type : mongoose.Schema.ObjectId  ,
             required : true                  , 
@@ -150,7 +150,12 @@ module.exports = function(app) {
         views : {
             type    : Number ,
             default : 0
-        }, 
+        },
+
+        relevancia : {
+            type    : Number ,
+            default : 0
+        },  
 
         proposta : [proposta]
          

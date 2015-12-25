@@ -6,7 +6,7 @@ module.exports = function(app) {
     var schema = mongoose.Schema({
         user : { 
             type     : mongoose.Schema.Types.ObjectId   , 
-            ref      : 'User'                          ,
+            ref      : 'User'                           ,
             required : true    
         },
 
@@ -46,15 +46,10 @@ module.exports = function(app) {
         },
 
         status : {  
-            type     : String , 
+            type     : Number , 
             required : true    
         },
 
-        status : {  
-            type     : String , 
-            required : true    
-        },
-        
         renovacao_automatica : {
             type    : Boolean   ,
             default : false
@@ -62,6 +57,11 @@ module.exports = function(app) {
 
         observacao : {  
             type     : String     
+        },
+
+        vencido : {
+            type    : Boolean   ,
+            default : false
         },
 
 

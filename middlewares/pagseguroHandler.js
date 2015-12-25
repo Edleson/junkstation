@@ -1,30 +1,46 @@
-module.exports = function(context) {
-	var xml2Json         = require("xml2js");
-  	var pagseguro        = require('pagseguro');
-    var pagseguroHandler = {};
+var toJSON    = require('xmljson').to_json;
+var pagseguro = require('pagseguro');
+var request   = require('request');
 
-    pagseguroHandler.checkout = function(req , res, next, User, utils, Assinatura){
+module.exports = function(context) {
+    var pagseguroHandler  = {};
+
+    pagseguroHandler.checkout = function(req , res, next, User, utils, Assinatura, planoAtual){
     	var id = req.user._id;
     	User.findById(id).deepPopulate("assinatura plano").exec(function(error, user ){
             if(error){
                 next(error);
             }else{
+            	req.user = user;
             	var emailComprador 	= user.local.email;
             	var ddd    			= user.dadosPessoais.celular.substring(1,3);
             	var numero 			= user.dadosPessoais.celular.substring(5);
             	var plano  			= user.plano;
             	var valorPlano 		= utils.numeral(plano.preco).format("0.00").replace("," , ".");
-
-            	//console.log(plano);
-            	console.log(user.assinatura);
+            	
+            	/*********************************************************
+			 	* Verifica se houve alteração de plano                   *
+			 	**********************************************************/
+            	if(planoAtual !== undefined && plano !== undefined){
+            		var idPlanoAtual    = planoAtual._id.toString();
+            		var idNovoPlano     = plano._id.toString();
+            		if(idPlanoAtual === idNovoPlano){
+            			console.log("Ataulização de Cadastros realizada sem alteração de plano !");
+	            		res.redirect("/anuncio/create");
+						return;	
+            		}
+            	}
 
             	/*********************************************************
 			 	* Variáveis para serem utilizadas na assinatura          *
+			 	* STATUS :                                               *
+			 	* 	1 - Aguardando pagamento                             *
+			 	*  	3 - Pago                                             *
 			 	**********************************************************/
         		var inicioVigiencia = new Date();
         		var fimVigencia = utils.moment(inicioVigiencia).add(plano.expiracao, 'days');
-        		var status      = valorPlano == "0.00" ? "APROVADO"     : "AGUARDANDO PAGAMENTO";
-        		var operadora   = valorPlano == "0.00" ? "JUNKSTATION"  : "PAGSEGURO";    
+        		var status      = valorPlano == "0.00" ? 3 : 1;
+        		var operadora   = valorPlano == "0.00" ? "JUNKSTATION" : "PAGSEGURO";    
         		
         		/*********************************************************
 			 	* Configura os dados da assinatura                       *
@@ -65,25 +81,22 @@ module.exports = function(context) {
             					next(err3);
             				}
             			});
+
             			/*********************************************************
 					 	* Atualiza os dados de assinatura do usuário logado      *
 					 	**********************************************************/
             			req.user.assinatura = newAss;
+            			
             			/*********************************************************
-					 	* Inicia o fluxo de pagamento      *
+					 	* Inicia o fluxo de pagamento                            *
 					 	**********************************************************/
-            			iniciaFluxoPagamento(req.user, plano, emailComprador, ddd, numero, valorPlano, res);
+            			iniciarRequisicaoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res, Assinatura, next);
             		});
             	}else{
-            		iniciaFluxoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res);
-            		//res.redirect("/anuncio/create");
+            		iniciarRequisicaoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res, Assinatura, next);
             	}
             }
         });
-	};
-
-	pagseguroHandler.atualizaStatus = function(req, res, next){
-
 	};
 
 	/*******************************************************
@@ -99,102 +112,110 @@ module.exports = function(context) {
 		}
 	}
 
-	function iniciaFluxoPagamento(user, plano, emailComprador, ddd, numero, valorPlano, res  ){
-		if(user.assinatura.status === "COMPLETO" || user.assinatura.status === "APROVADO"){
-    		res.redirect("/anuncio/create");
-    	}else{
-        	/**********************************************************
-		 	* Verifica se é ambiente de testes                        *
-		 	**********************************************************/
-	    	pag = new pagseguro({
-		        email : context.cobranca.pagseguro.email ,
-		        token : context.cobranca.pagseguro.token 
-		        //mode  : 'sandbox'
-		    });
-	    	
-	    	/**********************************************************
-		 	* Verifica se é ambiente de testes                        *
-		 	**********************************************************/
-		    if(context.cobranca.pagseguro.ambiente === "sandbox"){
-		    	pag.mode       = "sandbox";
-		    	emailComprador = context.cobranca.pagseguro.comprador; 
-		    }
-		    
-		    /*********************************************************
-		 	* Seta a sigla da moeda corrente                         *
-		 	**********************************************************/
-		    pag.currency('BRL');
-		    
-		    /*********************************************************
-		 	* Seta o código de referencia da compra                  *
-		 	**********************************************************/
-		    pag.reference(plano._id);
-		    
-		    /*********************************************************
-		 	* Add o item que será utilizado para compra              *
-		 	**********************************************************/
-		    pag.addItem({
-		        id 			: 1,
-		        description : "Assintura do plano " + plano.titulo + " na Junk Station",
-		        amount 		: valorPlano ,
-		        quantity 	: 1
-		    });
-		    
-		    /*********************************************************
-		 	* Configura as informações do comprador                  *
-		 	**********************************************************/
-		    pag.buyer({
-		        name          : user.dadosPessoais.nome	,
-		        email         : emailComprador			,
-		        phoneAreaCode : ddd 					,
-		        phoneNumber   : numero
-		    });
-		    
-		    /*********************************************************
-		 	* Configurando as informações de entrega                 *
-		 	**********************************************************/
-		    pag.shipping({
-		        type 		: 1										,
-		        street 		: user.dadosPessoais.logradouro			,
-		        number 		: user.dadosPessoais.numeroLogradouro 	,
-		        complement 	: user.dadosPessoais.complemento		,
-		        district 	: user.dadosPessoais.bairro				,
-		        postalCode 	: user.dadosPessoais.cep				,
-		        city 		: user.dadosPessoais.cidade				,
-		        state 		: user.dadosPessoais.estado				,
-		        country 	: 'BRA'
-		    });
-		    
-		    /*********************************************************
-		 	* Seta as urls de notificação e redirecionamento         *
-		 	**********************************************************/
-		 	pag.setRedirectURL(context.cobranca.pagseguro.getRedirectUrl());
-		    pag.setNotificationURL(context.cobranca.pagseguro.getNotificationUrl());
-		    
-		    /*********************************************************
-		 	* Envia a solicitação para o pagseguro                   *
-		 	**********************************************************/
-		   	pag.send(function(err, response) {
-		   		console.log(response);
-		        if (err) {
-		            next(err);
-		        }else{
-		        	xml2Json.parseString(response, function(error, result){
-			        	if(error){
-			        		next(error);
-			        	}else{
-			        		if(result.errors){
+	/*********************************************************
+ 	* Inicia o fluxo de contração com pagseguro              *
+ 	**********************************************************/
+	function iniciarRequisicaoPagamento(user, plano, emailComprador, ddd, numero, valorPlano, res, Assinatura, next){
+		if(valorPlano == "0.00"){
+			res.redirect("/anuncio/create");
+			return;
+		}
 
-			        		}else{
-			        			var checkoutUrl = context.cobranca.pagseguro.buildUrlCheckout(result.checkout.code[0]);
-			        			res.redirect(checkoutUrl);
-			        		}
-			        	}
-					});
-		        } 
-		    });	
-    	}	
+		/*********************************************************
+	 	* Recupera as chaves de acesso ao pagseguro              *
+	 	**********************************************************/
+		var email = context.cobranca.pagseguro.email;
+		var token = context.cobranca.pagseguro.token;
+
+		/**********************************************************
+	 	* Verifica se é ambiente de testes                        *
+	 	**********************************************************/
+	    if(context.cobranca.pagseguro.ambiente === "sandbox"){
+	    	emailComprador = context.cobranca.pagseguro.comprador; 
+	    }
+
+	    /************************************************************
+	 	* Monta o XML para obter o código de pagamento do pagseguro *
+	 	*************************************************************/
+		var xml = "";
+		xml += 	' <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>';
+		xml += 	' <checkout>';
+		xml += 		'<currency>BRL</currency>';
+		xml += 		'<reference>'+ user.assinatura._id +'</reference>';					
+		xml += 		'<redirectURL>'+ context.cobranca.pagseguro.getRedirectUrl() +'</redirectURL>';
+		xml += 		'<notificationURL>'+ context.cobranca.pagseguro.getNotificationUrl() +'</notificationURL>';
+		xml += 		'<items>';
+		xml += 			'<item>';
+		xml += 				'<id>0001</id>';
+		xml += 				'<description>Assintura do plano '+ plano.titulo +'  na Junk Station</description>';
+		xml += 				'<amount>'+ valorPlano +'</amount>';
+		xml += 				'<quantity>1</quantity>';
+		xml += 			'</item>';
+		xml += 		'</items>';
+		xml += 		'<sender>';
+		xml += 			'<name>'+ user.dadosPessoais.nome +'</name>';
+		xml += 			'<email>' + emailComprador +'</email>';
+		xml += 			'<phone>';
+		xml += 				'<areacode>' + ddd + '</areacode>';
+		xml += 				'<number>'+ numero +'</number>';
+		xml += 			'</phone>';
+		xml += 		'</sender>';
+		xml += 		'<shipping>';
+		xml += 			'<type>1</type>';
+		xml += 			'<address>';
+		xml += 				'<street>'+ user.dadosPessoais.logradouro +'</street>';
+		xml += 				'<number>'+ user.dadosPessoais.numeroLogradouro +'</number>';
+		xml += 				'<complement>'+ user.dadosPessoais.complemento +'</complement>';
+		xml += 				'<district>'+ user.dadosPessoais.bairro +'</district>';
+		xml += 				'<postalcode>'+ user.dadosPessoais.cep +'</postalcode>';
+		xml += 				'<city>'+ user.dadosPessoais.cidade +'</city>';
+		xml += 				'<state>'+ user.dadosPessoais.estado +'</state>';
+		xml += 				'<country>BRA</country>';
+		xml += 			'</address>';
+		xml += 		'</shipping>';
+		xml += 	'</checkout>';
+
+		/************************************************************
+	 	* Monta as informações da request para o pagseguro          *
+	 	*************************************************************/
+		var options;
+	    options = {
+	    	uri : context.cobranca.pagseguro.getUrlPayment() , 
+	        method: 'POST',
+	        headers: {
+	          'Content-Type': 'application/xml; charset=UTF-8'
+	        },
+	        body : xml
+	    };
+
+	    /************************************************************
+	 	* Faz a chamada ao pagseguro e caso ocorra com sucesso      *
+	 	*************************************************************/
+	    request(options, function(err, response, body) {
+	    	if (err) {
+	        	console.log(err)
+	        	next(err);
+	        } else {
+	           /*************************************************************
+			 	* Faz o parse do XML no objeto JSON                         *
+			 	*************************************************************/
+	          	toJSON(body, function(error, result){
+		        	if(error){
+		        		next(error);
+		        	}else{
+		        		if(result.errors){
+		        			console.log(result.errors);
+		        			next(new Error("Ocorreu um erro durante o processamento do pagamento."));
+		        		}else{
+		        			var code = result.checkout.code;
+		        			var checkoutUrl = context.cobranca.pagseguro.buildUrlCheckout(code);
+		        			res.redirect(checkoutUrl);
+		        		}
+		        	}
+				});
+	        }
+	    });
 	}
-    		
+
     return pagseguroHandler;
 };

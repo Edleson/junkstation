@@ -31,8 +31,8 @@ function ajaxRequest(request, showGifLoad){
 		data  	    : request.params 					,
 		async    	: true 								,
 		method   	: request.method 					,
-		dataType    : request.dataType | "json"			,
-		crossDomain : false      						,
+		dataType    : request.dataType | "json"		,
+		crossDomain : false      		                ,				
 		
 		beforeSend  : function( jqXHR, object){
 			if(showGifLoad){

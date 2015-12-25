@@ -25,9 +25,9 @@ module.exports = function(app) {
 	app.get( '/anuncio/:id/edit'  	     , isLoggedIn, security.forceHTTPS, controller.editAnuncioGET);
 	app.get( '/anuncio/:id/mensagem'  	 , isLoggedIn, security.forceHTTPS, controller.anuncioMensagem);
 	app.get( '/anuncio/:id/remove/media' , isLoggedIn, security.forceHTTPS, controller.deletarFoto);
-	app.post('/anuncio/edit'  	         , isLoggedIn, security.forceHTTPS, multer.fields(uploadOptions),  controller.editAnuncio);
+	app.post('/anuncio/edit'  	         , isLoggedIn, security.forceHTTPS, multer.fields(uploadOptions),  controller.editAnuncioPOST);
 	app.post('/anuncio/create'           , isLoggedIn, security.forceHTTPS, multer.array("fotos", 10), controller.criarAnuncioPOST);
 	app.post('/anuncio/delete'    	     , isLoggedIn, security.forceHTTPS, controller.deletarAnuncio);
 	app.get( '/anuncio/meusdados'        , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilGET);
-	app.post('/anuncio/meusdados'        , isLoggedIn, security.forceHTTPS, controller.cadastroPerfil);
+	app.post('/anuncio/meusdados'        , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilPOST);
 };

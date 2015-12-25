@@ -12,14 +12,16 @@
 		<div class="container_12 clearfix" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 			<% 
-				var plano = request.user.plano;
-				var nomePlano = plano.titulo;
-				var precoPlano = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
+				var plano        = request.user.plano;
+				var nomePlano    = plano.titulo;
+				var precoPlano   = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
+				var fim_vigencia = util.moment(request.user.assinatura.fim_vigencia); 
 			%>
 			<div class="grid_9 bigger_margin">
 				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data" id="anuncioForm">
 					<input type="hidden" name="user" value="<%- request.user._id %>" />
 					<input type="hidden" name="plano" value="<%- request.user.plano._id %>" />
+					<input type="hidden" name="relevancia" value="<%- plano.relevancia %>" />
 					<%- request.flash("cadastroAnuncio") %>
 					
 					<div class="box clearfix">
@@ -63,7 +65,7 @@
 							<div class="grid_4 left">
 								<p>
 									<label for="vencimento" class="dropdown_label">Vencimento</label>
-									<input type="text" readonly="readonly" id="vencimento" name="data_vencimento" value="<%- util.moment().add(30, 'days').format('L') %>" >
+									<input type="text" readonly="readonly" id="vencimento" name="data_vencimento" value="<%- fim_vigencia.format('L') %>" >
 								</p>								
 							</div>
 							

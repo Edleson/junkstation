@@ -20,11 +20,6 @@ module.exports = function(context){
         sslEnabled      : true
     });
 
-    //console.log(AWS.config);
-
-	//console.log(JSON.stringify(accessKeyId));
-	//console.log(JSON.stringify(secretAccessKey));
-    
     /*********************************************************
  	* Função responsável por realizar o upload de um único   *
  	* arquivo                                                *
@@ -39,13 +34,6 @@ module.exports = function(context){
  	* arquivo                                                *
  	**********************************************************/
     handler.uploadMultiploFile = function(req, model, callback){
-    	/*var files = req.files;
-    	if(files){
-    		files.forEach(function(file){
-    			uploadFile(file, context, null, callback);
-    		});	
-    	}*/
-
         callback(req, model);
     };
 
@@ -56,9 +44,8 @@ module.exports = function(context){
             //uploadS3Storage(file , context, object, callback);
         }else{
             throw new Error("Não foi definida nenhuma estratégia de armazenamento de arquivos! Revise o arquivo de configuração context.js.");
-        }
-    	
-    };
+        }	
+    }; 
 
     function uploadS3Storage(file , context, object, callback){
         var bytes = file.buffer;
@@ -111,8 +98,6 @@ module.exports = function(context){
 
             }); 
         }
-        
-
     };
 
     return handler;

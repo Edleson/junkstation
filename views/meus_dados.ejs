@@ -19,6 +19,7 @@
 					var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
 					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
 					var plano = null ;
+					
 					if(request.user.plano === undefined){
 						plano = "";
 					}else if(request.user.plano !== undefined && request.user.plano._id !== undefined){
@@ -26,6 +27,21 @@
 					}else{
 						plano = request.user.plano.toString();
 					}
+
+					var assinatura    = request.user.assinatura;
+					var disabled      = "";
+					var hasAssinatura = false;
+					var diasRestantes = 0 ;
+					var vencido       = (assinatura !== undefined && assinatura.vencido) ? true : false;
+					if(assinatura !== undefined && !assinatura.vencido){
+						disabled      = "disabled='disabled'";
+						hasAssinatura = true;
+						var now       = util.moment();
+						var end       = util.moment(assinatura.fim_vigencia); 
+						var duration  = util.moment.duration(end.diff(now));
+						diasRestantes = duration.days();
+					}
+
 				%>
 				<div class="box clearfix">
 					<h3>Meu Perfil</h3>
@@ -33,8 +49,23 @@
 						<div class="box-content clearfix bordered_under">
 							<div class="grid_8 left">
 								<p>
+									<% if(hasAssinatura && diasRestantes <= 7) {%>
+										<div class="alert-info">
+											Restam <%- diasRestantes %> dias para sua assinatura acabar. Para realizar um upgrade do seu plano
+											<a href="#">clique aqui</a> , lembre-se que Junkstation não reembolso o valor da plano anterior, e 
+											o plano atual vai ser cancelado.
+										</div>
+									<% }%>
+
+									<% if(vencido) {%>
+										<div class="alert-error">
+											Infelizmente sua assintura venceu :( , pra continuar anunciando é necessário renovar a sua assinatura.
+										</div>
+									<% }%>
+								</p>
+								<p>
 									<label for="plano" class="dropdown_label">Plano</label>
-									<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" >
+									<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" <%- disabled %> >
 										<option value="" >Selecione</option>
 										<% response.planos.forEach(function(item){ %>
 											<option value="<%- item._id %>" <%- plano === item._id.toString() ? 'selected' : '' %> >

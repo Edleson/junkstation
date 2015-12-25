@@ -17,7 +17,7 @@ module.exports = function() {
     });
 
     passport.deserializeUser(function(id, done) {
-        User.findById(id).populate("plano").exec(function(err, user) {
+        User.findById(id).deepPopulate("plano assinatura assinatura.plano").exec(function(err, user) {
             //console.log("deserializeUser : \n" + user);
             done(err, user);
         });
@@ -33,7 +33,8 @@ module.exports = function() {
     }, function(req, email, password, done) {
         
         process.nextTick(function() {
-            User.findOne({ 'local.email' :  email }).populate("plano").exec(function(err, user) {
+            User.findOne({ 'local.email' :  email }).deepPopulate("assinatura plano").exec(function(err, user) {
+                //console.log(user);
                 if (err){
 					return done(err);
 				}
@@ -54,7 +55,7 @@ module.exports = function() {
                         if(error){
                             console.log("Error ao atualizar os dados de acesso do usuário \n" + error);
                         }
-                    })
+                    });
 					return done(null, user);
 				}
             });

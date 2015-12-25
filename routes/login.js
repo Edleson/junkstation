@@ -16,13 +16,13 @@ module.exports = function(app){
 	});
 	
 	app.post('/login', security.forceHTTPS, passport.authenticate('local-login', {
-		successRedirect : '/'      ,
+		successRedirect : '/anuncio/meusanuncios'      ,
 		failureRedirect : '/login' , 
 		failureFlash    : true 
 	}));
 
 	app.post('/login/novo', security.forceHTTPS, passport.authenticate('local-signup', {
-		successRedirect : '/'      ,
+		successRedirect : '/anuncio/meusanuncios'      ,
 		failureRedirect : '/login' ,
 		failureFlash    : true
 	}));

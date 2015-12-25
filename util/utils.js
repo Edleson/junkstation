@@ -25,10 +25,10 @@ module.exports = function(app) {
             symbol: 'R$'
         }
     });
+    
     numeral.language('br');
 
     var isBlankOrEmpty = function(value){
-        //console.log(value);
         return (!value || /^\s*$/.test(value));
     };
 

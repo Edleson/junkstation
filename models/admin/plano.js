@@ -64,6 +64,11 @@ module.exports = function(app) {
         preco : {
             type     : Number ,
             default  : 0.0 
+        },
+
+        relevancia : {
+            type     : Number ,
+            default  : 0
         }
 
     }, {collection: 'plano'});
