@@ -4,7 +4,7 @@ var toJSON   = require('xmljson').to_json;
 module.exports = function(app) {
     var htmlMinify  = app.get("html-minify");
     var context     = app.get("context");
-    var AnuncioDAO  = app.models.public.anuncio;
+    var Anuncio  = app.models.public.anuncio;
     var controller  = {};
     
     /***********************************************************
@@ -31,6 +31,13 @@ module.exports = function(app) {
                  **********************************************************/
                 toJSON(body, function(error, result){
                     console.log(result);
+                    var transactionID = result.transaction.code;
+                    var reference     = result.transaction.reference;
+                    var status        = result.transaction.status;
+
+                    console.log(transactionID);
+                    console.log(reference);
+                    console.log(status);
                 });
             } 
         });
