@@ -14,6 +14,9 @@ module.exports = function(app) {
     * Status do pagamento retornado pelo pagseguro           *
     **********************************************************/
     var status = [
+        /*********************************************************
+        * Status do Pagseguro                                    *
+        **********************************************************/
         {codigo : 1  , nome : "Aguardando pagamento"    },
         {codigo : 2  , nome : "Em análise"              },
         {codigo : 3  , nome : "Paga"                    },
@@ -22,7 +25,13 @@ module.exports = function(app) {
         {codigo : 6  , nome : "Devolvida"               },
         {codigo : 7  , nome : "Cancelada"               },
         {codigo : 8  , nome : "Devolvido ao comprador"  },
-        {codigo : 9  , nome : "Em contestação"          }
+        {codigo : 9  , nome : "Em contestação"          },
+        /*********************************************************
+        * Status da Aplicação                                    *
+        **********************************************************/
+        {codigo : 20 , nome : "Vencido"                 },
+        {codigo : 21 , nome : "Cancelado pelo Cliente"  }
+
     ];
 
     /*********************************************************

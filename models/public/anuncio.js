@@ -3,7 +3,6 @@ var deepPopulate     = require('mongoose-deep-populate')(mongoose);
 var mongoosePaginate = require('mongoose-paginate');
  
 module.exports = function(app) {
-    var Utils       = app.util.utils;
 
     var media = {
         prefix  : { type : String, default : "/dist/images/"} ,
@@ -166,14 +165,6 @@ module.exports = function(app) {
             return this.model("Anuncio").find(query, cb);
         }
     };
-
-    schema.virtual('precoFormatado').get(function(){
-        if(this.preco !== undefined){
-            return Utils.numeral().format(this.preco);
-        }else{
-            return '0,00';
-        }
-    });
 
     schema.plugin(deepPopulate, {
         whitelist: [

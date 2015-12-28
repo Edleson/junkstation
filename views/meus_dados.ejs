@@ -9,10 +9,10 @@
 
 	<body >
 		<% include template/header %>
+		
 		<div class="container_12 clearfix content" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 			
-
 			<div class="grid_9 bigger_margin">
 				<%- request.flash("cadastro") %>
 				<% 
@@ -20,9 +20,9 @@
 					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
 					var plano = null ;
 					
-					if(request.user.plano === undefined){
+					if(!request.user.plano){
 						plano = "";
-					}else if(request.user.plano !== undefined && request.user.plano._id !== undefined){
+					}else if(request.user.plano && request.user.plano._id){
 						plano = request.user.plano._id.toString();
 					}else{
 						plano = request.user.plano.toString();
@@ -32,8 +32,9 @@
 					var disabled      = "";
 					var hasAssinatura = false;
 					var diasRestantes = 0 ;
-					var vencido       = (assinatura !== undefined && assinatura.vencido) ? true : false;
-					if(assinatura !== undefined && !assinatura.vencido){
+					var vencido       = (assinatura && assinatura.vencido) ? true : false;
+					
+					if(assinatura && !assinatura.vencido){
 						disabled      = "disabled='disabled'";
 						hasAssinatura = true;
 						var now       = util.moment();
@@ -41,16 +42,16 @@
 						var duration  = util.moment.duration(end.diff(now));
 						diasRestantes = duration.days();
 					}
-
 				%>
 				<div class="box clearfix">
+					<input type="hidden" value="<%- diasRestantes %>" id="diasRestantes">
 					<h3>Meu Perfil</h3>
 					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
 						<div class="box-content clearfix bordered_under">
 							<div class="grid_8 left">
 								<p>
 									<% if(hasAssinatura && diasRestantes <= 7) {%>
-										<div class="alert-info">
+										<div class="alert-info" style="text-align : justify;">
 											Restam <%- diasRestantes %> dias para sua assinatura acabar. Para realizar um upgrade do seu plano
 											<a href="#">clique aqui</a> , lembre-se que Junkstation não reembolso o valor da plano anterior, e 
 											o plano atual vai ser cancelado.
@@ -58,13 +59,13 @@
 									<% }%>
 
 									<% if(vencido) {%>
-										<div class="alert-error">
-											Infelizmente sua assintura venceu :( , pra continuar anunciando é necessário renovar a sua assinatura.
+										<div class="alert-error" style="text-align : justify;">
+											Infelizmente sua assintura venceu :( , pra continuar anunciando é necessário renovar a sua assinatura. Para renovar a sua assinatura escolha um dos planos abaixo e clique em salvar perfil.
 										</div>
 									<% }%>
 								</p>
 								<p>
-									<label for="plano" class="dropdown_label">Plano</label>
+									<label for="plano" class="dropdown_label">Escolha um de nossos planos : </label>
 									<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" <%- disabled %> >
 										<option value="" >Selecione</option>
 										<% response.planos.forEach(function(item){ %>
@@ -215,8 +216,10 @@
 							
 							<div class="grid_8 left ">
 								<p>
-									<button type="submit" class="button submit wide red ">Salvar Perfil</button>
+									<button type="submit" class="button submit wide green ">Salvar Perfil</button>
 								</p>
+								
+								
 							</div>
 						</div>
 					</form>
@@ -311,6 +314,26 @@
 				    	cidade 		 	 : "A cidade é obrigatório" ,
 				    	estado 		 	 : "O estado é obrigatório" 		
 			        } 
+				});
+
+				$("#btn-cancelarAssinatura").click(function(){
+					var diasRestantes = $("#diasRestantes").val();
+					var mensagem = "Tem certeza que quer cancelar a sua assinatura, ainda restam " + diasRestantes + 
+					               " dias para finalizar a sua assinatura, lembre-se que a junkstation não reembolsa" +
+					               " o valor dos dias restantes e será necessário uma nova assinagura para continuar anunciando." +
+					               "Para maiores informações sobre assintura vejo o nosso termo de uso e política de privacidade." + 
+					               " Confirma o cancelamento da assinatura ?"
+					$.confirm({
+						post : true,
+						text : mensagem , 
+						title: "Cancelamento de Assinatura",
+						confirm : function(){
+							alert("Confirmado");
+						},
+						cancel : function(){
+							return false;
+						}
+					});
 				});
 
 			});

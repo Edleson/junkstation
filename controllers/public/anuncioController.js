@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     controller.meusAnuncios       = function(req, res, next){ 
         listarAnuncioByUser(req, res, next, false);
-    };
+    }; 
 
     controller.criarAnuncioGET    = function(req, res, next){
         var user       = req.user;
@@ -34,11 +34,10 @@ module.exports = function(app) {
          * Caso o usuário não tenha nenhuma assinatura valida redireciona *
          *para os meus anuncios                                           *
          ******************************************************************/
-        if(user.assinatura === undefined || (assinatura.status !== 3 && assinatura.status !== 4)){
+        if(!user.assinatura  || (assinatura.status !== 3 && assinatura.status !== 4)){
             res.redirect("/anuncio/meusanuncios");
             return;
         }
-
         /******************************************************************
          * monta a tela de cadastro de anuncios                           *
          ******************************************************************/
@@ -88,7 +87,7 @@ module.exports = function(app) {
          *     3 - Pago                                                   *
          *     4 - Disponível                                             *
          ******************************************************************/
-        if(assinatura === undefined || (assinatura.status !== 3 && assinatura.status !== 4)){
+        if(!assinatura || (assinatura.status !== 3 && assinatura.status !== 4)){
             res.redirect("/anuncio/meusanuncios");
             return;
         }
@@ -105,7 +104,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.editAnuncioPOST        = function(req, res, next){
+    controller.editAnuncioPOST    = function(req, res, next){
         var id         = req.body._id;
         var post       = req.body;
         var anuncio    = validateAnuncio(post);
@@ -115,7 +114,7 @@ module.exports = function(app) {
          * Verifica se a assinatura está vencida, se estiver redireciona *
          *para a página dos meus anúncios                                *
          *****************************************************************/
-        if(assinatura !== undefined && assinatura.vencido){
+        if(assinatura && assinatura.vencido){
             res.redirect("/anuncio/meusanuncios");
             return;
         }
@@ -149,7 +148,7 @@ module.exports = function(app) {
         }, query);
     };
 
-    controller.cadastroPerfilPOST     = function(req, res, next){
+    controller.cadastroPerfilPOST = function(req, res, next){
         var _user           = req.user;
         var assinatura      = req.user.assinatura;
         var planoAtual      = _user.plano;
@@ -164,7 +163,7 @@ module.exports = function(app) {
         /*****************************************************************
          * Caso a assinatura esteja vencida entra no fluxo de renovação  *
          *****************************************************************/
-        if(assinatura !== undefined && assinatura.vencido){
+        if(assinatura && assinatura.vencido){
             assinaturaController.renovarAssinatura(req, res, next);
         }
 
@@ -172,7 +171,17 @@ module.exports = function(app) {
          * Atualiza os dados cadastrais do usuário                       *
          *****************************************************************/
         User.update({_id : _user.id}, _user, function(error, user){
-            var response    = {
+            if(error){
+                console.log("Ocorreu um erro durante a atualização do usuário -> anuncioController.cadastroPerfilPOST()");
+                next(error);
+            }else{
+                /*****************************************************************
+                * Entra no fluxo de pagamento, (no momento apenas pagseguro)    *
+                *****************************************************************/
+                pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);     
+            }
+           
+            /*var response    = {
                 ufs : [] 
             };
             uf.findByQuery(function(err, ufs){
@@ -183,13 +192,11 @@ module.exports = function(app) {
                         req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
                         res.render('meus_dados', {response : response });
                     }else{
-                        /*****************************************************************
-                         * Entra no fluxo de pagamento, (no momento apenas pagseguro)    *
-                         *****************************************************************/
-                        pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual);
+                        
+                        pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);
                     }
                 }, query);
-            }, query);
+            }, query);*/
         })
     };
 
@@ -421,13 +428,11 @@ module.exports = function(app) {
                 /************************************************************
                  * Verifica se assinatura já venceu                         *
                  ************************************************************/
-                if(!isAssinaturaValida(assinatura) && assinatura !== undefined){
-                    var mensagem = 'OPS :( Sua assinatura venceu, <a href="/anuncio/meusdados"> Clique aqui faça a sua renovação</a>';
-                    req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
+                if(assinatura && !isAssinaturaValida(assinatura)){
                     /************************************************************
                      * Atualiza o status da assintura para vencido = true       *
                      ************************************************************/
-                    Assinatura.update({_id : assinatura._id}, { vencido : true}, function(error, ass){
+                    Assinatura.update({_id : assinatura._id}, { vencido : true , status : 20 }, function(error, ass){
                         if(error){
                             console.log(error);
                         }
@@ -440,7 +445,7 @@ module.exports = function(app) {
                  *    3 - Pago                                              *
                  *    4 - Disponível                                        *
                  ************************************************************/
-                if(assinatura !== undefined && assinatura.status !== 3 &&  assinatura.status !== 4){
+                if(assinatura && assinatura.status !== 3 &&  assinatura.status !== 4){
                     var status = assinatura.status;
                     switch(status){
                         case 1 :
@@ -479,6 +484,14 @@ module.exports = function(app) {
                             var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (EM CONTESTAÇÃO), acesse sua conta da operadora de cobrança para saber mais informações';
                             req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
                             break;
+                        case 20 :
+                            var mensagem = 'OPS :( Sua assinatura venceu, <a href="/anuncio/meusdados"> Clique aqui faça a sua renovação</a>';
+                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
+                            break;
+                        case 21 :
+                            var mensagem = 'Sua assinatuura encontra-se cancelada. Não perca tempo renove sua assinatura e continue com as vantagens da Junks Station';
+                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
+                            break;
                         default :
                             var mensagem = 'Você ainda não possui nenhuma assinatura, clique em MEUS DADOS e começe a fazer parte da família Junk Station';
                             req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
@@ -486,18 +499,10 @@ module.exports = function(app) {
                     }
                 }
 
-                if(assinatura === undefined){
+                if(!assinatura){
                     var mensagem = 'Você ainda não possuí uma assintura, aqui na junkstation temos um plano que cabe no seu bolso, não perca tempo.' +
                                    ' Clique em MEUS DADOS e escolha um plano para o seu perfil.';
                     req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
-                }
-
-                if(assinatura !== undefined){
-                     if(assinatura.vencido){
-                        var mensagem = 'Infelizmente sua assintura venceu :( , pra continuar anunciando é necessário renovar a sua assinatura.';
-                        req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');   
-                     }
-                     
                 }
 
                 req.session.countAnuncio = anuncios.length;
@@ -850,7 +855,7 @@ module.exports = function(app) {
     };
 
     function isAssinaturaValida(assinatura){
-        if(assinatura === undefined){
+        if(!assinatura){
             return false;
         }
         var fimVigencia = Utils.moment(assinatura.fim_vigencia);
@@ -861,5 +866,6 @@ module.exports = function(app) {
             return false;
         }
     }
+
     return controller; 
 };   

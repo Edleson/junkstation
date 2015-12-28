@@ -5,7 +5,7 @@ var request   = require('request');
 module.exports = function(context) {
     var pagseguroHandler  = {};
 
-    pagseguroHandler.checkout = function(req , res, next, User, utils, Assinatura, planoAtual){
+    pagseguroHandler.checkout = function(req , res, next, User, utils, Assinatura, planoAtual, Anuncio){
     	var id = req.user._id;
     	User.findById(id).deepPopulate("assinatura plano").exec(function(error, user ){
             if(error){
@@ -21,10 +21,10 @@ module.exports = function(context) {
             	/*********************************************************
 			 	* Verifica se houve alteração de plano                   *
 			 	**********************************************************/
-            	if(planoAtual !== undefined && plano !== undefined){
+            	if(planoAtual && plano){
             		var idPlanoAtual    = planoAtual._id.toString();
             		var idNovoPlano     = plano._id.toString();
-            		if(idPlanoAtual === idNovoPlano){
+            		if(idPlanoAtual === idNovoPlano) {
             			console.log("Ataulização de Cadastros realizada sem alteração de plano !");
 	            		res.redirect("/anuncio/create");
 						return;	
@@ -46,21 +46,46 @@ module.exports = function(context) {
 			 	* Configura os dados da assinatura                       *
 			 	**********************************************************/
         		var assinatura  = {
-        			user 				: id 				,
-        			plano 				: plano._id 		,
-        			nome_plano			: plano.titulo 		,
-        			valor_pago  		: valorPlano 		,
-        			operadora_cobranca  : operadora 		,
-        			inicio_vigencia     : inicioVigiencia	,
-        			fim_vigencia		: fimVigencia 		,
-        			status              : status				
+        			user 				: id 					,
+        			plano 				: plano._id 			,
+        			nome_plano			: plano.titulo 			,
+        			valor_pago  		: valorPlano 			,
+        			operadora_cobranca  : operadora 			,
+        			inicio_vigencia     : inicioVigiencia		,
+        			fim_vigencia		: fimVigencia 			,
+        			status              : status 				,
+        			url_pagamento       : "/anuncio/meusdados"	,
+        			historico           : [{
+        				descricaoEvento : "Cadastro de assinutra recebido com sucesso. Aguardando Pagamento" ,
+        				tipoEvento      : "ASSINATURA"
+        			}]				
+        		}
+
+        		/*********************************************************
+			 	* Atualiza os dados dos anúncios de acordo com o plano   *
+			 	* escolhido.                                             *
+			 	**********************************************************/
+        		if(status === 3){
+        			var anuncioUpd = {
+        				data_vencimento : fimVigencia 		, 
+        				plano           : plano._id         ,
+        				relevancia      : plano.relevancia              
+        			}
+        			Anuncio.update({user : id}, anuncioUpd, {multi : true}, function(error, isOK){
+        				if(error){
+        					console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroHandler.checkout();");
+        					next(error);
+        				}
+        				console.log("Dados dos anuncios atualizado com sucesso -> pagseguroHandler.checkout();");
+        				console.log(isOK);
+        			});
         		}
 
             	/*********************************************************
 			 	* Caso o usuário não tenha assinatura entra no fluxo de  *
 			 	* inclusão de nova assinatura.                           *
 			 	**********************************************************/
-            	if(user.assinatura === undefined){
+            	if(!user.assinatura){
             		/*********************************************************
 				 	* Grava a assinatura na base de dados                    *
 				 	**********************************************************/
@@ -93,7 +118,50 @@ module.exports = function(context) {
             			iniciarRequisicaoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res, Assinatura, next);
             		});
             	}else{
-            		iniciarRequisicaoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res, Assinatura, next);
+            		/**********************************************************
+				 	* Caso a assinatura atual do usuário já esteja aguardando *     
+				 	*pagamento ou em análise não deixar relizar uma nova      *
+				 	*assinatura enquanto o status não for alterado            *
+				 	*Status :                                                 *
+				 	*   1 - Aguardando Pagamento                              *
+				 	*   2 - Em anállise                                       *
+				 	***********************************************************/
+            		if(user.assinatura && (user.assinatura.status === 1 || user.assinatura.status === 2) && !user.assinatura.vencido){
+            			console.log("Já existe um plano aguardando o pagamento para esse usuário");
+	            		res.redirect("/anuncio/meusanuncios");
+						return;
+            		}
+
+            		/**********************************************************
+				 	* Caso seja uma renovação add informações no histórico da *
+				 	* assinatura                                              *
+				 	***********************************************************/
+            		var idAssinatura = user.assinatura._id;
+            		if(user.assinatura.vencido){
+            			assinatura.historico.push({
+            				descricaoEvento : "Renovação de assinatura iniciada. Aguardando confirmação de pagamento!" ,
+        					tipoEvento      : "RENOVAÇAO ASSINATURA"});
+            			assinatura.vencido = false;
+            		}
+
+            		/**********************************************************
+				 	* Atualiza os dados da assinatura                         *
+				 	***********************************************************/
+            		Assinatura.update({_id : idAssinatura}, assinatura, function(error, isOK){
+            			if(error){
+            				console.log(error);
+            				next(error);
+            			}else{
+            				console.log("Url de pagamento atualizado com sucesso -> pagseguroHandler.checkout()");
+		        			console.log(isOK);
+            				/*********************************************************
+						 	* Inicia o fluxo de pagamento                            *
+						 	**********************************************************/
+						 	assinatura._id      = idAssinatura;
+						 	req.user.assinatura = assinatura;
+            				iniciarRequisicaoPagamento(req.user, plano, emailComprador, ddd, numero,valorPlano, res, Assinatura, next);
+            			}
+            		});
             	}
             }
         });
@@ -209,6 +277,17 @@ module.exports = function(context) {
 		        		}else{
 		        			var code = result.checkout.code;
 		        			var checkoutUrl = context.cobranca.pagseguro.buildUrlCheckout(code);
+		        			/*************************************************************
+						 	* Atualiza a assinatura com os dados da url de pagamento     *
+						 	*************************************************************/
+		        			Assinatura.update({_id : user.assinatura._id}, {url_pagamento : checkoutUrl}, function(error, isOK){
+		        				if(error){
+		        					console.log("Ocorreu um erro durante a atualização da URL de pagamento. -> pagseguroHandler.iniciarRequisicaoPagamento()");
+		        					console.log(error);
+		        				}
+		        				console.log("Url de pagamento atualizado com sucesso -> pagseguroHandler.iniciarRequisicaoPagamento()");
+		        				console.log(isOK);
+		        			});
 		        			res.redirect(checkoutUrl);
 		        		}
 		        	}

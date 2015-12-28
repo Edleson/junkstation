@@ -1,0 +1,91 @@
+<%
+	var assinatura = params.assinatura;
+	var pagseguroUtil = params.pagseguroUtil;
+	var plano = assinatura.plano;
+	var historico = assinatura.historico === undefined ? [] : assinatura.historico;
+%>
+
+<div class="box-content clearfix">
+	<div class="grid_8 left clearfix">
+		<h4>Detalhes da assinatura</h4>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Nome Plano</label>
+			<input type="text" name="razaosocial" value="<%- plano.titulo %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Valor do Plano</label>
+			<input type="text" name="razaosocial" value="<%- Utils.numeral(plano.preco).format("0,0.00") %>" readonly />
+		</p>
+	</div>
+	
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Quantidade de Videos</label>
+			<input type="text" name="razaosocial" value="<%- plano.qtdVideos %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Quantidade de Fotos</label>
+			<input type="text" name="razaosocial" value="<%- plano.qtdFotos %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Início de Vigência</label>
+			<input type="text" name="razaosocial" value="<%- util.moment(assinatura.inicio_vigencia).format('L') %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Fim de Vigência</label>
+			<input type="text" name="razaosocial" value="<%- util.moment(assinatura.fim_vigencia).format('L') %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Operadora Cobrança</label>
+			<input type="text" name="razaosocial" value="<%- assinatura.operadora_cobranca %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_4 ">
+		<p>
+			<label for="razaosocial" class="dropdown_label">Status da Assinatura</label>
+			<input type="text" name="razaosocial" value="<%- pagseguroUtil.getStatus(assinatura.status)[0].nome %>" readonly />
+		</p>
+	</div>
+
+	<div class="grid_8 left clearfix">
+		<h4>Histórico de Transações</h4>
+		<table class="table table-responsive table-condesed table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Data</th>
+					<th>Evento</th>
+					<th>Descrição</th>
+				</tr>	
+			</thead>
+			
+			<tbody>
+				<% historico.forEach(function(item){%>
+					<tr>
+						<td><%- util.moment(item.dataEvento).format('DD/MM/YY HH:MM:SS') %></td>
+						<td><%- item.tipoEvento %></td>
+						<td><%- item.descricaoEvento %></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+</div>

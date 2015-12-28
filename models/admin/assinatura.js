@@ -2,7 +2,15 @@ var mongoose     = require('mongoose');
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var findOrCreate = require('mongoose-findorcreate');
 
+
+ 
 module.exports = function(app) {
+    var historicoTransacao = {
+        descricaoEvento  : {type : String},
+        dataEvento       : {type : Date ,  default : Date.now},
+        tipoEvento       : {type : String}
+    };
+
     var schema = mongoose.Schema({
         user : { 
             type     : mongoose.Schema.Types.ObjectId   , 
@@ -64,6 +72,11 @@ module.exports = function(app) {
             default : false
         },
 
+        url_pagamento : {
+            type : String
+        },
+
+        historico : [historicoTransacao]
 
     }, {collection: 'assinatura'});
 
