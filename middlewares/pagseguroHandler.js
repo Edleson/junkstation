@@ -69,7 +69,8 @@ module.exports = function(context) {
         			var anuncioUpd = {
         				data_vencimento : fimVigencia 		, 
         				plano           : plano._id         ,
-        				relevancia      : plano.relevancia              
+        				relevancia      : plano.relevancia  ,
+        				status          : true               
         			}
         			Anuncio.update({user : id}, anuncioUpd, {multi : true}, function(error, isOK){
         				if(error){
