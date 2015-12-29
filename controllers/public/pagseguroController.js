@@ -41,7 +41,7 @@ module.exports = function(app) {
                  * Recupera as informações da assinatura do cliente       *
                  **********************************************************/
                  Assinatura.findById(reference).deepPopulate('plano').exec(function(error, assinatura){
-                    var nomeStatus = PagseguroUtil.getStatus(status);
+                    var nomeStatus = PagseguroUtil.getStatus(status)[0].nome;
                     if(assinatura){
                         /**********************************************************
                          * Atualiza os dados da assinatura                        *
