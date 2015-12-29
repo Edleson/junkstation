@@ -88,7 +88,7 @@ module.exports = function(app) {
                                     * Atualiza os dados dos anúncios de acordo com o plano   *
                                     * escolhido.                                             *
                                     **********************************************************/
-                                    Anuncio.update({user : userID}, anuncioUpd, {multi : true}, function(error, isOK){
+                                    Anuncio.update({user : userID}, anuncioUPD, {multi : true}, function(error, isOK){
                                         if(error){
                                             console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
                                         }else{
