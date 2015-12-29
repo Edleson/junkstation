@@ -53,7 +53,7 @@ module.exports = function(app) {
                         };
                         assinatura.id_transacao = transactionID;
                         assinatura.status = status;
-                        assinatura.push(evento);
+                        assinatura.historico.push(evento);
                         assinatura.vencido = false;
 
                         console.log(assinatura);
