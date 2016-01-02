@@ -42,12 +42,11 @@
 						diasRestantes = duration.days();
 					}
 
-					
+					var nomePlano = 'Você ainda não possuí uma assinatura ativa';
 					if(assinaturaVigente){
+						nomePlano = assinaturaVigente.plano.titulo + ' - ' + Utils.numeral(assinaturaVigente.plano.preco).format("0,0.00");
 						assinaturaVigente = assinaturaVigente._id.toString();
 					}
-
-
 				%>
 				
 				<div class="box clearfix">
@@ -59,17 +58,27 @@
 						
 						<div class="grid_8 left">
 							<p>
-								<label for="plano" class="dropdown_label">Plano Atual</label>
-								<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" <%- disabled %> >
+								<label for="plano" class="dropdown_label">Meu Plano</label>
+								<input type="text" name="plano" value="<%- nomePlano %>" readonly />
+								<!--<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" <%- disabled %> >
 									<option value="" >Selecione</option>
 									<% params.planos.forEach(function(item){ %>
 										<option value="<%- item._id %>" <%- plano === item._id.toString() ? 'selected' : '' %> >
 											<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
 										</option>
 									<% }); %>
-								</select>
+								</select>-->
 							</p>
 							<p>
+
+								<% if(assinatura && (assinatura.status === 5 || assinatura.status === 6 || assinatura.status === 7 ||
+										assinatura.status === 8 || assinatura.status === 9)) { %>
+									<div class="alert-info" >
+										Sua assinatura encontra-se no status (<%- params.pagseguroUtil.getStatus(assinatura.status)[0].nome %>) para continuar a utilizando as vantangens de nossos anunciantes é necessário fazer uma nova assinatura. 
+										<a href="/anuncio/meusdados"> Clique aqui </a>  para renovar a sua assinatura.
+									</div>
+								<% }%>
+
 								<% if(hasAssinatura && diasRestantes <= 7) {%>
 									<div class="alert-info">
 										Restam <%- diasRestantes %> dias para sua assinatura acabar. Para realizar um upgrade do seu plano
@@ -152,9 +161,6 @@
 												<% if(status == 20 || item.vencido) {%>
 													<button type="button" class="btn btn-info btn-xs btn-renovar" >Renovar</button>
 												<% } %>
-
-												
-
 											</td>
 										</tr>
 									<% });%>

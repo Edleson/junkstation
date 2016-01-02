@@ -24,7 +24,8 @@ module.exports = function(context) {
             	if(planoAtual && plano){
             		var idPlanoAtual    = planoAtual._id.toString();
             		var idNovoPlano     = plano._id.toString();
-            		if(idPlanoAtual === idNovoPlano) {
+            		if(idPlanoAtual === idNovoPlano && (user.assinatura && 
+            			(user.assinatura.status === 1 || user.assinatura.status === 2 || user.assinatura.status === 3 || user.assinatura.status === 4))) {
             			console.log("Ataulização de Cadastros realizada sem alteração de plano !");
 	            		res.redirect("/anuncio/create");
 						return;	

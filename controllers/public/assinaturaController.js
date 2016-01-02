@@ -29,7 +29,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.findAssinaturaById = function(req, res, next) {
+    controller.findAssinaturaById     = function(req, res, next) {
         var id = req.params.id;
 
         Assinatura.findById(id).deepPopulate('plano').exec(function(error, assinatura){
@@ -45,7 +45,7 @@ module.exports = function(app) {
         });       
     };
 
-    controller.cancelarAssinatura = function(req, res, next) {
+    controller.cancelarAssinatura     = function(req, res, next) {
         var id     = req.params.id;
         var userId = req.user._id; 
         Assinatura.findById(id).deepPopulate('plano').exec(function(error, assinatura){
@@ -108,7 +108,7 @@ module.exports = function(app) {
         });
     };
 
-    controller.renovarAssinatura = function(req, res, next) {
+    controller.renovarAssinatura      = function(req, res, next) {
         var assinatura = req.user.assinatura;
         var userID     = req.user._id;
         /*****************************************************************
