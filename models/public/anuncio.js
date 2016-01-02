@@ -59,7 +59,7 @@ module.exports = function(app) {
             index    : true 
         },
 
-        data_vencimento : {
+        data_vencimento : { 
             type     : Date  ,
             required : true  ,
             index    : true 

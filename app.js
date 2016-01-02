@@ -80,7 +80,8 @@ app.use(cookie);
 app.use(session({ 
     secret            : context.session.secret ,
     resave            : true                   ,
-    saveUninitialized : true
+    saveUninitialized : true                   ,
+    maxAge            : context.session.maxAge
   })
 );
 app.use(bodyParser.json());

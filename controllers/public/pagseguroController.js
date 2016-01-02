@@ -7,6 +7,7 @@ module.exports = function(app) {
     var Anuncio       = app.models.public.anuncio;
     var PagseguroUtil = app.util.pagseguroUtil;
     var Assinatura    = app.models.admin.assinatura;
+    var emailSender   = app.get("emailSender");
     var controller    = {};
     
     /***********************************************************
@@ -37,78 +38,100 @@ module.exports = function(app) {
                     var reference     = result.transaction.reference;
                     var status        = parseInt(result.transaction.status);
 
-                /**********************************************************
-                 * Recupera as informações da assinatura do cliente       *
-                 **********************************************************/
-                 Assinatura.findById(reference).deepPopulate('plano').exec(function(error, assinatura){
-                    var nomeStatus = PagseguroUtil.getStatus(status)[0].nome;
-                    if(assinatura){
-                        /**********************************************************
-                         * Atualiza os dados da assinatura                        *
-                         **********************************************************/
-                        var evento = {
-                            descricaoEvento : "Notificação de cobrança recebida, o status da sua assinatura foi alterado para " + nomeStatus ,
-                            dataEvento      : new Date(),
-                            tipoEvento      : "ALTERAÇÃO STATUS"
-                        };
-                        assinatura.id_transacao = transactionID;
-                        assinatura.status = status;
-                        assinatura.historico.push(evento);
-                        assinatura.vencido = false;
-
-                        console.log(assinatura);
-                        /**********************************************************
-                         * Atualiza os dados da assinatura na base de dados       *
-                         **********************************************************/
-                        Assinatura.update({_id : assinatura._id}, assinatura , function(error, isOK){
-                            if(error){
-                                console.log("Aconteceu um erro durante a atualização da Assinatura. -> pagseguroController.index()")
-                            }else{
-                                console.log("Assinatura atualizada com sucesso. -> pagseguroController.index()");
-                                console.log(isOK);
-                                /**********************************************************
-                                 * Se o status do pagamento for igual pago atualiza os    * 
-                                 * anúncios e libera para o mecanismo de busca            *
-                                 * STATUS :                                               *
-                                 *   3 - Pago                                             *
-                                 **********************************************************/
-                                if(status === 3){
+                    /**********************************************************
+                     * Recupera as informações da assinatura do cliente       *
+                     **********************************************************/
+                    Assinatura.findById(reference).deepPopulate('plano').exec(function(error, assinatura){
+                        var nomeStatus = PagseguroUtil.getStatus(status)[0].nome;
+                        if(assinatura){
+                            /**********************************************************
+                             * Atualiza os dados da assinatura                        *
+                             **********************************************************/
+                            var evento = {
+                                descricaoEvento : "Notificação de cobrança recebida, o status da sua assinatura foi alterado para " + nomeStatus ,
+                                dataEvento      : new Date(),
+                                tipoEvento      : "ALTERAÇÃO STATUS"
+                            };
+                            assinatura.id_transacao = transactionID;
+                            assinatura.status = status;
+                            assinatura.historico.push(evento);
+                            assinatura.vencido = false;
+                            /**********************************************************
+                             * Atualiza os dados da assinatura na base de dados       *
+                             **********************************************************/
+                            Assinatura.update({_id : assinatura._id}, assinatura , function(error, isOK){
+                                if(error){
+                                    console.log("Aconteceu um erro durante a atualização da Assinatura. -> pagseguroController.index()")
+                                }else{
+                                    console.log("Assinatura atualizada com sucesso. -> pagseguroController.index()");
+                                    console.log(isOK);
+                                    /**********************************************************
+                                     * Se o status do pagamento for igual pago atualiza os    * 
+                                     * anúncios e libera para o mecanismo de busca            *
+                                     * STATUS :                                               *
+                                     *   3 - Pago                                             *
+                                     **********************************************************/
                                     var userID      = assinatura.user;
                                     var planoId     = assinatura.plano._id;
                                     var relevancia  = assinatura.plano.relevancia;
                                     var fimVigencia = assinatura.fim_vigencia; 
-                                    var anuncioUPD = {
-                                        plano           : planoId       ,
-                                        relevancia      : relevancia    ,
-                                        status          : true          ,
-                                        data_vencimento : fimVigencia
-                                    }
-
-                                    /*********************************************************
-                                    * Atualiza os dados dos anúncios de acordo com o plano   *
-                                    * escolhido.                                             *
-                                    **********************************************************/
-                                    Anuncio.update({user : userID}, anuncioUPD, {multi : true}, function(error, isOK){
-                                        if(error){
-                                            console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
-                                        }else{
-                                            console.log("Dados dos anuncios atualizado com sucesso -> pagseguroController.index()");
-                                            console.log(isOK);
+                                    if(status === 3){
+                                        var anuncioUPD = {
+                                            plano           : planoId       ,
+                                            relevancia      : relevancia    ,
+                                            status          : true          ,
+                                            data_vencimento : fimVigencia
                                         }
-                                    }); 
+
+                                        /*********************************************************
+                                        * Atualiza os dados dos anúncios de acordo com o plano   *
+                                        * escolhido.                                             *
+                                        **********************************************************/
+                                        Anuncio.update({user : userID}, anuncioUPD, {multi : true}, function(error, isOK){
+                                            if(error){
+                                                console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
+                                            }else{
+                                                console.log("Dados dos anuncios atualizado com sucesso -> pagseguroController.index()");
+                                                console.log(isOK);
+                                            }
+                                        });
+
+                                    /**********************************************************
+                                     * Se o status do pagmento for diferente de pago invalidar*
+                                     * os anúncios.                                           *                          
+                                     * STATUS :                                               *
+                                     *   5 - Em disputa                                       *
+                                     *   6 - Devolvida                                        *
+                                     *   7 - Cancelada                                        *
+                                     *   8 - Devolvido ao comprador                           *
+                                     *   9 - Em contestação                                   *   
+                                     **********************************************************/     
+                                    }else if(status === 5 || status === 6 || status === 7 || status === 8 || status === 9 ){
+                                        var anuncioInvalido = {
+                                            status          : false         ,
+                                            data_vencimento : new Date()
+                                        }
+
+                                        /*********************************************************
+                                        * Caso o pagamento não seja efetuado inválida os anuncios*
+                                        **********************************************************/
+                                        Anuncio.update({user : userID}, anuncioInvalido, {multi : true}, function(error, isOK){
+                                            if(error){
+                                                console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
+                                            }else{
+                                                console.log("Dados dos anuncios atualizado com sucesso -> pagseguroController.index()");
+                                                console.log(isOK);
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                        })
-                    }
-                 });
-
-
-
-
+                            });
+                        }
+                    });
                 });
             } 
         });
-        htmlMinify('pagseguro_success', res , {});
+        htmlMinify('pagseguro_response', res , {});
     };
 
     controller.success = function(req, res, next) {
