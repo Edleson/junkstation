@@ -12,22 +12,62 @@
 		<div class="container_12 clearfix" id="add_new_item_info">
 			<% include template/vertical_menu_admin %>
 			<% 
-				var plano        = request.user.plano;
+				var assinatura = request.user.assinatura;
+				
+				var assinaturas = request.user.assinaturas.filter(function(item){
+        			return (item.status == 3 || item.status == 4);
+    			});
+				
+				if(assinatura == null){
+        			assinatura = assinaturas[0];
+				}
+
+				var plano        = assinatura.plano;
+				var qtdAnuncios  = assinatura.qtdAnuncio;
+				var qtdMax       = plano.qtdAnuncios;
+				var diferenca    = qtdMax - qtdAnuncios;
 				var nomePlano    = plano.titulo;
 				var precoPlano   = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
-				var fim_vigencia = util.moment(request.user.assinatura.fim_vigencia); 
+				var fim_vigencia = util.moment(assinatura.fim_vigencia); 
+
+				var hasLimit = (qtdAnuncios >= qtdMax);
+				
 			%>
 			<div class="grid_9 bigger_margin">
 				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data" id="anuncioForm">
 					<input type="hidden" name="user" value="<%- request.user._id %>" />
-					<input type="hidden" name="plano" value="<%- request.user.plano._id %>" />
+					<input type="hidden" name="plano" value="<%- plano._id %>" />
 					<input type="hidden" name="relevancia" value="<%- plano.relevancia %>" />
+					
 					<%- request.flash("cadastroAnuncio") %>
+
+					<% if(hasLimit) {%>
+						<div class="alert-error">OPS : Infelizmente você já atingiu a quantidade máxima de anúncios para essa assinatura. Se quiser continuar anunciando escolha uma outra assinatura ou <a href="/assinatura/listar" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>  para fazer uma nova assinatura! </div>
+					<% } %>
+
+					<div class="box clearfix">
+						<h3>Minhas Assinaturas</h3>
+						<div class="box-content clearfix bordered_under">
+							<div class="grid_8 left">
+								<p>
+									<label for="assinatura" class="dropdown_label">Escolha uma de suas assinaturas :</label>
+									<select  name="assinatura" id="assinatura" class="customSelect full" value="<%- assinatura._id %>"  >
+										<option value="0" >Selecione</option>
+										<% assinaturas.forEach(function(item){ %>
+											<option value="<%- item._id %>" <%- assinatura._id.toString() === item._id.toString() ? 'selected' : '' %> >
+												<%- item.nome_assinatura  +' - '+ item.plano.titulo %> - <%- Utils.numeral(item.plano.preco).format("0,0.00")  + ' - ' + item.qtdAnuncio + '/' + item.plano.qtdAnuncios + ' anúncios para essa assinatura'%> 
+											</option>
+										<% }); %>
+									</select>
+								</p>
+							</div>
+						</div>
+					</div>
 					
 					<div class="box clearfix">
 						<h3>Informações do Anunciante </h3>
 						<div class="box-content clearfix bordered_under">
-							<div class="grid_4 left">
+							<div class="grid_8 left">
 								<p>
 									<label for="anunciante" class="dropdown_label">Nome do Anunciante</label>
 									<input type="text" readonly="readonly" name="anunciante" id="anunciante" value="<%- request.user.dadosPessoais.nome %>" >
@@ -314,7 +354,10 @@
 							</div>
 						</div>
 					<% } %>
-					<a class="button submit wide green">Publicar Anúncio</a>
+					
+					<% if(!hasLimit) {%>
+						<a class="button submit wide green">Publicar Anúncio</a>
+					<% } %>
 				</form>
 				<br />
 				
@@ -328,6 +371,13 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				init();
+
+				$("#assinatura").change(function(){
+					var assinatura = $(this).val();
+					if(assinatura != "0"){
+						window.location.href = "/anuncio/create?assinatura="+assinatura
+					}
+				});
 
 				var categoriaCallback = function(response, textStatus, jqXHR){
 					var marcas = response.data;

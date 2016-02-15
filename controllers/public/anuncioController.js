@@ -22,26 +22,42 @@ module.exports = function(app) {
     var paginateNum             = 10 ;      
     var controller              = {};
 
-    controller.meusAnuncios       = function(req, res, next){ 
+    controller.meusAnuncios       = function(req, res, next){   
         listarAnuncioByUser(req, res, next, false);
     }; 
 
     controller.criarAnuncioGET    = function(req, res, next){
-        var user       = req.user;
-        var assinatura = req.user.assinatura;
+        var user         = req.user;
+        var assinaturaId = req.query.assinatura;
 
+        /******************************************************************
+         * Verifica se existe alguma assinatura ativa.                    *
+         ******************************************************************/
+        var assinaturas = user.assinaturas.filter(function(item){
+            return (item.status == 3 || item.status == 4);
+        });
+
+        var ass = assinaturas.filter(function(item){
+            return item._id == assinaturaId;
+        });
+
+        if(ass.length > 0){
+           req.user.assinatura = ass[0];
+        }
+
+        
         /******************************************************************
          * Caso o usuário não tenha nenhuma assinatura valida redireciona *
          *para os meus anuncios                                           *
          ******************************************************************/
-        if(!user.assinatura  || (assinatura.status !== 3 && assinatura.status !== 4)){
-            res.redirect("/anuncio/meusanuncios");
+        if(assinaturas.length == 0){
+            res.redirect('/assinatura/listar');
             return;
         }
         /******************************************************************
          * monta a tela de cadastro de anuncios                           *
          ******************************************************************/
-        if(!user.plano || !user.assinatura){
+        if(assinaturas.length == 0){
             var query = {situacao : true};
             var response = {
                 ufs    : [] ,
@@ -72,6 +88,14 @@ module.exports = function(app) {
                 var callback = getCallbackUpload(context);
                 fileHandler.uploadMultiploFile(req, _anuncio, callback);
                 req.session.countAnuncio = req.session.countAnuncio + 1 ;
+                /*****************************************************************
+                 * Atualiza os dados da assinatura                               *
+                 *****************************************************************/
+                req.user.assinatura.qtdAnuncio += 1;
+                console.log(req.user.assinatura.qtdAnuncio);
+                Assinatura.update({_id : req.user.assinatura._id} ,req.user.assinatura,  function(error, isOK){
+                    console.log(isOK)
+                })
                 res.redirect("/anuncio/meusanuncios");
             }
         });
@@ -79,26 +103,26 @@ module.exports = function(app) {
 
     controller.editAnuncioGET     = function(req, res, next){
         var id         = req.params.id;
-        var assinatura = req.user.assinatura;
-        /******************************************************************
-         * Caso o usuário não tenha nenhuma assinatura valida redireciona *
-         *para os meus anuncios.                                          * 
-         * Status :                                                       *
-         *     3 - Pago                                                   *
-         *     4 - Disponível                                             *
-         ******************************************************************/
-        if(!assinatura || (assinatura.status !== 3 && assinatura.status !== 4)){
-            res.redirect("/anuncio/meusanuncios");
-            return;
-        }
-
         /*****************************************************************
          * Recupera o anúncio para edição                                *
          *****************************************************************/
-        Anuncio.findById(id).deepPopulate("user plano").exec(function(error, anuncio){
+        Anuncio.findById(id).deepPopulate("user plano assinatura").exec(function(error, anuncio){
             if(error){
                 next(error);
             }else{
+                req.user.assinatura = anuncio.assinatura;
+                //var assinatura = req.user.assinatura;
+                /******************************************************************
+                 * Caso o usuário não tenha nenhuma assinatura valida redireciona *
+                 *para os meus anuncios.                                          * 
+                 * Status :                                                       *
+                 *     3 - Pago                                                   *
+                 *     4 - Disponível                                             *
+                 ******************************************************************/
+                /*if(!assinatura || (assinatura.status !== 3 && assinatura.status !== 4)){
+                    res.redirect("/anuncio/meusanuncios");
+                    return;
+                }*/
                 htmlMinify('editar_anuncio', res , {anuncio : anuncio});
             }
         });
@@ -174,14 +198,14 @@ module.exports = function(app) {
             if(error){
                 console.log("Ocorreu um erro durante a atualização do usuário -> anuncioController.cadastroPerfilPOST()");
                 next(error);
-            }else{
+            }//else{
                 /*****************************************************************
                 * Entra no fluxo de pagamento, (no momento apenas pagseguro)    *
                 *****************************************************************/
-                pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);     
-            }
+                //pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);     
+            //}
            
-            /*var response    = {
+            var response    = {
                 ufs : [] 
             };
             uf.findByQuery(function(err, ufs){
@@ -192,11 +216,11 @@ module.exports = function(app) {
                         req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu perfil :( </div>');
                         res.render('meus_dados', {response : response });
                     }else{
-                        
-                        pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);
+                        //pagseguro.checkout(req, res, next, User, Utils, Assinatura, planoAtual, Anuncio);
+                        res.redirect("/anuncio/meusanuncios");
                     }
                 }, query);
-            }, query);*/
+            }, query);
         })
     };
 
@@ -329,11 +353,16 @@ module.exports = function(app) {
     };
 
     controller.deletarAnuncio     = function(req, res, next){
-        var id         = req.body.id;
-        var anuncioDir = '../../public/tmp/anuncio/' + id;
+        var id           = req.body.id;
+        var anuncioDir   = '../../public/tmp/anuncio/' + id;
+        var assinaturaId = req.query.assinatura;
+
+        var ass = req.user.assinaturas.filter(function(item){
+            return item._id == assinaturaId;
+        });
 
         del(path.join(__dirname, anuncioDir)).then(function(paths){
-            console.log('Deleted files/folders:\n', paths.join('\n'));
+            console.log('Deleted files/folders : \n', paths.join('\n'));
         });
         
         Anuncio.remove({"_id" : id}, function(error){
@@ -342,6 +371,14 @@ module.exports = function(app) {
                 listarAnuncioByUser(req, res, next, false);
             }else{
                 req.flash('deleteAnuncio', '<div class="alert-success">Anúncio excluído com sucesso</div>');
+                if(ass.length > 0){
+                    req.user.assinatura = ass[0];
+                    req.user.assinatura.qtdAnuncio -= 1;
+                    Assinatura.update({_id : req.user.assinatura._id} ,req.user.assinatura,  function(error, isOK){
+                        console.log(isOK)
+                    });
+                }
+                
                 listarAnuncioByUser(req, res, next, false);
             }
         });
@@ -414,8 +451,8 @@ module.exports = function(app) {
     function listarAnuncioByUser(req, res, next, isDelete){
         var query       = {user : req.user._id};
         var AnuncioDao  = new Anuncio({});
-        var assinatura  = req.user.assinatura; 
-        
+        var assinatura  = req.user.assinatura;
+
         AnuncioDao.findByQuery(function(err, anuncios){
             if(err){
                 req.flash('meusAnuncios', '<div class="alert-error">Não foi possível listar os seus anuncios :( </div>');
@@ -445,7 +482,7 @@ module.exports = function(app) {
                  *    3 - Pago                                              *
                  *    4 - Disponível                                        *
                  ************************************************************/
-                if(assinatura && assinatura.status !== 3 &&  assinatura.status !== 4){
+                /*if(assinatura && assinatura.status !== 3 &&  assinatura.status !== 4){
                     var status = assinatura.status;
                     switch(status){
                         case 1 :
@@ -497,11 +534,15 @@ module.exports = function(app) {
                             req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
                             break;
                     }
-                }
+                }*/
 
-                if(!assinatura){
-                    var mensagem = 'Você ainda não possuí uma assintura, aqui na junkstation temos um plano que cabe no seu bolso, não perca tempo.' +
-                                   ' Clique em MEUS DADOS e escolha um plano para o seu perfil.';
+                var assinaturas = req.user.assinaturas.filter(function(item){
+                    return (item.status == 3 || item.status == 4);
+                });
+
+                if(assinaturas.length == 0){
+                    var mensagem = 'Você ainda não possuí uma assintura ativa , aqui na junkstation temos um plano que cabe no seu bolso, não perca tempo.' +
+                                   '<a href="/assinatura/listar" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a> e crie sua assinatura.';
                     req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
                 }
 
@@ -835,7 +876,7 @@ module.exports = function(app) {
 
         return search;
     };
-
+ 
     function getSort(req){
         var orderby = req.query.orderby || "data_anuncio";
         switch(orderby){

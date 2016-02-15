@@ -80,14 +80,15 @@ module.exports = function(app) {
                                             plano           : planoId       ,
                                             relevancia      : relevancia    ,
                                             status          : true          ,
-                                            data_vencimento : fimVigencia
+                                            data_vencimento : fimVigencia   ,
+                                            assinatura      : reference
                                         }
 
                                         /*********************************************************
                                         * Atualiza os dados dos anúncios de acordo com o plano   *
                                         * escolhido.                                             *
                                         **********************************************************/
-                                        Anuncio.update({user : userID}, anuncioUPD, {multi : true}, function(error, isOK){
+                                        Anuncio.update({assinatura : reference}, anuncioUPD, {multi : true}, function(error, isOK){
                                             if(error){
                                                 console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
                                             }else{
@@ -115,7 +116,7 @@ module.exports = function(app) {
                                         /*********************************************************
                                         * Caso o pagamento não seja efetuado inválida os anuncios*
                                         **********************************************************/
-                                        Anuncio.update({user : userID}, anuncioInvalido, {multi : true}, function(error, isOK){
+                                        Anuncio.update({assinatura : reference}, anuncioInvalido, {multi : true}, function(error, isOK){
                                             if(error){
                                                 console.log("Ocorreu um erro durante a atualização dos dos dos anúncios. -> pagseguroController.index()");
                                             }else{
@@ -131,6 +132,7 @@ module.exports = function(app) {
                 });
             } 
         });
+
         htmlMinify('pagseguro_response', res , {});
     };
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="junkstation" >
+	<head>
+		<% include template/meta %>
+		<title>Junk Station a Vitrine do seu clássico</title>
+		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<% include template/css %>
+	</head>
+
+	<body >
+		<% include template/header %>
+		
+		<section class="container_12 clearfix">
+			<% include template/vertical_menu_admin %>
+
+			<div class="grid_9 contact_form clearfix">
+				<h4>Seja bem vindo a Oficina Integrada!</h4>
+				<p>Aqui você pode consultar os seus orçamento e como anda a reforma do seu clássico. Preencha as informações do formulário abaixo e clique no botão consultar.</p>
+				
+				<form name="oficina" id="oficina" action="http://www.oficinaintegrada.com.br/oficinas/KCN9OITX1GDLLHBS6J0DTR35KEV2CWW77/HISTORICO.ASP" method="post" target="_blank">
+					<input id="entrada" class="input" type="text" placeholder="Data da Entrada : DD/MM/YYYY" name="ENTRADA" value="">
+					<input id="id_os" class="input" type="text" placeholder="Ordem do Servi&ccedil;o" name="ID_OS" value="">
+					<input id="id_cliente" class="input" type="text" placeholder="C&oacute;digo do Cliente" name="ID_CLIENTE" value="">
+					<button id="contact-submit" class="button wide red right" type="submit">Consultar</button>
+				</form>
+				<div class="submit_note"></div>
+			</div>
+			
+			<!--<div class="grid_4 sidebar">
+				<div class="box">
+					<h3>Suporte On-line</h3>
+					<div class="box-content widget_online_support">
+						<div class="row">
+							<img src="/dist/images/logo.png" alt="" class="span6">
+							<div class="span6">
+								<span class="online_support_title">Equipe JunkStation</span>
+								<p>Onde o seu clássico não é carro velho!</p>
+							</div>
+						</div>
+						<a href="#" class="button blue big wide">
+							<i class="icomoon-volume-medium"></i>(11) 2291-6968
+						</a>
+						<a href="#">Suporte JunkStation</a><br>
+						<a href="#" class="link_light_gray">Aprenda mais sobre o <strong>Motor</strong></a>
+					</div>
+				</div>-->
+			</div>
+
+		</section>
+		
+		<!-- INICIO DO FOOTER-->
+		<% include template/footer %>
+		<!-- FIM DO FOOTER-->
+	</body>
+</html>

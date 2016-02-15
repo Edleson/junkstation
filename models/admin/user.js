@@ -102,6 +102,8 @@ module.exports = function() {
             default : ["ANUNCIANTE"]
         },
 
+        assinaturas : {type : Array },
+
         dadosPessoais : {
             tipopessoa : {
                 type : String  ,

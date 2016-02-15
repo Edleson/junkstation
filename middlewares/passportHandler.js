@@ -9,8 +9,9 @@ var emailSender     = require("./emailHandler")(context);
 var security        = require("./securityHandler")(context);
 
 module.exports = function() {
-	var User = mongoose.model('User');
-    var Repository = new User({});
+	var User       = mongoose.model('User');
+    var Assinatura = mongoose.model('Assinatura');
+    
 	
     passport.serializeUser(function(user, done) {
         done(null, user.id);
@@ -18,8 +19,15 @@ module.exports = function() {
 
     passport.deserializeUser(function(id, done) {
         User.findById(id).deepPopulate("plano assinatura assinatura.plano").exec(function(err, user) {
-            //console.log("deserializeUser : \n" + user);
-            done(err, user);
+            Assinatura.find({user : id}).deepPopulate('plano').sort({valor_pago : 1}).exec(function(error, assinaturas){
+                if(error){
+                    next(error);
+                }else{
+                    user.assinaturas = assinaturas;
+                    done(err, user);
+                }
+            });
+            
         });
     });
 

@@ -39,6 +39,13 @@ module.exports = function(app) {
             ref      : 'Plano'     
         },
 
+        assinatura : {
+            type : mongoose.Schema.ObjectId  ,
+            required : true                  , 
+            index    : true                  ,
+            ref      : 'Assinatura'     
+        },
+
         anunciante : {
             type : String ,
             required : true 
@@ -169,7 +176,8 @@ module.exports = function(app) {
     schema.plugin(deepPopulate, {
         whitelist: [
             'user' ,
-            'plano'
+            'plano',
+            'assinatura'
         ]
     });
 

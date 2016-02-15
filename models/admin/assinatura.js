@@ -24,6 +24,11 @@ module.exports = function(app) {
             required : true    
         },
 
+        nome_assinatura : {  
+            type     : String , 
+            required : false    
+        },
+
         nome_plano : {  
             type     : String , 
             required : true    
@@ -76,7 +81,13 @@ module.exports = function(app) {
             type : String
         },
 
-        historico : [historicoTransacao]
+        historico : [historicoTransacao],
+
+        qtdAnuncio : {  
+            type     : Number , 
+            required : true   ,
+            default  : 0 
+        },
 
     }, {collection: 'assinatura'});
 
@@ -91,7 +102,7 @@ module.exports = function(app) {
     schema.plugin(deepPopulate, {
         whitelist: [
             'plano',
-            'user'
+            'user' 
         ]
     });
     

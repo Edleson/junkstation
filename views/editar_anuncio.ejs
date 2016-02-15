@@ -15,7 +15,7 @@
 				var plano      = anuncio.plano;
 				var nomePlano  = plano.titulo;
 				var precoPlano = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
-
+				var nomeAssinatura = anuncio.assinatura.nome_assinatura;
 				var media = {
        				prefix  : "/dist/images/"	,
         			nome    : "no-image.png"  	,	
@@ -60,8 +60,8 @@
  
 							<div class="grid_4 left">
 								<p>
-									<label for="anunciante" class="dropdown_label">Plano Contratado</label>
-									<input type="text" name="nomePlano" readonly="readonly" value="<%- nomePlano + ' - ' + precoPlano %>" />
+									<label for="anunciante" class="dropdown_label">Assinatura/Plano contratado</label>
+									<input type="text" name="nomePlano" readonly="readonly" value="<%- nomeAssinatura + ' - ' +  nomePlano + ' - ' + precoPlano %>" />
 								</p>
 							</div>
 
@@ -299,55 +299,56 @@
 						</div>
 					</div>
 					
-					
-					<div class="box clearfix">
-						<h3>Demais Fotos</h3>
-						<div class="box-content">
-							<% anuncio.demaisFotos.forEach(function(media){
-								var hasMedia = (media.nome === "no-image.png" ? false : true); 
-							%>
-								<div class="grid_8 list_item">
-									<div class="half left">
-										<div class="overlayed" >
-											<img src="<%- media.prefix + media.nome %>" alt="">
+					<% if(anuncio.demaisFotos.length > 0 ) {%>
+						<div class="box clearfix">
+							<h3>Demais Fotos</h3>
+							<div class="box-content">
+								<% anuncio.demaisFotos.forEach(function(media){
+									var hasMedia = (media.nome === "no-image.png" ? false : true); 
+								%>
+									<div class="grid_8 list_item">
+										<div class="half left">
+											<div class="overlayed" >
+												<img src="<%- media.prefix + media.nome %>" alt="">
+											</div>
+											<input type="file" name="fotos" <%- hasMedia ? "disabled='disabled'" : '' %>/>
 										</div>
-										<input type="file" name="fotos" <%- hasMedia ? "disabled='disabled'" : '' %>/>
+										<div class="half right">
+											<div class="item_heading">
+												<h4> <span class="marcaTXT"><%- anuncio.marca %></span>
+												 <a href="#" class="modeloTXT"> <%- anuncio.modelo %> </a></h4>
+												<p class="location">
+													<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
+													<span class="vendor"></span>
+												</p>
+											</div>
+											<div class="item_info clearfix">
+												<p class="half left">
+													<span class="item_year" alt="Ano de Fabricação">- <%- anuncio.ano %></span>
+													<span class="item_type" alt="Tipo de Veículo">- <%- anuncio.estilo %></span>
+													<span class="item_drive" alt="Motor">- <%- anuncio.motor %></span>
+												</p>
+												<p class="half right">
+													<span class="item_transimition">- <%- anuncio.cambio %></span>
+													<span class="item_fuel">- <%- anuncio.cambio %></span>
+													<span class="item_mileage">- <%- anuncio.kilometragem %></span>
+												</p>
+											</div>
+											<div class="item_footer">
+												<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00")%></span>
+												<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
+												<span class="item_rating">0.0</span>
+												<% if(hasMedia){%>
+													<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- media.nome %>&principal=false" class="button small-button wide red removeMedia">Trocar Foto</a>
+												<%}%>
+											</div>
+										</div>
 									</div>
-									<div class="half right">
-										<div class="item_heading">
-											<h4> <span class="marcaTXT"><%- anuncio.marca %></span>
-											 <a href="#" class="modeloTXT"> <%- anuncio.modelo %> </a></h4>
-											<p class="location">
-												<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
-												<span class="vendor"></span>
-											</p>
-										</div>
-										<div class="item_info clearfix">
-											<p class="half left">
-												<span class="item_year" alt="Ano de Fabricação">- <%- anuncio.ano %></span>
-												<span class="item_type" alt="Tipo de Veículo">- <%- anuncio.estilo %></span>
-												<span class="item_drive" alt="Motor">- <%- anuncio.motor %></span>
-											</p>
-											<p class="half right">
-												<span class="item_transimition">- <%- anuncio.cambio %></span>
-												<span class="item_fuel">- <%- anuncio.cambio %></span>
-												<span class="item_mileage">- <%- anuncio.kilometragem %></span>
-											</p>
-										</div>
-										<div class="item_footer">
-											<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00")%></span>
-											<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
-											<span class="item_rating">0.0</span>
-											<% if(hasMedia){%>
-												<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- media.nome %>&principal=false" class="button small-button wide red removeMedia">Trocar Foto</a>
-											<%}%>
-										</div>
-									</div>
-								</div>
-								<hr />
-							<%}); %>
+									<hr />
+								<%}); %>
+							</div>
 						</div>
-					</div>
+					<% } %>
 					
 					<a class="button submit wide green">Publicar Anúncio</a>
 				</form>

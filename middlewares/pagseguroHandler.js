@@ -20,7 +20,7 @@ module.exports = function(context) {
             	
             	/*********************************************************
 			 	* Verifica se houve alteração de plano                   *
-			 	**********************************************************/
+			 	**********************************************************/ 
             	if(planoAtual && plano){
             		var idPlanoAtual    = planoAtual._id.toString();
             		var idNovoPlano     = plano._id.toString();
@@ -169,6 +169,10 @@ module.exports = function(context) {
         });
 	};
 
+	pagseguroHandler.checkoutPagseguro = function(req , res, next, user, plano, emailComprador, ddd, numero, valorPlano, Assinatura){
+		iniciarRequisicaoPagamento(user, plano, emailComprador, ddd, numero, valorPlano, res, Assinatura, next);
+	}
+
 	/*******************************************************
      * Valida se a assinatura do plano está ativa 		   *
      *******************************************************/
@@ -297,6 +301,8 @@ module.exports = function(context) {
 	        }
 	    });
 	}
+
+
 
     return pagseguroHandler;
 };

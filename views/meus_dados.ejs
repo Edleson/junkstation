@@ -18,8 +18,8 @@
 				<% 
 					var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
 					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
-					var plano = null ;
 					
+					var plano = null ; 
 					if(!request.user.plano){
 						plano = "";
 					}else if(request.user.plano && request.user.plano._id){
@@ -27,7 +27,7 @@
 					}else{
 						plano = request.user.plano.toString();
 					}
-
+					/*
 					var assinatura    = request.user.assinatura;
 					var disabled      = "";
 					var hasAssinatura = false;
@@ -41,42 +41,14 @@
 						var end       = util.moment(assinatura.fim_vigencia); 
 						var duration  = util.moment.duration(end.diff(now));
 						diasRestantes = duration.days();
-					}
+					}*/
 				%>
 				<div class="box clearfix">
-					<input type="hidden" value="<%- diasRestantes %>" id="diasRestantes">
+					<input type="hidden" value="" id="diasRestantes">
+					
 					<h3>Meu Perfil</h3>
 					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
-						<div class="box-content clearfix bordered_under">
-							<div class="grid_8 left">
-								<p>
-									<% if(hasAssinatura && diasRestantes <= 7) {%>
-										<div class="alert-info" style="text-align : justify;">
-											Restam <%- diasRestantes %> dias para sua assinatura acabar. Para realizar um upgrade do seu plano
-											<a href="#">clique aqui</a> , lembre-se que Junkstation não reembolso o valor da plano anterior, e 
-											o plano atual vai ser cancelado.
-										</div>
-									<% }%>
-
-									<% if(vencido) {%>
-										<div class="alert-error" style="text-align : justify;">
-											Infelizmente sua assintura venceu :( , pra continuar anunciando é necessário renovar a sua assinatura. Para renovar a sua assinatura escolha um dos planos abaixo e clique em salvar perfil.
-										</div>
-									<% }%>
-								</p>
-								<p>
-									<label for="plano" class="dropdown_label">Escolha um de nossos planos : </label>
-									<select  name="plano" id="plano" class="customSelect full" value="<%- plano %>" <%- disabled %> >
-										<option value="" >Selecione</option>
-										<% response.planos.forEach(function(item){ %>
-											<option value="<%- item._id %>" <%- plano === item._id.toString() ? 'selected' : '' %> >
-												<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
-											</option>
-										<% }); %>
-									</select>
-								</p>								
-							</div>					
-						</div>
+						
 
 						<div class="box-content clearfix">
 							<div class="grid_4 left clearfix">

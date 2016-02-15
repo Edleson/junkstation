@@ -7,4 +7,5 @@ module.exports = function(app) {
   	app.get( '/assinatura/detalhe/:id'  ,  isLoggedIn, security.forceHTTPS, controller.findAssinaturaById);
   	app.post('/assinatura/renovar'      ,  isLoggedIn, security.forceHTTPS, controller.renovarAssinatura);
   	app.get('/assinatura/cancelar/:id'  ,  isLoggedIn, security.forceHTTPS, controller.cancelarAssinatura);
+  	app.post('/assinatura/create'       ,  isLoggedIn, security.forceHTTPS, controller.criarAssinatura);
 };

@@ -46,18 +46,15 @@
 							<span class="item_year">Expira em <%- util.moment(anuncio.data_vencimento).format("L") %></span>
 							<span class="item_transimition"><a href="/anuncio/<%- anuncio._id %>/mensagem"><%- anuncio.proposta.length %> mensagem(s)</a></span>
 							<span class="item_mileage"><%- anuncio.views %> views</span>
-
 						</div>
 
 						<div class="item_footer">
 							<span class="item_price"> R$ <%- Utils.numeral(anuncio.preco).format('0,0.00') %></span>
 							<span ><a href="/anuncio/<%- anuncio._id %>/edit" class="button small-button wide blue">Editar</a></span>
-							
-							<form action="/anuncio/delete" method="post" name="<%- anuncio._id%>">
+							<form action="/anuncio/delete?assinatura=<%- anuncio.assinatura %>" method="post" name="<%- anuncio._id%>">
 								<input type="hidden" name="id" value="<%- anuncio._id%>" />
 								<span ><a  id="<%- anuncio._id%>" class="button small-button wide red confirm">Excluir</a></span>
 							</form>
-							
 						</div>
 					</article>
 				<%});%>
