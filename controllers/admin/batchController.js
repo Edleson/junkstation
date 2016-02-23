@@ -4,13 +4,10 @@ module.exports = function(app) {
 
     var controller  = {};
 
-    controller.start = function(req, res, next) {
-        /************************************************************
-         * Inicializa os processamento Batch                        *
-         ************************************************************/
+    /*controller.start = function(req, res, next) {
         console.log("Iniciando o processamento das rotinas BATCH");
         assinaturasExpiradas();
-       // testeSchedule();
+
     };
 
     function  assinaturasExpiradas(){
@@ -29,7 +26,7 @@ module.exports = function(app) {
         }, cron2);
     }
 
-    controller.start();
+    controller.start();*/
 
     return controller; 
 };   
