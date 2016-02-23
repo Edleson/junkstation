@@ -1,5 +1,5 @@
 module.exports = function(app) {
-    var Plano             = new app.models.admin.plano({});
+    var Plano          = new app.models.admin.plano({});
     var controller     = {};
     var responseObject = {};
 

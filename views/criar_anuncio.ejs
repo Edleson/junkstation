@@ -30,6 +30,7 @@
 				var precoPlano   = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
 				var fim_vigencia = util.moment(assinatura.fim_vigencia); 
 
+				
 				var hasLimit = (qtdAnuncios >= qtdMax);
 				
 			%>
@@ -549,9 +550,12 @@
 						$("#categoria option:selected").val(categoria)
 						$("#marca option:selected").val(marca);
 
+						var mensagem = "Antes de confirmar a inclusão do anúncio, "+ 
+						               "verifique se os dados foram preenchido corretamente, pois não será possível a edição de alguns dados. Tem certeza que deseja salvar os dados ?"
+
 						$.confirm({
 							post : true,
-							text : "Confirma a inclusão do novo anúncio ?", 
+							text : mensagem , 
 							title: "Novo Anúncio",
 							confirm : function(){
 								form.submit();

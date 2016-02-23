@@ -12,7 +12,6 @@ module.exports = function(app) {
     };
 
     var proposta = {
-        //id           : { type : mongoose.Schema.ObjectId },
         nomeContato  : { type : String },
         emailContato : { type : String },
         assunto      : { type : String },

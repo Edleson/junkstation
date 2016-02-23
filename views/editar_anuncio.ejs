@@ -263,7 +263,10 @@
 									<div class="overlayed" >
 										<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
 									</div>
-									<input type="file" name="fotoPrincipal" <%- hasMediaMain ? "disabled='disabled'" : '' %> />
+									<!-- <input type="file" name="fotoPrincipal" <%- hasMediaMain ? "disabled='disabled'" : '' %> /> -->
+									<% if(!hasMediaMain) { %>
+										<input type="file" name="fotoPrincipal" />
+									<%}%>
 								</div>
 								<div class="half right">
 									<div class="item_heading">
@@ -291,7 +294,7 @@
 										<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
 										<span class="item_rating">0.0</span>
 										<% if(hasMediaMain){%>
-											<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- anuncio.fotoPrincipal.nome %>&principal=true" class="button small-button wide red removeMedia">Trocar Foto</a>
+											<!--<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- anuncio.fotoPrincipal.nome %>&principal=true" class="button small-button wide red removeMedia">Trocar Foto</a>-->
 										<%}%>
 									</div>
 								</div>
@@ -311,7 +314,10 @@
 											<div class="overlayed" >
 												<img src="<%- media.prefix + media.nome %>" alt="">
 											</div>
-											<input type="file" name="fotos" <%- hasMedia ? "disabled='disabled'" : '' %>/>
+											<!-- <input type="file" name="fotos" <%- hasMedia ? "disabled='disabled'" : '' %>/> -->
+											<% if(!hasMedia) {%>
+												<input type="file" name="fotos" />
+											<%}%>
 										</div>
 										<div class="half right">
 											<div class="item_heading">
@@ -339,7 +345,7 @@
 												<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
 												<span class="item_rating">0.0</span>
 												<% if(hasMedia){%>
-													<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- media.nome %>&principal=false" class="button small-button wide red removeMedia">Trocar Foto</a>
+													<!--<a href="/anuncio/<%- anuncio._id %>/remove/media?media=<%- media.nome %>&principal=false" class="button small-button wide red removeMedia">Trocar Foto</a>-->
 												<%}%>
 											</div>
 										</div>
@@ -365,6 +371,22 @@
 			
 
 			$(document).ready(function(){
+
+				var restrinctInput = function(){
+					$(":input").each(function(index, el) {
+						$(el).attr("readonly", "readonly").css({"cursor" : "not-allowed", "color" : "#C9C9C9"});
+					});
+
+					$("select").each(function(index, el) {
+						$(el).attr("disabled", "disabled").css({"cursor" : "not-allowed", "color" : "#C9C9C9"});
+					});
+
+					$("#titulo, #descricao, #preco").removeAttr("readonly").css({"cursor" : "default", "color" : "black"});
+	
+				}
+				
+				restrinctInput();
+
 				var categoriaCallback = function(response, textStatus, jqXHR){
 					var marcas = response.data;
 					$('#marca option').remove();

@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     controller.meusAnuncios       = function(req, res, next){   
         listarAnuncioByUser(req, res, next, false);
-    }; 
+    };  
 
     controller.criarAnuncioGET    = function(req, res, next){
         var user         = req.user;
@@ -157,11 +157,18 @@ module.exports = function(app) {
     };
 
     controller.cadastroPerfilGET  = function(req, res, next){
+        var planoID = req.query.planoID;
         var query          = {situacao : true};
         var response = {
             ufs    : [] ,
             planos : []
         };
+
+        if(planoID){
+            req.flash('cadastro', '<div class="alert-error">Para finalizar a sua assinatura é necessário finalizar o cadastro. </div>');
+            response.plano = planoID;
+            console.log("planoID : " + planoID)
+        }
        
         uf.findByQuery(function(err, ufs){
             response.ufs = ufs;
