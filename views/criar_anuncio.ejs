@@ -17,9 +17,13 @@
 				var assinaturas = request.user.assinaturas.filter(function(item){
         			return (item.status == 3 || item.status == 4);
     			});
+
+    			console.log(assinaturas.length);
+
 				
-				if(assinatura == null){
+				if(assinatura == null || assinatura.qtdAnuncio == assinatura.plano.qtdAnuncios){
         			assinatura = assinaturas[0];
+        			request.user.assinatura = assinatura;
 				}
 
 				var plano        = assinatura.plano;
@@ -30,23 +34,38 @@
 				var precoPlano   = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
 				var fim_vigencia = util.moment(assinatura.fim_vigencia); 
 
+				console.log(assinatura._id);
 				
 				var hasLimit = (qtdAnuncios >= qtdMax);
+
+				var display = 'display : none;'
+				if(assinaturas.length > 1 || request.user.dadosPessoais.tipopessoa === 'PJ'){
+					display = 'display : visible;'
+				}
+
 				
+
+				var link = '/planos';
+				if(request.user.dadosPessoais.tipopessoa === 'PJ'){
+					link = "/assinatura/listar";
+				}
 			%>
+
 			<div class="grid_9 bigger_margin">
 				<form action="https://<%- request.hostname%>/anuncio/create" method="post" enctype="multipart/form-data" id="anuncioForm">
 					<input type="hidden" name="user" value="<%- request.user._id %>" />
 					<input type="hidden" name="plano" value="<%- plano._id %>" />
 					<input type="hidden" name="relevancia" value="<%- plano.relevancia %>" />
 					
-					<%- request.flash("cadastroAnuncio") %>
+					<%- request.flash("cadastro") %>
 
 					<% if(hasLimit) {%>
-						<div class="alert-error">OPS : Infelizmente você já atingiu a quantidade máxima de anúncios para essa assinatura. Se quiser continuar anunciando escolha uma outra assinatura ou <a href="/assinatura/listar" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>  para fazer uma nova assinatura! </div>
+						<div class="alert-error">OPS : Infelizmente você já atingiu a quantidade máxima de anúncios para essa assinatura. Se quiser continuar anunciando escolha uma outra assinatura ou <a href="<%- link %>" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a> para fazer uma nova assinatura! </div>
 					<% } %>
 
-					<div class="box clearfix">
+
+					
+					<div class="box clearfix" style=" <%-display%> ">
 						<h3>Minhas Assinaturas</h3>
 						<div class="box-content clearfix bordered_under">
 							<div class="grid_8 left">

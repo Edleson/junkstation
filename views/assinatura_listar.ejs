@@ -16,72 +16,79 @@
 			<div class="grid_9 bigger_margin">
 				<% 
 					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
-				   
 			        var assinaturas = request.user.assinaturas.filter(function(item){
 			            return (item.status == 3 || item.status == 4);
 			        });
-					
 
+			        var planos = params.planos.filter(function(item){
+			        	return (item.tipoPessoa == 'PF'); 
+			        });
+
+			        if(request.user.dadosPessoais.tipopessoa == 'PJ'){
+			        	planos = planos.filter(function(item){
+							return (item.tipoPessoa == 'PJ');
+			        	});
+			        }
 				%>
-				
-				<div class="box clearfix">
-					<h3>Criar Assinatura</h3>
-					<div class="box-content clearfix bordered_under">
-						<div class="grid_8 left">
-							<h4>Escolha o plano ideal para você!</h4>							
-						</div>
-						
-						<div class="grid_8 left">
-							<%- request.flash("assinatura") %>
-							<% if(assinaturas.length == 0) {%>
-								<p> 
-									OPS :( , você não possuí nenhuma assinatura ativa. Não perca tempo faça a sua assinatura e venha fazer 
-									parte da família Junk Station.
-								</p>
-							<% } %>
+				<% if(request.user.dadosPessoais.tipopessoa === 'PJ'){ %>
+					<div class="box clearfix">
+						<h3>Criar Assinatura</h3>
+						<div class="box-content clearfix bordered_under">
+							<div class="grid_8 left">
+								<h4>Escolha o plano ideal para você!</h4>							
+							</div>
 							
-							<form action="/assinatura/create" method="post" name="assinaturaForm" id="assinaturaForm">
-								<% if(request.user.dadosPessoais.tipopessoa){ %>
-									<input type="hidden" name="user" value="<%- request.user._id %>">
-									<p>
-										<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
-										<select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" >
-											<option value="" >Selecione</option>
-											<% listaPessoa.forEach(function(item){ %>
-												<option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
-											<% }); %>
-										</select>
+							<div class="grid_8 left">
+								<%- request.flash("assinatura") %>
+								<% if(assinaturas.length == 0) {%>
+									<p> 
+										OPS :( , você não possuí nenhuma assinatura ativa. Não perca tempo faça a sua assinatura e venha fazer 
+										parte da família Junk Station.
 									</p>
-									
-									<p>
-										<label for="plano" class="dropdown_label">Plano <span class="required">*</span></label>
-										<select  name="plano" id="plano" class="customSelect full"   >
-											<option value="" >Selecione</option>
-											<% params.planos.forEach(function(item){ %>
-												<option value="<%- item._id %>" >
-													<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
-												</option>
-											<% }); %>
-										</select>
-									</p>
-
-									<p>
-										<label for="tipopessoa" class="dropdown_label">Nome da Assinatura <span class="required">*</span></label>
-										<input type="text" id="nome_assinatura" name="nome_assinatura" value="" maxlength="10" />
-									</p>
-									<p>
-										<button type="submit" class="button submit wide green " id="btnCriarAssinatura">Criar Assinatura</button>
-									</p>
-								<% }else{ %>
-									<div class="alert-info" style="text-align : justify;">
-										Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
-									</div>
 								<% } %>
-							</form>						
-						</div>
+								
+								<form action="/assinatura/create" method="post" name="assinaturaForm" id="assinaturaForm">
+									<% if(request.user.dadosPessoais.tipopessoa){ %>
+										<input type="hidden" name="user" value="<%- request.user._id %>">
+										<p>
+											<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
+											<select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" disabled="disabled" >
+												<option value="" >Selecione</option>
+												<% listaPessoa.forEach(function(item){ %>
+													<option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+												<% }); %>
+											</select>
+										</p>
+										
+										<p>
+											<label for="plano" class="dropdown_label">Plano <span class="required">*</span></label>
+											<select  name="plano" id="plano" class="customSelect full"   >
+												<option value="" >Selecione</option>
+												<% planos.forEach(function(item){ %>
+													<option value="<%- item._id %>" >
+														<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
+													</option>
+												<% }); %>
+											</select>
+										</p>
 
+										<p>
+											<label for="tipopessoa" class="dropdown_label">Nome da Assinatura <span class="required">*</span></label>
+											<input type="text" id="nome_assinatura" name="nome_assinatura" value="" maxlength="10" />
+										</p>
+										<p>
+											<button type="submit" class="button submit wide green " id="btnCriarAssinatura">Criar Assinatura</button>
+										</p>
+									<% }else{ %>
+										<div class="alert-info" style="text-align : justify;">
+											Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+										</div>
+									<% } %>
+								</form>						
+							</div>
+						</div>
 					</div>
-				</div>
+				<% } %>
 
 				<div class="box clearfix">
 					<h3>Minhas Assinaturas</h3>
@@ -95,12 +102,27 @@
 						</div>
 
 						<% if(params.assinaturas.length === 0) {%>
-							<div class="grid_8 left">							
-								<p> 
-									OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer 
-									parte da família Junk Station. 
-								</p>
-							</div>
+							<% if(request.user.dadosPessoais.tipopessoa == 'PF'){ %>
+								<div class="grid_8 left">							
+									<p> 
+										OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer 
+										parte da família Junk Station. É rápido fácil com apenas um  
+									 	<a href="/planos" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+									</p>
+								</div> 
+							<% }else if(request.user.dadosPessoais.tipopessoa == 'PJ'){%>
+								<div class="grid_8 left">							
+									<p> 
+										OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer parte da família Junk Station.
+									</p>
+								</div> 
+							<% } else {%>
+								<div class="grid_8 left" >
+									<p> 
+										Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+									</p>
+								</div>
+							<% }%>
 						<%} else {%>
 							<table class="table table-responsive table-condesed table-striped table-bordered table-hover">
 								<thead>
@@ -176,7 +198,6 @@
 							</table>
 						<%}%>					
 					</div>
-
 					<div id="ajaxContent"></div>
 				</div>					
 			</div>	
@@ -206,8 +227,8 @@
 				$(".btn-cancelar").click(function(){
 					var id       = $(this).attr("id");
 					var url      = "/assinatura/cancelar/" + id;
-					var mensagem = "Tem certeza que quer cancelar a sua assinatura, lembre-se que Junk Station não reembolsa " +
-					               "o valor dos dias restantes até o final de sua assinatura. Tem certeza que quer realizar o " +
+					var mensagem = "Tem certeza que deseja cancelar a sua assinatura, lembre-se que Junk Station não reembolsa " +
+					               "o valor dos dias restantes até o final de sua assinatura e todos os dados de seus anúncios seram perdidos. Tem certeza que quer realizar o " +
 					               "cancelamento ? "; 
 					$.confirm({
 							post : true 						,
@@ -268,9 +289,7 @@
 					});
 
 
-				/*$("#btnCriarAssinatura").click(function(){
-
-
+				$("#btnCriarAssinatura").click(function(){
 					var url      =  $(this).attr("id");
 					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";	
 					$.confirm({
@@ -284,7 +303,7 @@
 								return false;
 							}
 						});
-				});*/
+				});
 
 				$(".btn-renovar").click(function(){
 					window.location.href = "/anuncio/meusdados";

@@ -302,7 +302,5 @@ module.exports = function(context) {
 	    });
 	}
 
-
-
     return pagseguroHandler;
 };

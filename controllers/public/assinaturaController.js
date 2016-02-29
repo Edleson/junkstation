@@ -1,3 +1,7 @@
+var path = require('path');
+var fs   = require('fs');
+var del  = require("del");
+
 module.exports = function(app) {
     var htmlMinify       = app.get("html-minify");
     var Assinatura       = app.models.admin.assinatura;
@@ -65,7 +69,7 @@ module.exports = function(app) {
                  * Atualiza os anúncios do usuário para que não aparecam mais na *
                  *nos mecanismos de busca                                        *
                  *****************************************************************/
-                var anuncioUpd = {data_vencimento : assinatura.fim_vigencia , status : false };
+                /*var anuncioUpd = {data_vencimento : assinatura.fim_vigencia , status : false };
                 Anuncio.update({assinatura : id}, anuncioUpd, {multi : true}, function(error, isOK){
                     if(error){
                         console.log("Ocorreu um erro durante a atualização dos anúncios -> AssinaturaController.cancelarAssinatura()");
@@ -73,14 +77,14 @@ module.exports = function(app) {
                     }
                     console.log("Anúncios atualizados com sucesso -> AssinaturaController.cancelarAssinatura() ");
                     console.log(isOK); 
-                });
-
+                });*/
+                
+                excluiAnuncioByAssinatura(req, assinatura);
                 /*****************************************************************
                  * Atualiza os dados do usuário                                  *
                  *****************************************************************/
                 req.user.plano      = null;
                 req.user.assinatura = null;
-
                 User.update({_id : req.user._id}, req.user, function(error, isOK){
                     if(error){
                         console.log("Ocorreu um erro durante a atualização do usuário -> AssinaturaController.cancelarAssinatura()");
@@ -312,7 +316,6 @@ module.exports = function(app) {
                 });
             }
         });
-
     }
 
     function findAssinaturaByUser(req, res, next, updateUser){
@@ -342,6 +345,44 @@ module.exports = function(app) {
                     if(err3){
                         console.log(err3);
                         next(err3);
+                    }
+                });
+            }
+        });
+    }
+
+    function excluiAnuncioByAssinatura(req, assinatura){
+        Anuncio.find({assinatura : assinatura._id}).exec(function(error, anuncios){
+            if(error){
+                console.log("Ocorreu um erro durante a exclusão dos anuncios da assinatura : " + assinatura._id);
+                next(error);
+            }else{
+                /*****************************************************************
+                 * Apaga todos os diretórios com as imagens dos anúncios         *
+                 *****************************************************************/
+                anuncios.forEach(function(item) {
+                    //console.log(item._id);
+                    var anuncioDir   = '../../public/tmp/anuncio/';
+                    del(path.join(__dirname, anuncioDir + item._id)).then(function(paths){
+                       // console.log('Anuncio '+ item._id +' deletadao com sucesso  : \n', paths.join('\n'));
+                    });
+                });
+
+                /*****************************************************************
+                 * Apaga todos os anúncios dessa assinatura                      *
+                 *****************************************************************/
+                Anuncio.remove({assinatura : assinatura._id}, function(error){
+                    if(error){
+                        console.log("Ocorreu um erro durante a exclusão dos anuncios da assinatura : " + assinatura._id);
+                        next(error);
+                    }else{
+                        assinatura.qtdAnuncio = 0;
+                        Assinatura.update({_id : assinatura._id} , assinatura,  function(error, isOK){
+                            if(error){
+                                next(error)
+                            }
+                            console.log(isOK)
+                        });
                     }
                 });
             }

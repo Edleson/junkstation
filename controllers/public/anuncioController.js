@@ -83,7 +83,8 @@ module.exports = function(app) {
         Anuncio.create(anuncio , function(error, _anuncio){
             if(error){
                 req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu anúncio :( </div>');
-                htmlMinify('criar_anuncio', res , {});
+                //htmlMinify('criar_anuncio', res , {});
+                next(error);
             }else{
                 var callback = getCallbackUpload(context);
                 fileHandler.uploadMultiploFile(req, _anuncio, callback);
@@ -91,9 +92,12 @@ module.exports = function(app) {
                 /*****************************************************************
                  * Atualiza os dados da assinatura                               *
                  *****************************************************************/
+                var assinatura = req.user.assinaturas.filter(function(item){
+                    return item._id.toString() === post.assinatura;
+                });
+                req.user.assinatura = assinatura[0];
                 req.user.assinatura.qtdAnuncio += 1;
-                console.log(req.user.assinatura.qtdAnuncio);
-                Assinatura.update({_id : req.user.assinatura._id} ,req.user.assinatura,  function(error, isOK){
+                Assinatura.update({_id : req.user.assinatura._id} , req.user.assinatura,  function(error, isOK){
                     console.log(isOK)
                 })
                 res.redirect("/anuncio/meusanuncios");

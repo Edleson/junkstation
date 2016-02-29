@@ -7,6 +7,7 @@ module.exports = function(app) {
     controller.start = function(req, res, next) {
         console.log("Iniciando o processamento das rotinas BATCH");
         assinaturasExpiradas();
+        //testeSchedule();
 
     };
 
