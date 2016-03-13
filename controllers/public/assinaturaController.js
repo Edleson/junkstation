@@ -69,16 +69,6 @@ module.exports = function(app) {
                  * Atualiza os anúncios do usuário para que não aparecam mais na *
                  *nos mecanismos de busca                                        *
                  *****************************************************************/
-                /*var anuncioUpd = {data_vencimento : assinatura.fim_vigencia , status : false };
-                Anuncio.update({assinatura : id}, anuncioUpd, {multi : true}, function(error, isOK){
-                    if(error){
-                        console.log("Ocorreu um erro durante a atualização dos anúncios -> AssinaturaController.cancelarAssinatura()");
-                        console.log(error);  
-                    }
-                    console.log("Anúncios atualizados com sucesso -> AssinaturaController.cancelarAssinatura() ");
-                    console.log(isOK); 
-                });*/
-                
                 excluiAnuncioByAssinatura(req, assinatura);
                 /*****************************************************************
                  * Atualiza os dados do usuário                                  *

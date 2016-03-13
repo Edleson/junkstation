@@ -148,9 +148,7 @@ module.exports = function(app) {
 
         demaisFotos : [media] ,
 
-        videos : {
-            type : String
-        },
+        videos : [{type : String}],
 
         views : {
             type    : Number ,

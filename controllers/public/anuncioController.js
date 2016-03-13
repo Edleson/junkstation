@@ -79,6 +79,7 @@ module.exports = function(app) {
 
     controller.criarAnuncioPOST   = function(req, res, next){
         var post    = req.body;
+        console.log(post);
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
             if(error){

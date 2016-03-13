@@ -44,9 +44,24 @@
 									</div>
 								</div>
 							<%});%>
+
+							<% anuncio.videos.forEach(function(item){ 
+								console.log(item);
+							%>
+								<div class="overlayed span3">
+									<img src="https://localdomain.junkstation/tmp/anuncio/56e4bbb5d0ca9b3416317ce3/56e4bbb5d0ca9b3416317ce3harley-davison2.jpg" alt="">
+									<div class="overlay">
+										<span class="overlay-icon-single">
+											<a href="<%- item %>" class="fancybox " data-fancybox-type="swf" data-fancybox-group="<%- anuncio._id %>">
+												<i class="icomoon-expand-2"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							<%});%>
 							
 						</div>
-						<a href="#" class="view_more_images">[+] View all photos</a>
+						<a href="#" class="view_more_images">[+] Todas as fotos</a>
 					</div>
 
 					<div class="half right">

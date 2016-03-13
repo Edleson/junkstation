@@ -5,6 +5,7 @@
 		<title>Junk Station a Vitrine do seu clássico</title>
 		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 		<% include template/css %>
+		<link href="//vjs.zencdn.net/5.8.0/video-js.css" rel="stylesheet">
 	</head>
 
 	<body >
@@ -355,6 +356,30 @@
 							</div>
 						</div>
 					<% } %>
+
+					<% if(anuncio.videos && anuncio.videos.length > 0) {%>
+						<div class="box clearfix">
+							<h3>Coloque a URL do video do seu classico </h3>
+							<div class="box-content">
+								<% 
+									for(var i = 0 ; i < anuncio.videos.length; i++) {
+										 var generator = new Utils.embedVideoGenerator(anuncio.videos[i]);
+										 var video = generator.getEmbedCode(400 , 300);
+										 console.log(video);
+								%>
+									<div class="grid_8 left">									
+										
+										
+  										
+  										<br/>
+									</div>
+										
+										<%- video %>
+									
+								<% } %>
+							</div>
+						</div>
+					<% } %>
 					
 					<a class="button submit wide green">Publicar Anúncio</a>
 				</form>
@@ -365,6 +390,7 @@
 		
 		<!-- INICIO DO FOOTER-->
 		<% include template/footer %>
+		<script src="//vjs.zencdn.net/5.8.0/video.js"></script>
 		<!-- FIM DO FOOTER-->
 
 		<script type="text/javascript">

@@ -20,14 +20,16 @@
 			            return (item.status == 3 || item.status == 4);
 			        });
 
-			        var planos = params.planos.filter(function(item){
-			        	return (item.tipoPessoa == 'PF'); 
-			        });
+			        var planos = [] ;
 
 			        if(request.user.dadosPessoais.tipopessoa == 'PJ'){
-			        	planos = planos.filter(function(item){
+			        	planos = params.planos.filter(function(item){
 							return (item.tipoPessoa == 'PJ');
 			        	});
+			        }else{
+						planos = params.planos.filter(function(item){
+				        	return (item.tipoPessoa == 'PF'); 
+				        });
 			        }
 				%>
 				<% if(request.user.dadosPessoais.tipopessoa === 'PJ'){ %>
@@ -260,34 +262,33 @@
 				});
 
 				$("#assinaturaForm").validate({ 
-						submitHandler : function(form){
-							$.confirm({
-								post : true,
-								text : "Tem certeza que deseja criar a assintura ?", 
-								title: "Criação de Assinatura",
-								confirm : function(){
-									form.submit();
-									return false;
-								},
-								cancel : function(){
-									return false;
-								}
-							});
-						},
+					submitHandler : function(form){
+						$.confirm({
+							post : true,
+							text : "Tem certeza que deseja criar a assintura ?", 
+							title: "Criação de Assinatura",
+							confirm : function(){
+								form.submit();
+								return false;
+							},
+							cancel : function(){
+								return false;
+							}
+						});
+					},
 
-						rules: { 
-							plano            : "required" ,
-					    	tipopessoa 		 : "required" ,
-					    	nome_assinatura  : "required" 
-					    },
+					rules: { 
+						plano            : "required" ,
+				    	tipopessoa 		 : "required" ,
+				    	nome_assinatura  : "required" 
+				    },
 
-				        messages: { 
-				        	plano            : "O plano é obrigatório",
-				          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
-					    	nome_assinatura  : "O nome da assinatura é obrigatório" 		
-				        } 
-					});
-
+			        messages: { 
+			        	plano            : "O plano é obrigatório",
+			          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
+				    	nome_assinatura  : "O nome da assinatura é obrigatório" 		
+			        } 
+				});
 
 				$("#btnCriarAssinatura").click(function(){
 					var url      =  $(this).attr("id");

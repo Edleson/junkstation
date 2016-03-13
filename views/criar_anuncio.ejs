@@ -374,6 +374,63 @@
 							</div>
 						</div>
 					<% } %>
+
+					<% if(plano.qtdVideos >= 1) {%>
+						<div class="box clearfix">
+							<h3>Coloque a URL do video do seu classico </h3>
+							<div class="box-content">
+								<% for(var i = 0 ; i < plano.qtdVideos; i++) {%>
+									<div class="grid_8 left">									
+										<p>
+											<label for="videos_<%- i + 1%>" class="dropdown_label">Video <%- i + 1%></label>
+											<input type="text" id="videos_<%- i + 1%>" name="videos"  value="" placeholder="Exemplo : https://www.youtube.com/watch?v=eqzhXKrKqSM" />
+										</p>
+									</div>
+									
+									<!--
+									<div class="grid_8 list_item">
+										
+										<div class="half left">
+											<div class="overlayed" >
+												<img src="/dist/images/no-image.png" alt="">
+											</div>
+
+											<br/>
+											
+											<input type="text" name="videos" placeholder="Coloque aqui a url do seu video" class="video" />
+										</div>
+										
+										<div class="half right">
+											<div class="item_heading">
+												<h4> <span class="marcaTXT">-</span> <a href="#" class="modeloTXT"> - </a></h4>
+												<p class="location">
+													<%- request.user.dadosPessoais.cidade %>, <strong><%- request.user.dadosPessoais.estado %></strong>
+													<span class="vendor"></span>
+												</p>
+											</div>
+											<div class="item_info clearfix">
+												<p class="half left">
+													<span class="item_year" alt="Ano de Fabricação">-</span>
+													<span class="item_type" alt="Tipo de Veículo">-</span>
+													<span class="item_drive" alt="Motor">-</span>
+												</p>
+												<p class="half right">
+													<span class="item_transimition">-</span>
+													<span class="item_fuel">-</span>
+													<span class="item_mileage">-</span>
+												</p>
+											</div>
+											<div class="item_footer">
+												<span class="item_price">R$ 0,00</span>
+												<span class="item_date"><%- util.moment().format("LL")%></span>
+												<span class="item_rating">4.9</span>
+											</div>
+										</div>
+									</div>-->
+								<% } %>
+							</div>
+						</div>
+					<% } %>
 					
 					<% if(!hasLimit) {%>
 						<a class="button submit wide green">Publicar Anúncio</a>
@@ -390,6 +447,11 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
+				$(".video").blur(function(){
+					var div = $(this).parent().find(".overlayed");
+					alert(div);
+				});
+
 				init();
 
 				$("#assinatura").change(function(){

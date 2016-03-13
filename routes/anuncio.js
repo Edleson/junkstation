@@ -4,7 +4,7 @@ module.exports = function(app) {
   	var isLoggedIn  = require('./../middlewares/loginHandler');
   	var controller  = app.controllers.public.anuncioController;
   	var uploadOptions = [
-  							{name : "fotos"         , maxCount : 10}			,
+  							{name : "fotos"         , maxCount : 20}			,
   						 	{name : "fotoPrincipal" , maxCount : 1 }
   						];
   	
@@ -26,7 +26,7 @@ module.exports = function(app) {
 	app.get( '/anuncio/:id/mensagem'  	 , isLoggedIn, security.forceHTTPS, controller.anuncioMensagem);
 	app.get( '/anuncio/:id/remove/media' , isLoggedIn, security.forceHTTPS, controller.deletarFoto);
 	app.post('/anuncio/edit'  	         , isLoggedIn, security.forceHTTPS, multer.fields(uploadOptions),  controller.editAnuncioPOST);
-	app.post('/anuncio/create'           , isLoggedIn, security.forceHTTPS, multer.array("fotos", 10), controller.criarAnuncioPOST);
+	app.post('/anuncio/create'           , isLoggedIn, security.forceHTTPS, multer.array("fotos", 20), controller.criarAnuncioPOST);
 	app.post('/anuncio/delete'    	     , isLoggedIn, security.forceHTTPS, controller.deletarAnuncio);
 	app.get( '/anuncio/meusdados'        , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilGET);
 	app.post('/anuncio/meusdados'        , isLoggedIn, security.forceHTTPS, controller.cadastroPerfilPOST);
