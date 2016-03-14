@@ -390,6 +390,14 @@ module.exports = function(app) {
                         console.log(isOK)
                     });
                 }
+
+                /*******************************************************************
+                 * Se o cliente for pessoa fisica ao excluir o anúncio a assinaura *
+                 *será cancelada.                                                  * 
+                 *******************************************************************/
+                if(req.user.dadosPessoais.tipopessoa == 'PF'){
+                    cancelarAssinatura(assinaturaId, req);
+                }
                 
                 listarAnuncioByUser(req, res, next, false);
             }
@@ -553,8 +561,13 @@ module.exports = function(app) {
                 });
 
                 if(assinaturas.length == 0){
+                    var url = '/assinatura/listar';
+                    if(req.user.dadosPessoais && req.user.dadosPessoais.tipopessoa == 'PF'){
+                        url = "/planos";
+                    }
+
                     var mensagem = 'Você ainda não possuí uma assintura ativa , aqui na junkstation temos um plano que cabe no seu bolso, não perca tempo.' +
-                                   '<a href="/assinatura/listar" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a> e crie sua assinatura.';
+                                   '<a href="'+ url +'" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a> e crie sua assinatura.';
                     req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
                 }
 
@@ -918,6 +931,50 @@ module.exports = function(app) {
         }else{
             return false;
         }
+    }
+
+    function cancelarAssinatura(id, req){
+        Assinatura.findById(id).deepPopulate('plano').exec(function(error, assinatura){
+            if(error){
+                next(error);
+            }else{
+                /*****************************************************************
+                 * Atualiza o status para cancelado pelo cliente.                *
+                 *****************************************************************/
+                assinatura.status       = 21;    // 21 - Cancelado pelo Cliente
+                assinatura.vencido      = false; // muda a flag de expirado.
+                assinatura.fim_vigencia = new Date();
+                assinatura.historico.push({
+                    tipoEvento       : "CANCELAMENTO ASSINATURA"    ,
+                    descricaoEvento  : "Assinatura cancelada pelo cliente."
+                });
+
+                /*****************************************************************
+                 * Atualiza o status da assinatura na base de dados              *
+                 *****************************************************************/
+                Assinatura.update({_id : id}, assinatura, function(error, isOK){
+                    if(error){
+                        console.log("Ocorreu um erro durante o cancelamento da assinatura. -> AssinaturaController.cancelarAssinatura()");
+                        console.log(error);
+                    }
+                    console.log("Assinatura cancelada com sucesso!. -> AssinaturaController.cancelarAssinatura() ");
+                    console.log(isOK); 
+                });
+                /*****************************************************************
+                 * Atualiza os dados do usuário                                  *
+                 *****************************************************************/
+                req.user.plano      = null;
+                req.user.assinatura = null;
+                User.update({_id : req.user._id}, req.user, function(error, isOK){
+                    if(error){
+                        console.log("Ocorreu um erro durante a atualização do usuário -> AssinaturaController.cancelarAssinatura()");
+                        console.log(error);  
+                    }
+                    console.log("Usuário atualizado com sucesso! -> AssinaturaController.cancelarAssinatura()");
+                    console.log(isOK); 
+                 });
+            }
+        });
     }
 
     return controller; 

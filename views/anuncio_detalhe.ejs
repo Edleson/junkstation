@@ -47,16 +47,18 @@
 						</div>
 
 						<div class="row four_images">
-							<% anuncio.videos.forEach(function(item){ 
-								var generator = new Utils.embedVideoGenerator(item);
-								var video = generator.getEmbedCode(450 , 300);
+							<% 
+								var count = 1;
+								anuncio.videos.forEach(function(item){ 
+									var generator = new Utils.embedVideoGenerator(item);
+									var video = generator.getEmbedCode(450 , 300);
 								
 							%>
 								<div class="overlayed span3">
 									<img src="/dist/images/video-icon.jpg" alt="">
 									<div class="overlay">
 										<span class="overlay-icon-single">
-											<a href="#video_<%- anuncio._id%>" class="modal"  >
+											<a href="#video_<%- count %>" class="modal"  >
 												<i class="icomoon-expand-2"></i>
 											</a>
 										</span>
@@ -64,12 +66,12 @@
 								</div>
 								
 								<div class="login_form_modal_container">
-									<div id="video_<%- anuncio._id%>" class="box" style="width: 450px;">
+									<div id="video_<%- count %>" class="box" style="width: 450px;">
 										<%- video %>
 									</div>
 								</div>
 
-							<%});%>
+							<% count++ });%>
 						</div>
 
 						<a href="#" class="view_more_images">[+] Todas as fotos</a>

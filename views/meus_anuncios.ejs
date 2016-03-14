@@ -15,10 +15,13 @@
 			<% include template/vertical_menu_admin %>
 			<div class="grid_9 content">
 				<%- request.flash("meusAnuncios") %>
+				
 				<%- request.flash("deleteAnuncio") %>
+				
 				<% if(response.length > 0 ){%>
 					<h2 class="page_title with_filter">Meus Anúncios</h2>
 				<%}%>
+				
 				<% response.forEach(function(anuncio){ %>
 					<article class="box clearfix grid_item">
 						<div class="item_heading">
@@ -68,8 +71,12 @@
 			$(document).ready(function(){
 				$(".confirm").click(function(){
 					var id = $(this).attr("id");
+					var mensagem = "Lembre-se que para clientes Pessoa Física a sua assinatura será cancela e você terá que realizar uma nova assinatura. Confirma a exclusão do anúncio?"
+
 					$.confirm({
 						post : true, 
+						text : mensagem , 
+						title: "Excluir Anúncio",
 						confirm : function(){
 							var form = $("form[name='" + id + "']");
 							form.submit();
