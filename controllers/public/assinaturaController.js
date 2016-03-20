@@ -324,6 +324,7 @@ module.exports = function(app) {
         *******************************************************************/
         DAPlano.findById(planoID , function(error, plano){
             if(error){
+                console.log(error)
                 next(error)
             }else{
                 /*********************************************************
