@@ -25,11 +25,11 @@ module.exports = function(app) {
          *os clientes avisando que a assinatura vai expirar em alguns dias*
          *esse JOB roda todos os dias as 01:00 da manhã.                  *        
          *****************************************************************/
-        avisoAssinaturaExperidas();
+        //avisoAssinaturaExperidas();
     };
 
     function  assinaturasExpiradas(){
-        var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
+        var schedule = later.parse.cron('0 0 5 1/1 * ? *', true);
         var action = later.setInterval(function(){
             /*****************************************************************
              * Inicio do processamento da JOB                                *
