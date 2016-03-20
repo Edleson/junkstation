@@ -29,7 +29,7 @@ module.exports = function(app) {
     };
 
     function  assinaturasExpiradas(){
-        var schedule = later.parse.cron('0 25 14 1/1 * ? *', true);
+        var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
         var action = later.setInterval(function(){
             /*****************************************************************
              * Inicio do processamento da JOB                                *
