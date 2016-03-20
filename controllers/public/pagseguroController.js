@@ -28,8 +28,6 @@ module.exports = function(app) {
          *as informações da da transação                          *
          **********************************************************/
         request(urlPesquisa, function (error, response, body) {
-            console.log(urlPesquisa);
-            console.log(body);
             if (!error && response.statusCode == 200) {
                 /**********************************************************
                  * Faz o parse do XML retornado pelo pagseguro            *
