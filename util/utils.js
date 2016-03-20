@@ -67,17 +67,17 @@ module.exports = function(app) {
         this.services = {
           dailymotion: {
             pattern: /^((http:\/\/)?(www\.)?dailymotion\.com\/video\/)([a-z0-9]+)(_(.*)?)$/,
-            replace: 'http://www.dailymotion.com/swf/$4'
+            replace: 'https://www.dailymotion.com/swf/$4'
           },
 
           vimeo: {
             pattern: /^((http:\/\/)?(www\.)?vimeo\.com\/)(\d+)(.*)?$/,
-            replace: 'http://vimeo.com/moogaloop.swf?clip_id=$4&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'
+            replace: 'https://vimeo.com/moogaloop.swf?clip_id=$4&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'
           },
           
           youtube: {
             pattern: /^((http:\/\/)?(www\.)?youtube\.com\/watch\?v=)([a-zA-Z0-9-]+)(.*)?$/,
-            replace: 'http://www.youtube.com/v/$4&amp;fs=1'
+            replace: 'https://www.youtube.com/v/$4$5&amp;fs=1'
           }
         };
         

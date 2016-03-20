@@ -79,7 +79,10 @@ module.exports = function(app) {
 
     controller.criarAnuncioPOST   = function(req, res, next){
         var post    = req.body;
-        console.log(post);
+        var videos  = post.videos ? post.videos.filter(function(item){
+            return item != "";
+        }) : null;
+        post.videos = videos;
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
             if(error){
@@ -423,7 +426,6 @@ module.exports = function(app) {
                     ResponseAPI.header.error   = error;
                     res.status(500).json(ResponseAPI);
                 }else{
-                    console.log(updated);
                     ResponseAPI.header.url     = req.url;
                     var host = req.headers.host;
                     var url  = "/anuncio/meusanuncios";

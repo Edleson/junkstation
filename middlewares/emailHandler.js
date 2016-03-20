@@ -107,5 +107,23 @@ module.exports = function(ctx) {
 		});	
 	}
 
+	email.sendAssinaturaExpirada = function(data, callback){
+		var template = new EmailTemplate(path.join(templatesDir, 'assinatura-expirada'));
+		
+		template.render(data, function(error, results){
+			if(error){
+				console.error(error);
+			}
+
+			transporter.sendMail({
+	    		from    : "no-replay@junkstation.com.br"     			,
+	    		to      : data.email                         			,
+	    		subject : 'Ops, sua assinatura venceu, vamos renovar ?' ,
+	    		html    : results.html                       			,
+	    		text    : results.text     
+			}, callback);
+		});	
+	}
+
 	return email;
 }

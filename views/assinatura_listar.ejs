@@ -189,7 +189,7 @@
 												<% } %>
 
 												<% if(status == 20 || item.vencido) {%>
-													<button type="button" class="btn btn-info btn-xs btn-renovar" data-toggle="tooltip" data-placement="top" title="Renovar">
+													<button type="button" class="btn btn-info btn-xs btn-renovar" data-toggle="tooltip" data-placement="top" title="Renovar" id="<%-item._id %>">
 														<span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
 													</button>
 												<% } %>
@@ -291,7 +291,7 @@
 				});
 
 				$("#btnCriarAssinatura").click(function(){
-					var url      =  $(this).attr("id");
+					var url      = $(this).attr("id");
 					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";	
 					$.confirm({
 							post : true 						,
@@ -307,7 +307,19 @@
 				});
 
 				$(".btn-renovar").click(function(){
-					window.location.href = "/anuncio/meusdados";
+					var url      = "/assinatura/renovar/" +  $(this).attr("id");
+					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";
+					$.confirm({
+						post : true 						,
+						text : mensagem 					, 
+						title: "Renovação Assinatura"		,
+						confirm : function(){
+							window.location.href = url;
+						},
+						cancel : function(){
+							return false;
+						}
+					});
 				});
 
 			});

@@ -8,7 +8,8 @@
 			@media screen and (min-width: 768px) {
 				.thumb img{
 					max-height : 43px;
-					min-width : 63px;
+					min-height : 43px;
+					min-width  : 63px;
 				}
 			}
 		</style>
@@ -26,7 +27,7 @@
 				
 				<article class="box clearfix item_main">
 					<h3><%- anuncio.marca %> <%- anuncio.modelo %></h3>
-					<span class="item_rating">4.5</span>
+					<!--<span class="item_rating"></span>-->
 					<div class="half left item_images clearfix">
 						<div class="overlayed">
 							<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
@@ -39,64 +40,61 @@
 							</div>
 						</div>
 
-						
-							<%  var i = 0;
-								var resto = 0;
-								var controle = 3 ;
-								var tamanho = anuncio.demaisFotos.length -1  || 0 ; 
-								anuncio.demaisFotos.forEach(function(media){ 
-									resto = i % 4;
-									
-							%>
-									<% if(i == 0 || resto == 0) {%>
-										<div class="row four_images">
-									<%}%>
-											<div class="overlayed span3 thumb" style="">
-												<img src="<%- media.prefix + media.nome %>" alt="" >
-												<div class="overlay">
-													<span class="overlay-icon-single">
-														<a href="<%- media.prefix + media.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-															<i class="icomoon-expand-2"></i>
-														</a>
-													</span>
-												</div>
+						<%  var i = 0;
+							var resto = 0;
+							var controle = 3 ;
+							var tamanho = anuncio.demaisFotos.length -1  || 0 ; 
+							anuncio.demaisFotos.forEach(function(media){ 
+								resto = i % 4;	
+						%>
+								<% if(i == 0 || resto == 0) {%>
+									<div class="row four_images">
+								<%}%>
+										<div class="overlayed span3 thumb" style="">
+											<img src="<%- media.prefix + media.nome %>" alt="" >
+											<div class="overlay">
+												<span class="overlay-icon-single">
+													<a href="<%- media.prefix + media.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+														<i class="icomoon-expand-2"></i>
+													</a>
+												</span>
 											</div>
-									
-									<% if(i == controle || i == tamanho) {
-										controle += 4;	
-									%>
 										</div>
-									<%}%>
-							<% i++ ;});%>
+								<% if(i == controle || i == tamanho) {
+									controle += 4;	
+								%>
+									</div>
+								<%}%>
+						<% i++ ;});%>
 						
-
 						<div class="row four_images thumb">
+
 							<% 
-								var count = 1;
-								anuncio.videos.forEach(function(item){ 
-									var generator = new Utils.embedVideoGenerator(item);
-									var video = generator.getEmbedCode(450 , 300);
-
-								
+								if(anuncio.videos){
+									var count = 1;
+									anuncio.videos.forEach(function(item){ 
+										var generator = new Utils.embedVideoGenerator(item);
+										var video = generator.getEmbedCode(450 , 300);
 							%>
-								<div class="overlayed span3">
-									<img src="/dist/images/video-icon.jpg" alt="">
-									<div class="overlay">
-										<span class="overlay-icon-single">
-											<a href="#video_<%- count %>" class="modal"  >
-												<i class="icomoon-expand-2"></i>
-											</a>
-										</span>
-									</div>
-								</div>
-								
-								<div class="login_form_modal_container">
-									<div id="video_<%- count %>" class="box" style="width: 450px;">
-										<%- video %>
-									</div>
-								</div>
-
-							<% count++ });%>
+										<div class="overlayed span3">
+											<img src="/dist/images/video-icon.jpg" alt="">
+											<div class="overlay">
+												<span class="overlay-icon-single">
+													<a href="#video_<%- count %>" class="modal"  >
+														<i class="icomoon-expand-2"></i>
+													</a>
+												</span>
+											</div>
+										</div>
+										
+										<div class="login_form_modal_container">
+											<div id="video_<%- count %>" class="box" style="width: 450px;">
+												<%- video %>
+											</div>
+										</div>
+							<% 		count++ }); 
+								}
+							%>
 						</div>
 
 						<a href="#" class="view_more_images">[+] Todas as fotos</a>

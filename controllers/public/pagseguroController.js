@@ -81,7 +81,7 @@ module.exports = function(app) {
                                             relevancia      : relevancia    ,
                                             status          : true          ,
                                             data_vencimento : fimVigencia   ,
-                                            assinatura      : reference
+                                            assinatura      : reference     
                                         }
 
                                         /*********************************************************

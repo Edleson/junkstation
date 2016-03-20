@@ -91,6 +91,93 @@ module.exports = function(app) {
     };
 
     controller.renovarAssinatura      = function(req, res, next) {
+        var assinaturaID = req.params.id;
+        Assinatura.findById(assinaturaID).deepPopulate('plano user').exec(function(error, assinatura){
+            if(error){
+                console.log(error);
+                next(error);
+            }else{
+                var plano       = assinatura.plano;
+                var user        = assinatura.user;
+                var valorPlano  = utils.numeral(plano.preco).format("0.00").replace("," , ".");
+                /*********************************************************
+                * Inicia o fluxo de pagamento                            *
+                **********************************************************/
+                var emailComprador  = req.user.local.email;
+                var ddd             = req.user.dadosPessoais.celular.substring(1,3);
+                var numero          = req.user.dadosPessoais.celular.substring(5);
+                /*********************************************************
+                * Variáveis para serem utilizadas na assinatura          *
+                * STATUS :                                               *
+                *   1 - Aguardando pagamento                             *
+                *   3 - Pago                                             *
+                **********************************************************/
+                var inicioVigiencia = new Date();
+                var fimVigencia = utils.moment(inicioVigiencia).add(plano.expiracao, 'days');
+                var status      = valorPlano == "0.00" ? 3 : 1;
+                var operadora   = valorPlano == "0.00" ? "JUNKSTATION" : "PAGSEGURO";
+                /*********************************************************
+                * Configura os dados da assinatura                       *
+                **********************************************************/
+                assinatura.inicio_vigencia = inicioVigiencia;
+                assinatura.fim_vigencia    = fimVigencia;
+                assinatura.status          = status;
+                assinatura.vencido         = true;
+                /*********************************************************
+                * Inclui um novo dados de histórico na assinatura        *
+                **********************************************************/
+                if(status == 3){
+                    assinatura.vencido = false;
+                    assinatura.historico.push({
+                        descricaoEvento : "Assinatura renovado com sucesso" ,
+                        tipoEvento      : "RENOVAÇÃO ASSINATURA"
+                    });
+                    /*********************************************************
+                    * Atualiza os anuncios                                   *
+                    **********************************************************/
+                    var anuncioUPD = {
+                        status          : true          ,
+                        data_vencimento : fimVigencia       
+                    }
+                    Anuncio.update({assinatura : assinatura._id}, anuncioUPD, function(error, isOK){
+                        if(error){
+                            console.log(error);    
+                        }
+                        
+                    })
+
+                }else{
+                    assinatura.historico.push({
+                        descricaoEvento : "Aguardando o pagamento da renovação da assinatura." ,
+                        tipoEvento      : "Renovação Assinatura"
+                    });
+                }
+                /*********************************************************
+                * Atualiza os dados da assinatura na base de dados       *
+                **********************************************************/
+                Assinatura.update({_id : assinatura._id}, assinatura , function(error, isOK){
+                    if(error){
+                        console.log("Ocorreu um erro durante a atualização da assinatura. -> assinaturaController.iniciarRequisicaoPagamento()");
+                        next(error)
+                    }
+                });
+                /*********************************************************
+                * Atualiza os dados da assinatura no usuario logado      *
+                **********************************************************/
+                req.user.assinatura = assinatura;
+
+                if(valorPlano == "0.00"){
+                    res.redirect("/anuncio/meusanuncios");
+                    return;
+                }
+                /*********************************************************
+                * Inicia o fluxo de pagamento com o pagseguro            *
+                **********************************************************/
+                pagseguroHandler.checkoutPagseguro(req , res, next, req.user, plano, emailComprador, ddd, numero, valorPlano, Assinatura);
+            }
+        })
+
+
         var assinatura = req.user.assinatura;
         var userID     = req.user._id;
         /*****************************************************************
@@ -103,6 +190,7 @@ module.exports = function(app) {
             console.log("Anuncios atualizados com sucesso ! assinaturaController.renovarAssinatura()");
             console.log(isOK);
         });
+
     };
 
     controller.criarAssinatura        = function(req, res, next) {
