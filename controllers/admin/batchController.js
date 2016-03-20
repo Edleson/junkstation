@@ -114,7 +114,7 @@ module.exports = function(app) {
     }
 
     function sendEmailAssinaturaExperida(email, assinatura){
-        var host = "www.pontoclass.com";
+        var host = "www.junkstation.com.br";
         var url  = "/assinatura/listar";
         var link = "https://" + host + url;
 
