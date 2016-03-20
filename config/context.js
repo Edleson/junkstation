@@ -13,7 +13,7 @@ module.exports = function(){
     var PAGSEGURO_EMAIL = process.env.PAGSEGURO_EMAIL                                    ;
     var PAGSEGURO_TOKEN = process.env.PAGSEGURO_TOKEN                                    ;
 
-    /*console.log("Carregando as variáveis de ambiente ............");
+    console.log("Carregando as variáveis de ambiente ............");
     console.log("USER_EMAIL = [ "+ USER_EMAIL +" ]");
     console.log("USER_EMAIL_PASS = [ "+ USER_EMAIL_PASS +" ]");
     console.log("AWS_ACCESS_KEY = [ "+ AWS_ACCESS_KEY +" ]");
@@ -24,7 +24,7 @@ module.exports = function(){
     console.log("NODE_SSL_KEY = [ "+ NODE_SSL_KEY +" ]");
     console.log("PAGSEGURO_ENV = [ "+ PAGSEGURO_ENV +" ]");
     console.log("PAGSEGURO_EMAIL = [ "+ PAGSEGURO_EMAIL +" ]");
-    console.log("PAGSEGURO_TOKEN = [ "+ PAGSEGURO_TOKEN +" ]");*/
+    console.log("PAGSEGURO_TOKEN = [ "+ PAGSEGURO_TOKEN +" ]");
 
     var context = {
         email : {
