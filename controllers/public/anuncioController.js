@@ -86,8 +86,10 @@ module.exports = function(app) {
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
             if(error){
-                req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu anúncio :( </div>');
+                //req.flash('cadastro', '<div class="alert-error">Não foi possível salvar os dados do seu anúncio :( </div>');
                 //htmlMinify('criar_anuncio', res , {});
+                console.log("Ocorreu um erro durante o processamento do anúncio");
+                console.log(error);
                 next(error);
             }else{
                 var callback = getCallbackUpload(context);
