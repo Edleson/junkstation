@@ -79,9 +79,14 @@ module.exports = function(app) {
 
     controller.criarAnuncioPOST   = function(req, res, next){
         var post    = req.body;
-        var videos  = post.videos ? post.videos.filter(function(item){
-            return item != "";
-        }) : null;
+        var videos = null;
+        if(post.videos instanceof Array){
+            videos  = post.videos ? post.videos.filter(function(item){
+                return item != "";
+            }) : null;
+        }else{
+            videos = post.videos == "" ? null : post.videos;
+        }
         post.videos = videos;
         var anuncio = validateAnuncio(post);
         Anuncio.create(anuncio , function(error, _anuncio){
