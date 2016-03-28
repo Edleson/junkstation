@@ -73,6 +73,15 @@
   				<span id="qtdAnuncios" class="sr-only"></span>
 		  	</div>
 
+		  	<div ng-class="{'form-group has-success' : (entityForm.expiracao.$valid && entityForm.$dirty), 
+			'form-group has-error' : (!entityForm.expiracao.$valid && entityForm.$dirty)}" >
+		    	<label for="expiracao">Quantidade de Dias de experição<span class="required">*</span></label>
+		    	<input id="expiracao" class="form-control" name="expiracao" type="text" ng-model="entity.expiracao"  ng-required="true" ui-number-mask="0"/>
+		  		<span ng-class="{'glyphicon glyphicon-ok form-control-feedback' : (entityForm.expiracao.$valid && entityForm.$dirty), 
+			'glyphicon glyphicon-remove form-control-feedback' : (!entityForm.expiracao.$valid && entityForm.$dirty)}" class="" aria-hidden="true"></span>
+  				<span id="expiracao" class="sr-only"></span>
+		  	</div>
+
 		  	<div ng-class="{'form-group has-success' : (entityForm.descExpiracao.$valid && entityForm.$dirty), 
 			'form-group has-error' : (!entityForm.descExpiracao.$valid && entityForm.$dirty)}" >
 		    	<label for="descExpiracao">Descrição do Período <span class="required">*</span></label>
