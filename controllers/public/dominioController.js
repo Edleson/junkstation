@@ -43,7 +43,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = marcas;
                 res.status(200).json(ResponseAPI);
             }
-        });
+        }).sort({nome : 1});
     }
 
     /***********************************************************
@@ -86,7 +86,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = anos;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({ano : -1});
     }
 
     /***********************************************************
@@ -128,7 +128,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = cores;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({nome : 1});;
     }
 
     /***********************************************************
@@ -159,7 +159,7 @@ module.exports = function(app) {
         var categoriaId = req.params.id; 
         var query       = {situacao : true , categoria : categoriaId};
         var ResponseAPI = createResponseAPI();
-        Marca.find(query).sort({nome : 1}).deepPopulate("categoria").exec(function(err, marcas){
+        Marca.find(query).sort({nome : 1}).deepPopulate("categoria").sort({nome : 1}).exec(function(err, marcas){
             if(err){
                 ResponseAPI.header.status  = 500 ;
                 ResponseAPI.header.url     = req.url;
@@ -192,7 +192,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = combustiveis;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({nome : 1});;
     }
 
     /***********************************************************
@@ -234,7 +234,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = estilos;
                 res.status(200).json(ResponseAPI);
             }
-        }, query);
+        }, query).sort({nome : 1});;
     }
     
  

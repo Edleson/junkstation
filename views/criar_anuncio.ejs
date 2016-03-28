@@ -18,10 +18,7 @@
         			return (item.status == 3 || item.status == 4);
     			});
 
-    			console.log(assinaturas.length);
-
-				
-				if(assinatura == null || assinatura.qtdAnuncio == assinatura.plano.qtdAnuncios){
+				if(assinatura == null || (assinatura.qtdAnuncio == assinatura.plano.qtdAnuncios)){
         			assinatura = assinaturas[0];
         			request.user.assinatura = assinatura;
 				}
@@ -34,8 +31,6 @@
 				var precoPlano   = plano.preco == 0 ?  "Grátis" : "R$ " + Utils.numeral(plano.preco).format("0,0.00");
 				var fim_vigencia = util.moment(assinatura.fim_vigencia); 
 
-				console.log(assinatura._id);
-				
 				var hasLimit = (qtdAnuncios >= qtdMax);
 
 				var display = 'display : none;'

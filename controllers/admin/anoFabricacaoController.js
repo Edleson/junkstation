@@ -18,7 +18,7 @@ module.exports = function(app) {
                 ResponseAPI.data           = entities
                 res.status(200).json(ResponseAPI);
             }
-        });
+        }).sort({ano : -1});
     };
 
     controller.findById = function(req, res, next) {
