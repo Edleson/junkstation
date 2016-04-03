@@ -80,6 +80,7 @@ module.exports = function(){
 	              'public/js/app/service/admin/planosService.js'          		,
 	              'public/js/app/service/admin/anuncioService.js'          		,
 	              'public/js/app/service/admin/userService.js'          		,
+	              'public/js/app/service/util/paginateServiceUtil.js'          	,
 	              'public/js/app/controllers/adminController.js'                ,
 	              'public/js/app/controllers/admin/anoFabricacaoController.js'  ,
 	              'public/js/app/controllers/admin/cambioController.js'  		,

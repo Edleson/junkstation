@@ -53,11 +53,11 @@
 	</div>	
 </div>
 
-<div class="box clearfix" ng-show="entities.length > 0">
-	<h3>Lista de Modelos</h3>
+<div class="box clearfix">
+	<h3>Lista de Modelos <span class="badge">{{entitiesLength}}</span></h3>
 	<div class="box-content clearfix bordered_under">
 		
-		<input id="txtPesquisa" class="form-control" type="text" placeholder="Filtro de pesquisa" ng-model="filtroPesquisa"/>
+		<input id="txtPesquisa" class="form-control" ng-keyup="filtered()" type="text" placeholder="Filtro de pesquisa" ng-model="filtroPesquisa"/>
 		
 		<table class="table table-condensed table-striped table-bordered">
 			<caption></caption>
@@ -74,7 +74,7 @@
 			</thead>
 			
 			<tbody>
-				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao | filter : filtroPesquisa ">
+				<tr ng-repeat="entity in entities | orderBy : ordenacao : direcao">
 					<td>{{entity.marca.categoria.nome}}</td>
 					<td>{{entity.marca.nome}}</td>
 					<td>{{entity.nome}}</td>
@@ -87,5 +87,11 @@
 				</tr>
 			</tbody>
 		</table>
+
+		<div ng-show="paginate.length > 1">
+		    <uib-pagination total-items="entitiesLength" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="10"></uib-pagination>
+		</div>
+
+
 	</div>	
 </div>

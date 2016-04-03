@@ -1,16 +1,23 @@
 
-app.controller('modeloController', function ($scope, modeloService, $rootScope, ngDialog, situacoes, marcas) {
+app.controller('modeloController', function ($scope, modeloService, $rootScope, ngDialog, situacoes, marcas, paginateServiceUtil, $filter) {
 	$scope.entities   = [];
 	$scope.entity     = {};
 	$scope.situacoes  = situacoes;
 	$scope.marcas     = marcas.data.data;
+	$scope.paginate   = [];
+	$scope.itensPerPage = 10;
+	
 	var Service       = modeloService;
-
-	console.log(marcas);
 	
 	var findAll = function(){
 		Service.findAll().success(function(response, status){
-			$scope.entities = response.data;
+			var entities          = $filter('orderBy')(response.data, 'dataCricao', true);
+			$scope.ordenacao      = 'dataCricao';
+			$scope.direcao        = true;
+			$scope.paginate       = paginateServiceUtil.paginate(entities, $scope.itensPerPage, entities.length);
+			$scope.entities       = paginateServiceUtil.getPage($scope.paginate, $scope.currentPage);
+			$scope.allEntities    = entities;
+			$scope.entitiesLength = entities.length;
 		}).error(function(response){
 			showGrowl(response.header.error.code + " : " + response.header.error.errmsg, response.header.message,  6000);
 		});
@@ -60,10 +67,36 @@ app.controller('modeloController', function ($scope, modeloService, $rootScope, 
 		$scope.entity = angular.copy(entity);
 	};
 
+	$scope.filtered = function(){
+		if($scope.filtroPesquisa){
+			var pesquisa = $filter('filter')($scope.allEntities, $scope.filtroPesquisa);
+			$scope.paginate = paginateServiceUtil.paginate(pesquisa, $scope.itensPerPage, $scope.entities.length);
+			$scope.entities = paginateServiceUtil.getPage($scope.paginate, 1);
+			$scope.entitiesLength = pesquisa.length;
+			$scope.setPage(1);
+		}else{
+			$scope.paginate = paginateServiceUtil.paginate($scope.allEntities, $scope.itensPerPage, $scope.entities.length);
+			$scope.entities = paginateServiceUtil.getPage($scope.paginate, 1);
+			$scope.entitiesLength = $scope.allEntities.length;
+			$scope.setPage(1);
+		}
+	}
+
 	$scope.orderBy = function(ordenacao){
 		$scope.ordenacao = ordenacao;
 		$scope.direcao   = !$scope.direcao;
 	}
 
 	findAll();
+
+	//PAGINAÇÃO
+	$scope.maxSize = 5;
+	$scope.currentPage = 1;
+	$scope.setPage = function (pageNo) {
+		$scope.currentPage = pageNo;
+	};
+
+	$scope.pageChanged = function() {
+		$scope.entities = paginateServiceUtil.getPage($scope.paginate, $scope.currentPage);
+	};
 });
