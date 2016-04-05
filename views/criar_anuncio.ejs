@@ -556,7 +556,18 @@
 					precision   	: 2     ,
 					allowZero   	: false ,
 					allowNegative 	: false
-				});
+				});/*.keyup(function(event){
+					var input = document.getElementById("preco");
+					console.log(input.value);
+					if(isBlankOrEmpty(input.value)){
+						$("#preco").val("0,00");
+					}else{
+						var newValue = moeda(input.value, 2, "," , ".");
+						$("#preco").val(newValue);	
+					}
+					
+					return false;
+				});*/
 
 				$('#motor').blur(function(){
 					if(!isBlankOrEmpty(this.value)){
