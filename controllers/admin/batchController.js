@@ -11,6 +11,12 @@ module.exports = function(app) {
     controller.start = function(req, res, next) {
         console.log("Iniciando o processamento das rotinas BATCH");
         /*****************************************************************
+         * Configura um o envio de um e-mail administrativo              *
+         *****************************************************************/
+        var titulo = "Email administrativo Junkstation";
+        var descricao = "Esse e-mail é um aviso que o processamento batch foi iniciado com sucesso.";
+        sendAdminMail(null, titulo, descricao, null, null);
+        /*****************************************************************
          * Seta o timezone local                                         *
          *****************************************************************/
         later.date.localTime();
@@ -30,11 +36,19 @@ module.exports = function(app) {
 
     function  assinaturasExpiradas(){
         var schedule = later.parse.cron('0 0 5 1/1 * ? *', true);
-        var action = later.setInterval(function(){
+        //var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
+        var action   = later.setInterval(function(){
             /*****************************************************************
              * Inicio do processamento da JOB                                *
              *****************************************************************/
-            var dataInicioPR = Utils.moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+            var dataInicioPR = Utils.moment().format("dddd, DD [de] MMMM [de] YYYY, h:mm:ss a");
+            /*****************************************************************
+             * Envia um e-mail informando que esse JOB foi iniciado             *
+             *****************************************************************/
+            var titulo = "JOB [assinaturasExpiradas()] iniciado";
+            var descricao = "JOB [assinaturasExpiradas()] foi iniciado " + dataInicioPR;
+            sendAdminMail(null, titulo, descricao, null, null);
+
             /*****************************************************************
              * Datas de corte para a pesquisa da query                       *
              *****************************************************************/
@@ -50,12 +64,14 @@ module.exports = function(app) {
             /*****************************************************************
              * Realiza a pesquisa                                            *
              *****************************************************************/
+            var length = 0;
             Assinatura.find(query).deepPopulate('plano user').exec(function(error, assinaturas){
                 if(error){
-                    //COLOCAR UMA LÓGICA PARA ENVIAR EMAIL EM CASO DE ERROR
+                    descricao = "Ocorreu um erro durante o processamento do JOB [assinaturasExpiradas()]" + error;
+                    sendAdminMail(null, titulo, descricao, null, null);
                     console.log(error);
                 }else{
-                    var length = assinaturas.length;
+                    length = assinaturas.length;
                     /*****************************************************************
                      * Atualiza o status de todas as assinturas vencidas             *
                      *****************************************************************/
@@ -81,7 +97,7 @@ module.exports = function(app) {
                             /*****************************************************************
                              * Envia um e-mail informando o vencimento da assinatura         *
                              *****************************************************************/
-                            sendEmailAssinaturaExperida(email);
+                            sendEmailAssinaturaExperida(email, item);
                         });
 
                         var anuncioInvalido = {
@@ -101,18 +117,30 @@ module.exports = function(app) {
                         });
                         console.log("Fim o processamento de assinaturas vencidas " + new Date());
                     });
+
+                    var dataFimPR = Utils.moment().format("dddd, DD [de] MMMM [de] YYYY, h:mm:ss a");
+                    titulo    = "JOB [assinaturasExpiradas()] finalizado";
+                    descricao = "JOB [assinaturasExpiradas()] foi finalizado " + dataFimPR + ". Total de " + length + " registro(s) processado(s) com sucesso."
+                    sendAdminMail(null, titulo, descricao, null, null);
                 }
             });
         }, schedule);
     }
 
     function  avisoAssinaturaExperidas(){
-        var schedule = later.parse.cron('0 36 18 1/1 * ? *', true);
+        var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
         var action = later.setInterval(function(){
             console.log("Aviso de assinaturas Expiridas : " + new Date());
         }, schedule);
     }
 
+    /**
+     * Essa function tem o objetivo de enviar um email informativo alertando
+     * que sua assinatura já venceu.
+     * 
+     * @param  {[String]} email      email do cliente que será notificado.
+     * @param  {[Object} assinatura  Objeto assinatura.
+     */
     function sendEmailAssinaturaExperida(email, assinatura){
         var host = "www.junkstation.com.br";
         var url  = "/assinatura/listar";
@@ -132,7 +160,28 @@ module.exports = function(app) {
                 console.log(info);                
             }
         });
+    }
 
+    function sendAdminMail(email, titulo, descricao, link, descricao_link){
+        var _email = email || "edleson.duarte@gmail.com";
+        
+        var destination = {
+            email : _email ,
+            data  : {
+                titulo : titulo || "E-mail Administração Junkstation/Meu Velinho", 
+                descricao : descricao || "Esse é um email administrativo do site Junkstation/Meu Velinho, essa é mensagem default",
+                link : link || "#",
+                descricao_link : descricao_link || " "
+            }
+        };
+
+        emailSender.sendAdminMail(destination, function(error , info){
+            if(error){
+                console.log(error);
+            }else{
+                console.log(info);                
+            }
+        });
     }
 
     /*****************************************************************
