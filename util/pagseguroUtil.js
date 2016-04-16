@@ -1,7 +1,5 @@
-
 module.exports = function(app) {
     var pagseguro = {};
-
     /*********************************************************
     * Tipo de transação utilizada pelo comprador             *
     **********************************************************/

@@ -15,7 +15,7 @@ module.exports = function(app) {
          *****************************************************************/
         var titulo = "Email administrativo Junkstation";
         var descricao = "Esse e-mail é um aviso que o processamento batch foi iniciado com sucesso.";
-        sendAdminMail(null, titulo, descricao, null, null);
+       // sendAdminMail(null, titulo, descricao, null, null);
         /*****************************************************************
          * Seta o timezone local                                         *
          *****************************************************************/
@@ -31,12 +31,15 @@ module.exports = function(app) {
          *os clientes avisando que a assinatura vai expirar em alguns dias*
          *esse JOB roda todos os dias as 01:00 da manhã.                  *        
          *****************************************************************/
-        //avisoAssinaturaExperidas();
+        avisoAssinaturaExperidas();
     };
 
+    // ****************************************************************** //
+    //                                JOBs
+    // ****************************************************************** //
     function  assinaturasExpiradas(){
+        //Roda todos os dias as 05:00 horas da manhã.
         var schedule = later.parse.cron('0 0 5 1/1 * ? *', true);
-        //var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
         var action   = later.setInterval(function(){
             /*****************************************************************
              * Inicio do processamento da JOB                                *
@@ -45,7 +48,7 @@ module.exports = function(app) {
             /*****************************************************************
              * Envia um e-mail informando que esse JOB foi iniciado             *
              *****************************************************************/
-            var titulo = "JOB [assinaturasExpiradas()] iniciado";
+            var titulo    = "JOB [assinaturasExpiradas()] iniciado";
             var descricao = "JOB [assinaturasExpiradas()] foi iniciado " + dataInicioPR;
             sendAdminMail(null, titulo, descricao, null, null);
 
@@ -128,12 +131,41 @@ module.exports = function(app) {
     }
 
     function  avisoAssinaturaExperidas(){
+        //Roda todos os dias as 01:00 hora da manhã.
         var schedule = later.parse.cron('0 0/1 * 1/1 * ? *', true);
         var action = later.setInterval(function(){
-            console.log("Aviso de assinaturas Expiridas : " + new Date());
+            /*****************************************************************
+             * Inicio do processamento da JOB                                *
+             *****************************************************************/
+            var dataInicioPR = Utils.moment().format("dddd, DD [de] MMMM [de] YYYY, h:mm:ss a");
+            /*****************************************************************
+             * Envia um e-mail informando que esse JOB foi iniciado             *
+             *****************************************************************/
+            var titulo    = "JOB [avisoAssinaturaExperidas()] iniciado";
+            var descricao = "JOB [avisoAssinaturaExperidas()] foi iniciado " + dataInicioPR;
+            //sendAdminMail(null, titulo, descricao, null, null);
+            /*****************************************************************
+             * Datas de corte para a pesquisa da query                       *
+             *****************************************************************/
+            var dataCorte = Utils.moment().subtract(30, 'days');
+            /*****************************************************************
+             * Monta a query para realizar a pesquisa. A pesquisa só buscará *
+             *assinaturas com status 3 ou 4 que ainda estão ativas.          *
+             *****************************************************************/
+            var query = {
+                fim_vigencia : {$lt : dataCorte} ,
+                status       : {$in : [3, 4]}
+            }
+
+            console.log(Utils.moment.duration(dataCorte.diff(new Date())).days());
         }, schedule);
     }
 
+
+    // ****************************************************************** //
+    //                        FUNÇÕES AUXILIARES
+    // ****************************************************************** //
+    
     /**
      * Essa function tem o objetivo de enviar um email informativo alertando
      * que sua assinatura já venceu.
