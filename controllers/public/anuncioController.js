@@ -481,90 +481,17 @@ module.exports = function(app) {
         var query       = {user : req.user._id};
         var AnuncioDao  = new Anuncio({});
         var assinatura  = req.user.assinatura;
-
-        AnuncioDao.findByQuery(function(err, anuncios){
-            if(err){
+        
+        
+         Anuncio.find(query).deepPopulate("user plano assinatura").sort({data_anuncio : -1}).exec(function(error, anuncios){
+             if(error){
                 req.flash('meusAnuncios', '<div class="alert-error">Não foi possível listar os seus anuncios :( </div>');
                 htmlMinify('meus_anuncios', res , {response : []});
-            }else{
-                if(anuncios.length === 0 ){
+             }else{
+                 if(anuncios.length === 0 ){
                     req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">Você ainda não possível nenhum anúncio cadastrado</div>');
                 }
-
-                /************************************************************
-                 * Verifica se assinatura já venceu                         *
-                 ************************************************************/
-                if(assinatura && !isAssinaturaValida(assinatura)){
-                    /************************************************************
-                     * Atualiza o status da assintura para vencido = true       *
-                     ************************************************************/
-                    Assinatura.update({_id : assinatura._id}, { vencido : true , status : 20 }, function(error, ass){
-                        if(error){
-                            console.log(error);
-                        }
-                        console.log("A assintaura do(a) " + req.user.dadosPessoais.nome + " expirou! Status atualizado " );
-                    });
-                }
-
-                /************************************************************
-                 * Verifica se o status da assinatura :                     *
-                 *    3 - Pago                                              *
-                 *    4 - Disponível                                        *
-                 ************************************************************/
-                /*if(assinatura && assinatura.status !== 3 &&  assinatura.status !== 4){
-                    var status = assinatura.status;
-                    switch(status){
-                        case 1 :
-                            var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (AGUARDANDO PAGAMENTO) junto à operadora de cobrança';
-                            req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 2 :
-                            var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (EM ANÁLISE) junto à operadora de cobrança';
-                            req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 3 :
-                            var mensagem = 'Tudo certo :) , recebemos o seu pagamento referente a sua assinatura. Obrigado';
-                            req.flash('meusAnuncios', '<div class="alert alert-success" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 4 :
-                            var mensagem = 'Tudo certo :) , recebemos o seu pagamento referente a sua assinatura. Obrigado';
-                            req.flash('meusAnuncios', '<div class="alert alert-success" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 5 :
-                            var mensagem = 'Gostaria de lhe informar que sua assintura encontra-se com o status (EM DISPUTA), acesse sua conta da operadora de cobrança para saber mais informações';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 6 :
-                            var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (DEVOLVIDA), acesse sua conta da operadora de cobrança para saber mais informações';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 7 :
-                            var mensagem = 'Gostaria de lhe informar que sua assintura encontra-se com o status (CANCELADA), acesse sua conta da operadora de cobrança para saber mais informações';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 8 :
-                            var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (DEVOLVIDA AO COMPRADOR), acesse sua conta da operadora de cobrança para saber mais informações';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 9 :
-                            var mensagem = 'Obrigado por anunciar na Junk Station, sua assinatura está com o status (EM CONTESTAÇÃO), acesse sua conta da operadora de cobrança para saber mais informações';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 20 :
-                            var mensagem = 'OPS :( Sua assinatura venceu, <a href="/anuncio/meusdados"> Clique aqui faça a sua renovação</a>';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        case 21 :
-                            var mensagem = 'Sua assinatuura encontra-se cancelada. Não perca tempo renove sua assinatura e continue com as vantagens da Junks Station';
-                            req.flash('meusAnuncios', '<div class="alert alert-error" role="alert">' + mensagem + '</div>');
-                            break;
-                        default :
-                            var mensagem = 'Você ainda não possui nenhuma assinatura, clique em MEUS DADOS e começe a fazer parte da família Junk Station';
-                            req.flash('meusAnuncios', '<div class="alert alert-info" role="alert">' + mensagem + '</div>');
-                            break;
-                    }
-                }*/
-
+                
                 var assinaturas = req.user.assinaturas.filter(function(item){
                     return (item.status == 3 || item.status == 4);
                 });
@@ -582,8 +509,9 @@ module.exports = function(app) {
 
                 req.session.countAnuncio = anuncios.length;
                 htmlMinify('meus_anuncios', res , {response : anuncios}); 
-            }
-        }, query).sort({data_anuncio : -1});
+                
+             }
+         });
     };
 
     function validateAnuncio(anuncio){

@@ -1,416 +1,422 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<% include template/css %>
-	</head>
+    <head>
+        <% include template/meta %>
+        <title>Junk Station a Vitrine do seu clássico</title>
+        <% include template/css %>
+    </head>
 
-	<body >
-		<% include template/header %> 
-		
-		<div class="container_12 clearfix">
-			<div class="grid_8 content">
-				<h2 class="page_title with_filter">Resultado da Busca</h2>
-				<div class="results_filter">
-					<label for="sort" class="dropdown_label">ordenar por :</label>
-					<select name="sort" id="sort" class="custom_select">
-						<option value="" selected="selected"></option>
-						<option value="mais_recentes" >Mais recentes</option>
-						<option value="mais_antigos">Mais antigos</option>
-						<option value="maior_preco">Maior preço</option>
-						<option value="menor_preco">Menor preço</option>
-						<option value="views">Mais vistos</option>
-					</select>
-					<a href="#" id="modoLista" class="sort_list current"></a>
-					<a href="#"  id="modoGrid"  class="sort_grid"></a>
-				</div>
+    <body >
+        <% include template/header %> 
+        
+        <div class="container_12 clearfix">
+            <div class="grid_8 content">
+                <h2 class="page_title with_filter">Resultado da Busca</h2>
+                <div class="results_filter">
+                    <label for="sort" class="dropdown_label">ordenar por :</label>
+                    <select name="sort" id="sort" class="custom_select">
+                        <option value="" selected="selected"></option>
+                        <option value="mais_recentes" >Mais recentes</option>
+                        <option value="mais_antigos">Mais antigos</option>
+                        <option value="maior_preco">Maior preço</option>
+                        <option value="menor_preco">Menor preço</option>
+                        <option value="views">Mais vistos</option>
+                    </select>
+                    <a href="#" id="modoLista" class="sort_list current"></a>
+                    <a href="#"  id="modoGrid"  class="sort_grid"></a>
+                </div>
 
-				<div id="ajaxContent">
-					<% if(anuncios.length === 0) {%>
-						<section id="search_results">
-							<p class="no_results">
-								Ops :( ! Não encontramos nenhum resultado para sua pesquisa. 
-							</p>
-						</section>
+                <div id="ajaxContent">
+                    <% if(anuncios.length === 0) {%>
+                        <section id="search_results">
+                            <p class="no_results">
+                                Ops :( ! Não encontramos nenhum resultado para sua pesquisa. 
+                            </p>
+                        </section>
 
-					<% }else{ %>
-						<input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-						<input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
-						
-						<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
-							<ul class='pagination'>
-								<% if(paginate.hasPreviousPages) {%>
-									<li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
-								<% }%>
+                    <% }else{ %>
+                        <input type="hidden" id="currentGridPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+                        <input type="hidden" id="currentlistPage" value="/anuncio/pesquisa?page=<%-paginate.page%>&limit=<%-paginate.limit%>">
+                        
+                        <% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
+                            <ul class='pagination'>
+                                <% if(paginate.hasPreviousPages) {%>
+                                    <li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
+                                <% }%>
 
-								<%  var current = '';
-									pages.forEach(function(page){
-										var current = paginate.page == page.number ? 'current' : '';
-										var url = "/anuncio/lista?page=" + page.number + "&limit=" + paginate.limit ;	 
-								%>
-										<li>
-											<a class='button pagination-number <%- current %>' href='<%- url %>'>
-												<%- page.number %>
-											</a>
-										</li>
-								<% });%>
+                                <%  var current = '';
+                                    pages.forEach(function(page){
+                                        var current = paginate.page == page.number ? 'current' : '';
+                                        var url = "/anuncio/lista?page=" + page.number + "&limit=" + paginate.limit ;     
+                                %>
+                                        <li>
+                                            <a class='button pagination-number <%- current %>' href='<%- url %>'>
+                                                <%- page.number %>
+                                            </a>
+                                        </li>
+                                <% });%>
 
-								<% if(paginate.hasNextPages(pageCount)) {
-									var page = paginate.page + 1;
-								%>
-									<li>
-										<a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>&ajax=true"> &gt;&gt; </a>
-									</li>
-								<% }%>
-							</ul>
-						<% }%> 
+                                <% if(paginate.hasNextPages(pageCount)) {
+                                    var page = paginate.page + 1;
+                                %>
+                                    <li>
+                                        <a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>&ajax=true"> &gt;&gt; </a>
+                                    </li>
+                                <% }%>
+                            </ul>
+                        <% }%> 
 
-						<% anuncios.forEach(function(anuncio){ %>
-							<article class="box clearfix list_item">
-								<div class="half left">
-									<div class="overlayed">
-										<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="<%- anuncio.marca +' '+ anuncio.modelo %>" style="max-height : 209px; min-width : 279px;">
-										<div class="overlay">
-											<span class="overlay-icon-left">
-												<a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
-											</span>
-											<!--<span class="overlay-icon-right">
-												<a href="/dist/images/sls.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-													<i class="icomoon-expand-2"></i>
-												</a>
-											</span>-->
-										</div>
-									</div>
-								</div>
+                        <% anuncios.forEach(function(anuncio){ %>
+                            <article class="box clearfix list_item">
+                                <div class="half left">
+                                    <div class="overlayed">
+                                        <img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="<%- anuncio.marca +' '+ anuncio.modelo %>" style="max-height : 209px; min-width : 279px;">
+                                        <div class="overlay">
+                                            <span class="overlay-icon-left">
+                                                <a href="/anuncio/detail/<%- anuncio._id %>"><i class="icomoon-link"></i></a>
+                                            </span>
+                                            <!--<span class="overlay-icon-right">
+                                                <a href="/dist/images/sls.jpg" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+                                                    <i class="icomoon-expand-2"></i>
+                                                </a>
+                                            </span>-->
+                                        </div>
+                                    </div>
+                                </div>
 
-								<div class="half right">
-									<div class="item_heading">
-										<h4><%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"> <%- anuncio.modelo %></a> </h4>
-										<p class="location">
-											<%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
-											<span class="vendor"><%- anuncio.anunciante %></span>
-										</p>
-									</div>
+                                <div class="half right">
+                                    <div class="item_heading">
+                                        <h4><%- anuncio.marca %> <a href="/anuncio/detail/<%- anuncio._id %>"> <%- anuncio.modelo %></a> </h4>
+                                        <p class="location">
+                                            <%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong>
+                                            <span class="vendor"><%- anuncio.anunciante %></span>
+                                        </p>
+                                    </div>
 
-									<div class="item_info clearfix">
-										<p class="half left">
-											<span class="item_year"> - <%- anuncio.ano %></span>
-											<span class="item_type"> - <%- anuncio.estilo %></span>
-											<span class="item_drive"> - <%- anuncio.cambio %></span>
-											<span class="item_engine"> - <%- anuncio.motor %></span>
-										</p>
-										<p class="half right">
-											<span class="item_transimition"> - <%- anuncio.cor %></span>
-											<span class="item_fuel"> - <%- anuncio.combustivel %></span>
-											<span class="item_mileage"> - <%- anuncio.kilometragem %></span>
-										</p>
-									</div>
+                                    <div class="item_info clearfix">
+                                        <p class="half left">
+                                            <span class="item_year"> - <%- anuncio.ano %></span>
+                                            <span class="item_type"> - <%- anuncio.estilo %></span>
+                                            <span class="item_drive"> - <%- anuncio.cambio %></span>
+                                            <span class="item_engine"> - <%- anuncio.motor %></span>
+                                        </p>
+                                        <p class="half right">
+                                            <span class="item_transimition"> - <%- anuncio.cor %></span>
+                                            <span class="item_fuel"> - <%- anuncio.combustivel %></span>
+                                            <span class="item_mileage"> - <%- anuncio.kilometragem %></span>
+                                        </p>
+                                    </div>
 
-									<div class="item_footer">
-										<span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
-										<span class="item_date"><%- util.moment(anuncio.data_anuncio).format('DD MMM YYYY') %></span>
-										<span class="item_rating">0.0</span>
-									</div>
-								</div>
-							</article>
-						<%});%>
-						
-						<% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
-							<ul class='pagination'>
-								<% if(paginate.hasPreviousPages) {%>
-									<li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
-								<% }%>
+                                    <div class="item_footer">
+                                        <span class="item_price">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
+                                        <span class="item_date"><%- util.moment(anuncio.data_anuncio).format('DD MMM YYYY') %></span>
+                                        <span > 
+                                            <div id="social_icons" class="grid_3">
+                                                <a href="#" class="circle"><i class="icon-twitter"></i></a>
+                                                <a href="#" class="circle"><i class="icon-linkedin"></i></a>
+                                                <a href="#" class="circle"><i class="icon-facebook"></i></a>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </article>
+                        <%});%>
+                        
+                        <% if(paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) {%>
+                            <ul class='pagination'>
+                                <% if(paginate.hasPreviousPages) {%>
+                                    <li><a class="button pagination-previous" href="<%- paginate.href(true) %>"> &lt;&lt; </a></li>
+                                <% }%>
 
-								<%  var current = '';
-									pages.forEach(function(page){
-										current = paginate.page == page.number ? 'current' : '';	 
-								%>
-										<li><a class='button pagination-number <%- current %>' href='<%- page.url %>'><%- page.number %></a></li>
-								<% });%>
+                                <%  var current = '';
+                                    pages.forEach(function(page){
+                                        current = paginate.page == page.number ? 'current' : '';     
+                                %>
+                                        <li><a class='button pagination-number <%- current %>' href='<%- page.url %>'><%- page.number %></a></li>
+                                <% });%>
 
-								<% if(paginate.hasNextPages(pageCount)) {
-									var page = paginate.page + 1;
-								%>
-									<li><a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>"> &gt;&gt; </a></li>
-								<% }%>
-							</ul>
-						<% }%>
-					<% }%>
-				</div>
-				
-			</div>
-			
-			<div class="grid_4 sidebar">
-				<div class="box widget_search_filter">
-					<h3>Filtro de Pesquisas</h3>
-					<form action="/anuncio/pesquisa?ajax=true" method="post" name="pesquisaAnuncioForm" id="pesquisaForm">
-						<div class="box-content">
-							<p>
-								<label for="cbCategoria" class="dropdown_label">Categoria </label>
-								<select name="categoria" id="cbCategoria" class="custom_select">
-									<option value="0">selecione </option>
-								</select>
-							</p>
-							
-							<p>
-								<label for="cbmMarca" class="dropdown_label">Marca</label>
-								<select name="marca" id="cbmMarca" class="custom_select">
-									<option value="0"> </option>
-								</select>
-							</p>
+                                <% if(paginate.hasNextPages(pageCount)) {
+                                    var page = paginate.page + 1;
+                                %>
+                                    <li><a class="button pagination-next" href="/anuncio/lista?page=<%-page%>&limit=<%-paginate.limit%>"> &gt;&gt; </a></li>
+                                <% }%>
+                            </ul>
+                        <% }%>
+                    <% }%>
+                </div>
+                
+            </div>
+            
+            <div class="grid_4 sidebar">
+                <div class="box widget_search_filter">
+                    <h3>Filtro de Pesquisas</h3>
+                    <form action="/anuncio/pesquisa?ajax=true" method="post" name="pesquisaAnuncioForm" id="pesquisaForm">
+                        <div class="box-content">
+                            <p>
+                                <label for="cbCategoria" class="dropdown_label">Categoria </label>
+                                <select name="categoria" id="cbCategoria" class="custom_select">
+                                    <option value="0">selecione </option>
+                                </select>
+                            </p>
+                            
+                            <p>
+                                <label for="cbmMarca" class="dropdown_label">Marca</label>
+                                <select name="marca" id="cbmMarca" class="custom_select">
+                                    <option value="0"> </option>
+                                </select>
+                            </p>
 
-							<p>
-								<label for="cbmModelo" class="dropdown_label">Modelo</label>
-								<select name="modelo" id="cbmModelo" class="custom_select">
-									<option value="0"> </option>
-								</select>
-							</p>
+                            <p>
+                                <label for="cbmModelo" class="dropdown_label">Modelo</label>
+                                <select name="modelo" id="cbmModelo" class="custom_select">
+                                    <option value="0"> </option>
+                                </select>
+                            </p>
 
-							<p>
-								<label for="with_photos" class="custom_checkbox">
-									<input type="checkbox" name="fotoPrincipal.nome" id="with_photos" value="true">Com Fotos
-								</label>
-								<label for="with_video" class="custom_checkbox">
-									<input type="checkbox" name="videoPrincipal.nome" id="with_video">Com Videos
-								</label>
-							</p>
-							
-						</div>
+                            <p>
+                                <label for="with_photos" class="custom_checkbox">
+                                    <input type="checkbox" name="fotoPrincipal.nome" id="with_photos" value="true">Com Fotos
+                                </label>
+                                <label for="with_video" class="custom_checkbox">
+                                    <input type="checkbox" name="videoPrincipal.nome" id="with_video">Com Videos
+                                </label>
+                            </p>
+                            
+                        </div>
 
-						<div class="box-content">
-							<p class="newsletter_button"><a id="btn-pesquisar" class="button submit wide green wider">Pesquisar</a>
-						</div>
-					</form>
-				</div>
-				
-				<div class="box">
-					<h3>Assine nossa newsletter</h3>
-					<span id="newsletterMessage"></span>
-					<div class="box-content widget_newsletter">
-						<p>Fique por dentro das novidades que rolam na JunkStation</p>
-						<form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
-							<input type="text" name="nome"  placeholder="Nome"  maxlength="30"  id="nomeNewsletter"/>
-							<input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter"/>
-							<p class="newsletter_checkbox">
-								<label for="special_offers" class="custom_checkbox">
-									<input type="checkbox" name="special_offers" id="special_offers">
-									Receber ofertas especiais
-								</label>
-							</p>
-							<p class="newsletter_button"><a class="button submit wide red wider">Assinar</a>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+                        <div class="box-content">
+                            <p class="newsletter_button"><a id="btn-pesquisar" class="button submit wide green wider">Pesquisar</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="box">
+                    <h3>Assine nossa newsletter</h3>
+                    <span id="newsletterMessage"></span>
+                    <div class="box-content widget_newsletter">
+                        <p>Fique por dentro das novidades que rolam na JunkStation</p>
+                        <form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
+                            <input type="text" name="nome"  placeholder="Nome"  maxlength="30"  id="nomeNewsletter"/>
+                            <input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter"/>
+                            <p class="newsletter_checkbox">
+                                <label for="special_offers" class="custom_checkbox">
+                                    <input type="checkbox" name="special_offers" id="special_offers">
+                                    Receber ofertas especiais
+                                </label>
+                            </p>
+                            <p class="newsletter_button"><a class="button submit wide red wider">Assinar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+        <!-- FIM DO FOOTER-->
 
-		<script type="text/javascript">
-			$(document).ready(function(){
+        <script type="text/javascript">
+            $(document).ready(function(){
 
-				$("#newsletterForm").validate({ 
-					submitHandler : function(form){
-						var request =  {
-							url     : form.action   ,
-							params  : {nome : $("#nomeNewsletter").val() , email : $("#emailNewsletter").val()} ,
-							method  : "post"        ,
-							callback : function(response, textStatus, jqXHR){
-								$("#newsletterMessage").html(response.header.message);
-								console.log(response);
-							}
-						};
+                $("#newsletterForm").validate({ 
+                    submitHandler : function(form){
+                        var request =  {
+                            url     : form.action   ,
+                            params  : {nome : $("#nomeNewsletter").val() , email : $("#emailNewsletter").val()} ,
+                            method  : "post"        ,
+                            callback : function(response, textStatus, jqXHR){
+                                $("#newsletterMessage").html(response.header.message);
+                                console.log(response);
+                            }
+                        };
 
-						console.log(request);
+                        console.log(request);
 
-						ajaxRequest(request , true);
-					},
+                        ajaxRequest(request , true);
+                    },
 
-					rules: { 
-				    	nome  : "required" ,
-				        email : {
-				        	required : true	, 
-				          	email    : true 
-				        }
-				    },
+                    rules: { 
+                        nome  : "required" ,
+                        email : {
+                            required : true    , 
+                              email    : true 
+                        }
+                    },
 
-			        messages: { 
-			          	nome       : "O nome da newsletter é obrigatório"  ,
-			          	email      : "Digite um endereço de e-mail válido."	 
-			          			
-			        } 
-				});
+                    messages: { 
+                          nome       : "O nome da newsletter é obrigatório"  ,
+                          email      : "Digite um endereço de e-mail válido."     
+                                  
+                    } 
+                });
 
-				$("#pesquisaForm").validate({ 
-					submitHandler: function(form){
-						var params = getParamsSearch();
-						params.view = $("#modoLista").hasClass('current') ? "list" : "grid";
-						var url = parseQueryString(form.action) + "&" + serializeQueryString(params);
-						var request =  {
-							url     : url   ,
-							params  : {}    ,
-							method  : "get" ,
-							callback : function(response, textStatus, jqXHR){
-								$("#ajaxContent").html(response);
-							}
-						};
+                $("#pesquisaForm").validate({ 
+                    submitHandler: function(form){
+                        var params = getParamsSearch();
+                        params.view = $("#modoLista").hasClass('current') ? "list" : "grid";
+                        var url = parseQueryString(form.action) + "&" + serializeQueryString(params);
+                        var request =  {
+                            url     : url   ,
+                            params  : {}    ,
+                            method  : "get" ,
+                            callback : function(response, textStatus, jqXHR){
+                                $("#ajaxContent").html(response);
+                            }
+                        };
 
-						ajaxRequest(request , true);
+                        ajaxRequest(request , true);
 
-						return false ;
-					}
-				});
+                        return false ;
+                    }
+                });
 
-				$("#modoLista, #modoGrid").click(listaAnuncio);
+                $("#modoLista, #modoGrid").click(listaAnuncio);
 
-				var listaAnuncioCallBack = function(response, textStatus, jqXHR){
-					$("#ajaxContent").html(response);
-				};
+                var listaAnuncioCallBack = function(response, textStatus, jqXHR){
+                    $("#ajaxContent").html(response);
+                };
 
-				$("#ajaxContent").on("click", ".pagination a", listaAnuncio);
-				
-				function listaAnuncio(e){
-					e.preventDefault();
-					var url = parseQueryString($(this).attr("href"));
-					var id  = $(this).attr("id");
+                $("#ajaxContent").on("click", ".pagination a", listaAnuncio);
+                
+                function listaAnuncio(e){
+                    e.preventDefault();
+                    var url = parseQueryString($(this).attr("href"));
+                    var id  = $(this).attr("id");
 
-					var params = getParamsSearch();
+                    var params = getParamsSearch();
 
-					delete params.view;
+                    delete params.view;
 
-					if(id === "modoLista"){
-						$("#modoLista").addClass('current');
-						$("#modoGrid").removeClass('current');
-						url =  $("#currentlistPage").val();
-						params.view = "list";
-					}else if(id === "modoGrid"){
-						$("#modoGrid").addClass('current');
-						$("#modoLista").removeClass('current');
-						url =  $("#currentGridPage").val();
-						params.view = "grid";
-					}
+                    if(id === "modoLista"){
+                        $("#modoLista").addClass('current');
+                        $("#modoGrid").removeClass('current');
+                        url =  $("#currentlistPage").val();
+                        params.view = "list";
+                    }else if(id === "modoGrid"){
+                        $("#modoGrid").addClass('current');
+                        $("#modoLista").removeClass('current');
+                        url =  $("#currentGridPage").val();
+                        params.view = "grid";
+                    }
 
-					url = url + "&" + serializeQueryString(params);
+                    url = url + "&" + serializeQueryString(params);
 
-					var request =  {
-						url      : parseQueryString(url + "&ajax=true"),
-						params   : {}   			,         
-						method   : "get"			,
-						dataType : "text/html"		,
-						callback : listaAnuncioCallBack
-					};
+                    var request =  {
+                        url      : parseQueryString(url + "&ajax=true"),
+                        params   : {}               ,         
+                        method   : "get"            ,
+                        dataType : "text/html"        ,
+                        callback : listaAnuncioCallBack
+                    };
 
-					ajaxRequest(request, true);
-					return false;
-				}
+                    ajaxRequest(request, true);
+                    return false;
+                }
 
-				var loadCategoriaCallback = function(response, textStatus, jqXHR){
-					var categorias = response.data;
-					$('#cbCategoria option').remove();
+                var loadCategoriaCallback = function(response, textStatus, jqXHR){
+                    var categorias = response.data;
+                    $('#cbCategoria option').remove();
 
-					$('#cbCategoria').append($('<option>', {
-						    value : "0" ,
-						    text  : ""  ,
-						    selected : "selected"
-					})).change();
+                    $('#cbCategoria').append($('<option>', {
+                            value : "0" ,
+                            text  : ""  ,
+                            selected : "selected"
+                    })).change();
 
-					categorias.forEach(function(item){
-						$('#cbCategoria').append($('<option>', {
-						    value : item._id ,
-						    text  : item.nome
-						}));
-					});	
-				};
+                    categorias.forEach(function(item){
+                        $('#cbCategoria').append($('<option>', {
+                            value : item._id ,
+                            text  : item.nome
+                        }));
+                    });    
+                };
 
-				listCategoria(loadCategoriaCallback, {} , true);
+                listCategoria(loadCategoriaCallback, {} , true);
 
-				var categoriaCallback = function(response, textStatus, jqXHR){
-					var marcas = response.data;
-					$('#cbmMarca option').remove();
-					$('#cbmModelo option').remove();
-					
-					$('#cbmMarca').append($('<option>', {
-						    value : "0" ,
-						    text  : ""  ,
-						    selected : "selected"
-					})).change(); 
+                var categoriaCallback = function(response, textStatus, jqXHR){
+                    var marcas = response.data;
+                    $('#cbmMarca option').remove();
+                    $('#cbmModelo option').remove();
+                    
+                    $('#cbmMarca').append($('<option>', {
+                            value : "0" ,
+                            text  : ""  ,
+                            selected : "selected"
+                    })).change(); 
 
-					$('#cbmModelo').append($('<option>', {
-						    value : "0" ,
-						    text  : ""  ,
-						    selected : "selected"
-					})).change();
+                    $('#cbmModelo').append($('<option>', {
+                            value : "0" ,
+                            text  : ""  ,
+                            selected : "selected"
+                    })).change();
 
-					marcas.forEach(function(item){
-						$('#cbmMarca').append($('<option>', {
-						    value : item._id ,
-						    text  : item.nome
-						}));
-					});
-				};
+                    marcas.forEach(function(item){
+                        $('#cbmMarca').append($('<option>', {
+                            value : item._id ,
+                            text  : item.nome
+                        }));
+                    });
+                };
 
-				var marcaCallback = function(response, textStatus, jqXHR){
-					var modelos = response.data;
-					
-					$('#cbmModelo option').remove();
-					
-					$('#cbmModelo').append($('<option>', {
-						    value : "0" ,
-						    text  : ""  ,
-						    selected : "selected"
-					})).change();
+                var marcaCallback = function(response, textStatus, jqXHR){
+                    var modelos = response.data;
+                    
+                    $('#cbmModelo option').remove();
+                    
+                    $('#cbmModelo').append($('<option>', {
+                            value : "0" ,
+                            text  : ""  ,
+                            selected : "selected"
+                    })).change();
 
-					modelos.forEach(function(item){
-						$('#cbmModelo').append($('<option>', {
-						    value : item._id ,
-						    text  : item.nome
-						}));
-					});
-				};
+                    modelos.forEach(function(item){
+                        $('#cbmModelo').append($('<option>', {
+                            value : item._id ,
+                            text  : item.nome
+                        }));
+                    });
+                };
 
-				$("#cbCategoria").change(function(){
-					if($(this).val() !== "0"){
-						listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
-					}
-				});
+                $("#cbCategoria").change(function(){
+                    if($(this).val() !== "0"){
+                        listMarcaByCategoria($(this).val(), categoriaCallback, {}, true);
+                    }
+                });
 
-				$("#cbmMarca").change(function(){
-					if($(this).val() !== "0"){
-						listModeloByMarca($(this).val(), marcaCallback, {}, true);
-					}
-				});
+                $("#cbmMarca").change(function(){
+                    if($(this).val() !== "0"){
+                        listModeloByMarca($(this).val(), marcaCallback, {}, true);
+                    }
+                });
 
-				$("#sort").change(function(){
-					$("#btn-pesquisar").click();
-				});
-			});
+                $("#sort").change(function(){
+                    $("#btn-pesquisar").click();
+                });
+            });
 
-			function getParamsSearch(){
-				var params = {
-					status    : true , 
-					categoria : $("#cbCategoria").val() != "0" ? $("#cbCategoria option:selected").text() : "",
-					marca     : $("#cbmMarca").val()    != "0" ? $("#cbmMarca option:selected").text()    : "", 
-					modelo    : $("#cbmModelo").val()   != "0" ? $("#cbmModelo option:selected").text()   : "",
-					"fotoPrincipal.nome" : $("#with_photos:checked").val(),
-					"videoPrincipal.nome" : $("#with_video:checked").val(),
-					orderby   : $("#sort").val()
-					
-				}
+            function getParamsSearch(){
+                var params = {
+                    status    : true , 
+                    categoria : $("#cbCategoria").val() != "0" ? $("#cbCategoria option:selected").text() : "",
+                    marca     : $("#cbmMarca").val()    != "0" ? $("#cbmMarca option:selected").text()    : "", 
+                    modelo    : $("#cbmModelo").val()   != "0" ? $("#cbmModelo option:selected").text()   : "",
+                    "fotoPrincipal.nome" : $("#with_photos:checked").val(),
+                    "videoPrincipal.nome" : $("#with_video:checked").val(),
+                    orderby   : $("#sort").val()
+                    
+                }
 
-				var value = null;
-				
-				for(var property in params){
-					value = params[property];
-					if(value === "" || value == undefined){
-						delete params[property];
-					}
-				}
+                var value = null;
+                
+                for(var property in params){
+                    value = params[property];
+                    if(value === "" || value == undefined){
+                        delete params[property];
+                    }
+                }
 
-				return params;
-			}
-		</script>
-	</body>
+                return params;
+            }
+        </script>
+    </body>
 </html>

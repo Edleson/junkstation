@@ -136,8 +136,6 @@ load('util').then('models').then('controllers').then('routes').into(app);
 
 app.use(error.notFound);
 app.use(error.serverError);
-
-
 /***********************************************************
  * Faz otimização das imagens e coloca no diretório DIST   * 
  ***********************************************************/
