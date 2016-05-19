@@ -1,371 +1,356 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-		<% include template/css %>
-	</head>
+    <head>
+        <% include template/meta %>
+        <title>Junk Station a Vitrine do seu clássico</title>
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <% include template/css %>
+    </head>
 
-	<body >
-		<% include template/header %>
-		
-		<div class="container_12 clearfix content" id="add_new_item_info">
-			<% include template/vertical_menu_admin %>
-			
-			<div class="grid_9 bigger_margin">
-				<%- request.flash("cadastro") %>
-				<% 
-					var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
-					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
-					
-					var plano = null ; 
-					if(!request.user.plano){
-						plano = "";
-					}else if(request.user.plano && request.user.plano._id){
-						plano = request.user.plano._id.toString();
-					}else{
-						plano = request.user.plano.toString();
-					}
-					/*
-					var assinatura    = request.user.assinatura;
-					var disabled      = "";
-					var hasAssinatura = false;
-					var diasRestantes = 0 ;
-					var vencido       = (assinatura && assinatura.vencido) ? true : false;
-					
-					if(assinatura && !assinatura.vencido){
-						//disabled      = "disabled='disabled'";
-						hasAssinatura = true;
-						var now       = util.moment();
-						var end       = util.moment(assinatura.fim_vigencia); 
-						var duration  = util.moment.duration(end.diff(now));
-						diasRestantes = duration.days();
-					}*/
-				%>
-				<div class="box clearfix">
-					<input type="hidden" value="" id="diasRestantes">
-					
-					<h3>Meu Perfil</h3>
-					<form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
-						
-						<div class="box-content clearfix">
-							<div class="grid_4 left clearfix">
-								<p>
-									<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
-									<select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" >
-										<option value="" >Selecione</option>
-										<% listaPessoa.forEach(function(item){ %>
-											<option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
-										<% }); %>
-									</select>
-								</p>
-							</div>
+    <body >
+        <% include template/header %>
+        
+        <div class="container_12 clearfix content" id="add_new_item_info">
+            <% include template/vertical_menu_admin %>
+            
+            <div class="grid_9 bigger_margin">
+                <%- request.flash("cadastro") %>
+                <% 
+                    var listaSexo = [{value : "M", nome : "Masculino"}, {value : "F", nome : "Feminino"}];
+                    var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
+                    
+                    var plano = null ; 
+                    if(!request.user.plano){
+                        plano = "";
+                    }else if(request.user.plano && request.user.plano._id){
+                        plano = request.user.plano._id.toString();
+                    }else{
+                        plano = request.user.plano.toString();
+                    }
+                %>
+                <div class="box clearfix">
+                    <input type="hidden" value="" id="diasRestantes">
+                    
+                    <h3>Meu Perfil</h3>
+                    <form method="POST" action="https://<%- request.hostname %>/anuncio/meusdados" id="perfilForm">
+                        
+                        <div class="box-content clearfix">
+                            <div class="grid_4 left clearfix">
+                                <p>
+                                    <label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
+                                    <select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" >
+                                        <option value="" >Selecione</option>
+                                        <% listaPessoa.forEach(function(item){ %>
+                                            <option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+                                        <% }); %>
+                                    </select>
+                                </p>
+                            </div>
 
-							<div class="grid_8 left">							
-								<p></p>
-							</div>
-							
-							<div class="grid_5 left cnpjdata">
-								<p>
-									<label for="razaosocial" class="dropdown_label">Razão Social</label>
-									<input type="text" id="razaosocial" name="razaosocial" value="<%- request.user.dadosPessoais.razaosocial %>" maxlength="80" />
-								</p>
-							</div>
+                            <div class="grid_8 left">                            
+                                <p></p>
+                            </div>
+                            
+                            <div class="grid_5 left cnpjdata">
+                                <p>
+                                    <label for="razaosocial" class="dropdown_label">Razão Social</label>
+                                    <input type="text" id="razaosocial" name="razaosocial" value="<%- request.user.dadosPessoais.razaosocial %>" maxlength="80" />
+                                </p>
+                            </div>
 
-							<div class="grid_3 left cnpjdata">
-								<p>
-									<label for="cnpj" class="dropdown_label">CNPJ</label>
-									<input type="text" id="cnpj" name="cnpj"  value="<%- request.user.dadosPessoais.cnpj %>" maxlength="14" />
-								</p>
-							</div>
+                            <div class="grid_3 left cnpjdata">
+                                <p>
+                                    <label for="cnpj" class="dropdown_label">CNPJ</label>
+                                    <input type="text" id="cnpj" name="cnpj"  value="<%- request.user.dadosPessoais.cnpj %>" maxlength="14" />
+                                </p>
+                            </div>
 
-							<div class="grid_8 left">
-								<p>
-									<label for="nome" class="dropdown_label">Nome <span class="required">*</span></label>
-									<input type="text" id="nome" name="nome" value="<%- request.user.dadosPessoais.nome %>" maxlength="80"/>
-								</p>
-							</div>
+                            <div class="grid_8 left">
+                                <p>
+                                    <label for="nome" class="dropdown_label">Nome <span class="required">*</span></label>
+                                    <input type="text" id="nome" name="nome" value="<%- request.user.dadosPessoais.nome %>" maxlength="80"/>
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">									
-								<p>
-									<label for="nascimento" class="dropdown_label">Data de nascimento <span class="required">*</span></label>
-									<input type="text" id="dataNascimento" name="dataNascimento"  value="<%- request.user.dadosPessoais.dataNascimentoFormatada %>" />
-								</p>
-							</div>
+                            <div class="grid_3 left">                                    
+                                <p>
+                                    <label for="nascimento" class="dropdown_label">Data de nascimento <span class="required">*</span></label>
+                                    <input type="text" id="dataNascimento" name="dataNascimento"  value="<%- request.user.dadosPessoais.dataNascimentoFormatada %>" />
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">
-								<p>
-									<label for="cpf" class="dropdown_label">CPF <span class="required">*</span></label>
-									<input type="text" id="cpf" name="cpf" maxlength="11" value="<%- request.user.dadosPessoais.cpf %>" />
-								</p>
-							</div>
+                            <div class="grid_3 left">
+                                <p>
+                                    <label for="cpf" class="dropdown_label">CPF <span class="required">*</span></label>
+                                    <input type="text" id="cpf" name="cpf" maxlength="11" value="<%- request.user.dadosPessoais.cpf %>" />
+                                </p>
+                            </div>
 
-							<div class="grid_2 left">							
-								<p>
-									<label for="sexo" class="dropdown_label">Sexo <span class="required">*</span></label>
-									<select name="sexo" id="sexo" class="customSelect full" value="<%- request.user.dadosPessoais.sexo %>">
-										<option value="">Selecione</option>
-										<% listaSexo.forEach(function(item){ %>
-											<option value="<%- item.value %>" <%- request.user.dadosPessoais.sexo === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
-										<% }); %>
-									</select>
-								</p>
-							</div>
+                            <div class="grid_2 left">                            
+                                <p>
+                                    <label for="sexo" class="dropdown_label">Sexo <span class="required">*</span></label>
+                                    <select name="sexo" id="sexo" class="customSelect full" value="<%- request.user.dadosPessoais.sexo %>">
+                                        <option value="">Selecione</option>
+                                        <% listaSexo.forEach(function(item){ %>
+                                            <option value="<%- item.value %>" <%- request.user.dadosPessoais.sexo === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+                                        <% }); %>
+                                    </select>
+                                </p>
+                            </div>
 
-							<div class="grid_4 left">							
-								<p>
-									<label for="celular" class="dropdown_label">Celular <span class="required">*</span></label>
-									<input type="text" id="celular" name="celular" placeholder="(XX) XXXXXXXXX" value="<%- request.user.dadosPessoais.celular %>" />
-								</p>
-							</div>
-											
-							<div class="grid_4 right">							
-								<p>
-									<label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
-									<input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
-								</p>
-							</div>
+                            <div class="grid_4 left">                            
+                                <p>
+                                    <label for="celular" class="dropdown_label">Celular <span class="required">*</span></label>
+                                    <input type="text" id="celular" name="celular" placeholder="(XX) XXXXXXXXX" value="<%- request.user.dadosPessoais.celular %>" />
+                                </p>
+                            </div>
+                                            
+                            <div class="grid_4 right">                            
+                                <p>
+                                    <label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
+                                    <input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">							
-								<p>
-									<label for="cep" class="dropdown_label">CEP <span class="required">*</span></label>
-									<input type="text" id="cep" name="cep" maxlength="8" value="<%- request.user.dadosPessoais.cep %>" />
-								</p>
-							</div>
+                            <div class="grid_3 left">                            
+                                <p>
+                                    <label for="cep" class="dropdown_label">CEP <span class="required">*</span></label>
+                                    <input type="text" id="cep" name="cep" maxlength="8" value="<%- request.user.dadosPessoais.cep %>" />
+                                </p>
+                            </div>
 
-							<div class="grid_8 left">							
-								<p></p>
-							</div>
+                            <div class="grid_8 left">                            
+                                <p></p>
+                            </div>
 
-							<div class="grid_5 left">
-								<p>
-									<label for="logradouro" class="dropdown_label">Logradouro <span class="required">*</span></label>
-									<input type="text" id="logradouro" name="logradouro"  value="<%- request.user.dadosPessoais.logradouro %>" maxlength="60" />		
-								</p>
-							</div>
+                            <div class="grid_5 left">
+                                <p>
+                                    <label for="logradouro" class="dropdown_label">Logradouro <span class="required">*</span></label>
+                                    <input type="text" id="logradouro" name="logradouro"  value="<%- request.user.dadosPessoais.logradouro %>" maxlength="60" />        
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">
-								<p>
-									<label for="numeroLogradouro" class="dropdown_label">Número <span class="required">*</span></label>
-									<input type="text" id="numeroLogradouro" name="numeroLogradouro" value="<%- request.user.dadosPessoais.numeroLogradouro %>" maxlength="10" />		
-								</p>
-							</div>
+                            <div class="grid_3 left">
+                                <p>
+                                    <label for="numeroLogradouro" class="dropdown_label">Número <span class="required">*</span></label>
+                                    <input type="text" id="numeroLogradouro" name="numeroLogradouro" value="<%- request.user.dadosPessoais.numeroLogradouro %>" maxlength="10" />        
+                                </p>
+                            </div>
 
-							<div class="grid_5 left">
-								<p>
-									<label for="bairro" class="dropdown_label">Bairro <span class="required">*</span></label>
-									<input type="text" id="bairro" name="bairro" value="<%- request.user.dadosPessoais.bairro %>" maxlength="30" />		
-								</p>
-							</div>
+                            <div class="grid_5 left">
+                                <p>
+                                    <label for="bairro" class="dropdown_label">Bairro <span class="required">*</span></label>
+                                    <input type="text" id="bairro" name="bairro" value="<%- request.user.dadosPessoais.bairro %>" maxlength="30" />        
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">
-								<p>
-									<label for="complemento" class="dropdown_label">Complemento</label>
-									<input type="text" id="complemento" name="complemento" value="<%- request.user.dadosPessoais.complemento %>" maxlength="20" />	
-								</p>
-							</div>
+                            <div class="grid_3 left">
+                                <p>
+                                    <label for="complemento" class="dropdown_label">Complemento</label>
+                                    <input type="text" id="complemento" name="complemento" value="<%- request.user.dadosPessoais.complemento %>" maxlength="20" />    
+                                </p>
+                            </div>
 
-							<div class="grid_5 left">
-								<p>
-									<label for="cidade" class="dropdown_label">Cidade <span class="required">*</span></label>
-									<input type="text" id="cidade" name="cidade" value="<%- request.user.dadosPessoais.cidade %>" maxlength="20"/>		
-								</p>
-							</div>
+                            <div class="grid_5 left">
+                                <p>
+                                    <label for="cidade" class="dropdown_label">Cidade <span class="required">*</span></label>
+                                    <input type="text" id="cidade" name="cidade" value="<%- request.user.dadosPessoais.cidade %>" maxlength="20"/>        
+                                </p>
+                            </div>
 
-							<div class="grid_3 left">
-								<p>			    
-							        <label for="estado" class="dropdown_label">Estado <span class="required">*</span></label>
-							        <select id="estado" name="estado" class="customSelect full" value="<%- request.user.dadosPessoais.estado %>" />
-							        	<option value="">Selecione</option>
-							        	<% response.ufs.forEach(function(item){ %>
-											<option value="<%- item.nome %>" <%- request.user.dadosPessoais.estado === item.nome ? 'selected' : '' %> > <%- item.nome %> </option>
-										<% }); %>
-							        </select>
-								</p>
-							</div>	
-							
-							<div class="grid_8 left ">
-								<p>
-									<button type="submit" class="button submit wide green ">Salvar Perfil</button>
-								</p>
-								
-								
-							</div>
-						</div>
-					</form>
-					
-				</div>					
-			</div>	
-		</div>
+                            <div class="grid_3 left">
+                                <p>                
+                                    <label for="estado" class="dropdown_label">Estado <span class="required">*</span></label>
+                                    <select id="estado" name="estado" class="customSelect full" value="<%- request.user.dadosPessoais.estado %>" />
+                                        <option value="">Selecione</option>
+                                        <% response.ufs.forEach(function(item){ %>
+                                            <option value="<%- item.nome %>" <%- request.user.dadosPessoais.estado === item.nome ? 'selected' : '' %> > <%- item.nome %> </option>
+                                        <% }); %>
+                                    </select>
+                                </p>
+                            </div>    
+                            
+                            <div class="grid_8 left ">
+                                <p>
+                                    <button type="submit" class="button submit wide green ">Salvar Perfil</button>
+                                </p>
+                                
+                                
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>                    
+            </div>    
+        </div>
 
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				init();
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+        <!-- FIM DO FOOTER-->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                init();
 
-				$("#cep").blur(function(){
-					if(!isBlankOrEmpty(this.value) && this.value.length === 8){
-						$.ajax({
-							type 	 : 'GET',
-	    					url      : "https://viacep.com.br/ws/"+ this.value +"/json"	,
-	    					dataType : "application/json"								,
-						    
-						    success  : function( response ) {
-						    	setEndereco(response);
-						    },
+                $("#cep").blur(function(){
+                    if(!isBlankOrEmpty(this.value) && this.value.length === 8){
+                        $.ajax({
+                            type      : 'GET',
+                            url      : "https://viacep.com.br/ws/"+ this.value +"/json"    ,
+                            dataType : "application/json"                                ,
+                            
+                            success  : function( response ) {
+                                setEndereco(response);
+                            },
 
-						    error : function(response){
-						    	setEndereco(response);
-						    }
-						});
-					}	
-				});
+                            error : function(response){
+                                setEndereco(response);
+                            }
+                        });
+                    }    
+                });
 
-				$("#tipopessoa").change(function(){
-					showTipoPessoa(this.value);
-				});
+                $("#tipopessoa").change(function(){
+                    showTipoPessoa(this.value);
+                });
 
-				$("#perfilForm").validate({ 
-					submitHandler : function(form){
-				
-						$.confirm({
-							post : true,
-							text : "Confirma a inclusão dos dados ?", 
-							title: "Dados Cadastrais",
-							confirm : function(){
-								form.submit();
-								return false;
-							},
-							cancel : function(){
-								return false;
-							}
-						});
-					},
-					rules: { 
-						plano            : "required" ,
-				    	tipopessoa 		 : "required" ,
-				    	nome 			 : "required" ,
-				    	dataNascimento	 : {
-				    		required : true,
-				    		dateBR   : true
-				    	},
-				    	cpf 			 : {
-				    		required : true ,
-				    		cpf : true
-				    	},
-				    	sexo 			 : "required" ,
-				    	cep 			 : "required" ,
-				    	logradouro 		 : "required" ,
-				    	numeroLogradouro : "required" ,
-				    	bairro 		 	 : "required" ,
-				    	cidade 		 	 : "required" ,
-				    	estado 		 	 : "required" 
-				    },
+                $("#perfilForm").validate({ 
+                    submitHandler : function(form){
+                
+                        $.confirm({
+                            post : true,
+                            text : "Confirma a inclusão dos dados ?", 
+                            title: "Dados Cadastrais",
+                            confirm : function(){
+                                form.submit();
+                                return false;
+                            },
+                            cancel : function(){
+                                return false;
+                            }
+                        });
+                    },
+                    rules: { 
+                        plano            : "required" ,
+                        tipopessoa          : "required" ,
+                        nome              : "required" ,
+                        dataNascimento     : {
+                            required : true,
+                            dateBR   : true
+                        },
+                        cpf              : {
+                            required : true ,
+                            cpf : true
+                        },
+                        sexo              : "required" ,
+                        cep              : "required" ,
+                        logradouro          : "required" ,
+                        numeroLogradouro : "required" ,
+                        bairro               : "required" ,
+                        cidade               : "required" ,
+                        estado               : "required" 
+                    },
 
-			        messages: { 
-			        	plano            : "O plano é obrigatório",
-			          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
-				    	nome 			 : "O nome do responsável é obrigatório" ,
-				    	dataNascimento	 : {
-				    		required : "A data de nascimento é obrigatório" ,
-				    		dateBR : "Digite uma data Válida."
-				    	},
-				    	cpf 			 : {
-				    		required : "O CPF do responsável é obrigatório",
-				    		cpf : "Digite um CPF Válido"
-				    	} ,
-				    	sexo 			 : "O sexo é obrigatório" ,
-				    	cep 			 : "O CEP é obrigatório" ,
-				    	logradouro 		 : "O logradouro é obrigatório" ,
-				    	numeroLogradouro : "O número do logradouro é obrigatório" ,
-				    	bairro 		 	 : "O bairro é obrigatório" ,
-				    	cidade 		 	 : "A cidade é obrigatório" ,
-				    	estado 		 	 : "O estado é obrigatório" 		
-			        } 
-				});
+                    messages: { 
+                        plano            : "O plano é obrigatório",
+                          tipopessoa          : "O tipo de pessoa é obrigatório" ,
+                        nome              : "O nome do responsável é obrigatório" ,
+                        dataNascimento     : {
+                            required : "A data de nascimento é obrigatório" ,
+                            dateBR : "Digite uma data Válida."
+                        },
+                        cpf              : {
+                            required : "O CPF do responsável é obrigatório",
+                            cpf : "Digite um CPF Válido"
+                        } ,
+                        sexo              : "O sexo é obrigatório" ,
+                        cep              : "O CEP é obrigatório" ,
+                        logradouro          : "O logradouro é obrigatório" ,
+                        numeroLogradouro : "O número do logradouro é obrigatório" ,
+                        bairro               : "O bairro é obrigatório" ,
+                        cidade               : "A cidade é obrigatório" ,
+                        estado               : "O estado é obrigatório"         
+                    } 
+                });
 
-				$("#btn-cancelarAssinatura").click(function(){
-					var diasRestantes = $("#diasRestantes").val();
-					var mensagem = "Tem certeza que quer cancelar a sua assinatura, ainda restam " + diasRestantes + 
-					               " dias para finalizar a sua assinatura, lembre-se que a junkstation não reembolsa" +
-					               " o valor dos dias restantes e será necessário uma nova assinagura para continuar anunciando." +
-					               "Para maiores informações sobre assintura vejo o nosso termo de uso e política de privacidade." + 
-					               " Confirma o cancelamento da assinatura ?"
-					$.confirm({
-						post : true,
-						text : mensagem , 
-						title: "Cancelamento de Assinatura",
-						confirm : function(){
-							alert("Confirmado");
-						},
-						cancel : function(){
-							return false;
-						}
-					});
-				});
+                $("#btn-cancelarAssinatura").click(function(){
+                    var diasRestantes = $("#diasRestantes").val();
+                    var mensagem = "Tem certeza que quer cancelar a sua assinatura, ainda restam " + diasRestantes + 
+                                   " dias para finalizar a sua assinatura, lembre-se que a junkstation não reembolsa" +
+                                   " o valor dos dias restantes e será necessário uma nova assinagura para continuar anunciando." +
+                                   "Para maiores informações sobre assintura vejo o nosso termo de uso e política de privacidade." + 
+                                   " Confirma o cancelamento da assinatura ?"
+                    $.confirm({
+                        post : true,
+                        text : mensagem , 
+                        title: "Cancelamento de Assinatura",
+                        confirm : function(){
+                            alert("Confirmado");
+                        },
+                        cancel : function(){
+                            return false;
+                        }
+                    });
+                });
 
-			});
+            });
 
-			function setEndereco(endereco){
-				console.log(endereco);
-				var status = endereco.status;
-				if(status !== 200){
-					clearEndereco();
-				}else{
-					var end = $.parseJSON(endereco.responseText);
-					if(end.erro){
-						clearEndereco();
-					}else{
-						$("#bairro").val(end.bairro).attr("readonly", "readonly");
-						$("#logradouro").val(end.logradouro).attr("readonly", "readonly");
-						$("#cidade").val(end.localidade).attr("readonly", "readonly");
-						$("#uf").val(end.uf);	
-					}
-					
-				}
-			}
+            function setEndereco(endereco){
+                console.log(endereco);
+                var status = endereco.status;
+                if(status !== 200){
+                    clearEndereco();
+                }else{
+                    var end = $.parseJSON(endereco.responseText);
+                    if(end.erro){
+                        clearEndereco();
+                    }else{
+                        $("#bairro").val(end.bairro).attr("readonly", "readonly");
+                        $("#logradouro").val(end.logradouro).attr("readonly", "readonly");
+                        $("#cidade").val(end.localidade).attr("readonly", "readonly");
+                        $("#uf").val(end.uf);    
+                    }
+                    
+                }
+            }
 
-			function clearEndereco(){
-				alert("Não foi possível encontrar o CEP informado :( ");
-					$("#bairro").val("").removeAttr("readonly");
-					$("#logradouro").val("").removeAttr("readonly");
-					$("#complemento").val("").removeAttr("readonly");
-					$("#cidade").val("").removeAttr("readonly");
-					$("#uf").val("").removeAttr("readonly");
-			}
+            function clearEndereco(){
+                alert("Não foi possível encontrar o CEP informado :( ");
+                    $("#bairro").val("").removeAttr("readonly");
+                    $("#logradouro").val("").removeAttr("readonly");
+                    $("#complemento").val("").removeAttr("readonly");
+                    $("#cidade").val("").removeAttr("readonly");
+                    $("#uf").val("").removeAttr("readonly");
+            }
 
-			function init(){
-				$("#cnpj").mask("99999999999999");
-				$("#cpf").mask("99999999999");
-				$("#dataNascimento").mask("99/99/9999");
-				$("#cep").mask("99999999");
-				$("#celular").mask("(99) 9?99999999");
-				$("#telefone").mask("(99) 99999999");
+            function init(){
+                $("#cnpj").mask("99999999999999");
+                $("#cpf").mask("99999999999");
+                $("#dataNascimento").mask("99/99/9999");
+                $("#cep").mask("99999999");
+                $("#celular").mask("(99) 9?99999999");
+                $("#telefone").mask("(99) 99999999");
 
-				showTipoPessoa($("#tipopessoa").val());
-				setOptions();
-			}
+                showTipoPessoa($("#tipopessoa").val());
+                setOptions();
+            }
 
-			function showTipoPessoa(value){
-				if(value === "PJ"){
-					$(".cnpjdata").show();
-				}else{
-					$(".cnpjdata").hide();
-					$("#cnpj").val("");
-					$("#razaosocial").val("");
-				}
-			}
+            function showTipoPessoa(value){
+                if(value === "PJ"){
+                    $(".cnpjdata").show();
+                }else{
+                    $(".cnpjdata").hide();
+                    $("#cnpj").val("");
+                    $("#razaosocial").val("");
+                }
+            }
 
-			function setOptions(){
-				var tipoPessoa = $("#tipopessoa").val();
-				console.log("TIpo Pessoa :" + tipoPessoa);
-				$("#tipopessoa").find("option[value='"+ tipoPessoa +"']").attr("selected", "selected");
-			}
+            function setOptions(){
+                var tipoPessoa = $("#tipopessoa").val();
+                console.log("TIpo Pessoa :" + tipoPessoa);
+                $("#tipopessoa").find("option[value='"+ tipoPessoa +"']").attr("selected", "selected");
+            }
 
-		</script>
-	</body>
+        </script>
+    </body>
 </html>
 
