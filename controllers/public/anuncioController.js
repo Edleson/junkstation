@@ -365,7 +365,7 @@ module.exports = function(app) {
                 Anuncio.update({"_id" : id}, {views : views}, function(_error, _anuncio){
                     if(_error){
                         console.log("Ocorreu um error durante a atualização das visualizações do anúncio" + _error)
-                        next(error)
+                        next(_error)
                     }
                 });
                 htmlMinify('anuncio_detalhe', res , {anuncio : anuncio});
