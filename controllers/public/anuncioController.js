@@ -354,12 +354,18 @@ module.exports = function(app) {
                 next(error); 
             }else{
                 var views = 1;
-                if(anuncio.views) {
-                    views = anuncio.views + 1;
+                try {
+                    if(anuncio.views) {
+                        views = anuncio.views + 1;
+                    }
+                } catch (ex) {
+                    console.log(ex);
                 }
+                
                 Anuncio.update({"_id" : id}, {views : views}, function(_error, _anuncio){
                     if(_error){
                         console.log("Ocorreu um error durante a atualização das visualizações do anúncio" + _error)
+                        next(error)
                     }
                 });
                 htmlMinify('anuncio_detalhe', res , {anuncio : anuncio});
