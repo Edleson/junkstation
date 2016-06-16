@@ -353,7 +353,11 @@ module.exports = function(app) {
             if(error){
                 next(error); 
             }else{
-                Anuncio.update({"_id" : id}, {views : anuncio.views + 1}, function(_error, _anuncio){
+                var views = 1;
+                if(anuncio.views) {
+                    views = anuncio.views + 1;
+                }
+                Anuncio.update({"_id" : id}, {views : views}, function(_error, _anuncio){
                     if(_error){
                         console.log("Ocorreu um error durante a atualização das visualizações do anúncio" + _error)
                     }
