@@ -492,8 +492,7 @@ module.exports = function(app) {
         var AnuncioDao  = new Anuncio({});
         var assinatura  = req.user.assinatura;
         
-        
-         Anuncio.find(query).deepPopulate("user plano assinatura").sort({data_anuncio : -1}).exec(function(error, anuncios){
+        Anuncio.find(query).deepPopulate("user plano assinatura").sort({data_anuncio : -1}).exec(function(error, anuncios){
              if(error){
                 req.flash('meusAnuncios', '<div class="alert-error">Não foi possível listar os seus anuncios :( </div>');
                 htmlMinify('meus_anuncios', res , {response : []});
