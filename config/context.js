@@ -101,7 +101,7 @@ module.exports = function(){
                     if(this.ambiente === "sandbox"){
                         return "https://www.pontoclass.com/pagseguro/success";
                     }else{
-                        return "https://www.junkstation.com.br/pagseguro/success";
+                        return "https://www.meuvelinho.com.br/pagseguro/success";
                     }
                 },
 
@@ -109,7 +109,8 @@ module.exports = function(){
                     if(this.ambiente === "sandbox"){
                         return "https://www.pontoclass.com/pagseguro/notificacao";
                     }else{
-                        return "https://www.junkstation.com.br/pagseguro/notificacao";
+                        //return "https://www.junkstation.com.br/pagseguro/notificacao";
+                        return "https://www.meuvelinho.com.br/pagseguro/notificacao";
                     }
                 },
 
