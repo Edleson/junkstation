@@ -1,147 +1,148 @@
-var nodemailer    = require('nodemailer');
-var path          = require('path');
-var templatesDir  = path.resolve(__dirname, '..', 'views/template/email');
+var nodemailer = require('nodemailer');
+var path = require('path');
+var templatesDir = path.resolve(__dirname, '..', 'views/template/email');
 var EmailTemplate = require("email-templates").EmailTemplate;
 
 module.exports = function(ctx) {
-	var email   = {};
+    var email = {};
 
-	var emailOptions = {
-		host : ctx.email.hostname ,
-		port : ctx.email.port     ,
-		auth: {
-		    user: ctx.email.auth.user ,
-		    pass: ctx.email.auth.pass
-		}
-	};
-	
-	var transporter = nodemailer.createTransport(emailOptions);
+    var emailOptions = {
+        host: ctx.email.hostname,
+        port: ctx.email.port,
+        secure: true,
+        auth: {
+            user: ctx.email.auth.user,
+            pass: ctx.email.auth.pass
+        }
+    };
 
-	email.sendWelcomeMail = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'welcome'));
+    var transporter = nodemailer.createTransport(emailOptions);
 
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+    email.sendWelcomeMail = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'welcome'));
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     ,
-	    		to      : data.email                         ,
-	    		subject : 'Bem vindo à família Junkstation'  ,
-	    		html    : results.html                       ,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
 
-	email.sendNewPassword = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'nova-senha'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Bem vindo à família Junkstation',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     ,
-	    		to      : data.email                         ,
-	    		subject : 'Solicitação de nova senha'  		 ,
-	    		html    : results.html                       ,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+    email.sendNewPassword = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'nova-senha'));
 
-	email.sendNewsletter = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'newsletter'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     ,
-	    		to      : data.email                         ,
-	    		subject : 'Newsletter Junk Station'  		 ,
-	    		html    : results.html                       ,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Solicitação de nova senha',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
 
-	email.sendNewAnuncio = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'novo-anuncio'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+    email.sendNewsletter = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'newsletter'));
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     		,
-	    		to      : data.email                         		,
-	    		subject : 'Obrigado por anunciar na Junk Station'   ,
-	    		html    : results.html                       		,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
 
-	email.sendNewMessage = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'nova-mensagem'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Newsletter Junk Station',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     			,
-	    		to      : data.email                         			,
-	    		subject : 'Você tem um novo interessado no seu anúncio' ,
-	    		html    : results.html                       			,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+    email.sendNewAnuncio = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'novo-anuncio'));
 
-	email.sendAssinaturaExpirada = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'assinatura-expirada'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     			,
-	    		to      : data.email                         			,
-	    		subject : 'Ops, sua assinatura venceu, vamos renovar ?' ,
-	    		html    : results.html                       			,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Obrigado por anunciar na Junk Station',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
 
-	email.sendAdminMail = function(data, callback){
-		var template = new EmailTemplate(path.join(templatesDir, 'admin'));
-		
-		template.render(data, function(error, results){
-			if(error){
-				console.error(error);
-			}
+    email.sendNewMessage = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'nova-mensagem'));
 
-			transporter.sendMail({
-	    		from    : "no-replay@junkstation.com.br"     			,
-	    		to      : data.email                         			,
-	    		subject : 'Administração Junkstation' 					,
-	    		html    : results.html                       			,
-	    		text    : results.text     
-			}, callback);
-		});	
-	}
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
 
-	return email;
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Você tem um novo interessado no seu anúncio',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
+
+    email.sendAssinaturaExpirada = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'assinatura-expirada'));
+
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
+
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Ops, sua assinatura venceu, vamos renovar ?',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
+
+    email.sendAdminMail = function(data, callback) {
+        var template = new EmailTemplate(path.join(templatesDir, 'admin'));
+
+        template.render(data, function(error, results) {
+            if (error) {
+                console.error(error);
+            }
+
+            transporter.sendMail({
+                from: "no-replay@junkstation.com.br",
+                to: data.email,
+                subject: 'Administração Junkstation',
+                html: results.html,
+                text: results.text
+            }, callback);
+        });
+    }
+
+    return email;
 }

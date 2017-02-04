@@ -43,6 +43,7 @@ module.exports = function() {
             'public/js/lib/jquery-confirm.js',
             'public/js/lib/jquery.serializejson.js',
             'public/js/lib/jquery-xdomainrequest.js',
+            'public/js/lib/jquery-blockUI.js',
             'public/js/app/util/util.js',
             'public/js/app/util/dominioUtil.js'
         ],
