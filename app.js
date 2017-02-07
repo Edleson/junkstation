@@ -26,6 +26,8 @@ var upload = multer({ storage: storage });
 var app = express();
 
 moment.locale("pt-br", moment_pt);
+
+https.globalAgent.options.secureProtocol = 'SSLv3_method';
 /***********************************************************
  * Carrega os midlewares que serão utilizados por toda     *
  * aplicação.                                              *
@@ -96,9 +98,9 @@ app.use(logger('dev'));
 app.locals.Utils = utils;
 
 app.use(function(req, res, next) {
-    res.locals.request  = req;
+    res.locals.request = req;
     res.locals.response = res;
-    res.locals.session  = req.session;
+    res.locals.session = req.session;
     res.locals.util = {
         moment: moment,
         isAdmin: function(req) {
