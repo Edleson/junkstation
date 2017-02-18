@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<% include template/css %>
-	</head>
+    <head>
+        <% include template/meta %>
+        <title>Bem vindo(a) ao Meu Velhinho</title>
+        <% include template/css %>
+    </head>
 
-	<body >
-		<% include template/header %>
-		
-		<section id="content" class="clearfix">
-			<div class="container_12">
-				<div class="grid_8 content">
-					<h2 class="page_title"><a>Upload </a> - Fotos</h2>
+    <body >
+        <% include template/header %>
+        
+        <section id="content" class="clearfix">
+            <div class="container_12">
+                <div class="grid_8 content">
+                    <h2 class="page_title"><a>Upload </a> - Fotos</h2>
 
-					<article class="box single_post">
-						<h3>Selecione as Fotos</h3>
-						<div class="box-content">
-							<form name="formFoto" action='/upload/add' method='post' enctype='multipart/form-data' >
-			                 	<input type='file'   name='imagem'                             		 	 />
-			                 	<input type='submit' value="enviar" 									 />
-                			</form>
-							
-						</div>
-					</article>
-				</div>
+                    <article class="box single_post">
+                        <h3>Selecione as Fotos</h3>
+                        <div class="box-content">
+                            <form name="formFoto" action='/upload/add' method='post' enctype='multipart/form-data' >
+                                 <input type='file'   name='imagem'                                           />
+                                 <input type='submit' value="enviar"                                      />
+                            </form>
+                            
+                        </div>
+                    </article>
+                </div>
 
-				<div class="grid_4 sidebar">
-					<p>&nbsp;</p><div class="box">
-						<h3>Serviços</h3>
-						<div class="box-content">
-							<p>A <strong>Junk Station</strong> oferece os serviços de Assessoria, Compra e Venda e Consignação. 
-							Procurando uma equipe especialista no segmento de clássicos? Acabou de encontrar!!!
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
-	</body>
+                <div class="grid_4 sidebar">
+                    <p>&nbsp;</p><div class="box">
+                        <h3>Serviços</h3>
+                        <div class="box-content">
+                            <p>A <strong>Junk Station</strong> oferece os serviços de Assessoria, Compra e Venda e Consignação. 
+                            Procurando uma equipe especialista no segmento de clássicos? Acabou de encontrar!!!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+        <!-- FIM DO FOOTER-->
+    </body>
 </html>

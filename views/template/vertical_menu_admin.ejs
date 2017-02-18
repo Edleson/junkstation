@@ -9,9 +9,9 @@
             <li><a href="/anuncio/meusanuncios">Meus Anúncios</a> <span class="badge"><%- session.countAnuncio %></span> </li>
             <li><a href="/anuncio/meusdados">Meus Dados</a></li>
             <% if(request.user && request.user.dadosPessoais && request.user.dadosPessoais.tipopessoa == "PJ") { %>
-                <li><a href="/assinatura/listar">Minhas Assinaturas</a></li>    
+                <li><a href="/assinatura/listar">Planos</a></li>    
             <%}%>
-            <li><a href="/oficina">Oficina Integrada</a></li>
+            <!--<li><a href="/oficina">Oficina Integrada</a></li>-->
         </div>
     </div>
 </div>

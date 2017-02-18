@@ -1,437 +1,459 @@
 <!DOCTYPE html>
-<html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<% include template/css %>
-		<style>
-			@media screen and (min-width: 768px) {
-				.thumb img{
-					max-height : 43px;
-					min-height : 43px;
-					min-width  : 63px;
-				}
-			}
-		</style>
-	</head>
+<html ng-app="junkstation">
 
-	<body >
-		<% include template/header %>
+<head>
+    <% include template/meta %>
+        <title>Bem vindo(a) ao Meu Velhinho</title>
+        <% include template/css %>
+            <style>
+                @media screen and (min-width: 768px) {
+                    .thumb img {
+                        max-height: 43px;
+                        min-height: 43px;
+                        min-width: 63px;
+                    }
+                }
+            </style>
+</head>
 
-		<div class="container_12 clearfix">
-			<div class="grid_8 content">
-				<h2 class="page_title">
-					<a href="#">Anuncio </a> - 
-					<a href="#"><%- anuncio.marca %></a> - <%- anuncio.modelo %>
-				</h2> 
-				
-				<article class="box clearfix item_main">
-					<h3><%- anuncio.marca %> <%- anuncio.modelo %></h3>
-					<!--<span class="item_rating"></span>-->
-					<div class="half left item_images clearfix">
-						<div class="overlayed">
-							<img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
-							<div class="overlay">
-								<span class="overlay-icon-single">
-									<a href="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-										<i class="icomoon-expand-2"></i>
-									</a>
-								</span>
-							</div>
-						</div>
+<body>
+    <% include template/header %>
 
-						<%  var i = 0;
-							var resto = 0;
-							var controle = 3 ;
-							var tamanho = anuncio.demaisFotos.length -1  || 0 ; 
-							anuncio.demaisFotos.forEach(function(media){ 
-								resto = i % 4;	
-						%>
-								<% if(i == 0 || resto == 0) {%>
-									<div class="row four_images">
-								<%}%>
-										<div class="overlayed span3 thumb" style="">
-											<img src="<%- media.prefix + media.nome %>" alt="" >
-											<div class="overlay">
-												<span class="overlay-icon-single">
-													<a href="<%- media.prefix + media.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
-														<i class="icomoon-expand-2"></i>
-													</a>
-												</span>
-											</div>
-										</div>
-								<% if(i == controle || i == tamanho) {
-									controle += 4;	
-								%>
-									</div>
-								<%}%>
-						<% i++ ;});%>
-						
-						<div class="row four_images thumb">
+        <div class="container_12 clearfix">
+            <div class="grid_8 content">
+                <h2 class="page_title">
+                    <a href="#">Anuncio </a> -
+                    <a href="#">
+                        <%- anuncio.marca %>
+                    </a> -
+                    <%- anuncio.modelo %>
+                </h2>
 
-							<% 
-								if(anuncio.videos){
-									var count = 1;
-									anuncio.videos.forEach(function(item){ 
-										var generator = new Utils.embedVideoGenerator(item);
-										var video = generator.getEmbedCode(450 , 300);
-							%>
-										<div class="overlayed span3">
-											<img src="/dist/images/video-icon.jpg" alt="">
-											<div class="overlay">
-												<span class="overlay-icon-single">
-													<a href="#video_<%- count %>" class="modal"  >
-														<i class="icomoon-expand-2"></i>
-													</a>
-												</span>
-											</div>
-										</div>
-										
-										<div class="login_form_modal_container">
-											<div id="video_<%- count %>" class="box" style="width: 450px;">
-												<%- video %>
-											</div>
-										</div>
-							<% 		count++ }); 
-								}
-							%>
-						</div>
+                <article class="box clearfix item_main">
+                    <h3>
+                        <%- anuncio.marca %>
+                            <%- anuncio.modelo %>
+                    </h3>
+                    <!--<span class="item_rating"></span>-->
+                    <div class="half left item_images clearfix">
+                        <div class="overlayed">
+                            <img src="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" alt="">
+                            <div class="overlay">
+                                <span class="overlay-icon-single">
+                                    <a href="<%- anuncio.fotoPrincipal.prefix + anuncio.fotoPrincipal.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+                                        <i class="icomoon-expand-2"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
 
-						<a href="#" class="view_more_images">[+] Todas as fotos</a>
-					</div>
+                        <%  var i = 0;
+                            var resto = 0;
+                            var controle = 3 ;
+                            var tamanho = anuncio.demaisFotos.length -1  || 0 ; 
+                            anuncio.demaisFotos.forEach(function(media){ 
+                                resto = i % 4;    
+                        %>
+                            <% if(i == 0 || resto == 0) {%>
+                                <div class="row four_images">
+                                    <%}%>
+                                        <div class="overlayed span3 thumb" style="">
+                                            <img src="<%- media.prefix + media.nome %>" alt="">
+                                            <div class="overlay">
+                                                <span class="overlay-icon-single">
+                                                    <a href="<%- media.prefix + media.nome %>" class="fancybox" data-fancybox-group="<%- anuncio._id %>">
+                                                        <i class="icomoon-expand-2"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <% if(i == controle || i == tamanho) {
+                                    controle += 4;    
+                                %>
+                                </div>
+                                <%}%>
+                                    <% i++ ;});%>
 
-					<div class="half right">
-						<div class="item_heading">
-							<h4><%- anuncio.marca %> <a href="item.html"><%- anuncio.modelo %></a></h4>
-							<span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
-							<span class="vendor"><%- anuncio.anunciante %></span>
-							<span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
-						</div>
-						<div class="item_info clearfix">
-							<p class="half left">
-								<span class="item_year"> - <%- anuncio.ano %></span>
-								<span class="item_engine"> - <%- anuncio.motor %></span>
-								<span class="item_fuel"> - <%- anuncio.combustivel %></span>
-								<span class="item_transimition"> - <%- anuncio.cambio %></span>
-							</p>
-							<p class="half right">
-								<span class="item_type"> - <%- anuncio.estilo %></span>
-								<span class="item_mileage"> - <%- anuncio.kilometragem %> KM</span>
-								<span class="item_color"> - <%- anuncio.cor %> </span>
-								<!--<span class="item_interior_color">Preto</span>-->
-							</p>
-						</div>
-						<div class="item_footer row clearfix">
-							<span class="item_price span5">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
-							<a href="#propostaModal" class="button small-button green span7 modal">Fale com Vendedor</a>
-						</div>
-					</div>
-				</article>
+                                        <div class="row four_images thumb">
 
-				<section id="item_info" class="box">
-					<h3>Informações sobre o Anúncio</h3>
-					<div class="box-content">
-						<h5><%- anuncio.titulo_anuncio %></h5>
-						<p style="text-align : justify"><%- anuncio.descricao_anuncio %></p>
-						<!--<h5>Acessórios</h5>
-						<ul>
-							<li>Banco de couro</li>
-							<li>Vidro eletrico.</li>
-						</ul>-->
-					</div>
-				</section>	
+                                            <% 
+                                if(anuncio.videos){
+                                    var count = 1;
+                                    anuncio.videos.forEach(function(item){ 
+                                        var generator = new Utils.embedVideoGenerator(item);
+                                        var video = generator.getEmbedCode(450 , 300);
+                            %>
+                                                <div class="overlayed span3">
+                                                    <img src="/dist/images/video-icon.jpg" alt="">
+                                                    <div class="overlay">
+                                                        <span class="overlay-icon-single">
+                                                    <a href="#video_<%- count %>" class="modal"  >
+                                                        <i class="icomoon-expand-2"></i>
+                                                    </a>
+                                                </span>
+                                                    </div>
+                                                </div>
 
-				<section id="vendor" class="box">
-					<h3>Informações do Anunciante</h3>
-					<div class="box-content clearfix">
-						<div class="half left">
-							<div class="row">
-								<img src="/dist/images/no-foto.jpg" alt="" class="span4">
-								<div class="span8 vendor_info">
-									<span class="vendor_title"><%- anuncio.anunciante %></span>
-									<span>
-										Cidade: 
-										<strong>
-											<%- anuncio.user.dadosPessoais.cidade %> ,
-											<%- anuncio.user.dadosPessoais.estado %>
-										</strong>
-									</span>
-									<span>Visualizações : <strong><%- anuncio.views %></strong></span>
-									<span>Última visualização: 
-										<strong> 
-											<%- util.moment(anuncio.user.ultimoLogin).startOf('hour').fromNow() %> 
-										</strong>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="half right">
-							<a href="#">Informações do Vendedor</a>
-							<a href="#" class="button green big wide">
-								<i class="icomoon-volume-medium"></i>
-								<%- anuncio.user.dadosPessoais.telefone %>
-							</a>
-							<br>
-							<a href="#" class="button green big wide">
-								<i class="icomoon-volume-medium"></i>
-								<%- anuncio.user.dadosPessoais.celular %>
-							</a>
-						</div>
-					</div>
-				</section>
-				
-				<!--
-				<section id="post_comments" class="box">
-					<h3>Comments</h3>
-					<div class="box-content new_comment">
-						<div class="row">
-							<form action="#">
-								<div class="span6">
-									<textarea name="comment" id="comment" placeholder="Enter your comment..." ></textarea>
-								</div>
-								<div class="span6">
-									<p class="logged_user">
-										<img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
-										<span>John S. Doe</span>
-									</p>
-									<a class="button submit wide red wider">Leave a comment</a>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div class="box-content">
-						<div class="comment">
-							<h5>John S. Doe</h5>
-							<img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
-							<span class="comment_date">5 hours ago</span>
-							<a href="#" class="comment_reply">Reply</a>
-							<p>
-								Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
-							</p>
-						</div>
-						<div class="comment">
-							<h5>Alex Greenwood</h5>
-							<img src="/dist/images/alex.jpg" alt="comment_gravatar">
-							<span class="comment_date">6 hours ago</span>
-							<a href="#" class="comment_reply">Reply</a>
-							<p>
-								Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
-							</p>
-							<div class="comment">
-								<h5>John S. Doe</h5>
-								<img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
-								<span class="comment_date">5 hours ago</span>
-								<a href="#" class="comment_reply">Reply</a>
-								<p>
-									Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
-								</p>
-							</div>
-						</div>
-						<div class="comment">
-							<h5>Alice Fork</h5>
-							<img src="/dist/images/alice.jpg" alt="comment_gravatar">
-							<span class="comment_date">1 day ago</span>
-							<a href="#" class="comment_reply">Reply</a>
-							<p>
-								Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
-							</p>
-						</div>
-						<div class="all_comments">
-							<a href="#" class="button wide red wider">See all 26 Comments</a>
-						</div>
-					</div>					
-				</section>-->
-			</div>
+                                                <div class="login_form_modal_container">
+                                                    <div id="video_<%- count %>" class="box" style="width: 450px;">
+                                                        <%- video %>
+                                                    </div>
+                                                </div>
+                                                <%         count++ }); 
+                                }
+                            %>
+                                        </div>
 
-			<div class="grid_4 sidebar">
-				<div class="row social_buttons">
-					<div class="span4">
-						<div id="fb-root"></div>
-						<script>(function(d, s, id) {
-						  var js, fjs = d.getElementsByTagName(s)[0];
-						  if (d.getElementById(id)) return;
-						  js = d.createElement(s); js.id = id;
-						  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1";
-						  fjs.parentNode.insertBefore(js, fjs);
-						}(document, 'script', 'facebook-jssdk'));</script>
-						<div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div>
-					</div>
-					
-					<div class="span4">
-						<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-					</div>
+                                        <a href="#" class="view_more_images">[+] Todas as fotos</a>
+                    </div>
 
-					<div class="span4">
-						<div class="g-plusone" data-size="medium"></div>
-						<script type="text/javascript">
-						  (function() {
-						    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-						    po.src = '../../apis.google.com/js/plusone.js';
-						    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-						  })();
-						</script>
-					</div>
-				</div>
-				
-				<!--
-				<div class="box">
-					<h3>Categories</h3>
-					<div class="box-content widget-categories">
-						<ul>
-							<li><a href="#">Cars<span>23</span></a></li>
-							<li><a href="#">Trucks<span>356</span></a></li>
-							<li><a href="#">Motorbikes<span>45</span></a></li>
-							<li><a href="#">Buses<span>71</span></a></li>
-							<li><a href="#">Campers<span>18</span></a></li>
-						</ul> 
-					</div>
-				</div>
+                    <div class="half right">
+                        <div class="item_heading">
+                            <h4>
+                                <%- anuncio.marca %>
+                                    <a href="item.html">
+                                        <%- anuncio.modelo %>
+                                    </a>
+                            </h4>
+                            <span class="location"><%- anuncio.localizacao %>, <strong><%- anuncio.estado %></strong></span>
+                            <span class="vendor"><%- anuncio.anunciante %></span>
+                            <span class="item_date"><%- util.moment(anuncio.data_anuncio).format("LL")%></span>
+                        </div>
+                        <div class="item_info clearfix">
+                            <p class="half left">
+                                <span class="item_year"> - <%- anuncio.ano %></span>
+                                <span class="item_engine"> - <%- anuncio.motor %></span>
+                                <span class="item_fuel"> - <%- anuncio.combustivel %></span>
+                                <span class="item_transimition"> - <%- anuncio.cambio %></span>
+                            </p>
+                            <p class="half right">
+                                <span class="item_type"> - <%- anuncio.estilo %></span>
+                                <span class="item_mileage"> - <%- anuncio.kilometragem %> KM</span>
+                                <span class="item_color"> - <%- anuncio.cor %> </span>
+                                <!--<span class="item_interior_color">Preto</span>-->
+                            </p>
+                        </div>
+                        <div class="item_footer row clearfix">
+                            <span class="item_price span5">R$ <%- Utils.numeral(anuncio.preco).format("0,0.00") %></span>
+                            <a href="#propostaModal" class="button small-button green span7 modal">Fale com Vendedor</a>
+                        </div>
+                    </div>
+                </article>
 
-				<div class="label_under">
-					<p><a href="#">View all categories</a></p>
-				</div>-->
+                <section id="item_info" class="box">
+                    <h3>Informações sobre o Anúncio</h3>
+                    <div class="box-content">
+                        <h5>
+                            <%- anuncio.titulo_anuncio %>
+                        </h5>
+                        <p style="text-align : justify">
+                            <%- anuncio.descricao_anuncio %>
+                        </p>
+                        <!--<h5>Acessórios</h5>
+                        <ul>
+                            <li>Banco de couro</li>
+                            <li>Vidro eletrico.</li>
+                        </ul>-->
+                    </div>
+                </section>
 
-				<div class="box">
-					<h3>Assine nossa newsletter</h3>
-					<span id="newsletterMessage"></span>
-					<div class="box-content widget_newsletter">
-						<p>Fique por dentro das novidades que rolam na JunkStation</p>
-						<form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
-							<input type="text" name="nome"  placeholder="Nome"  maxlength="30"  id="nomeNewsletter"/>
-							<input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter"/>
-							<p class="newsletter_checkbox">
-								<label for="special_offers" class="custom_checkbox">
-									<input type="checkbox" name="special_offers" id="special_offers">
-									Receber ofertas especiais
-								</label>
-							</p>
-							<p class="newsletter_button"><a class="button submit wide red wider">Assinar</a>
-						</form>
-					</div>
-				</div>
+                <section id="vendor" class="box">
+                    <h3>Informações do Anunciante</h3>
+                    <div class="box-content clearfix">
+                        <div class="half left">
+                            <div class="row">
+                                <img src="/dist/images/no-foto.jpg" alt="" class="span4">
+                                <div class="span8 vendor_info">
+                                    <span class="vendor_title"><%- anuncio.anunciante %></span>
+                                    <span>
+                                        Cidade: 
+                                        <strong>
+                                            <%- anuncio.user.dadosPessoais.cidade %> ,
+                                            <%- anuncio.user.dadosPessoais.estado %>
+                                        </strong>
+                                    </span>
+                                    <span>Visualizações : <strong><%- anuncio.views %></strong></span>
+                                    <span>Última visualização: 
+                                        <strong> 
+                                            <%- util.moment(anuncio.user.ultimoLogin).startOf('hour').fromNow() %> 
+                                        </strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="half right">
+                            <a href="#">Informações do Vendedor</a>
+                            <a href="#" class="button green big wide">
+                                <i class="icomoon-volume-medium"></i>
+                                <%- anuncio.user.dadosPessoais.telefone %>
+                            </a>
+                            <br>
+                            <a href="#" class="button green big wide">
+                                <i class="icomoon-volume-medium"></i>
+                                <%- anuncio.user.dadosPessoais.celular %>
+                            </a>
+                        </div>
+                    </div>
+                </section>
 
-				<div class="box">
-					<h3>Suporte On-line</h3>
-					<div class="box-content widget_online_support">
-						<div class="row">
-							<img src="/dist/images/logo.png" alt="" class="span6">
-							<div class="span6">
-								<span class="online_support_title">Equipe JunkStation</span>
-								<p>Onde o seu clássico não é carro velho!</p>
-							</div>
-						</div>
-						<a href="#" class="button blue big wide">
-							<i class="icomoon-volume-medium"></i>(11) 2291-6968
-						</a>
-						<a href="#">Suporte JunkStation</a><br>
-						<a href="#" class="link_light_gray">Aprenda mais sobre o <strong>Motor</strong></a>
-					</div>
-				</div>
+                <!--
+                <section id="post_comments" class="box">
+                    <h3>Comments</h3>
+                    <div class="box-content new_comment">
+                        <div class="row">
+                            <form action="#">
+                                <div class="span6">
+                                    <textarea name="comment" id="comment" placeholder="Enter your comment..." ></textarea>
+                                </div>
+                                <div class="span6">
+                                    <p class="logged_user">
+                                        <img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
+                                        <span>John S. Doe</span>
+                                    </p>
+                                    <a class="button submit wide red wider">Leave a comment</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <div class="comment">
+                            <h5>John S. Doe</h5>
+                            <img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
+                            <span class="comment_date">5 hours ago</span>
+                            <a href="#" class="comment_reply">Reply</a>
+                            <p>
+                                Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
+                            </p>
+                        </div>
+                        <div class="comment">
+                            <h5>Alex Greenwood</h5>
+                            <img src="/dist/images/alex.jpg" alt="comment_gravatar">
+                            <span class="comment_date">6 hours ago</span>
+                            <a href="#" class="comment_reply">Reply</a>
+                            <p>
+                                Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
+                            </p>
+                            <div class="comment">
+                                <h5>John S. Doe</h5>
+                                <img src="/dist/images/johnsdoe.jpg" alt="comment_gravatar">
+                                <span class="comment_date">5 hours ago</span>
+                                <a href="#" class="comment_reply">Reply</a>
+                                <p>
+                                    Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
+                                </p>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h5>Alice Fork</h5>
+                            <img src="/dist/images/alice.jpg" alt="comment_gravatar">
+                            <span class="comment_date">1 day ago</span>
+                            <a href="#" class="comment_reply">Reply</a>
+                            <p>
+                                Maiores sint ad nostrum itaque architecto quis fuga eum voluptatem tempore autem nesciunt modi dolorum ratione sit fugit quidem dolor omnis praesentium hic tenetur commodi facilis! Maxime, vel quis soluta nihil tempora qui laboriosam nam veniam
+                            </p>
+                        </div>
+                        <div class="all_comments">
+                            <a href="#" class="button wide red wider">See all 26 Comments</a>
+                        </div>
+                    </div>                    
+                </section>-->
+            </div>
 
-				<div class="box">
-					<h3>Junk Station</h3>
-					<div class="box-content">
-						<p>A <strong>Junk Station</strong> nasceu para facilitar a vida dos admiradores dos clássicos... Desde carros antigos, carros especiais, motos, caminhões e até bicicletas antigas. Tudo reunido em um só lugar, onde as pessoas dividem seus desejos, conhecimentos e falam a mesma língua. Vem fazer parte da família Junk Station !!!
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="grid_4 sidebar">
+                <!--
+                <div class="row social_buttons">
+                    <div class="span4">
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div>
+                    </div>
+                    
+                    <div class="span4">
+                        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </div>
 
-		<div class="login_form_modal_container">
-			<div id="propostaModal" class="box">
-				<h3>Deixe sua mensagem para o vendedor</h3>
-				<span id="propostaMessage"></span>
-				<div class="box-content clearfix">
-					<form action="http://<%- request.hostname%>/anuncio/<%- anuncio._id%>/proposta" method="post" name="propostaForm" id="propostaForm">
-						<input type="hidden" name="_method" value="post">
-						<input type="text"     placeholder="Digite o seu nome"   name="nomeContato" >
-						<input type="text"     placeholder="Digite o seu E-mail" name="emailContato" >
-						<textarea name="assunto"  cols="30" rows="10" maxlength="140" placeholder="Digite aqui a sua mensagem até 140 caracteres"></textarea>
-						<!--<label for="remember" class="custom_checkbox remember_me">
-							<input type="checkbox" name="remember" id="remember">Lembrar Senha
-						</label>
-						<a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>-->
-						<br/>
-						<br/>
-						<p><a class="button submit wide green wider">Enviar</a></p>
-					</form>
-				</div>
-			</div>
-		</div>
-		
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
+                    <div class="span4">
+                        <div class="g-plusone" data-size="medium"></div>
+                        <script type="text/javascript">
+                          (function() {
+                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            po.src = '../../apis.google.com/js/plusone.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                          })();
+                        </script>
+                    </div>
+                </div>-->
 
-		<script type="text/javascript">
-			$(document).ready(function(){
+                <!--
+                <div class="box">
+                    <h3>Categories</h3>
+                    <div class="box-content widget-categories">
+                        <ul>
+                            <li><a href="#">Cars<span>23</span></a></li>
+                            <li><a href="#">Trucks<span>356</span></a></li>
+                            <li><a href="#">Motorbikes<span>45</span></a></li>
+                            <li><a href="#">Buses<span>71</span></a></li>
+                            <li><a href="#">Campers<span>18</span></a></li>
+                        </ul> 
+                    </div>
+                </div>
 
-				$("#newsletterForm").validate({ 
-					submitHandler : function(form){
-						var request =  {
-							url     : form.action   ,
-							params  : {nome : $("#nomeNewsletter").val() , email : $("#emailNewsletter").val()} ,
-							method  : "post"        ,
-							callback : function(response, textStatus, jqXHR){
-								$("#newsletterMessage").html(response.header.message);
-								console.log(response);
-							}
-						};
+                <div class="label_under">
+                    <p><a href="#">View all categories</a></p>
+                </div>-->
 
-						ajaxRequest(request , true);
-					},
+                <div class="box">
+                    <h3>Assine nossa newsletter</h3>
+                    <span id="newsletterMessage"></span>
+                    <div class="box-content widget_newsletter">
+                        <p>Fique por dentro das novidades que rolam na JunkStation</p>
+                        <form action="/newsletter/create" name="newsletterForm" id="newsletterForm" method="post">
+                            <input type="text" name="nome" placeholder="Nome" maxlength="30" id="nomeNewsletter" />
+                            <input type="text" name="email" placeholder="E-mail" maxlength="30" id="emailNewsletter" />
+                            <p class="newsletter_checkbox">
+                                <label for="special_offers" class="custom_checkbox">
+                                    <input type="checkbox" name="special_offers" id="special_offers">
+                                    Receber ofertas especiais
+                                </label>
+                            </p>
+                            <p class="newsletter_button"><a class="button submit wide red wider">Assinar</a>
+                        </form>
+                    </div>
+                </div>
 
-					rules: { 
-				    	nome  : "required" ,
-				        email : {
-				        	required : true	, 
-				          	email    : true 
-				        }
-				    },
+                <div class="box">
+                    <h3>Suporte On-line</h3>
+                    <div class="box-content widget_online_support">
+                        <div class="row">
+                            <img src="/dist/images/logo.png" alt="" class="span6">
+                            <div class="span6">
+                                <span class="online_support_title">Equipe JunkStation</span>
+                                <p>Onde o seu clássico não é carro velho!</p>
+                            </div>
+                        </div>
+                        <a href="#" class="button blue big wide">
+                            <i class="icomoon-volume-medium"></i>(11) 2291-6968
+                        </a>
+                        <a href="#">Suporte JunkStation</a><br>
+                        <a href="#" class="link_light_gray">Aprenda mais sobre o <strong>Motor</strong></a>
+                    </div>
+                </div>
 
-			        messages: { 
-			          	nome       : "O nome da newsletter é obrigatório"  ,
-			          	email      : "Digite um endereço de e-mail válido."	 
-			          			
-			        } 
-				});
+                <div class="box">
+                    <h3>Junk Station</h3>
+                    <div class="box-content">
+                        <p>A <strong>Junk Station</strong> nasceu para facilitar a vida dos admiradores dos clássicos... Desde carros antigos, carros especiais, motos, caminhões e até bicicletas antigas. Tudo reunido em um só lugar, onde as pessoas dividem
+                            seus desejos, conhecimentos e falam a mesma língua. Vem fazer parte da família Junk Station !!!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-				$("#propostaForm").validate({ 
-					submitHandler : function(form){
-						var params  = $(form).serializeJSON();
-						var request =  {
-							url     : form.action   ,
-							params  : params 		,
-							method  : "post"        ,
-							callback : function(response, textStatus, jqXHR){
-								$("#propostaMessage").html(response.header.message);
-								form.reset();
-							}
-						};
+        <div class="login_form_modal_container">
+            <div id="propostaModal" class="box">
+                <h3>Deixe sua mensagem para o vendedor</h3>
+                <span id="propostaMessage"></span>
+                <div class="box-content clearfix">
+                    <form action="http://<%- request.hostname%>/anuncio/<%- anuncio._id%>/proposta" method="post" name="propostaForm" id="propostaForm">
+                        <input type="hidden" name="_method" value="post">
+                        <input type="text" placeholder="Digite o seu nome" name="nomeContato">
+                        <input type="text" placeholder="Digite o seu E-mail" name="emailContato">
+                        <textarea name="assunto" cols="30" rows="10" maxlength="140" placeholder="Digite aqui a sua mensagem até 140 caracteres"></textarea>
+                        <!--<label for="remember" class="custom_checkbox remember_me">
+                            <input type="checkbox" name="remember" id="remember">Lembrar Senha
+                        </label>
+                        <a href="#" class="forgotten_pass right">Esqueceu sua senha?</a>-->
+                        <br/>
+                        <br/>
+                        <p><a class="button submit wide green wider">Enviar</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-						ajaxRequest(request , true);
-					},
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+            <!-- FIM DO FOOTER-->
 
-					rules: { 
-				    	nomeContato  : "required" ,
-				        emailContato : {
-				        	required : true	, 
-				          	email    : true 
-				        },
-				        assunto : "required"
-				    },
+            <script type="text/javascript">
+                $(document).ready(function() {
 
-			        messages: { 
-			          	nomeContato    : "O nome da contato é obrigatório"  ,
-			          	emailContato   : "Digite um endereço de e-mail válido.",
-			          	assunto        : "A texto da mensagem é obrigatório"	 
-			          			
-			        } 
-				});
-				
-			});
-		</script>
-	</body>
+                    $("#newsletterForm").validate({
+                        submitHandler: function(form) {
+                            var request = {
+                                url: form.action,
+                                params: {
+                                    nome: $("#nomeNewsletter").val(),
+                                    email: $("#emailNewsletter").val()
+                                },
+                                method: "post",
+                                callback: function(response, textStatus, jqXHR) {
+                                    $("#newsletterMessage").html(response.header.message);
+                                    console.log(response);
+                                }
+                            };
+
+                            ajaxRequest(request, true);
+                        },
+
+                        rules: {
+                            nome: "required",
+                            email: {
+                                required: true,
+                                email: true
+                            }
+                        },
+
+                        messages: {
+                            nome: "O nome da newsletter é obrigatório",
+                            email: "Digite um endereço de e-mail válido."
+
+                        }
+                    });
+
+                    $("#propostaForm").validate({
+                        submitHandler: function(form) {
+                            var params = $(form).serializeJSON();
+                            var request = {
+                                url: form.action,
+                                params: params,
+                                method: "post",
+                                callback: function(response, textStatus, jqXHR) {
+                                    $("#propostaMessage").html(response.header.message);
+                                    form.reset();
+                                }
+                            };
+
+                            ajaxRequest(request, true);
+                        },
+
+                        rules: {
+                            nomeContato: "required",
+                            emailContato: {
+                                required: true,
+                                email: true
+                            },
+                            assunto: "required"
+                        },
+
+                        messages: {
+                            nomeContato: "O nome da contato é obrigatório",
+                            emailContato: "Digite um endereço de e-mail válido.",
+                            assunto: "A texto da mensagem é obrigatório"
+
+                        }
+                    });
+
+                });
+            </script>
+</body>
+
 </html>

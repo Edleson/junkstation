@@ -1,332 +1,332 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-		<% include template/css %> 
-	</head>
+    <head>
+        <% include template/meta %>
+        <title>Bem vindo(a) ao Meu Velhinho</title>
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <% include template/css %> 
+    </head>
 
-	<body >
-		<% include template/header %>
-		
-		<div class="container_12 clearfix content" id="add_new_item_info">
-			<% include template/vertical_menu_admin %>
-			
-			<div class="grid_9 bigger_margin">
-				<% 
-					var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
-			        var assinaturas = request.user.assinaturas.filter(function(item){
-			            return (item.status == 3 || item.status == 4);
-			        });
+    <body >
+        <% include template/header %>
+        
+        <div class="container_12 clearfix content" id="add_new_item_info">
+            <% include template/vertical_menu_admin %>
+            
+            <div class="grid_9 bigger_margin">
+                <% 
+                    var listaPessoa = [{value : "PF", nome : "Pessoa Física"}, {value : "PJ", nome : "Pessoa Jurídica"}];
+                    var assinaturas = request.user.assinaturas.filter(function(item){
+                        return (item.status == 3 || item.status == 4);
+                    });
 
-			        var planos = [] ;
+                    var planos = [] ;
 
-			        if(request.user.dadosPessoais.tipopessoa == 'PJ'){
-			        	planos = params.planos.filter(function(item){
-							return (item.tipoPessoa == 'PJ');
-			        	});
-			        }else{
-						planos = params.planos.filter(function(item){
-				        	return (item.tipoPessoa == 'PF'); 
-				        });
-			        }
-				%>
-				<% if(request.user.dadosPessoais.tipopessoa === 'PJ'){ %>
-					<div class="box clearfix">
-						<h3>Criar Assinatura</h3>
-						<div class="box-content clearfix bordered_under">
-							<div class="grid_8 left">
-								<h4>Escolha o plano ideal para você!</h4>							
-							</div>
-							
-							<div class="grid_8 left">
-								<%- request.flash("assinatura") %>
-								<% if(assinaturas.length == 0) {%>
-									<p> 
-										OPS :( , você não possuí nenhuma assinatura ativa. Não perca tempo faça a sua assinatura e venha fazer 
-										parte da família Junk Station.
-									</p>
-								<% } %>
-								
-								<form action="/assinatura/create" method="post" name="assinaturaForm" id="assinaturaForm">
-									<% if(request.user.dadosPessoais.tipopessoa){ %>
-										<input type="hidden" name="user" value="<%- request.user._id %>">
-										<p>
-											<label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
-											<select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" disabled="disabled" >
-												<option value="" >Selecione</option>
-												<% listaPessoa.forEach(function(item){ %>
-													<option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
-												<% }); %>
-											</select>
-										</p>
-										
-										<p>
-											<label for="plano" class="dropdown_label">Plano <span class="required">*</span></label>
-											<select  name="plano" id="plano" class="customSelect full"   >
-												<option value="" >Selecione</option>
-												<% planos.forEach(function(item){ %>
-													<option value="<%- item._id %>" >
-														<%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
-													</option>
-												<% }); %>
-											</select>
-										</p>
+                    if(request.user.dadosPessoais.tipopessoa == 'PJ'){
+                        planos = params.planos.filter(function(item){
+                            return (item.tipoPessoa == 'PJ');
+                        });
+                    }else{
+                        planos = params.planos.filter(function(item){
+                            return (item.tipoPessoa == 'PF'); 
+                        });
+                    }
+                %>
+                <% if(request.user.dadosPessoais.tipopessoa === 'PJ'){ %>
+                    <div class="box clearfix">
+                        <h3>Criar Assinatura</h3>
+                        <div class="box-content clearfix bordered_under">
+                            <div class="grid_8 left">
+                                <h4>Escolha o plano ideal para você!</h4>                            
+                            </div>
+                            
+                            <div class="grid_8 left">
+                                <%- request.flash("assinatura") %>
+                                <% if(assinaturas.length == 0) {%>
+                                    <p> 
+                                        OPS :( , você não possuí nenhuma assinatura ativa. Não perca tempo faça a sua assinatura e venha fazer 
+                                        parte da família Junk Station.
+                                    </p>
+                                <% } %>
+                                
+                                <form action="/assinatura/create" method="post" name="assinaturaForm" id="assinaturaForm">
+                                    <% if(request.user.dadosPessoais.tipopessoa){ %>
+                                        <input type="hidden" name="user" value="<%- request.user._id %>">
+                                        <p>
+                                            <label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
+                                            <select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" disabled="disabled" >
+                                                <option value="" >Selecione</option>
+                                                <% listaPessoa.forEach(function(item){ %>
+                                                    <option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
+                                                <% }); %>
+                                            </select>
+                                        </p>
+                                        
+                                        <p>
+                                            <label for="plano" class="dropdown_label">Plano <span class="required">*</span></label>
+                                            <select  name="plano" id="plano" class="customSelect full"   >
+                                                <option value="" >Selecione</option>
+                                                <% planos.forEach(function(item){ %>
+                                                    <option value="<%- item._id %>" >
+                                                        <%- item.titulo %> - <%- Utils.numeral(item.preco).format("0,0.00") %> 
+                                                    </option>
+                                                <% }); %>
+                                            </select>
+                                        </p>
 
-										<p>
-											<label for="tipopessoa" class="dropdown_label">Nome da Assinatura <span class="required">*</span></label>
-											<input type="text" id="nome_assinatura" name="nome_assinatura" value="" maxlength="10" />
-										</p>
-										<p>
-											<button type="submit" class="button submit wide green " id="btnCriarAssinatura">Criar Assinatura</button>
-										</p>
-									<% }else{ %>
-										<div class="alert-info" style="text-align : justify;">
-											Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
-										</div>
-									<% } %>
-								</form>						
-							</div>
-						</div>
-					</div>
-				<% } %>
+                                        <p>
+                                            <label for="tipopessoa" class="dropdown_label">Nome da Assinatura <span class="required">*</span></label>
+                                            <input type="text" id="nome_assinatura" name="nome_assinatura" value="" maxlength="10" />
+                                        </p>
+                                        <p>
+                                            <button type="submit" class="button submit wide green " id="btnCriarAssinatura">Prosseguir</button>
+                                        </p>
+                                    <% }else{ %>
+                                        <div class="alert-info" style="text-align : justify;">
+                                            Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+                                        </div>
+                                    <% } %>
+                                </form>                        
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
 
-				<div class="box clearfix">
-					<h3>Minhas Assinaturas</h3>
-					<div class="box-content clearfix bordered_under">
-						<div class="grid_8 left">
-							<h4>Lista de Assinaturas </h4>							
-						</div>
+                <div class="box clearfix">
+                    <h3>Minhas Assinaturas</h3>
+                    <div class="box-content clearfix bordered_under">
+                        <div class="grid_8 left">
+                            <h4>Lista de Assinaturas </h4>                            
+                        </div>
 
-						<div class="grid_8 left">							
-							<p></p>
-						</div>
+                        <div class="grid_8 left">                            
+                            <p></p>
+                        </div>
 
-						<% if(params.assinaturas.length === 0) {%>
-							<% if(request.user.dadosPessoais.tipopessoa == 'PF'){ %>
-								<div class="grid_8 left">							
-									<p> 
-										OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer 
-										parte da família Junk Station. É rápido fácil com apenas um  
-									 	<a href="/planos" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
-									</p>
-								</div> 
-							<% }else if(request.user.dadosPessoais.tipopessoa == 'PJ'){%>
-								<div class="grid_8 left">							
-									<p> 
-										OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer parte da família Junk Station.
-									</p>
-								</div> 
-							<% } else {%>
-								<div class="grid_8 left" >
-									<p> 
-										Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
-									</p>
-								</div>
-							<% }%>
-						<%} else {%>
-							<table class="table table-responsive table-condesed table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th>&nbsp;</th>
-										<th>Nome</th>
-										<th>Plano</th>
-										<th>Valor</th>
-										<th>Ini Vigência</th>
-										<th>Fim Vigência</th>
-										<th>Status</th>
-										<th></th>
-									</tr>	
-								</thead>
-								
-								<tbody>
-									<% 
-										var assinaturaClass = '';
-										params.assinaturas.forEach(function(item){
-											var status = item.status; 
-											if(item.status == 3 || item.status == 4){
-												assinaturaClass = 'success';
-											}else{
-												assinaturaClass = 'warning';
-											}	
-											
-									%>
-										<tr class="<%- assinaturaClass %>">
-											<td>
-												<% if(status == 3 || status == 4) {%>
-													<button type="button" class="btn btn-success btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Ativa">
-														<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-													</button>
-												<% } else { %>
-													<button type="button" class="btn btn-warning btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Pendente">
-														<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-													</button>
-												<% } %>
+                        <% if(params.assinaturas.length === 0) {%>
+                            <% if(request.user.dadosPessoais.tipopessoa == 'PF'){ %>
+                                <div class="grid_8 left">                            
+                                    <p> 
+                                        OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer 
+                                        parte da família Junk Station. É rápido fácil com apenas um  
+                                         <a href="/planos" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+                                    </p>
+                                </div> 
+                            <% }else if(request.user.dadosPessoais.tipopessoa == 'PJ'){%>
+                                <div class="grid_8 left">                            
+                                    <p> 
+                                        OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer parte da família Junk Station.
+                                    </p>
+                                </div> 
+                            <% } else {%>
+                                <div class="grid_8 left" >
+                                    <p> 
+                                        Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+                                    </p>
+                                </div>
+                            <% }%>
+                        <%} else {%>
+                            <table class="table table-responsive table-condesed table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Nome</th>
+                                        <th>Plano</th>
+                                        <th>Valor</th>
+                                        <th>Ini Vigência</th>
+                                        <th>Fim Vigência</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>    
+                                </thead>
+                                
+                                <tbody>
+                                    <% 
+                                        var assinaturaClass = '';
+                                        params.assinaturas.forEach(function(item){
+                                            var status = item.status; 
+                                            if(item.status == 3 || item.status == 4){
+                                                assinaturaClass = 'success';
+                                            }else{
+                                                assinaturaClass = 'warning';
+                                            }    
+                                            
+                                    %>
+                                        <tr class="<%- assinaturaClass %>">
+                                            <td>
+                                                <% if(status == 3 || status == 4) {%>
+                                                    <button type="button" class="btn btn-success btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Ativa">
+                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                    </button>
+                                                <% } else { %>
+                                                    <button type="button" class="btn btn-warning btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Pendente">
+                                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                                    </button>
+                                                <% } %>
 
-											</td>
-											<td><%- item.nome_assinatura %></td>
-											<td><%- item.nome_plano %></td>
-											<td><%- Utils.numeral(item.valor_pago).format("0,0.00") %></td>
-											<td><%- util.moment(item.inicio_vigencia).format('L') %></td>
-											<td><%- util.moment(item.fim_vigencia).format('L') %></td>
-											<td><%- params.pagseguroUtil.getStatus(status)[0].nome %></td>
-											<td align="left">
-												<button type="button" class="btn btn-primary btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Detalhes">
-													<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-												</button>
-												
-												<% if(status == 1) {%>
-													<button type="button" class="btn btn-success btn-xs btn-pagar" id="<%-item.url_pagamento %>" data-toggle="tooltip" data-placement="top" title="Pagar">
-														<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-													</button>
-												<% } %>
+                                            </td>
+                                            <td><%- item.nome_assinatura %></td>
+                                            <td><%- item.nome_plano %></td>
+                                            <td><%- Utils.numeral(item.valor_pago).format("0,0.00") %></td>
+                                            <td><%- util.moment(item.inicio_vigencia).format('L') %></td>
+                                            <td><%- util.moment(item.fim_vigencia).format('L') %></td>
+                                            <td><%- params.pagseguroUtil.getStatus(status)[0].nome %></td>
+                                            <td align="left">
+                                                <button type="button" class="btn btn-primary btn-xs btn-detalhar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Detalhes">
+                                                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                                                </button>
+                                                
+                                                <% if(status == 1) {%>
+                                                    <button type="button" class="btn btn-success btn-xs btn-pagar" id="<%-item.url_pagamento %>" data-toggle="tooltip" data-placement="top" title="Pagar">
+                                                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                                    </button>
+                                                <% } %>
 
-												<% if(status == 3 || status == 4 || status == 1) {%>
-													<button type="button" class="btn btn-danger btn-xs btn-cancelar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Cancelar">
-														<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-													</button>
-												<% } %>
+                                                <% if(status == 3 || status == 4 || status == 1) {%>
+                                                    <button type="button" class="btn btn-danger btn-xs btn-cancelar" id="<%-item._id %>" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                    </button>
+                                                <% } %>
 
-												<% if(status == 20 || item.vencido) {%>
-													<button type="button" class="btn btn-info btn-xs btn-renovar" data-toggle="tooltip" data-placement="top" title="Renovar" id="<%-item._id %>">
-														<span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-													</button>
-												<% } %>
-											</td>
-										</tr>
-									<% });%>
-								</tbody>
-							</table>
-						<%}%>					
-					</div>
-					<div id="ajaxContent"></div>
-				</div>					
-			</div>	
-		</div>
+                                                <% if(status == 20 || item.vencido) {%>
+                                                    <button type="button" class="btn btn-info btn-xs btn-renovar" data-toggle="tooltip" data-placement="top" title="Renovar" id="<%-item._id %>">
+                                                        <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+                                                    </button>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                    <% });%>
+                                </tbody>
+                            </table>
+                        <%}%>                    
+                    </div>
+                    <div id="ajaxContent"></div>
+                </div>                    
+            </div>    
+        </div>
 
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$('[data-toggle="tooltip"]').tooltip();
-				$(".btn-detalhar").click(function(){
-					var id  = $(this).attr("id");
-					var url = "/assinatura/detalhe/" + id; 
-					var request =  {
-						url     : url   ,
-						params  : {}    ,
-						method  : "get" ,
-						callback : function(response, textStatus, jqXHR){
-							$("#ajaxContent").html(response);
-						}
-					};
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+        <!-- FIM DO FOOTER-->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+                $(".btn-detalhar").click(function(){
+                    var id  = $(this).attr("id");
+                    var url = "/assinatura/detalhe/" + id; 
+                    var request =  {
+                        url     : url   ,
+                        params  : {}    ,
+                        method  : "get" ,
+                        callback : function(response, textStatus, jqXHR){
+                            $("#ajaxContent").html(response);
+                        }
+                    };
 
-					ajaxRequest(request , true);
-				});
+                    ajaxRequest(request , true);
+                });
 
-				$(".btn-cancelar").click(function(){
-					var id       = $(this).attr("id");
-					var url      = "/assinatura/cancelar/" + id;
-					var mensagem = "Tem certeza que deseja cancelar a sua assinatura, lembre-se que Junk Station não reembolsa " +
-					               "o valor dos dias restantes até o final de sua assinatura e todos os dados de seus anúncios seram perdidos. Tem certeza que quer realizar o " +
-					               "cancelamento ? "; 
-					$.confirm({
-							post : true 						,
-							text : mensagem 					, 
-							title: "Cancelamento de Assinatura"	,
-							confirm : function(){
-								window.location.href = url;
-							},
-							cancel : function(){
-								return false;
-							}
-						});
-				});
+                $(".btn-cancelar").click(function(){
+                    var id       = $(this).attr("id");
+                    var url      = "/assinatura/cancelar/" + id;
+                    var mensagem = "Tem certeza que deseja cancelar a sua assinatura, lembre-se que Junk Station não reembolsa " +
+                                   "o valor dos dias restantes até o final de sua assinatura e todos os dados de seus anúncios seram perdidos. Tem certeza que quer realizar o " +
+                                   "cancelamento ? "; 
+                    $.confirm({
+                            post : true                         ,
+                            text : mensagem                     , 
+                            title: "Cancelamento de Assinatura"    ,
+                            confirm : function(){
+                                window.location.href = url;
+                            },
+                            cancel : function(){
+                                return false;
+                            }
+                        });
+                });
 
-				$(".btn-pagar").click(function(){
-					var url      =  $(this).attr("id");
-					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";	
-					$.confirm({
-							post : true 						,
-							text : mensagem 					, 
-							title: "Pagamento de Assinatura"	,
-							confirm : function(){
-								window.location.href = url;
-							},
-							cancel : function(){
-								return false;
-							}
-						});
-				});
+                $(".btn-pagar").click(function(){
+                    var url      =  $(this).attr("id");
+                    var mensagem = "Você será direcionado para a tela de pagamento. Deseja continuar?";    
+                    $.confirm({
+                            post : true                         ,
+                            text : mensagem                     , 
+                            title: "Pagamento de Assinatura"    ,
+                            confirm : function(){
+                                window.location.href = url;
+                            },
+                            cancel : function(){
+                                return false;
+                            }
+                        });
+                });
 
-				$("#assinaturaForm").validate({ 
-					submitHandler : function(form){
-						$.confirm({
-							post : true,
-							text : "Tem certeza que deseja criar a assintura ?", 
-							title: "Criação de Assinatura",
-							confirm : function(){
-								form.submit();
-								return false;
-							},
-							cancel : function(){
-								return false;
-							}
-						});
-					},
+                $("#assinaturaForm").validate({ 
+                    submitHandler : function(form){
+                        $.confirm({
+                            post : true,
+                            text : "Tem certeza que deseja criar a assintura ?", 
+                            title: "Criação de Assinatura",
+                            confirm : function(){
+                                form.submit();
+                                return false;
+                            },
+                            cancel : function(){
+                                return false;
+                            }
+                        });
+                    },
 
-					rules: { 
-						plano            : "required" ,
-				    	tipopessoa 		 : "required" ,
-				    	nome_assinatura  : "required" 
-				    },
+                    rules: { 
+                        plano            : "required" ,
+                        tipopessoa          : "required" ,
+                        nome_assinatura  : "required" 
+                    },
 
-			        messages: { 
-			        	plano            : "O plano é obrigatório",
-			          	tipopessoa 		 : "O tipo de pessoa é obrigatório" ,
-				    	nome_assinatura  : "O nome da assinatura é obrigatório" 		
-			        } 
-				});
+                    messages: { 
+                        plano            : "O plano é obrigatório",
+                          tipopessoa          : "O tipo de pessoa é obrigatório" ,
+                        nome_assinatura  : "O nome da assinatura é obrigatório"         
+                    } 
+                });
 
-				$("#btnCriarAssinatura").click(function(){
-					var url      = $(this).attr("id");
-					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";	
-					$.confirm({
-							post : true 						,
-							text : mensagem 					, 
-							title: "Pagamento de Assinatura"	,
-							confirm : function(){
-								window.location.href = url;
-							},
-							cancel : function(){
-								return false;
-							}
-						});
-				});
+                $("#btnCriarAssinatura").click(function(){
+                    var url      = $(this).attr("id");
+                    var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";    
+                    $.confirm({
+                            post : true                         ,
+                            text : mensagem                     , 
+                            title: "Pagamento de Assinatura"    ,
+                            confirm : function(){
+                                window.location.href = url;
+                            },
+                            cancel : function(){
+                                return false;
+                            }
+                        });
+                });
 
-				$(".btn-renovar").click(function(){
-					var url      = "/assinatura/renovar/" +  $(this).attr("id");
-					var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";
-					$.confirm({
-						post : true 						,
-						text : mensagem 					, 
-						title: "Renovação Assinatura"		,
-						confirm : function(){
-							window.location.href = url;
-						},
-						cancel : function(){
-							return false;
-						}
-					});
-				});
+                $(".btn-renovar").click(function(){
+                    var url      = "/assinatura/renovar/" +  $(this).attr("id");
+                    var mensagem = "Você será redirecionado para a página de pagamento da operadora de cobrança. Deseja realizar o pagamento ?";
+                    $.confirm({
+                        post : true                         ,
+                        text : mensagem                     , 
+                        title: "Renovação Assinatura"        ,
+                        confirm : function(){
+                            window.location.href = url;
+                        },
+                        cancel : function(){
+                            return false;
+                        }
+                    });
+                });
 
-			});
+            });
 
-			
+            
 
-		</script>
-	</body>
+        </script>
+    </body>
 </html>
 

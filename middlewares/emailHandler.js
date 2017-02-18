@@ -9,7 +9,7 @@ module.exports = function(ctx) {
     var emailOptions = {
         host: ctx.email.hostname,
         port: ctx.email.port,
-        secure: true,
+        secure: false,
         auth: {
             user: ctx.email.auth.user,
             pass: ctx.email.auth.pass

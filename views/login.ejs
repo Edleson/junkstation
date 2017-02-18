@@ -1,275 +1,201 @@
 <!DOCTYPE html>
 <html ng-app="junkstation" >
-	<head>
-		<% include template/meta %>
-		<title>Junk Station a Vitrine do seu clássico</title>
-		<% include template/css %>
-	</head>
+    <head>
+        <% include template/meta %>
+        <title>Bem vindo(a) ao Meu Velhinho</title>
+        <% include template/css %>
+    </head>
 
-	<body >
-		<% include template/header %>
+    <body >
+        <% include template/header %>
 
-		<div class="container_12 clearfix content">
-			<div class="grid_6">
-				<div class="box">
-					<h3>Nova Conta</h3>
-					<div class="box-content">			
-						<%- request.flash("cadastroInvalido") %>
-						<form action="https://<%- request.hostname %>/login/novo" method="post" id="novoUsuarioForm">
-							<input type="text" id="username" placeholder="Digite o username" name="username" />	
-							<input type="text" placeholder="Digite o e-mail" name="email" />
-							<input type="password" id="password" placeholder="Digite a senha" name="password" />
-							<input type="password" id="repassword" placeholder="Digite a senha novamente" name="repassword" class="" />
-							<p class="smaller_margin">
-								<label for="newsletter" class="custom_checkbox">
-									Gostaria de receber nossas promoções e notícias.
-									<input type="checkbox" name="newsletter" id="newsletter">
-								</label>
-							</p>
+        <div class="container_12 clearfix content">
+            <div class="grid_6">
+                <div class="box">
+                    <h3>Nova Conta</h3>
+                    <div class="box-content">            
+                        <%- request.flash("cadastroInvalido") %>
+                        <form action="https://<%- request.hostname %>/login/novo" method="post" id="novoUsuarioForm">
+                            <input type="text" id="username" placeholder="Digite o seu nome" name="username" tabindex="1" />    
+                            <input type="text" placeholder="Digite seu e-mail" name="email" tabindex="2" />
+                            <input type="password" id="password" placeholder="Digite sua senha" name="password" tabindex="3" />
+                            <input type="password" id="repassword" placeholder="Digite sua senha novamente" name="repassword" class="" tabindex="4"  />
+                            <p class="smaller_margin">
+                                <label for="newsletter" class="custom_checkbox">
+                                    Gostaria de receber nossas promoções e notícias.
+                                    <input type="checkbox" name="newsletter" id="newsletter"  tabindex="5" />
+                                </label>
+                            </p>
 
-							<p>
-								<label for="terms" class="custom_checkbox">
-									Eu aceito <a href="#termos_uso" class="modal">termos de uso </a> e 
-									          <a href="#politica_privacidade" class="modal">política de privacidade</a>.
-									<input type="checkbox" name="terms" id="terms" />
-								</label>
-							</p>
+                            <p>
+                                <label for="terms" class="custom_checkbox">
+                                    Eu aceito <a href="#termos_uso" class="modal">termos de uso </a> e 
+                                              <a href="#politica_privacidade" class="modal">política de privacidade</a>.
+                                    <input type="checkbox" name="terms" id="terms"  tabindex="7" />
+                                </label>
+                            </p>
 
-							<p class="centered_content"><a class="button submit green wide">Cadastrar </a></p>
-						</form>
-					</div>
-				</div>
-			</div>
-			
-			<div class="grid_6">
-				<div class="box">
-					<h3>Login</h3>
-					<div class="box-content clearfix">
-						<%- request.flash("loginInvalido") %>
-						<form action="https://<%- request.hostname %>/login" method="post" id="loginForm">
-							<input type="text"     placeholder="Digite o seu email" name="email">
-							<input type="password" placeholder="Digite a sua senha" name="password">
+                            <p class="centered_content"><a class="button submit green wide"  tabindex="8">Cadastrar </a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid_6">
+                <div class="box">
+                    <h3>Login</h3>
+                    <div class="box-content clearfix">
+                        <%- request.flash("loginInvalido") %>
+                        <form action="https://<%- request.hostname %>/login" method="post" id="loginForm">
+                            <input type="text"     placeholder="Digite o seu email" name="email">
+                            <input type="password" placeholder="Digite a sua senha" name="password">
 
-							<p>
-								<label for="remember_me" class="custom_checkbox remember_me" style="display : none;" >
-									<input type="checkbox" name="remember_me" id="remember_me">Lembre-me
-								</label>
+                            <p>
+                                <label for="remember_me" class="custom_checkbox remember_me" style="display : none;" >
+                                    <input type="checkbox" name="remember_me" id="remember_me">Lembre-me
+                                </label>
 
-								<a href="#sendPasswordForm" class="forgotten_pass right show_login_form">Esqueceu sua senha?</a>
-							</p>
+                                <a href="#sendPasswordForm" class="forgotten_pass right show_login_form">Esqueceu sua senha?</a>
+                            </p>
 
-							<br />
-							
-							<p class="centered_content">
-								<a href="#" class="button submit green wide">Entrar</a>
-							</p>
-							
-							<!--
-							<hr/>
-							
-							<p>ou</p>
+                            <br />
+                            
+                            <p class="centered_content">
+                                <a href="#" class="button submit green wide">Entrar</a>
+                            </p>
+                            
+                            <!--
+                            <hr/>
+                            
+                            <p>ou</p>
 
-							<p class="centered_content">
-								<a href="#" class="button facebook wide wider">Login com Facebook</a>
-							</p>
-							
-							<p class="centered_content">
-								<a href="#" class="button wide red wider">Login com google+</a>
-							</p>
-							<br/>-->
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+                            <p class="centered_content">
+                                <a href="#" class="button facebook wide wider">Login com Facebook</a>
+                            </p>
+                            
+                            <p class="centered_content">
+                                <a href="#" class="button wide red wider">Login com google+</a>
+                            </p>
+                            <br/>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div class="login_form_modal_container">
-			<div id="sendPasswordForm" class="box" style="width: 450px;">
-				<h3>Recuperar senha </h3>
-				<div class="box-content clearfix">
-					<div id="msgSenha"></div>
-					<form action="https://<%- request.hostname %>/login/recuperarsenha" method="post" id="recuperarSenhaForm">
-						<p><input type="text" placeholder="Digite o e-mail do seu cadastro" name="email" id="rEmail" ></p>
-						<p><a class="button submit wide red wider">Enviar</a></p>
-					</form>
-				</div>
-			</div>
-		</div>
+        <div class="login_form_modal_container">
+            <div id="sendPasswordForm" class="box" style="width: 450px;">
+                <h3>Recuperar senha </h3>
+                <div class="box-content clearfix">
+                    <div id="msgSenha"></div>
+                    <form action="https://<%- request.hostname %>/login/recuperarsenha" method="post" id="recuperarSenhaForm">
+                        <p><input type="text" placeholder="Digite o e-mail do seu cadastro" name="email" id="rEmail" ></p>
+                        <p><a class="button submit wide red wider">Enviar</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-		<div class="login_form_modal_container">
-			<div id="termos_uso" class="box" style="width: 600px;">
-				<h3>Termos e Condições de Uso</h3>
-				<div class="box-content clearfix" style="height : 400px; overflow : auto; text-align: justify;">
-					<p>1. INFORMAÇÕES GERAIS</p>
+        
+        
+        <!-- INICIO DO FOOTER-->
+        <% include template/footer %>
+        <!-- FIM DO FOOTER-->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#loginForm").keydown(function(e) {
+                    if (e.keyCode == 13) {
+                        $('#loginForm').submit();
+                    }
+                });
 
-					<p>A fim de preservar o direito ao sigilo de identidade, dados e informações dos usuários do JUNKSTATION.COM.BR, uma marca da empresa CFJ Comércio e Serviços Automotivos Ltda., a política de privacidade estipulada neste documento define as condições e as diretrizes acerca do tratamento e proteção das informações que serão capturadas por meio do JUNKSTATION.COM.BR.</p>
+                $("#loginForm").validate({ 
+                    rules: { 
+                        email : {
+                            required : true    , 
+                            email    : true 
+                        },
+                        password  : "required" 
+                    },
 
-					<p>A JUNKSTATION.COM.BR poderá alterar esta Política de Privacidade a qualquer momento. Toda alteração será veiculada neste espaço. </p>
+                    messages: { 
+                          email      : "Digite um endereço de e-mail válido."     ,
+                          password   : "Senha é obrigatória."                         
+                    } 
+                });
 
-					<p>A identificação individual e exclusiva, que recebem os usuários, após se cadastrarem no JUNKSTATION.COM.BR, a qual chamamos de “login”, bem como a sua senha pessoal cadastrada não estarão disponíveis para o público em geral, em razão de se tratarem de dados confidenciais. </p>
+                $("#novoUsuarioForm").keydown(function(e) {
+                    if (e.keyCode == 13) {
+                        $('#novoUsuarioForm').submit();
+                    }
+                });
 
-					<p>O JUNKSTATION.COM.BR compromete-se em coletar apenas as informações sobre a identificação individual que forem necessárias à emissão de nota fiscal eletrônica ou ao fornecimento de serviços solicitados pelos usuários, a fim de viabilizar seus negócios. Os únicos dados, os quais os usuários concordam automaticamente em divulgar publicamente são: Nome, cidade e Estado de origem e número de telefone.</p>
+                $("#novoUsuarioForm").validate({ 
+                    rules: { 
+                        username : "required" ,
+                        
+                        email : {
+                            required : true    , 
+                              email    : true 
+                        },
 
-					<p>Ao se cadastrar no JUNKSTATION.COM.BR, para aquisição dos serviços oferecidos no website, cada usuário recebe uma identificação única, que passa a ser requerida e autenticada nos demais acessos ao site. </p>
+                        password  : "required" ,
 
-					<p>A identificação de usuário é exclusiva e intransferível para ser transmitida ao servidor do JUNKSTATION.COM.BR, sendo a senha armazenada em banco de dados. </p>
+                        repassword: {
+                            required : true       ,
+                            equal    : "#password"
+                        } ,
 
-					<p>A JUNKSTATION.COM.BR poderá utilizar “cookies” - arquivo-texto, enviado pelo servidor do JUNKSTATION.COM.BR para o computador do usuário, com a finalidade de identificar o computador, personalizar os acessos do usuário e, ainda, obter dados de acesso, como páginas navegadas ou links clicados – apenas para controlar a navegação em seu website. </p>
+                        terms : "required"
+                    },
 
-					<p>A JUNKSTATION.COM.BR compromete-se, ainda, a solicitar autorização prévia aos usuários cadastrados em seu sítio eletrônico, para o envio de material informativo ou promocional, por correio eletrônico. Da mesma, para divulgar alterações e inovações sobre os serviços do JUNKSTATION.COM.BR e de seus parceiros. Também se compromete a não divulgar dados sobre a identificação individual de usuários, para terceiros, exceto com o consentimento prévio. </p>
+                    messages: { 
+                          username   : "Nome de usuário é obrigatório."         ,
+                          email      : "Digite um endereço de e-mail válido."     ,
+                          password   : "Senha é obrigatória."                     ,
+                          repassword : {
+                              required : "A confirmação da senha é necessária" ,
+                              equal    : "Há diferenças entre as senhas digitadas"
+                          }  ,
+                          terms      : "Aceite os termos de uso."            
+                    } 
+                });
 
-					<p>2. PRIVACIDADE E SEGURANÇA DE DADOS </p>
+                $(".forgotten_pass").click(function(){
+                    $("#msgSenha").html("").hide();
+                    $("#rEmail").val("")
+                });
 
-					<p>Ao se cadastrar, navegar ou solicitar serviços do JUNKSTATION.COM.BR, podem vir a ser solicitadas informações, dependendo da ação realizada, como: </p>
+                $("#recuperarSenhaForm").validate({ 
+                    submitHandler: function(form){
+                        var request =  {
+                            url     : form.action                     ,
+                            params  : {email : $("#rEmail").val()}    ,
+                            method  : "post"                          ,
+                            callback : function(response, textStatus, jqXHR){
+                                $("#msgSenha").html(response.data).show();
+                                var msg = $("#msgSenha").html(response.data).text();
+                                alert(msg);
+                                window.location.href = "/login";
+                            }
+                        };
 
-					<p>-Dados do cadastro do cliente;</p>
-					<p>-Dados dos veículos anunciados e pesquisados; </p>
-					<p>-Opções de pagamento escolhidas;</p>
-					<p>-Formulários eletrônicos preenchidos no sítio eletrônico;</p>
-					<p>-Páginas acessadas pelo internauta, para efeito estudo.</p>
-					<p>As informações, capturadas pelo JUNKSTATION.COM.BR, serão utilizadas com o objetivo de permitir aos internautas navegar ou realizar as operações disponibilizadas no website, além de identificar o perfil dos internautas e usuários, viabilizando, com isso, o fornecimento de novos serviços no website. </p>
-					<p>Os internautas e usuários devem ser cuidadosos e cautelosos com os dados de sua identificação individual sempre que acessar a internet, informando-os somente em operações em que exista a proteção de dados. </p>
+                        ajaxRequest(request);
+                    },
 
-					<p>As operações realizadas no JUNKSTATION.COM.BR por um usuário conectado, bem como as informações associadas a estas operações, são exclusivas e só podem ser acessadas por este usuário. 
-					Os pagamentos serão realizados diretamente no JUNKSTATION.COM.BR, como a interface de um gateway de pagamento, sob segurança total dos dados digitados. As transações efetuadas para escolha da forma e efetivação do pagamento, independente da forma escolhida, são realizadas em ambiente seguro e certificado por empresa especializada em segurança de dados para a internet. Com isso, o webclássicos.com.br não mantém sob sua guarda nenhum dado de faturamento de seus usuários. </p>
+                    rules: { 
+                        email : {
+                            required : true    , 
+                              email    : true 
+                        }
+                    },
 
-					<p>3. DÚVIDAS </p>
+                    messages: { 
+                          email      : "Digite um endereço de e-mail válido."                
+                    } 
+                });
 
-					<p>Caso haja qualquer dúvida sobre esta Política de Privacidade, escreva para: contato@junkstation.com.br. </p>
-				</div>
-			</div>
-		</div>
-
-		<div class="login_form_modal_container">
-			<div id="politica_privacidade" class="box" style="width: 600px;">
-				<h3>POLÍTICA DE PRIVACIDADE</h3>
-				<div class="box-content clearfix" style="height : 400px; overflow : auto; text-align: justify;">
-					<p>1. INFORMAÇÕES GERAIS</p>
-
-					<p>A fim de preservar o direito ao sigilo de identidade, dados e informações dos usuários do JUNKSTATION.COM.BR, uma marca da empresa CFJ Comércio e Serviços Automotivos Ltda., a política de privacidade estipulada neste documento define as condições e as diretrizes acerca do tratamento e proteção das informações que serão capturadas por meio do JUNKSTATION.COM.BR.</p>
-
-					<p>A JUNKSTATION.COM.BR poderá alterar esta Política de Privacidade a qualquer momento. Toda alteração será veiculada neste espaço. </p>
-
-					<p>A identificação individual e exclusiva, que recebem os usuários, após se cadastrarem no JUNKSTATION.COM.BR, a qual chamamos de “login”, bem como a sua senha pessoal cadastrada não estarão disponíveis para o público em geral, em razão de se tratarem de dados confidenciais. </p>
-
-					<p>O JUNKSTATION.COM.BR compromete-se em coletar apenas as informações sobre a identificação individual que forem necessárias à emissão de nota fiscal eletrônica ou ao fornecimento de serviços solicitados pelos usuários, a fim de viabilizar seus negócios. Os únicos dados, os quais os usuários concordam automaticamente em divulgar publicamente são: Nome, cidade e Estado de origem e número de telefone.</p>
-
-					<p>Ao se cadastrar no JUNKSTATION.COM.BR, para aquisição dos serviços oferecidos no website, cada usuário recebe uma identificação única, que passa a ser requerida e autenticada nos demais acessos ao site. </p>
-
-					<p>A identificação de usuário é exclusiva e intransferível para ser transmitida ao servidor do JUNKSTATION.COM.BR, sendo a senha armazenada em banco de dados. </p>
-
-					<p>A JUNKSTATION.COM.BR poderá utilizar “cookies” - arquivo-texto, enviado pelo servidor do JUNKSTATION.COM.BR para o computador do usuário, com a finalidade de identificar o computador, personalizar os acessos do usuário e, ainda, obter dados de acesso, como páginas navegadas ou links clicados – apenas para controlar a navegação em seu website. </p>
-
-					<p>A JUNKSTATION.COM.BR compromete-se, ainda, a solicitar autorização prévia aos usuários cadastrados em seu sítio eletrônico, para o envio de material informativo ou promocional, por correio eletrônico. Da mesma, para divulgar alterações e inovações sobre os serviços do JUNKSTATION.COM.BR e de seus parceiros. Também se compromete a não divulgar dados sobre a identificação individual de usuários, para terceiros, exceto com o consentimento prévio. </p>
-
-					<p>2. PRIVACIDADE E SEGURANÇA DE DADOS </p>
-
-					<p>Ao se cadastrar, navegar ou solicitar serviços do JUNKSTATION.COM.BR, podem vir a ser solicitadas informações, dependendo da ação realizada, como: </p>
-
-					<p>-Dados do cadastro do cliente;</p>
-					<p>-Dados dos veículos anunciados e pesquisados; </p>
-					<p>-Opções de pagamento escolhidas;</p>
-					<p>-Formulários eletrônicos preenchidos no sítio eletrônico;</p>
-					<p>-Páginas acessadas pelo internauta, para efeito estudo.</p>
-					<p>As informações, capturadas pelo JUNKSTATION.COM.BR, serão utilizadas com o objetivo de permitir aos internautas navegar ou realizar as operações disponibilizadas no website, além de identificar o perfil dos internautas e usuários, viabilizando, com isso, o fornecimento de novos serviços no website. </p>
-					<p>Os internautas e usuários devem ser cuidadosos e cautelosos com os dados de sua identificação individual sempre que acessar a internet, informando-os somente em operações em que exista a proteção de dados. </p>
-
-					<p>As operações realizadas no JUNKSTATION.COM.BR por um usuário conectado, bem como as informações associadas a estas operações, são exclusivas e só podem ser acessadas por este usuário. 
-					Os pagamentos serão realizados diretamente no JUNKSTATION.COM.BR, como a interface de um gateway de pagamento, sob segurança total dos dados digitados. As transações efetuadas para escolha da forma e efetivação do pagamento, independente da forma escolhida, são realizadas em ambiente seguro e certificado por empresa especializada em segurança de dados para a internet. Com isso, o webclássicos.com.br não mantém sob sua guarda nenhum dado de faturamento de seus usuários. </p>
-
-					<p>3. DÚVIDAS </p>
-
-					<p>Caso haja qualquer dúvida sobre esta Política de Privacidade, escreva para: contato@junkstation.com.br. </p>
-				</div>
-			</div>
-		</div>
-		
-		<!-- INICIO DO FOOTER-->
-		<% include template/footer %>
-		<!-- FIM DO FOOTER-->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$("#loginForm").validate({ 
-					rules: { 
-				        email : {
-				        	required : true	, 
-				          	email    : true 
-				        },
-				        password  : "required" 
-				    },
-
-			        messages: { 
-			          	email      : "Digite um endereço de e-mail válido."	 ,
-			          	password   : "Senha é obrigatória."					 	
-			        } 
-				});
-
-				$("#novoUsuarioForm").validate({ 
-					rules: { 
-				    	username : "required" ,
-				        
-				        email : {
-				        	required : true	, 
-				          	email    : true 
-				        },
-
-				        password  : "required" ,
-
-				        repassword: {
-				        	required : true       ,
-				        	equal    : "#password"
-				        } ,
-
-				        terms : "required"
-				    },
-
-			        messages: { 
-			          	username   : "Nome de usuário é obrigatório."		 ,
-			          	email      : "Digite um endereço de e-mail válido."	 ,
-			          	password   : "Senha é obrigatória."					 ,
-			          	repassword : {
-			          		required : "A confirmação da senha é necessária" ,
-			          		equal    : "Há diferenças entre as senhas digitadas"
-			          	}  ,
-			          	terms      : "Aceite os termos de uso."			
-			        } 
-				});
-
-				$(".forgotten_pass").click(function(){
-					$("#msgSenha").html("").hide();
-					$("#rEmail").val("")
-				});
-
-				$("#recuperarSenhaForm").validate({ 
-					submitHandler: function(form){
-						var request =  {
-							url     : form.action                     ,
-							params  : {email : $("#rEmail").val()}    ,
-							method  : "post"                          ,
-							callback : function(response, textStatus, jqXHR){
-								$("#msgSenha").html(response.data).show();
-								var msg = $("#msgSenha").html(response.data).text();
-								alert(msg);
-								window.location.href = "/login";
-							}
-						};
-
-						ajaxRequest(request);
-					},
-
-					rules: { 
-				        email : {
-				        	required : true	, 
-				          	email    : true 
-				        }
-				    },
-
-			        messages: { 
-			          	email      : "Digite um endereço de e-mail válido."				
-			        } 
-				});
-
-			});
-		</script>
-	</body>
+            });
+        </script>
+    </body>
 </html>
