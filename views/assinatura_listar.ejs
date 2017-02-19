@@ -34,7 +34,7 @@
                 %>
                 <% if(request.user.dadosPessoais.tipopessoa === 'PJ'){ %>
                     <div class="box clearfix">
-                        <h3>Criar Assinatura</h3>
+                        <h3>Criar Plano</h3>
                         <div class="box-content clearfix bordered_under">
                             <div class="grid_8 left">
                                 <h4>Escolha o plano ideal para você!</h4>                            
@@ -44,8 +44,8 @@
                                 <%- request.flash("assinatura") %>
                                 <% if(assinaturas.length == 0) {%>
                                     <p> 
-                                        OPS :( , você não possuí nenhuma assinatura ativa. Não perca tempo faça a sua assinatura e venha fazer 
-                                        parte da família Junk Station.
+                                        OPS :( , você não possuí nenhum plano ativo. Não perca tempo faça a sua assinatura e venha fazer 
+                                        parte da família Meu Velinho.
                                     </p>
                                 <% } %>
                                 
@@ -75,7 +75,7 @@
                                         </p>
 
                                         <p>
-                                            <label for="tipopessoa" class="dropdown_label">Nome da Assinatura <span class="required">*</span></label>
+                                            <label for="tipopessoa" class="dropdown_label">Nome do Plano <span class="required">*</span></label>
                                             <input type="text" id="nome_assinatura" name="nome_assinatura" value="" maxlength="10" />
                                         </p>
                                         <p>
@@ -83,7 +83,7 @@
                                         </p>
                                     <% }else{ %>
                                         <div class="alert-info" style="text-align : justify;">
-                                            Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+                                            Para criar a seu plano é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
                                         </div>
                                     <% } %>
                                 </form>                        
@@ -93,10 +93,10 @@
                 <% } %>
 
                 <div class="box clearfix">
-                    <h3>Minhas Assinaturas</h3>
+                    <h3>Meus Planos</h3>
                     <div class="box-content clearfix bordered_under">
                         <div class="grid_8 left">
-                            <h4>Lista de Assinaturas </h4>                            
+                            <h4>Lista de Planos </h4>                            
                         </div>
 
                         <div class="grid_8 left">                            
@@ -107,21 +107,21 @@
                             <% if(request.user.dadosPessoais.tipopessoa == 'PF'){ %>
                                 <div class="grid_8 left">                            
                                     <p> 
-                                        OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer 
-                                        parte da família Junk Station. É rápido fácil com apenas um  
+                                        OPS :( , você não possuí nenhum plano. Não perca tempo faça o seu plano e venha fazer 
+                                        parte da família Meu Velinho. É rápido fácil com apenas um  
                                          <a href="/planos" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
                                     </p>
                                 </div> 
                             <% }else if(request.user.dadosPessoais.tipopessoa == 'PJ'){%>
                                 <div class="grid_8 left">                            
                                     <p> 
-                                        OPS :( , você não possuí nenhuma assinatura. Não perca tempo faça a sua assinatura e venha fazer parte da família Junk Station.
+                                        OPS :( , você não possuí nenhum plano. Não perca tempo faça e seu plano e venha fazer parte da Meu Velinho.
                                     </p>
                                 </div> 
                             <% } else {%>
                                 <div class="grid_8 left" >
                                     <p> 
-                                        Para criar a suas assinaturas é necessário nos fornecer algumas informações importante para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
+                                        Para criar a seu plano é necessário nos fornecer algumas informações importantes para criar o seu perfil, é bem rápido. <a href="/anuncio/meusdados" class="btn btn-success btn-xs"><b><i>clique aqui</i></b></a>
                                     </p>
                                 </div>
                             <% }%>
@@ -229,13 +229,13 @@
                 $(".btn-cancelar").click(function(){
                     var id       = $(this).attr("id");
                     var url      = "/assinatura/cancelar/" + id;
-                    var mensagem = "Tem certeza que deseja cancelar a sua assinatura, lembre-se que Junk Station não reembolsa " +
-                                   "o valor dos dias restantes até o final de sua assinatura e todos os dados de seus anúncios seram perdidos. Tem certeza que quer realizar o " +
+                    var mensagem = "Tem certeza que deseja cancelar o seu plano, lembre-se que Meu Velinho não reembolsa " +
+                                   "o valor dos dias restantes até o final de seu plano e todos os dados de seus anúncios seram perdidos. Tem certeza que quer realizar o " +
                                    "cancelamento ? "; 
                     $.confirm({
                             post : true                         ,
                             text : mensagem                     , 
-                            title: "Cancelamento de Assinatura"    ,
+                            title: "Cancelamento de Plano"    ,
                             confirm : function(){
                                 window.location.href = url;
                             },
@@ -265,8 +265,8 @@
                     submitHandler : function(form){
                         $.confirm({
                             post : true,
-                            text : "Tem certeza que deseja criar a assintura ?", 
-                            title: "Criação de Assinatura",
+                            text : "Tem certeza que deseja criar um novo plano ?", 
+                            title: "Criação de plano",
                             confirm : function(){
                                 form.submit();
                                 return false;
@@ -296,7 +296,7 @@
                     $.confirm({
                             post : true                         ,
                             text : mensagem                     , 
-                            title: "Pagamento de Assinatura"    ,
+                            title: "Pagamento de Plano"    ,
                             confirm : function(){
                                 window.location.href = url;
                             },
@@ -312,7 +312,7 @@
                     $.confirm({
                         post : true                         ,
                         text : mensagem                     , 
-                        title: "Renovação Assinatura"        ,
+                        title: "Renovação Plano"        ,
                         confirm : function(){
                             window.location.href = url;
                         },
