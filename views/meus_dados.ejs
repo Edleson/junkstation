@@ -53,40 +53,40 @@
                             
                             <div class="grid_5 left cnpjdata">
                                 <p>
-                                    <label for="razaosocial" class="dropdown_label">Razão Social</label>
+                                    <label for="razaosocial" class="dropdown_label">Razão Social <span class="required">*</span> </label>
                                     <input type="text" id="razaosocial" name="razaosocial" value="<%- request.user.dadosPessoais.razaosocial %>" maxlength="80" />
                                 </p>
                             </div>
 
                             <div class="grid_3 left cnpjdata">
                                 <p>
-                                    <label for="cnpj" class="dropdown_label">CNPJ</label>
+                                    <label for="cnpj" class="dropdown_label">CNPJ <span class="required">*</span></label>
                                     <input type="text" id="cnpj" name="cnpj"  value="<%- request.user.dadosPessoais.cnpj %>" maxlength="14" />
                                 </p>
                             </div>
 
-                            <div class="grid_8 left">
+                            <div class="grid_8 left cpfdata">
                                 <p>
                                     <label for="nome" class="dropdown_label">Nome <span class="required">*</span></label>
                                     <input type="text" id="nome" name="nome" value="<%- request.user.dadosPessoais.nome %>" maxlength="80"/>
                                 </p>
                             </div>
 
-                            <div class="grid_3 left">                                    
+                            <div class="grid_3 left cpfdata">                                    
                                 <p>
                                     <label for="nascimento" class="dropdown_label">Data de nascimento <span class="required">*</span></label>
                                     <input type="text" id="dataNascimento" name="dataNascimento"  value="<%- request.user.dadosPessoais.dataNascimentoFormatada %>" />
                                 </p>
                             </div>
 
-                            <div class="grid_3 left">
+                            <div class="grid_3 left cpfdata">
                                 <p>
                                     <label for="cpf" class="dropdown_label">CPF <span class="required">*</span></label>
                                     <input type="text" id="cpf" name="cpf" maxlength="11" value="<%- request.user.dadosPessoais.cpf %>" />
                                 </p>
                             </div>
 
-                            <div class="grid_2 left">                            
+                            <div class="grid_2 left cpfdata">                            
                                 <p>
                                     <label for="sexo" class="dropdown_label">Sexo <span class="required">*</span></label>
                                     <select name="sexo" id="sexo" class="customSelect full" value="<%- request.user.dadosPessoais.sexo %>">
@@ -107,7 +107,7 @@
                                             
                             <div class="grid_4 right">                            
                                 <p>
-                                    <label for="telefone" class="dropdown_label">Telefone <span class="required">*</span></label>
+                                    <label for="telefone" class="dropdown_label">Telefone <!--<span class="required">*</span>--></label>
                                     <input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXXXXX" value="<%- request.user.dadosPessoais.telefone %>" />
                                 </p>
                             </div>
@@ -189,6 +189,8 @@
         <!-- FIM DO FOOTER-->
         <script type="text/javascript">
             $(document).ready(function(){
+                var isPF = true;
+                var isPJ = false;
                 init();
 
                 $("#cep").blur(function(){
@@ -212,10 +214,18 @@
                 $("#tipopessoa").change(function(){
                     showTipoPessoa(this.value);
                 });
+                
+                $("#perfilForm").submit(function(e){
+                    isPF  = $("#tipopessoa").val() == "PJ" ? false : true;
+                    isPJ  = $("#tipopessoa").val() == "PJ" ? true : false;
+                    clearDadosPF();
+                    e.preventDefault();
+                })
 
                 $("#perfilForm").validate({ 
                     submitHandler : function(form){
-                
+                        
+                       
                         $.confirm({
                             post : true,
                             text : "Confirma a inclusão dos dados ?", 
@@ -229,46 +239,61 @@
                             }
                         });
                     },
+
                     rules: { 
-                        plano            : "required" ,
-                        tipopessoa          : "required" ,
-                        nome              : "required" ,
-                        dataNascimento     : {
-                            required : true,
+                        plano : "required",
+                        tipopessoa : "required",
+                        nome : {required : isPF},
+                        razaosocial : {required : isPJ},
+                        cnpj : {
+                            required : isPJ,
+                            cnpj : true
+                        }, 
+                        dataNascimento : {
+                            required : isPF,
                             dateBR   : true
                         },
-                        cpf              : {
-                            required : true ,
+                        cpf : {
+                            required : isPF ,
                             cpf : true
                         },
-                        sexo              : "required" ,
-                        cep              : "required" ,
-                        logradouro          : "required" ,
+                        sexo : {required : isPF},
+                        cep : "required" ,
+                        logradouro : "required" ,
                         numeroLogradouro : "required" ,
-                        bairro               : "required" ,
-                        cidade               : "required" ,
-                        estado               : "required" 
+                        bairro : "required" ,
+                        cidade : "required" ,
+                        estado : "required" ,
+                        celular : "required"
+                       
                     },
 
                     messages: { 
-                        plano            : "O plano é obrigatório",
-                          tipopessoa          : "O tipo de pessoa é obrigatório" ,
-                        nome              : "O nome do responsável é obrigatório" ,
-                        dataNascimento     : {
-                            required : "A data de nascimento é obrigatório" ,
+                        plano : "O plano é obrigatório",
+                        tipopessoa : "O tipo de pessoa é obrigatório",
+                        razaosocial : "A razão social é obrigatória",
+                        cnpj : {
+                            required : "O CNPJ é obrigatório",
+                            cnpj : "Digite um CNPJ Válido"
+                        },
+                        nome : "O nome do responsável é obrigatório",
+                        dataNascimento : {
+                            required : "A data de nascimento é obrigatório",
                             dateBR : "Digite uma data Válida."
                         },
-                        cpf              : {
+                        cpf : {
                             required : "O CPF do responsável é obrigatório",
                             cpf : "Digite um CPF Válido"
-                        } ,
-                        sexo              : "O sexo é obrigatório" ,
-                        cep              : "O CEP é obrigatório" ,
-                        logradouro          : "O logradouro é obrigatório" ,
-                        numeroLogradouro : "O número do logradouro é obrigatório" ,
-                        bairro               : "O bairro é obrigatório" ,
-                        cidade               : "A cidade é obrigatório" ,
-                        estado               : "O estado é obrigatório"         
+                        },
+                        sexo : "O sexo é obrigatório",
+                        cep : "O CEP é obrigatório",
+                        logradouro : "O logradouro é obrigatório",
+                        numeroLogradouro : "O número do logradouro é obrigatório",
+                        bairro : "O bairro é obrigatório",
+                        cidade : "A cidade é obrigatório",
+                        estado : "O estado é obrigatório",
+                        celular : "O celular é obrigatório"
+                              
                     } 
                 });
 
@@ -293,6 +318,15 @@
                 });
 
             });
+
+            function clearDadosPF(){
+                if($("#tipopessoa").val() == "PJ"){
+                    $("#nome").val("");
+                    $("#dataNascimento").val("");
+                    $("#cpf").val("");
+                    $("#sexo").val("");
+                }
+            }
 
             function setEndereco(endereco){
                 console.log(endereco);
@@ -337,8 +371,11 @@
             function showTipoPessoa(value){
                 if(value === "PJ"){
                     $(".cnpjdata").show();
+                    $(".cpfdata").hide();
+                    clearDadosPF();
                 }else{
                     $(".cnpjdata").hide();
+                    $(".cpfdata").show();
                     $("#cnpj").val("");
                     $("#razaosocial").val("");
                 }

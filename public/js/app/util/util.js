@@ -1,102 +1,100 @@
-function showBlockUI(options){
-	$.blockUI(
-		{ 
-			message : options.message , 
-			css: { 
-	            border: 'none', 
-	            padding: '15px', 
-	            backgroundColor: '#000', 
-	            '-webkit-border-radius': '10px', 
-	            '-moz-border-radius': '10px', 
-	            opacity: .5, 
-	            color: '#fff' 
-        	}
+function showBlockUI(options) {
+    $.blockUI({
+        message: options.message,
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
         }
-    );
+    });
 };
 
-function hideBlockUI(){
-	$.unblockUI();
+function hideBlockUI() {
+    $.unblockUI();
 };
 
-function showGrowl(title , message, timeout){
-	$.growlUI(title , message, timeout); 
+function showGrowl(title, message, timeout) {
+    $.growlUI(title, message, timeout);
 }
 
-function ajaxRequest(request, showGifLoad){
-	//console.log(request);
-	
-	settings = {
-		url         : request.url       				,
-		data  	    : request.params 					,
-		async    	: true 								,
-		method   	: request.method 					,
-		dataType    : request.dataType | "json"		,
-		crossDomain : false      		                ,				
-		
-		beforeSend  : function( jqXHR, object){
-			if(showGifLoad){
-				showBlockUI({message : "Carregando ..."}); 
-			}
-		},
+function ajaxRequest(request, showGifLoad) {
+    //console.log(request);
 
-		success     : function( data, textStatus, jqXHR){
-			request.callback(data, textStatus, jqXHR);
-		},
+    settings = {
+        url: request.url,
+        data: request.params,
+        async: true,
+        method: request.method,
+        dataType: request.dataType | "json",
+        crossDomain: false,
 
-		error       : function( jqXHR, textStatus, errorThrown){
-			showGrowl("Infelizmente aconteceu algo errado durante a requisição :( , tente novamente!");
-		},
-		
-		complete  	: function( jqXHR, textStatus ){
-			if(showGifLoad){
-				hideBlockUI();
-			}
-		}
-	}
+        beforeSend: function(jqXHR, object) {
+            if (showGifLoad) {
+                showBlockUI({ message: "Carregando ..." });
+            }
+        },
 
-	$.ajax(settings);
+        success: function(data, textStatus, jqXHR) {
+            request.callback(data, textStatus, jqXHR);
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+            showGrowl("Infelizmente aconteceu algo errado durante a requisição :( , tente novamente!");
+        },
+
+        complete: function(jqXHR, textStatus) {
+            if (showGifLoad) {
+                hideBlockUI();
+            }
+        }
+    }
+
+    $.ajax(settings);
 }
 
-function isBlankOrEmpty(value){
-	return(!value || $.trim(value) === "");
+function isBlankOrEmpty(value) {
+    return (!value || $.trim(value) === "");
 }
 
 function humanFileSize(bytes, si) {
     var thresh = si ? 1000 : 1024;
-    
-    if(Math.abs(bytes) < thresh) {
+
+    if (Math.abs(bytes) < thresh) {
         return bytes + ' B';
     }
-    var units = si
-        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
-        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+    var units = si ?
+        ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] :
+        ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
     var u = -1;
     do {
         bytes /= thresh;
         ++u;
-    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1)+' '+units[u];
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + ' ' + units[u];
 }
 
 function parseQueryString(str) {
     // parse will split the string along the &
     // and loop over the result
 
-    var keyValues, i, len, el, 
+    var keyValues, i, len, el,
         parts, key, value, result;
 
-    result    = {};
-    sepToken  = '&';
+    result = {};
+    sepToken = '&';
     keyValues = str.split('&');
 
-    i   = 0;
+    i = 0;
     len = keyValues.length;
 
-    for(i; i<len; i++) {
-        el    = keyValues[i];
+    for (i; i < len; i++) {
+        el = keyValues[i];
         parts = el.split('=');
-        key   = parts[0];
+        key = parts[0];
         value = parts[1];
 
         // this will replace any duplicate param 
@@ -114,7 +112,7 @@ function serializeQueryString(data) {
 
     result = [];
 
-    for(prop in data) {
+    for (prop in data) {
         if (data.hasOwnProperty(prop)) {
             value = data[prop];
 
@@ -127,129 +125,39 @@ function serializeQueryString(data) {
     return result.join("&");
 }
 
-function moeda(valor, casas, separdor_decimal, separador_milhar){ 
-    if(isBlankOrEmpty(valor)){
+function moeda(valor, casas, separdor_decimal, separador_milhar) {
+    if (isBlankOrEmpty(valor)) {
         return "";
-    }else{
-       valor =  valor.replace(/\D/g,""); 
+    } else {
+        valor = valor.replace(/\D/g, "");
     }
-    var valor_total = parseInt(valor * (Math.pow(10 , casas)));
-    var inteiros    = parseInt(parseInt(valor * (Math.pow(10, casas))) / parseFloat(Math.pow(10, casas)));
-    var centavos    = parseInt(parseInt(valor * (Math.pow(10, casas))) % parseFloat(Math.pow(10, casas)));
- 
-    if(centavos % 10 == 0 && centavos + "".length < 2 ){
+    var valor_total = parseInt(valor * (Math.pow(10, casas)));
+    var inteiros = parseInt(parseInt(valor * (Math.pow(10, casas))) / parseFloat(Math.pow(10, casas)));
+    var centavos = parseInt(parseInt(valor * (Math.pow(10, casas))) % parseFloat(Math.pow(10, casas)));
+
+    if (centavos % 10 == 0 && centavos + "".length < 2) {
         centavos = centavos + "0";
-    }else if(centavos < 10){
+    } else if (centavos < 10) {
         centavos = "0" + centavos;
     }
-  
-    var milhares = parseInt(inteiros/1000);
-    inteiros     = inteiros % 1000; 
- 
+
+    var milhares = parseInt(inteiros / 1000);
+    inteiros = inteiros % 1000;
+
     var retorno = "";
- 
-    if(milhares > 0){
+
+    if (milhares > 0) {
         retorno = milhares + "" + separador_milhar + "" + retorno
-        if(inteiros == 0){
+        if (inteiros == 0) {
             inteiros = "000";
-        } else if(inteiros < 10){
-            inteiros = "00" + inteiros; 
-        } else if(inteiros < 100){
-            inteiros = "0" + inteiros; 
+        } else if (inteiros < 10) {
+            inteiros = "00" + inteiros;
+        } else if (inteiros < 100) {
+            inteiros = "0" + inteiros;
         }
     }
-  
+
     retorno += inteiros + "" + separdor_decimal + "" + centavos;
- 
+
     return retorno;
 }
-
-/*
-if (!jQuery.support.cors && window.XDomainRequest) {
-    var httpRegEx        = /^https?:\/\//i;
-    var getOrPostRegEx   = /^get|post$/i;
-    var sameSchemeRegEx  = new RegExp('^'+location.protocol, 'i');
-    var xmlRegEx         = /\/xml/i;
-
-    jQuery.ajaxTransport('text html xml json', function(options, userOptions, jqXHR){
-        if ( options.crossDomain               && options.async                   && 
-             getOrPostRegEx.test(options.type) && httpRegEx.test(userOptions.url) && 
-             sameSchemeRegEx.test(userOptions.url)) {
-            var xdr = null;
-            var userType = (userOptions.dataType || '').toLowerCase();
-            
-            return {
-                send: function(headers, complete){
-                    xdr = new XDomainRequest();
-                    
-                    if (/^\d+$/.test(userOptions.timeout)) {
-                        xdr.timeout = userOptions.timeout;
-                    }
-                    
-                    xdr.ontimeout = function(){
-                        complete(500, 'timeout');
-                    };
-                    
-                    xdr.onload = function(){
-                        var allResponseHeaders = 'Content-Length: ' + xdr.responseText.length + '\r\nContent-Type: ' + xdr.contentType;
-                        
-                        var status = {
-                            code: 200,
-                            message: 'success'
-                        };
-                        
-                        var responses = {
-                            text: xdr.responseText
-                        };
-
-                        try {
-                            if (userType === 'json') {
-                                try {
-                                    responses.json = JSON.parse(xdr.responseText);
-                                } catch(e) {
-                                    status.code = 500;
-                                    status.message = 'parseerror';
-                                }
-                            } else if ((userType === 'xml') || ((userType !== 'text') && xmlRegEx.test(xdr.contentType))) {
-                                var doc = new ActiveXObject('Microsoft.XMLDOM');
-                                doc.async = false;
-                                try {
-                                    doc.loadXML(xdr.responseText);
-                                } catch(e) {
-                                    doc = undefined;
-                                }
-                                if (!doc || !doc.documentElement || doc.getElementsByTagName('parsererror').length) {
-                                    status.code = 500;
-                                    status.message = 'parseerror';
-                                    throw 'Invalid XML: ' + xdr.responseText;
-                                }
-                                responses.xml = doc;
-                            }
-                        } catch(parseMessage) {
-                            throw parseMessage;
-                        } finally {
-                            complete(status.code, status.message, responses, allResponseHeaders);
-                        }
-                    };
-
-                    xdr.onerror = function(){
-                        complete(500, 'error', {
-                            text: xdr.responseText
-                        });
-                    };
-                    
-                    xdr.open(options.type, options.url);
-                    
-                    xdr.send();
-                },
-
-                abort: function(){
-                    if (xdr) {
-                        xdr.abort();
-                    }
-                }
-            };
-        }
-    });
-};*/
-
