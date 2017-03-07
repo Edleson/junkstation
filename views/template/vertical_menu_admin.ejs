@@ -8,6 +8,7 @@
             <li><a href="/anuncio/create">Incluir Anúncio</a></li>
             <li><a href="/anuncio/meusanuncios">Meus Anúncios</a> <span class="badge"><%- session.countAnuncio %></span> </li>
             <li><a href="/anuncio/meusdados">Meus Dados</a></li>
+            <li><a href="/login/novasenha/<%-request.user._id%>">Alterar Senha</a></li>
             <% if(request.user && request.user.dadosPessoais && request.user.dadosPessoais.tipopessoa == "PJ") { %>
                 <li><a href="/assinatura/listar">Planos</a></li>    
             <%}%>

@@ -54,12 +54,8 @@
                                         <input type="hidden" name="user" value="<%- request.user._id %>">
                                         <p>
                                             <label for="tipopessoa" class="dropdown_label">Tipo de Pessoa <span class="required">*</span></label>
-                                            <select  name="tipopessoa" id="tipopessoa" class="customSelect full" value="<%- request.user.dadosPessoais.tipopessoa %>" disabled="disabled" >
-                                                <option value="" >Selecione</option>
-                                                <% listaPessoa.forEach(function(item){ %>
-                                                    <option value="<%- item.value %>" <%- request.user.dadosPessoais.tipopessoa === item.value ? 'selected' : '' %> > <%- item.nome %> </option>
-                                                <% }); %>
-                                            </select>
+                                            <input type="hidden" id="tipopessoa" name="tipopessoa" value="PJ" maxlength="10" />
+                                            <input type="text" id="_tipopessoa" name="_tipopessoa" value="Pessoa Jurídica" maxlength="10"  disabled/>
                                         </p>
                                         
                                         <p>
